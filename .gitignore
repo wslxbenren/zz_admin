@@ -9,3 +9,8 @@
 target
 logs
 LOG_HOME_IS_UNDEFINED
+
+ccf-generator
+ccf-logging
+ccf-tools
+ccf-common

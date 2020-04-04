@@ -10,12 +10,7 @@
     <version>2.1</version>
 
     <modules>
-        <module>ccf-common</module>
-        <module>ccf-logging</module>
         <module>ccf-system</module>
-        <module>ccf-tools</module>
-        <module>ccf-generator</module>
-
     </modules>
 
     <name>ccf_datam</name>
