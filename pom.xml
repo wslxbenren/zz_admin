@@ -11,6 +11,7 @@
 
     <modules>
         <module>ccf-system</module>
+        <module>ccf-generator</module>
     </modules>
 
     <name>ccf_datam</name>
