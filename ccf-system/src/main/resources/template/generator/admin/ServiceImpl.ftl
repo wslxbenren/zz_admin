@@ -10,7 +10,7 @@ import EntityExistException;
         </#if>
     </#list>
 </#if>
-import ValidationUtil;
+import com.xyz.utils.ValidationUtil;
 import ${package}.repository.${className}Repository;
 import ${package}.service.${className}Service;
 import ${package}.service.dto.${className}DTO;
@@ -30,8 +30,8 @@ import cn.hutool.core.util.IdUtil;
 </#if>
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import PageUtil;
-import QueryHelp;
+import com.xyz.utils.PageUtil;
+import com.xyz.utils.QueryHelp;
 
 /**
 * @author ${author}

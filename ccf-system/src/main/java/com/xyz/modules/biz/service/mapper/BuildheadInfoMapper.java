@@ -1,6 +1,6 @@
 package com.xyz.modules.biz.service.mapper;
 
-import EntityMapper;
+import com.xyz.mapper.EntityMapper;
 import com.xyz.modules.biz.domain.BuildheadInfo;
 import com.xyz.modules.biz.service.dto.BuildheadInfoDTO;
 import org.mapstruct.Mapper;

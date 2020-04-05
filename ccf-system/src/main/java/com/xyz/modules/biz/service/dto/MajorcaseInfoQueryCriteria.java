@@ -2,7 +2,7 @@ package com.xyz.modules.biz.service.dto;
 
 import lombok.Data;
 import java.sql.Timestamp;
-import Query;
+import com.xyz.annotation.Query;
 
 /**
 * @author dadovicn

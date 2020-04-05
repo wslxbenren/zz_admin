@@ -1,6 +1,6 @@
 package com.xyz.modules.biz.service.mapper;
 
-import EntityMapper;
+import com.xyz.mapper.EntityMapper;
 import com.xyz.modules.biz.domain.ManagecenterInfo;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
 import org.mapstruct.Mapper;

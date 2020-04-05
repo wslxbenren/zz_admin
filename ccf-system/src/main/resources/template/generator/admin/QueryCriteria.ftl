@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.math.BigDecimal;
 </#if>
 <#if queryColumns??>
-import Query;
+import com.xyz.annotation.Query;
 </#if>
 
 /**

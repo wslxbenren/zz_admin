@@ -1,7 +1,7 @@
 package com.xyz.modules.biz.service.impl;
 
 import com.xyz.modules.biz.domain.MajorcaseInfo;
-import ValidationUtil;
+import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.MajorcaseInfoRepository;
 import com.xyz.modules.biz.service.MajorcaseInfoService;
 import com.xyz.modules.biz.service.dto.MajorcaseInfoDTO;
@@ -15,8 +15,8 @@ import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import PageUtil;
-import QueryHelp;
+import com.xyz.utils.PageUtil;
+import com.xyz.utils.QueryHelp;
 
 /**
 * @author dadovicn
