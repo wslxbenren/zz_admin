@@ -68,7 +68,7 @@ public class BuildheadInfoController {
 
     @Log("获取字典项")
     @ApiOperation(value = "获取字典项")
-    @DeleteMapping(value = "/BuildheadInfo/getDict")
+    @GetMapping(value = "/BuildheadInfo/getDict")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
     public ResponseEntity getDict() {
         return new ResponseEntity(dictStrategy.buildDict(), HttpStatus.OK);

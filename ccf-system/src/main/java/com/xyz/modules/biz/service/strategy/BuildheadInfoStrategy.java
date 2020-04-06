@@ -2,7 +2,6 @@ package com.xyz.modules.biz.service.strategy;
 
 import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.repository.DictRepository;
-import com.xyz.modules.system.service.dto.DictDTO;
 import com.xyz.modules.system.service.mapper.DictMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +11,7 @@ import javax.persistence.criteria.Predicate;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,7 +31,7 @@ public class BuildheadInfoStrategy implements DictStrategy{
     }
 
     @Override
-    public List<DictDTO> buildDict() {
+    public List<Dict> buildDict() {
         List<String> dsf = new ArrayList<String>();
         try {
             Field[] fields = Class.forName("com.xyz.modules.biz.domain.BuildheadInfo").getDeclaredFields();
@@ -47,7 +47,14 @@ public class BuildheadInfoStrategy implements DictStrategy{
                 query.where(predicates.toArray(new Predicate[0]));
                 return cb.and(predicates.toArray(new Predicate[0]));
             });
-            return dictMapper.toDto(res);
+            Iterator iterator = res.iterator();
+            while (iterator.hasNext()) {
+                Dict tm = (Dict)iterator.next();
+                if(tm.getDictDetails().size() > 100) {
+                    tm.setDictDetails(Collections.emptyList());
+                }
+            }
+            return res;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

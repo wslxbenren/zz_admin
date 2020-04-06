@@ -8,6 +8,7 @@ import java.io.Serializable;
 /**
 * @author dadovicn
 * @date 2020-04-05
+* 综治中心信息数据
 */
 @Data
 public class BuildheadInfoDTO implements Serializable {
