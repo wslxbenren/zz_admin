@@ -34,7 +34,7 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
 
     @Autowired
     private ManagecenterInfoRepository ManagecenterInfoRepository;
-    git pull origin develop --allow-unrelated-histories
+
     @Autowired
     private ManagecenterInfoMapper ManagecenterInfoMapper;
 
