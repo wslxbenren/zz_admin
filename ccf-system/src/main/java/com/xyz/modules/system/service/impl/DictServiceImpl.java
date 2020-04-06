@@ -15,7 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Optional;
+
+import javax.persistence.criteria.Predicate;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
 * @author Zheng Jie
@@ -64,5 +67,36 @@ public class DictServiceImpl implements DictService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long id) {
         dictRepository.deleteById(id);
+    }
+
+    public List<Dict> buildDict(String className) {
+        List<String> dsf = new ArrayList<String>();
+        try {
+            Field[] fields = Class.forName(className).getDeclaredFields();
+            for (Field field : fields) {
+                com.xyz.modules.system.util.annotation.Dict d = field.getAnnotation(com.xyz.modules.system.util.annotation.Dict.class);
+                if(d != null) {
+                    dsf.add(d.value().getDistName());
+                }
+            }
+
+            List<Dict> res =  dictRepository.findAll((root, query, cb) -> {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(root.<String> get("name").in(dsf));
+                query.where(predicates.toArray(new Predicate[0]));
+                return cb.and(predicates.toArray(new Predicate[0]));
+            });
+            Iterator iterator = res.iterator();
+            while (iterator.hasNext()) {
+                Dict tm = (Dict)iterator.next();
+                if(tm.getDictDetails().size() > 100) {
+                    tm.setDictDetails(Collections.emptyList());
+                }
+            }
+            return res;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 }

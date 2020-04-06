@@ -1,5 +1,7 @@
 package com.xyz.modules.biz.domain;
 
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -42,10 +44,12 @@ public class MajorcaseInfo implements Serializable {
     private String occurAddrdetail;
 
     // 案（事）件分级:字典
+    @Dict(DictEnum.AJFJ)
     @Column(name = "case_grage")
     private String caseGrage;
 
     // 案（事）件类型:字典
+    @Dict(DictEnum.AJLX)
     @Column(name = "case_type")
     private String caseType;
 

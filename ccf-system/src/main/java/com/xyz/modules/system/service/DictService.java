@@ -8,6 +8,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
 * @author Zheng Jie
 * @date 2019-04-10
@@ -53,4 +55,11 @@ public interface DictService {
      */
     @CacheEvict(allEntries = true)
     void delete(Long id);
+
+    /**
+     * 查询指定字典集合
+     * @param className 指定类全限定名
+     * @return
+     */
+    List<Dict> buildDict(String className);
 }

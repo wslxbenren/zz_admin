@@ -1,5 +1,7 @@
 package com.xyz.modules.biz.domain;
 
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -34,14 +36,17 @@ public class ManageleadresponsInfo implements Serializable {
     private String areaGrage;
 
     // 实施主体名称
+    @Dict(DictEnum.JGCJ)
     @Column(name = "implementer_name")
     private String implementerName;
 
     // 实施主体层级:字典
+    @Dict(DictEnum.JGCJ)
     @Column(name = "implementer_grage")
     private String implementerGrage;
 
     // 政策种类:字典
+    @Dict(DictEnum.ZCZL)
     @Column(name = "policy_type")
     private String policyType;
 

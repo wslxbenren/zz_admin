@@ -4,6 +4,7 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.MajorcaseInfo;
 import com.xyz.modules.biz.service.MajorcaseInfoService;
 import com.xyz.modules.biz.service.dto.MajorcaseInfoQueryCriteria;
+import com.xyz.modules.system.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,9 @@ public class MajorcaseInfoController {
 
     @Autowired
     private MajorcaseInfoService MajorcaseInfoService;
+
+    @Autowired
+    private DictService dictService;
 
     @Log("查询MajorcaseInfo")
     @ApiOperation(value = "查询MajorcaseInfo")
@@ -57,5 +61,13 @@ public class MajorcaseInfoController {
     public ResponseEntity delete(@PathVariable String id){
         MajorcaseInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Log("获取字典项")
+    @ApiOperation(value = "获取字典项")
+    @GetMapping(value = "/MajorcaseInfo/getDict")
+    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
+    public ResponseEntity getDict() {
+        return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.MajorcaseInfo"), HttpStatus.OK);
     }
 }

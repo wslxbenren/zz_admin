@@ -4,6 +4,7 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.ManageleadresponsInfo;
 import com.xyz.modules.biz.service.ManageleadresponsInfoService;
 import com.xyz.modules.biz.service.dto.ManageleadresponsInfoQueryCriteria;
+import com.xyz.modules.system.service.DictService;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,9 @@ public class ManageleadresponsInfoController {
 
     @Autowired
     private ManageleadresponsInfoService ManageleadresponsInfoService;
+
+    @Autowired
+    private DictService dictService;
 
     @Log("查询ManageleadresponsInfo")
     @GetMapping(value = "/ManageleadresponsInfo")
@@ -69,5 +73,13 @@ public class ManageleadresponsInfoController {
     public ResponseEntity delete(@PathVariable String id){
         ManageleadresponsInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Log("获取字典项")
+    @ApiOperation(value = "获取字典项")
+    @GetMapping(value = "/ManageleadresponsInfo/getDict")
+    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
+    public ResponseEntity getDict() {
+        return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.ManageleadresponsInfo"), HttpStatus.OK);
     }
 }

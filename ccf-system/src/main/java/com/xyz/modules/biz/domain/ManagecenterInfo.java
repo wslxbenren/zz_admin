@@ -1,6 +1,8 @@
 package com.xyz.modules.biz.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -35,6 +37,7 @@ public class ManagecenterInfo implements Serializable {
     private String centerMobile;
 
     // 综治中心层级:字典
+    @Dict(DictEnum.JGCJ)
     @Column(name = "grage")
     private String grage;
 
@@ -55,6 +58,7 @@ public class ManagecenterInfo implements Serializable {
     private String deptId;
 
     // 所在地:字典
+    @Dict(DictEnum.ADDRESS)
     @Column(name = "addr")
     private String addr;
 

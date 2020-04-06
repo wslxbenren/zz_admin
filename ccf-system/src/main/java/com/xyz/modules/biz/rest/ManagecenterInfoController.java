@@ -4,6 +4,7 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.ManagecenterInfo;
 import com.xyz.modules.biz.service.ManagecenterInfoService;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
+import com.xyz.modules.system.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,9 @@ public class ManagecenterInfoController {
 
     @Autowired
     private ManagecenterInfoService ManagecenterInfoService;
+
+    @Autowired
+    private DictService dictService;
 
     @Log("查询ManagecenterInfo")
     @ApiOperation(value = "查询ManagecenterInfo")
@@ -57,5 +61,13 @@ public class ManagecenterInfoController {
     public ResponseEntity delete(@PathVariable String id){
         ManagecenterInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Log("获取字典项")
+    @ApiOperation(value = "获取字典项")
+    @GetMapping(value = "/ManagecenterInfo/getDict")
+    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
+    public ResponseEntity getDict() {
+        return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.ManagecenterInfo"), HttpStatus.OK);
     }
 }
