@@ -1,6 +1,10 @@
 package com.xyz.modules.system.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -43,6 +47,7 @@ public class DictDetail implements Serializable {
      */
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "dict_id")
+    @JsonIgnore
     private Dict dict;
 
     public @interface Update {}

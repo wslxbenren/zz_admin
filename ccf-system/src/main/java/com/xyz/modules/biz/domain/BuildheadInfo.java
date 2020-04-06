@@ -1,5 +1,7 @@
 package com.xyz.modules.biz.domain;
 
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -59,14 +61,17 @@ public class BuildheadInfo implements Serializable {
 
     // 性别:编码应符合GB/T2261.1
     @Column(name = "sex")
+    @Dict(DictEnum.XING_BIE)
     private String sex;
 
     // 民族:编码应符合GB/T3304
     @Column(name = "national")
+    @Dict(DictEnum.MIN_ZU)
     private String national;
 
     // 政治面貌:编码应符合GB/T4762
     @Column(name = "political_status")
+    @Dict(DictEnum.ZZMM)
     private String politicalStatus;
 
     // 出生日期:格式为“YYYYMMDD”
@@ -74,6 +79,7 @@ public class BuildheadInfo implements Serializable {
     private Timestamp birth;
 
     // 学历:编码应符合GB/T4658
+    @Dict(DictEnum.XUE_LI)
     @Column(name = "education_bg")
     private String educationBg;
 
@@ -87,6 +93,7 @@ public class BuildheadInfo implements Serializable {
 
     // 所在地:编码应符合GB/T2260
     @Column(name = "addr")
+    @Dict(DictEnum.ADDRESS)
     private String addr;
 
     // 所在地详址

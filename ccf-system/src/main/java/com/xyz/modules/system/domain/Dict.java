@@ -1,6 +1,10 @@
 package com.xyz.modules.system.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,8 +16,9 @@ import java.util.List;
 * @date 2019-04-10
 */
 @Entity
-@Data
 @Table(name="dict")
+@Getter
+@Setter
 public class Dict implements Serializable {
 
     @Id
@@ -35,7 +40,7 @@ public class Dict implements Serializable {
     @Column(name = "remark")
     private String remark;
 
-    @OneToMany(mappedBy = "dict",cascade={CascadeType.PERSIST,CascadeType.REMOVE})
+    @OneToMany(mappedBy = "dict",cascade={CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<DictDetail> dictDetails;
 
     public @interface Update {}

@@ -4,7 +4,10 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.BuildheadInfo;
 import com.xyz.modules.biz.service.BuildheadInfoService;
 import com.xyz.modules.biz.service.dto.BuildheadInfoQueryCriteria;
+import com.xyz.modules.biz.service.strategy.BuildheadInfoStrategy;
+import com.xyz.modules.biz.service.strategy.DictStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,10 @@ public class BuildheadInfoController {
 
     @Autowired
     private BuildheadInfoService BuildheadInfoService;
+
+    @Autowired
+    @Qualifier("BuildheadInfoController.class")
+    private DictStrategy dictStrategy;
 
     @Log("查询BuildheadInfo")
     @ApiOperation(value = "查询BuildheadInfo")
@@ -57,5 +64,13 @@ public class BuildheadInfoController {
     public ResponseEntity delete(@PathVariable String id){
         BuildheadInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Log("获取字典项")
+    @ApiOperation(value = "获取字典项")
+    @DeleteMapping(value = "/BuildheadInfo/getDict")
+    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
+    public ResponseEntity getDict() {
+        return new ResponseEntity(dictStrategy.buildDict(), HttpStatus.OK);
     }
 }
