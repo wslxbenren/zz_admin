@@ -1,5 +1,6 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -75,6 +76,7 @@ public class ManagecenterInfo implements Serializable {
 
     // 创建时间
     @Column(name = "create_time")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp createTime;
 
     // 修改人
@@ -83,6 +85,7 @@ public class ManagecenterInfo implements Serializable {
 
     // 修改时间
     @Column(name = "update_time")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp updateTime;
 
     // 所属单位

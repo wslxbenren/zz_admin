@@ -1,6 +1,8 @@
 package com.xyz.modules.biz.service.impl;
 
 import com.xyz.modules.biz.domain.ManagecenterInfo;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.ManagecenterInfoRepository;
 import com.xyz.modules.biz.service.ManagecenterInfoService;
@@ -11,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -28,19 +34,43 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
 
     @Autowired
     private ManagecenterInfoRepository ManagecenterInfoRepository;
-
+    git pull origin develop --allow-unrelated-histories
     @Autowired
     private ManagecenterInfoMapper ManagecenterInfoMapper;
+
+    @Autowired
+    DictDetailRepository dictDetailRepository;
 
     @Override
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
         Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(ManagecenterInfoMapper::toDto));
+        List<DictDetail> grageList = dictDetailRepository.findByDictId(202L);//前端传父级字典ID
+        List<DictDetail> addrList = dictDetailRepository.findByDictId(106L);//前端传父级字典ID
+        List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
+        for (ManagecenterInfoDTO mid:midList ) {
+            for (int i = 0; i < grageList.size(); i++) {
+                if (mid.getGrage().equals(grageList.get(i).getValue())){
+                    mid.setGrageString(grageList.get(i).getLabel());
+                    break;
+                }
+            }
+            for (int i = 0; i < addrList.size(); i++) {
+                if (mid.getGrage().equals(grageList.get(i).getValue())){
+                    mid.setAddrString(addrList.get(i).getLabel());
+                    break;
+                }
+            }
+        }
+        Map map = new HashMap();
+        map.put("content", midList);
+        map.put("totalElements", midList.size());
+        return map;
     }
 
     @Override
     public Object queryAll(ManagecenterInfoQueryCriteria criteria){
-        return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) ->
+                QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }
 
     @Override
