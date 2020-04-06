@@ -1,0 +1,13 @@
+version: '2'
+services:
+  # 基础 业务服务
+  ccf-system:
+    build:
+      context: ../../ccf-system
+    restart: always
+    ports:
+      - 8000:8000
+      - 5005:5005
+    container_name: ccf-system
+    hostname: ccf-system
+    image: ccf-system
