@@ -15,4 +15,7 @@ public class DictDetailQueryCriteria {
 
     @Query(propName = "name",joinName = "dict")
     private String dictName;
+
+    @Query(type = Query.Type.EQUAL)
+    private String value;
 }
