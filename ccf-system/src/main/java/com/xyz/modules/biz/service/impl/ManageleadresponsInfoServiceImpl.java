@@ -2,6 +2,9 @@ package com.xyz.modules.biz.service.impl;
 
 import cn.hutool.db.sql.Direction;
 import com.xyz.modules.biz.domain.ManageleadresponsInfo;
+import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.ManageleadresponsInfoRepository;
 import com.xyz.modules.biz.service.ManageleadresponsInfoService;
@@ -15,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -39,12 +44,11 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
 
     @Override
     public Object queryAll(ManageleadresponsInfoQueryCriteria criteria, Pageable pageable){
-
-        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
-        pageable.getSortOr(sort);
+        //Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        //pageable.getSortOr(sort);
         Page<ManageleadresponsInfo> page = ManageleadresponsInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        List<ManageleadresponsInfo> content = page.getContent();
         return PageUtil.toPage(page.map(ManageleadresponsInfoMapper::toDto));
+
     }
 
     @Override
