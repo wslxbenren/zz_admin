@@ -4,6 +4,7 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.MajorcaseInfo;
 import com.xyz.modules.biz.service.MajorcaseInfoService;
 import com.xyz.modules.biz.service.dto.MajorcaseInfoQueryCriteria;
+import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
 * @author dadovicn
@@ -29,6 +33,7 @@ public class MajorcaseInfoController {
     @Autowired
     private DictService dictService;
 
+
     @Log("查询MajorcaseInfo")
     @ApiOperation(value = "查询MajorcaseInfo")
     @GetMapping(value = "/MajorcaseInfo")
@@ -37,11 +42,22 @@ public class MajorcaseInfoController {
         return new ResponseEntity(MajorcaseInfoService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
+    @Log("详情MajorcaseInfo")
+    @ApiOperation(value = "详情MajorcaseInfo")
+    @GetMapping(value = "/MajorcaseInfo/details/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','MAJORCASEINFO_ALL','MAJORCASEINFO_SELECT')")
+    public ResponseEntity getMajorcaseInfosDetails(@PathVariable String id){
+        return new ResponseEntity(MajorcaseInfoService.findById(id),HttpStatus.OK);
+    }
+
+
     @Log("新增MajorcaseInfo")
     @ApiOperation(value = "新增MajorcaseInfo")
     @PostMapping(value = "/MajorcaseInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MAJORCASEINFO_ALL','MAJORCASEINFO_CREATE')")
     public ResponseEntity create(@Validated @RequestBody MajorcaseInfo resources){
+        Timestamp createTime = new Timestamp(new Date().getTime());
+        resources.setCreateTime(createTime);
         return new ResponseEntity(MajorcaseInfoService.create(resources),HttpStatus.CREATED);
     }
 
@@ -50,6 +66,8 @@ public class MajorcaseInfoController {
     @PutMapping(value = "/MajorcaseInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MAJORCASEINFO_ALL','MAJORCASEINFO_EDIT')")
     public ResponseEntity update(@Validated @RequestBody MajorcaseInfo resources){
+        Timestamp updateTime = new Timestamp(new Date().getTime());
+        resources.setUpdateTime(updateTime);
         MajorcaseInfoService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
