@@ -5,6 +5,9 @@ import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -56,6 +59,7 @@ public class ManageleadresponsInfo implements Serializable {
 
     // 创建时间
     @Column(name = "create_time")
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 修改人
@@ -64,6 +68,7 @@ public class ManageleadresponsInfo implements Serializable {
 
     // 修改时间
     @Column(name = "update_time")
+    @UpdateTimestamp
     private Timestamp updateTime;
 
     // 所属单位

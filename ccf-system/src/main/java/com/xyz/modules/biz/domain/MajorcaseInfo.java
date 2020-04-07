@@ -1,10 +1,13 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -33,6 +36,7 @@ public class MajorcaseInfo implements Serializable {
 
     // 发生日期:格式为“YYYYMMDD”
     @Column(name = "occur_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp occurDate;
 
     // 发生地:编码应符合GB/T2260
@@ -63,6 +67,7 @@ public class MajorcaseInfo implements Serializable {
 
     // 创建时间
     @Column(name = "create_time")
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 修改人
@@ -71,6 +76,7 @@ public class MajorcaseInfo implements Serializable {
 
     // 修改时间
     @Column(name = "update_time")
+    @CreationTimestamp
     private Timestamp updateTime;
 
     // 所属单位

@@ -6,6 +6,9 @@ import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -81,6 +84,7 @@ public class ManagecenterInfo implements Serializable {
     // 创建时间
     @Column(name = "create_time")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 修改人
@@ -90,6 +94,7 @@ public class ManagecenterInfo implements Serializable {
     // 修改时间
     @Column(name = "update_time")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @UpdateTimestamp
     private Timestamp updateTime;
 
     // 所属单位

@@ -1,10 +1,14 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -76,6 +80,7 @@ public class BuildheadInfo implements Serializable {
 
     // 出生日期:格式为“YYYYMMDD”
     @Column(name = "birth")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp birth;
 
     // 学历:编码应符合GB/T4658
@@ -114,6 +119,7 @@ public class BuildheadInfo implements Serializable {
 
     // 创建时间
     @Column(name = "create_time")
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 修改人
@@ -122,6 +128,7 @@ public class BuildheadInfo implements Serializable {
 
     // 修改时间
     @Column(name = "update_time")
+    @UpdateTimestamp
     private Timestamp updateTime;
 
     // 所属单位
