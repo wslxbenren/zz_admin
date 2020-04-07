@@ -65,4 +65,10 @@ public class ManagecenterInfoDTO implements Serializable {
 
     // 所属单位
     private String unitCode;
+
+    // 综治中心层级:字典
+    private String grageString;
+
+    // 所在地:字典翻译后值
+    private String addrString;
 }

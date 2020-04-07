@@ -1,6 +1,11 @@
 package com.xyz.modules.biz.service.impl;
 
 import com.xyz.modules.biz.domain.ManagecenterInfo;
+import com.xyz.modules.system.domain.Dict;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DictDetailRepository;
+import com.xyz.modules.system.repository.DictRepository;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.ManagecenterInfoRepository;
 import com.xyz.modules.biz.service.ManagecenterInfoService;
@@ -11,7 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,15 +44,40 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Autowired
     private ManagecenterInfoMapper ManagecenterInfoMapper;
 
+    @Autowired
+    DictDetailRepository dictDetailRepository;
+    @Autowired
+    DictRepository dictRepository;
     @Override
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
-        Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(ManagecenterInfoMapper::toDto));
+        Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder)
+                -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Dict jgcj = dictRepository.findByName(DictEnum.JGCJ.getDistName());// 机构层级
+        Dict address = dictRepository.findByName(DictEnum.ADDRESS.getDistName());// 地区
+        List<DictDetail> grageList = dictDetailRepository.findByDictId(jgcj.getId());
+        List<DictDetail> addrList = dictDetailRepository.findByDictId(address.getId());
+        List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
+        for (ManagecenterInfoDTO mid:midList ) {
+            Stream<DictDetail> detailStream= null;
+            detailStream = grageList.stream().filter(d -> {
+                return d.getValue().equals(mid.getGrage());
+            });
+            mid.setGrageString( detailStream.collect(Collectors.toList()).get(0).getLabel());
+            detailStream = addrList.stream().filter(d -> {
+                return d.getValue().equals(mid.getAddr());
+            });
+            mid.setAddrString(detailStream.collect(Collectors.toList()).get(0).getLabel() );
+        }
+        Map map = new HashMap();
+        map.put("content", midList);
+        map.put("totalElements", page.getTotalPages());
+        return map;
     }
 
     @Override
     public Object queryAll(ManagecenterInfoQueryCriteria criteria){
-        return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) ->
+                QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }
 
     @Override
@@ -72,4 +109,6 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     public void delete(String id) {
         ManagecenterInfoRepository.deleteById(id);
     }
+
+
 }

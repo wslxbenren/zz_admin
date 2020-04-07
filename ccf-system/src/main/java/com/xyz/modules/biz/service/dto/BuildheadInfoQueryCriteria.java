@@ -2,6 +2,8 @@ package com.xyz.modules.biz.service.dto;
 
 import lombok.Data;
 import java.sql.Timestamp;
+import java.util.Set;
+
 import com.xyz.annotation.Query;
 
 /**
@@ -10,4 +12,7 @@ import com.xyz.annotation.Query;
 */
 @Data
 public class BuildheadInfoQueryCriteria{
+
+
+
 }

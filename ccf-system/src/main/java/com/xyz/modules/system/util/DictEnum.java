@@ -1,0 +1,93 @@
+package com.xyz.modules.system.util;
+
+/**
+ * 字典
+ */
+public enum DictEnum {
+ EMPTY(""),
+    XING_BIE("性别"),
+     MIN_ZU("民族"),
+     ZZMM("政治面貌"),
+     JI_BIE("级别"),
+     ZJDM("证件代码"),
+     XUE_LI("学历"),
+     ADDRESS("所在地/发生地/户籍地"),
+     HYZK("婚姻状况"),
+     ZJXY("宗教信仰"),
+     YHZGX("与户主关系"),
+     GJ_DQ("国籍\\(地区\\)"),
+     AJLB("案件类别"),
+     XDHG("吸毒后果"),
+     XDYY("吸毒原因"),
+     ZYLB("职业类别"),
+     JGLX("机构类型"),
+     JGCJ("机构层级/组织层级/综治中心层级/地区层级/实施主体层级"),
+     WXCD("危害程度"),
+     XXBXLX("学校办学类型"),
+     AJXZ("案（事）件性质"),
+     ZAYHDJ("治安隐患等级"),
+     LXLX("路线类型"),
+     HJFS("化解方式"),
+     ZYDSRRYLB("主要当事人人员类别"),
+     SJLB("事件类别"),
+     SJGM("事件规模"),
+     QYLX("企业类型"),
+     JYFW("经营范围"),
+     KGQK("控股情况"),
+     DJZCLX("登记注册类型"),
+     XGPG("效果评估"),
+     SJQYLX("涉及区域类型"),
+     ZATCWT("治安突出问题"),
+     GZCD("关注程度"),
+     SHZZLX("社会组织类型"),
+     AQYHLX("安全隐患类型"),
+     QYLB("企业类别"),
+     BFSD("帮扶手段"),
+     JTQK("家庭情况"),
+     RYLX("人员类型"),
+     SZQK("收治情况"),
+     GZLX("关注类型"),
+     GRTJ("感染途径"),
+     GKQK("管控情况"),
+     BFQK("帮扶情况"),
+     CYGLRY("参与管理人员"),
+     SSZYZLYY("实施住院治疗原因"),
+     ZLQK("治疗情况"),
+     MQWXXPGDJ("目前危险性评估等级"),
+     MQZDLX("目前诊断类型"),
+     JTJJZK("家庭经济状况"),
+     JZJCLX("矫正解除（终止）类型"),
+     JZXZRYZCQK("矫正小组人员组成情况"),
+     SSHEQK("“三涉”情况c"),
+     SSHIQK("“四史”情况b"),
+     JSFS("接收方式"),
+     JZLX("矫正类别"),
+     AZQK("安置情况"),
+     XJQK("衔接情况"),
+     WXXPGLX("危险性评估类型"),
+     YZM("原罪名"),
+     YHLX("隐患类型"),
+     ZW("职务"),
+     ZYTC("专业特长"),
+     ZZLX("组织类型"),
+     ZCZL("政策种类"),
+     AJFJ("案（事）件分级"),
+     AJLX("案（事）件类型"),
+     LRYY("流入原因"),
+     BZLX("办证类型"),
+     ZSLX("住所类型"),
+     JKZK("健康状况"),
+     RHYZBS("人户一致标识"),
+     LHMD("来华目的"),
+     JZYT("建筑用途"),
+     CZYT("出租用途");
+
+    private String distName;
+    DictEnum(String distName) {
+        this.distName = distName;
+    }
+
+    public String getDistName() {
+        return this.distName;
+    }
+}
