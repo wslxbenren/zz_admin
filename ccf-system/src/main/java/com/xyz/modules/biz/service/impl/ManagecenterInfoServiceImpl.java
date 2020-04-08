@@ -13,6 +13,7 @@ import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
 import com.xyz.modules.biz.service.mapper.ManagecenterInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,11 +63,13 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
             detailStream = grageList.stream().filter(d -> {
                 return d.getValue().equals(mid.getGrage());
             });
-            mid.setGrageString( detailStream.collect(Collectors.toList()).get(0).getLabel());
+            List<DictDetail> collect = detailStream.collect(Collectors.toList());
+            mid.setGrageString( collect.size() == 0 ? "无数据":collect.get(0).getLabel());
             detailStream = addrList.stream().filter(d -> {
                 return d.getValue().equals(mid.getAddr());
             });
-            mid.setAddrString(detailStream.collect(Collectors.toList()).get(0).getLabel() );
+            collect = detailStream.collect(Collectors.toList());
+            mid.setAddrString(collect.size() == 0 ? "无数据":collect.get(0).getLabel());
         }
         Map map = new HashMap();
         map.put("content", midList);
