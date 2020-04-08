@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -19,11 +20,7 @@ import java.util.Set;
 @Table(name="dept")
 public class Dept implements Serializable {
 
-    /**
-     * ID
-     */
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @NotNull(groups = Update.class)
     private String id;
@@ -93,29 +90,9 @@ public class Dept implements Serializable {
 
     @Column(name = "PARENT_CODE")
     private String parentCode;
-
-//
-//    public Dept(@NotNull(groups = Update.class) String id, @NotBlank String name, @NotNull Boolean enabled, @NotNull String pid, Set<Role> roles, Timestamp createTime, String code, String contact, String phone, String grage, String sqe, String depAbb, String note, String amount, String nLastUpdateTime, String delteFLAG, String parentId, String parentCode) {
-//        this.id = id;
-//        this.name = name;
-//        this.enabled = enabled;
-//        this.pid = pid;
-//        this.roles = roles;
-//        this.createTime = createTime;
-//        this.code = code;
-//        this.contact = contact;
-//        this.phone = phone;
-//        this.grage = grage;
-//        this.sqe = sqe;
-//        this.depAbb = depAbb;
-//        this.note = note;
-//        this.amount = amount;
-//        this.nLastUpdateTime = nLastUpdateTime;
-//        this.delteFLAG = delteFLAG;
-//        this.parentId = parentId;
-//        this.parentCode = parentCode;
-//    }
-
+    // fixme 这里会报外键约束异常， 暂不影响其他功能
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parentId")
+    private Set<Dept> depts = new HashSet<>(16);
 
     @Override
     public String toString() {

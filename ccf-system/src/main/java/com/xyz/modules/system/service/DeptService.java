@@ -89,6 +89,13 @@ public interface DeptService {
 
     int saveDeptIncrement();
 
+    /**
+     * 获取下级部门编码集合
+     * @param id
+     * @return
+     */
+    List<String> getDownGradeDeptCodes(String id);
+
 
 
 }
