@@ -116,11 +116,13 @@ public class ManageCenterApplicationTests {
             detailStream = grageList.stream().filter(d -> {
                 return d.getValue().equals(mid.getGrage());
             });
-            mid.setGrageString( detailStream.collect(Collectors.toList()).get(0).getLabel());
+            List<DictDetail> collect = detailStream.collect(Collectors.toList());
+            mid.setGrageString( collect.size() == 0 ? "无数据":collect.get(0).getLabel());
              detailStream = addrList.stream().filter(d -> {
                 return d.getValue().equals(mid.getAddr());
             });
-            mid.setAddrString(detailStream.collect(Collectors.toList()).get(0).getLabel() );
+            collect = detailStream.collect(Collectors.toList());
+            mid.setAddrString(collect.size() == 0 ? "无数据":collect.get(0).getLabel());
         }
         System.out.println(midList);
     }
