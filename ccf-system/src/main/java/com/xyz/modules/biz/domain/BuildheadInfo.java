@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
 * @author dadovicn
@@ -80,7 +81,7 @@ public class BuildheadInfo implements Serializable {
 
     // 出生日期:格式为“YYYYMMDD”
     @Column(name = "birth")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp birth;
 
     // 学历:编码应符合GB/T4658
@@ -138,4 +139,6 @@ public class BuildheadInfo implements Serializable {
     public void copy(BuildheadInfo source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
+
+
 }

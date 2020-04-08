@@ -21,10 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -90,7 +88,9 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ManagecenterInfoDTO create(ManagecenterInfo resources) {
-        resources.setId(IdUtil.simpleUUID()); 
+        resources.setId(IdUtil.simpleUUID());
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
+        resources.setCreator(null);//等
         return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.save(resources));
     }
 
@@ -100,6 +100,8 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
         Optional<ManagecenterInfo> optionalManagecenterInfo = ManagecenterInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalManagecenterInfo,"ManagecenterInfo","id",resources.getId());
         ManagecenterInfo ManagecenterInfo = optionalManagecenterInfo.get();
+        resources.setUpdateTime(new Timestamp(new Date().getTime()));
+        resources.setModifier(null);//等
         ManagecenterInfo.copy(resources);
         ManagecenterInfoRepository.save(ManagecenterInfo);
     }

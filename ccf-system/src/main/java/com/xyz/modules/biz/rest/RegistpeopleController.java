@@ -58,4 +58,12 @@ public class RegistpeopleController {
         RegistpeopleService.delete(regisId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+//    @Log("查看Registpeople")
+//    @ApiOperation(value = "查看Registpeople")
+//    @DeleteMapping(value = "/Registpeople/{regisId}")
+//    @PreAuthorize("hasAnyRole('ADMIN','REGISTPEOPLE_ALL','REGISTPEOPLE_DELETE')")
+//    public ResponseEntity getById(@PathVariable String regisId){
+//        return new ResponseEntity(RegistpeopleService.findById(regisId),HttpStatus.OK);
+//    }
 }
