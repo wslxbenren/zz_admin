@@ -26,6 +26,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -110,18 +112,17 @@ public class ManageCenterApplicationTests {
         List<DictDetail> addrList = dictDetailRepository.findByDictId(106L);
         List<ManagecenterInfoDTO> midList = list;
         for (ManagecenterInfoDTO mid:midList ) {
-            for (int i = 0; i < grageList.size(); i++) {
-                if (mid.getGrage().equals(grageList.get(i).getValue())){
-                    mid.setGrageString(grageList.get(i).getLabel());
-                    break;
-                }
-            }
-            for (int i = 0; i < addrList.size(); i++) {
-                if (mid.getGrage().equals(grageList.get(i).getValue())){
-                    mid.setAddrString(addrList.get(i).getLabel());
-                    break;
-                }
-            }
+            Stream<DictDetail> detailStream= null;
+            detailStream = grageList.stream().filter(d -> {
+                return d.getValue().equals(mid.getGrage());
+            });
+            List<DictDetail> collect = detailStream.collect(Collectors.toList());
+            mid.setGrageString( collect.size() == 0 ? "无数据":collect.get(0).getLabel());
+             detailStream = addrList.stream().filter(d -> {
+                return d.getValue().equals(mid.getAddr());
+            });
+            collect = detailStream.collect(Collectors.toList());
+            mid.setAddrString(collect.size() == 0 ? "无数据":collect.get(0).getLabel());
         }
         System.out.println(midList);
     }

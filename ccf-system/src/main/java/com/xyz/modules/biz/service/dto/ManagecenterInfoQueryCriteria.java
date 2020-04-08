@@ -10,15 +10,14 @@ import com.xyz.annotation.Query;
 */
 @Data
 public class ManagecenterInfoQueryCriteria{
-
-    @Query(type = Query.Type.INNER_LIKE)
-    private String username;
-
+    @Query
+    private String addr;
 
     @Query
     private String grage;
 
-    @Query
-    private String addr;
+    // 多字段模糊
+    @Query(blurry = "username")
+    private String blurry;
 
 }
