@@ -1,4 +1,4 @@
-package com.xyz.biz;
+package com.xyz.system;
 
 import com.xyz.modules.biz.domain.BuildheadInfo;
 import com.xyz.modules.biz.service.BuildheadInfoService;

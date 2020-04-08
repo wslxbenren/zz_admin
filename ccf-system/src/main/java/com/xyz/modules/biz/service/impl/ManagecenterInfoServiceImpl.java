@@ -53,6 +53,7 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
         List<DictDetail> grageList = dictDetailRepository.findByDictId(jgcj.getId());
         List<DictDetail> addrList = dictDetailRepository.findByDictId(address.getId());
         List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
+        // fixme 改为调用DictDetailService的根据名称和字典详细值查询的方法
         for (ManagecenterInfoDTO mid:midList ) {
             Stream<DictDetail> detailStream= null;
             detailStream = grageList.stream().filter(d -> {

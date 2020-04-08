@@ -1,6 +1,7 @@
 package com.xyz.modules.system.service.impl;
 
 import com.xyz.modules.system.repository.DictDetailRepository;
+import com.xyz.modules.system.repository.DictRepository;
 import com.xyz.modules.system.service.mapper.DictDetailMapper;
 import com.xyz.utils.PageUtil;
 import com.xyz.utils.QueryHelp;
@@ -37,6 +38,11 @@ public class DictDetailServiceImpl implements DictDetailService {
     public Map queryAll(DictDetailQueryCriteria criteria, Pageable pageable) {
         Page<DictDetail> page = dictDetailRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(dictDetailMapper::toDto));
+    }
+
+    @Override
+    public DictDetail findByValueAndPName(String pName, String value) {
+        return dictDetailRepository.findByValueAndPName(pName, value);
     }
 
     @Override

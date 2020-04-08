@@ -1,5 +1,6 @@
 package com.xyz.modules.system.service;
 
+import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.service.dto.DictDetailDTO;
 import com.xyz.modules.system.service.dto.DictDetailQueryCriteria;
 import com.xyz.modules.system.domain.DictDetail;
@@ -49,4 +50,12 @@ public interface DictDetailService {
 
     @Cacheable(keyGenerator = "keyGenerator")
     Map queryAll(DictDetailQueryCriteria criteria, Pageable pageable);
+
+    /**
+     * 根据字典code和字典具体值查找字典具体名称
+     * @param pName 字典code-》父表name
+     * @param value 字典项的值
+     * @return
+     */
+    DictDetail findByValueAndPName(String pName, String value);
 }
