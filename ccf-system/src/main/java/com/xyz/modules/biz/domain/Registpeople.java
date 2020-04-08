@@ -1,5 +1,6 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -39,6 +40,7 @@ public class Registpeople implements Serializable {
 
     // 出生日期:格式为“YYYYMMDD”
     @Column(name = "date_birth")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp dateBirth;
 
     // 民族:编码应符合GB/T3304
@@ -123,10 +125,12 @@ public class Registpeople implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -143,6 +147,7 @@ public class Registpeople implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp operDate;
 
     // 创建人
@@ -151,6 +156,7 @@ public class Registpeople implements Serializable {
 
     // 创建时间
     @Column(name = "create_time",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理

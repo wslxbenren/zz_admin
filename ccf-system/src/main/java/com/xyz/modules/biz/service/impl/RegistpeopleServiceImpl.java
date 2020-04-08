@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -54,7 +57,10 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public RegistpeopleDTO create(Registpeople resources) {
-        resources.setRegisId(IdUtil.simpleUUID()); 
+        resources.setRegisId(IdUtil.simpleUUID());
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
+        resources.setOperDate(new Timestamp(new Date().getTime()));
+        resources.setCreator(null);//等
         if(RegistpeopleRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
@@ -72,6 +78,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         if(Registpeople1 != null && !Registpeople1.getRegisId().equals(Registpeople.getRegisId())){
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
+
         Registpeople.copy(resources);
         RegistpeopleRepository.save(Registpeople);
     }

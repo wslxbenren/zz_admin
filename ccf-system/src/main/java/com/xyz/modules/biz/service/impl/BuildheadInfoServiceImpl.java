@@ -2,6 +2,7 @@ package com.xyz.modules.biz.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.xyz.modules.biz.domain.BuildheadInfo;
+import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.BuildheadInfoRepository;
 import com.xyz.modules.biz.service.BuildheadInfoService;
 import com.xyz.modules.biz.service.dto.BuildheadInfoDTO;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -55,7 +58,9 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BuildheadInfoDTO create(BuildheadInfo resources) {
-        resources.setId(IdUtil.simpleUUID()); 
+        resources.setId(IdUtil.simpleUUID());
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
+        resources.setCreator(null);//等
         return BuildheadInfoMapper.toDto(BuildheadInfoRepository.save(resources));
     }
 
@@ -65,6 +70,8 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
         Optional<BuildheadInfo> optionalBuildheadInfo = BuildheadInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalBuildheadInfo,"BuildheadInfo","id",resources.getId());
         BuildheadInfo BuildheadInfo = optionalBuildheadInfo.get();
+        resources.setUpdateTime(new Timestamp(new Date().getTime()));
+        resources.setModifier(null);//等
         BuildheadInfo.copy(resources);
         BuildheadInfoRepository.save(BuildheadInfo);
     }
