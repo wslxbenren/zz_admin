@@ -1,5 +1,8 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -39,9 +42,11 @@ public class Leftbehind implements Serializable {
 
     // 出生日期:格式为“YYYYMMDD”
     @Column(name = "date_birth")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp dateBirth;
 
     // 民族:编码应符合GB/T3304
+    @Dict(DictEnum.MIN_ZU)
     @Column(name = "nation")
     private String nation;
 
@@ -50,18 +55,22 @@ public class Leftbehind implements Serializable {
     private String nativeInfo;
 
     // 婚姻状况:编码应符合GB/T2261.2
+    @Dict(DictEnum.HYZK)
     @Column(name = "marriage_flag")
     private String marriageFlag;
 
     // 政治面貌:编码应符合GB/T4762
+    @Dict(DictEnum.ZZMM)
     @Column(name = "party_flag")
     private String partyFlag;
 
     // 学历:编码应符合GB/T4658
+    @Dict(DictEnum.XUE_LI)
     @Column(name = "education_bg")
     private String educationBg;
 
     // 宗教信仰:编码应符合GA214.12
+    @Dict(DictEnum.ZJXY)
     @Column(name = "faith_type")
     private String faithType;
 
@@ -82,6 +91,7 @@ public class Leftbehind implements Serializable {
     private String contact;
 
     // 户籍地:编码应符合GB/T2260
+    @Dict(DictEnum.ADDRESS)
     @Column(name = "registered_place")
     private String registeredPlace;
 
@@ -90,6 +100,7 @@ public class Leftbehind implements Serializable {
     private String registeredAddr;
 
     // 现住地:编码应符合GB/T2260
+    @Dict(DictEnum.ADDRESS)
     @Column(name = "residence")
     private String residence;
 
@@ -151,10 +162,12 @@ public class Leftbehind implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp expDate;
 
     // 同步状态
