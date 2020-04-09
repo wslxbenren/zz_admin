@@ -18,4 +18,7 @@ public class DictDetailQueryCriteria {
 
     @Query(type = Query.Type.EQUAL)
     private String value;
+
+    @Query(type = Query.Type.EQUAL)
+    private String pId;
 }

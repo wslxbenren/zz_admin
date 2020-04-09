@@ -35,7 +35,6 @@ public class DictDetailController {
     @GetMapping(value = "/dictDetail")
     public ResponseEntity getDictDetails(DictDetailQueryCriteria criteria,
                                          @PageableDefault(value = 10, sort = {"sort"}, direction = Sort.Direction.ASC) Pageable pageable){
-        String[] names = criteria.getDictName().split(",");
         return new ResponseEntity(dictDetailService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
@@ -77,4 +76,6 @@ public class DictDetailController {
         dictDetailService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+
 }
