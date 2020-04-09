@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     cancel() {
-      this.resetForm()
+      this.dialog = false
     },
     doSubmit() {
       this.loading = true
@@ -60,7 +60,7 @@ export default {
     },
     doAdd() {
       add(this.form).then(res => {
-        this.resetForm()
+        this.dialog = false
         this.$notify({
           title: '添加成功',
           type: 'success',
@@ -75,7 +75,7 @@ export default {
     },
     doEdit() {
       edit(this.form).then(res => {
-        this.resetForm()
+        this.dialog = false;
         this.$notify({
           title: '修改成功',
           type: 'success',
@@ -89,8 +89,6 @@ export default {
       })
     },
     resetForm() {
-      this.dialog = false
-      this.$refs['form'].resetFields()
       this.form = {
 <#if columns??>
     <#list columns as column>
