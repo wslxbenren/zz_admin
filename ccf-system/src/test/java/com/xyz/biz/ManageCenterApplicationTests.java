@@ -1,29 +1,21 @@
-package com.xyz;
+package com.xyz.biz;
 
 import com.xyz.modules.biz.domain.ManagecenterInfo;
 import com.xyz.modules.biz.repository.ManagecenterInfoRepository;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
 import com.xyz.modules.biz.service.mapper.ManagecenterInfoMapper;
-import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.modules.system.repository.DictRepository;
-import com.xyz.modules.system.service.dto.DictDTO;
-import com.xyz.modules.system.service.dto.DictDetailDTO;
-import com.xyz.modules.system.service.mapper.DictDetailMapper;
-import com.xyz.modules.system.service.mapper.DictMapper;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.ValidationUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,7 +45,6 @@ public class ManageCenterApplicationTests {
         managecenterInfo.setCenterMobile("0");
         managecenterInfo.setCenterName("0");
         managecenterInfo.setDeptId("0");
-        managecenterInfo.setCreateTime(new Timestamp(new Date().getTime()));
         managecenterInfo.setGrage("1");
         managecenterInfo.setLat(1.1d);
         managecenterInfo.setLng(1.1d);
@@ -64,7 +55,6 @@ public class ManageCenterApplicationTests {
         managecenterInfo.setUsercode("0");
         managecenterInfo.setCenterName("0");
         managecenterInfo.setCreator("0");
-        managecenterInfo.setUpdateTime(new Timestamp(new Date().getTime()));
         managecenterInfoRepository.save(managecenterInfo);
     }
     @Test
@@ -104,6 +94,14 @@ public class ManageCenterApplicationTests {
         ManagecenterInfoDTO managecenterInfoDTO = managecenterInfoMapper.toDto(byId.get());
         System.out.println(managecenterInfoDTO.getCreateTime());
         ManagecenterInfoQueryCriteria criteria = new ManagecenterInfoQueryCriteria();
+        criteria.setCreateTime(Arrays.asList("2020-04-09","2020-04-15"));
+        criteria.setUpdateTime(Arrays.asList("2020-04-09","2020-04-15"));
+        criteria.setAddr("sdd");
+        criteria.setGrage("0");
+        criteria.setCenterCode("1");
+        criteria.setDeptId("22");
+        criteria.setCenterName("ccc");
+        criteria.setUsername("");
 
         List list = managecenterInfoMapper.toDto(managecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) ->
                 QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
@@ -118,6 +116,7 @@ public class ManageCenterApplicationTests {
             });
             List<DictDetail> collect = detailStream.collect(Collectors.toList());
             mid.setGrageStr( collect.size() == 0 ? "无数据":collect.get(0).getLabel());
+
              detailStream = addrList.stream().filter(d -> {
                 return d.getValue().equals(mid.getAddr());
             });
