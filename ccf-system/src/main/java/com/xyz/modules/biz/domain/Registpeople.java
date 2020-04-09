@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
 
 /**
-* @author dadovicn
+* @author lx
 * @date 2020-04-08
 */
 @Entity
@@ -147,7 +150,7 @@ public class Registpeople implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @UpdateTimestamp
     private Timestamp operDate;
 
     // 创建人
@@ -156,7 +159,7 @@ public class Registpeople implements Serializable {
 
     // 创建时间
     @Column(name = "create_time",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理

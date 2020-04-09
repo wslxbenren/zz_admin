@@ -11,6 +11,7 @@ import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.modules.system.repository.DictRepository;
+import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.ValidationUtil;
@@ -27,8 +28,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-07
 */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -41,9 +42,14 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     private ManagecenterInfoMapper ManagecenterInfoMapper;
 
     @Autowired
-    DictDetailRepository dictDetailRepository;
+    private DictDetailRepository dictDetailRepository;
+
     @Autowired
-    DictRepository dictRepository;
+    private DictRepository dictRepository;
+
+    @Autowired
+    private DictDetailService dictDetailService;
+
     @Override
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
         Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder)
@@ -60,12 +66,12 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
                 return d.getValue().equals(mid.getGrage());
             });
             List<DictDetail> collect = detailStream.collect(Collectors.toList());
-            mid.setGrageString( collect.size() == 0 ? "无数据":collect.get(0).getLabel());
+            mid.setGrageStr( collect.size() == 0 ? "无数据":collect.get(0).getLabel());
             detailStream = addrList.stream().filter(d -> {
                 return d.getValue().equals(mid.getAddr());
             });
             collect = detailStream.collect(Collectors.toList());
-            mid.setAddrString(collect.size() == 0 ? "无数据":collect.get(0).getLabel());
+            mid.setAddrStr(collect.size() == 0 ? "无数据":collect.get(0).getLabel());
         }
         Map map = new HashMap();
         map.put("content", midList);

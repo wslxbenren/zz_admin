@@ -9,8 +9,8 @@ import com.xyz.modules.biz.service.dto.FloatpeopleQueryCriteria;
 import org.springframework.data.domain.Pageable;
 
 /**
-* @author dadovicn
-* @date 2020-04-08
+* @author lx
+* @date 2020-04-09
 */
 //@CacheConfig(cacheNames = "Floatpeople")
 public interface FloatpeopleService {

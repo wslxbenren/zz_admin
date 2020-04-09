@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
-* @author dadovicn
-* @date 2020-04-08
+* @author lx
+* @date 2020-04-09
 */
 public interface RentalhouseRepository extends JpaRepository<Rentalhouse, String>, JpaSpecificationExecutor {
 }

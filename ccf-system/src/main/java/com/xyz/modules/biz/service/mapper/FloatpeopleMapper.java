@@ -7,8 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 /**
-* @author dadovicn
-* @date 2020-04-08
+* @author lx
+* @date 2020-04-09
 */
 @Mapper(componentModel = "spring",uses = {},unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FloatpeopleMapper extends EntityMapper<FloatpeopleDTO, Floatpeople> {

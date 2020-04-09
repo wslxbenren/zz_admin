@@ -9,8 +9,8 @@ import com.xyz.modules.biz.service.dto.BuildheadInfoQueryCriteria;
 import org.springframework.data.domain.Pageable;
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-06
 */
 //@CacheConfig(cacheNames = "BuildheadInfo")
 public interface BuildheadInfoService {

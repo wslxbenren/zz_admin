@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
 /**
-* @author dadovicn
-* @date 2020-04-08
+* @author lx
+* @date 2020-04-09
 */
 @Api(tags = "Rentalhouse管理")
 @RestController

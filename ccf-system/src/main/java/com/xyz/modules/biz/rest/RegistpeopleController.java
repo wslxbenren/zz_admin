@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
 /**
-* @author dadovicn
+* @author lx
 * @date 2020-04-08
 */
 @Api(tags = "Registpeople管理")

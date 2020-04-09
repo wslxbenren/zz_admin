@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-06
 * 综治中心信息数据
 */
 @Data

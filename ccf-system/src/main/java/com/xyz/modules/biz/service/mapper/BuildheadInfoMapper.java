@@ -7,8 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-06
 */
 @Mapper(componentModel = "spring",uses = {},unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BuildheadInfoMapper extends EntityMapper<BuildheadInfoDTO, BuildheadInfo> {

@@ -9,8 +9,8 @@ import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
 import org.springframework.data.domain.Pageable;
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-07
 */
 //@CacheConfig(cacheNames = "ManagecenterInfo")
 public interface ManagecenterInfoService {

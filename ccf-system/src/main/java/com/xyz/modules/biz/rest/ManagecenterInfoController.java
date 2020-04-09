@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-07
 */
 @Api(tags = "ManagecenterInfo管理")
 @RestController

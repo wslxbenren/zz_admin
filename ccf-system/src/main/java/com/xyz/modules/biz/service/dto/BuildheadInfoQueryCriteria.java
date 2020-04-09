@@ -8,8 +8,8 @@ import java.util.Set;
 import com.xyz.annotation.Query;
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-06
 */
 @Data
 public class BuildheadInfoQueryCriteria{

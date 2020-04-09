@@ -9,7 +9,7 @@ import com.xyz.modules.biz.service.dto.RegistpeopleQueryCriteria;
 import org.springframework.data.domain.Pageable;
 
 /**
-* @author dadovicn
+* @author lx
 * @date 2020-04-08
 */
 //@CacheConfig(cacheNames = "Registpeople")

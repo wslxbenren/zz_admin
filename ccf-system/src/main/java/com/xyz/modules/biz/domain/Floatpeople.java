@@ -1,11 +1,15 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
 * @author dadovicn
@@ -39,6 +43,7 @@ public class Floatpeople implements Serializable {
 
     // 出生日期:格式为“YYYYMMDD”
     @Column(name = "date_birth")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp dateBirth;
 
     // 民族:编码应符合GB/T3304
@@ -111,10 +116,12 @@ public class Floatpeople implements Serializable {
 
     // 登记日期:格式为“YYYYMMDD”
     @Column(name = "regis_date")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp regisDate;
 
     // 证件到期日期:格式为“YYYYMMDD”
     @Column(name = "expiry_date")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp expiryDate;
 
     // 住所类型
@@ -127,10 +134,12 @@ public class Floatpeople implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -147,6 +156,7 @@ public class Floatpeople implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp operDate;
 
     // 创建人
@@ -155,6 +165,7 @@ public class Floatpeople implements Serializable {
 
     // 创建时间
     @Column(name = "create_time",nullable = false)
+    @UpdateTimestamp
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理
@@ -172,4 +183,6 @@ public class Floatpeople implements Serializable {
     public void copy(Floatpeople source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
+
+
 }

@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-08
 */
 @Data
 public class ManagecenterInfoDTO implements Serializable {
@@ -67,8 +67,8 @@ public class ManagecenterInfoDTO implements Serializable {
     private String unitCode;
 
     // 综治中心层级:字典
-    private String grageString;
+    private String grageStr;
 
     // 所在地:字典翻译后值
-    private String addrString;
+    private String addrStr;
 }

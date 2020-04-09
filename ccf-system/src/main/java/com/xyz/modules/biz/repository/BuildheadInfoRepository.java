@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-06
 */
 public interface BuildheadInfoRepository extends JpaRepository<BuildheadInfo, String>, JpaSpecificationExecutor {
 }

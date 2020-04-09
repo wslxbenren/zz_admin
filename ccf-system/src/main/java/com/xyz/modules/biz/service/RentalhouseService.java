@@ -9,8 +9,8 @@ import com.xyz.modules.biz.service.dto.RentalhouseQueryCriteria;
 import org.springframework.data.domain.Pageable;
 
 /**
-* @author dadovicn
-* @date 2020-04-08
+* @author lx
+* @date 2020-04-09
 */
 //@CacheConfig(cacheNames = "Rentalhouse")
 public interface RentalhouseService {

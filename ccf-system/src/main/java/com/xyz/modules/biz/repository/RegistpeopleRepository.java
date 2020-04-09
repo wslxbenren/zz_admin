@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
-* @author dadovicn
+* @author lx
 * @date 2020-04-08
 */
 public interface RegistpeopleRepository extends JpaRepository<Registpeople, String>, JpaSpecificationExecutor {

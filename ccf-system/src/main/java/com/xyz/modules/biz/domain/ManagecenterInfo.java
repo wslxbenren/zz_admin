@@ -14,8 +14,8 @@ import java.sql.Timestamp;
 import java.io.Serializable;
 
 /**
-* @author dadovicn
-* @date 2020-04-05
+* @author lx
+* @date 2020-04-07
 */
 @Entity
 @Data
@@ -93,7 +93,6 @@ public class ManagecenterInfo implements Serializable {
 
     // 修改时间
     @Column(name = "update_time")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @UpdateTimestamp
     private Timestamp updateTime;
 
