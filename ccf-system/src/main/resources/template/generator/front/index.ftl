@@ -138,6 +138,7 @@ export default {
     add() {
       this.isAdd = true
       this.$refs.form.dialog = true
+      this.$refs.form.resetForm()
     },
     edit(data) {
       this.isAdd = false

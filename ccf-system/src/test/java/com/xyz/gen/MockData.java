@@ -24,6 +24,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * 生成测试数据
+ * @author dadovicn
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional

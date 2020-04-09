@@ -32,6 +32,15 @@ public class DeptController {
     private static final String ENTITY_NAME = "dept";
 
     @Log("查询部门")
+    @GetMapping(value = "/deptMsg")
+    @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_SELECT','DEPT_ALL','DEPT_SELECT')")
+    public ResponseEntity getDeptsMsg(DeptQueryCriteria criteria){
+
+        List<DeptDTO> deptDTOS = deptService.queryAll(criteria);
+        return new ResponseEntity(deptDTOS,HttpStatus.OK);
+    }
+
+    @Log("查询部门")
     @GetMapping(value = "/dept")
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_SELECT','DEPT_ALL','DEPT_SELECT')")
     public ResponseEntity getDepts(DeptQueryCriteria criteria){

@@ -4,6 +4,7 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.Foreigners;
 import com.xyz.modules.biz.service.ForeignersService;
 import com.xyz.modules.biz.service.dto.ForeignersQueryCriteria;
+import com.xyz.modules.system.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-08
 */
 @Api(tags = "Foreigners管理")
@@ -25,12 +29,23 @@ public class ForeignersController {
     @Autowired
     private ForeignersService ForeignersService;
 
+    @Autowired
+    private DictService dictService;
+
     @Log("查询Foreigners")
     @ApiOperation(value = "查询Foreigners")
     @GetMapping(value = "/Foreigners")
     @PreAuthorize("hasAnyRole('ADMIN','FOREIGNERS_ALL','FOREIGNERS_SELECT')")
     public ResponseEntity getForeignerss(ForeignersQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(ForeignersService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("详情Foreigners")
+    @ApiOperation(value = "详情Foreigners")
+    @GetMapping(value = "/Foreigners/details/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','FOREIGNERS_ALL','FOREIGNERS_SELECT')")
+    public ResponseEntity getForeignerssDetails(@PathVariable String id){
+        return new ResponseEntity(ForeignersService.findById(id),HttpStatus.OK);
     }
 
     @Log("新增Foreigners")
@@ -57,5 +72,13 @@ public class ForeignersController {
     public ResponseEntity delete(@PathVariable String foreId){
         ForeignersService.delete(foreId);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Log("获取字典项")
+    @ApiOperation(value = "获取字典项")
+    @GetMapping(value = "/Foreigners/getDict")
+    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
+    public ResponseEntity getDict() {
+        return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.Foreigners"), HttpStatus.OK);
     }
 }

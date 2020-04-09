@@ -18,10 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.util.*;
+
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +28,7 @@ import com.xyz.utils.PageUtil;
 import com.xyz.utils.QueryHelp;
 
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-05
 */
 @Service
@@ -66,13 +65,15 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ManageleadresponsInfoDTO create(ManageleadresponsInfo resources) {
-        resources.setId(IdUtil.simpleUUID()); 
+        resources.setId(IdUtil.simpleUUID());
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
         return ManageleadresponsInfoMapper.toDto(ManageleadresponsInfoRepository.save(resources));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(ManageleadresponsInfo resources) {
+        resources.setUpdateTime(new Timestamp(new Date().getTime()));
         Optional<ManageleadresponsInfo> optionalManageleadresponsInfo = ManageleadresponsInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalManageleadresponsInfo,"ManageleadresponsInfo","id",resources.getId());
         ManageleadresponsInfo ManageleadresponsInfo = optionalManageleadresponsInfo.get();

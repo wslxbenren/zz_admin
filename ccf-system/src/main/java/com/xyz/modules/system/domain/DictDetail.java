@@ -50,5 +50,9 @@ public class DictDetail implements Serializable {
     @JsonIgnore
     private Dict dict;
 
+    @Column(name = "pid")
+    private String pId;
+
+
     public @interface Update {}
 }

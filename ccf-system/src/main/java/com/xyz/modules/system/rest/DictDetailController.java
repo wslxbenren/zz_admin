@@ -35,8 +35,13 @@ public class DictDetailController {
     @GetMapping(value = "/dictDetail")
     public ResponseEntity getDictDetails(DictDetailQueryCriteria criteria,
                                          @PageableDefault(value = 10, sort = {"sort"}, direction = Sort.Direction.ASC) Pageable pageable){
-        String[] names = criteria.getDictName().split(",");
         return new ResponseEntity(dictDetailService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("查询字典详情下级")
+    @GetMapping(value = "/dictDetail/getChildByPid")
+    public ResponseEntity getChildByPid(DictDetailQueryCriteria criteria){
+        return new ResponseEntity(dictDetailService.queryAll(criteria),HttpStatus.OK);
     }
 
     @Log("查询多个字典详情")
@@ -77,4 +82,6 @@ public class DictDetailController {
         dictDetailService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+
 }

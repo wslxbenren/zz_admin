@@ -50,17 +50,25 @@ export default {
   },
   methods: {
     cancel() {
-      this.resetForm()
+      this.dialog = false
     },
     doSubmit() {
-      this.loading = true
-      if (this.isAdd) {
-        this.doAdd()
-      } else this.doEdit()
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.loading = true
+          if (this.isAdd) {
+            this.doAdd()
+          } else {
+            this.doEdit()
+          }
+        } else {
+          return false;
+        }
+      });
     },
     doAdd() {
       add(this.form).then(res => {
-        this.resetForm()
+        this.dialog = false
         this.$notify({
           title: '添加成功',
           type: 'success',
@@ -75,7 +83,7 @@ export default {
     },
     doEdit() {
       edit(this.form).then(res => {
-        this.resetForm()
+        this.dialog = false;
         this.$notify({
           title: '修改成功',
           type: 'success',
@@ -89,7 +97,6 @@ export default {
       })
     },
     resetForm() {
-      this.dialog = false
       this.$refs['form'].resetFields()
       this.form = {
 <#if columns??>

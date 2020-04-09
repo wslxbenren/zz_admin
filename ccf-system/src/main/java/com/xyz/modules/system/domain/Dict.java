@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -40,6 +41,13 @@ public class Dict implements Serializable {
     @Column(name = "remark")
     private String remark;
 
+    /**
+     * 当前字典层级数
+     */
+    @Column(name = "grage")
+    private String grage;
+
+    @Where(clause = "grage is null or grage = 1")
     @OneToMany(mappedBy = "dict",cascade={CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<DictDetail> dictDetails;
 

@@ -38,6 +38,7 @@ public class Leftbehind implements Serializable {
 
     // 性别:编码应符合GB/T2261.1
     @Column(name = "person_sex")
+    @Dict(DictEnum.XING_BIE)
     private String personSex;
 
     // 出生日期:格式为“YYYYMMDD”
@@ -52,6 +53,7 @@ public class Leftbehind implements Serializable {
 
     // 籍贯:编码应符合GB/T2260
     @Column(name = "native_info")
+    @Dict(DictEnum.GJ_DQ)
     private String nativeInfo;
 
     // 婚姻状况:编码应符合GB/T2261.2
@@ -76,6 +78,7 @@ public class Leftbehind implements Serializable {
 
     // 职业类别:编码应符合GB/T6565
     @Column(name = "vocation_code")
+    @Dict(DictEnum.ZYLB)
     private String vocationCode;
 
     // 职业
