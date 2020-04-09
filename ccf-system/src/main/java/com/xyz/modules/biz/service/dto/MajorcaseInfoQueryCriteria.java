@@ -7,7 +7,7 @@ import java.util.List;
 import com.xyz.annotation.Query;
 
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-05
 */
 @Data
@@ -17,9 +17,7 @@ public class MajorcaseInfoQueryCriteria{
     @Query(type = Query.Type.BETWEEN)
     private List<String> createTime;
 
-    @Query(type = Query.Type.INNER_LIKE)
-    private String caseName;
-
+    //字典项
     @Query(type = Query.Type.EQUAL)
     private String occurAddr;
 
@@ -29,10 +27,14 @@ public class MajorcaseInfoQueryCriteria{
     @Query(type = Query.Type.EQUAL)
     private String caseType;
 
+    //其他
     @Query(type = Query.Type.INNER_LIKE)
     private String creator;
 
     @Query(type = Query.Type.INNER_LIKE)
     private String modifier;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    private String caseName;
 
 }

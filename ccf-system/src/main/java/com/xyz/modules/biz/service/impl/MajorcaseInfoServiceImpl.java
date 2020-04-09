@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -19,7 +22,7 @@ import com.xyz.utils.PageUtil;
 import com.xyz.utils.QueryHelp;
 
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-05
 */
 @Service
@@ -53,13 +56,15 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public MajorcaseInfoDTO create(MajorcaseInfo resources) {
-        resources.setId(IdUtil.simpleUUID()); 
+        resources.setId(IdUtil.simpleUUID());
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
         return MajorcaseInfoMapper.toDto(MajorcaseInfoRepository.save(resources));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(MajorcaseInfo resources) {
+        resources.setUpdateTime(new Timestamp(new Date().getTime()));
         Optional<MajorcaseInfo> optionalMajorcaseInfo = MajorcaseInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalMajorcaseInfo,"MajorcaseInfo","id",resources.getId());
         MajorcaseInfo MajorcaseInfo = optionalMajorcaseInfo.get();

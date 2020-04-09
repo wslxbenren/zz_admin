@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -19,7 +22,7 @@ import com.xyz.utils.PageUtil;
 import com.xyz.utils.QueryHelp;
 
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-08
 */
 @Service
@@ -53,13 +56,15 @@ public class ForeignersServiceImpl implements ForeignersService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ForeignersDTO create(Foreigners resources) {
-        resources.setForeId(IdUtil.simpleUUID()); 
+        resources.setForeId(IdUtil.simpleUUID());
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
         return ForeignersMapper.toDto(ForeignersRepository.save(resources));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Foreigners resources) {
+        resources.setOperDate(new Timestamp(new Date().getTime()));
         Optional<Foreigners> optionalForeigners = ForeignersRepository.findById(resources.getForeId());
         ValidationUtil.isNull( optionalForeigners,"Foreigners","id",resources.getForeId());
         Foreigners Foreigners = optionalForeigners.get();

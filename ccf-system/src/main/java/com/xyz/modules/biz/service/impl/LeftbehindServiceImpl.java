@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -20,7 +23,7 @@ import com.xyz.utils.PageUtil;
 import com.xyz.utils.QueryHelp;
 
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-08
 */
 @Service
@@ -54,7 +57,8 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public LeftbehindDTO create(Leftbehind resources) {
-        resources.setLeftId(IdUtil.simpleUUID()); 
+        resources.setLeftId(IdUtil.simpleUUID());
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
         if(LeftbehindRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(Leftbehind.class,"identity_num",resources.getIdentityNum());
         }
@@ -64,6 +68,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Leftbehind resources) {
+        resources.setOperDate(new Timestamp(new Date().getTime()));
         Optional<Leftbehind> optionalLeftbehind = LeftbehindRepository.findById(resources.getLeftId());
         ValidationUtil.isNull( optionalLeftbehind,"Leftbehind","id",resources.getLeftId());
         Leftbehind Leftbehind = optionalLeftbehind.get();

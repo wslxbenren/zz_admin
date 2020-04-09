@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-05
 */
 @Api(tags = "ManageleadresponsInfo管理")
@@ -52,8 +52,6 @@ public class ManageleadresponsInfoController {
     @PostMapping(value = "/ManageleadresponsInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_CREATE')")
     public ResponseEntity create(@Validated @RequestBody ManageleadresponsInfo resources){
-        Timestamp createTime = new Timestamp(new Date().getTime());
-        resources.setCreateTime(createTime);
         return new ResponseEntity(ManageleadresponsInfoService.create(resources),HttpStatus.CREATED);
     }
 
@@ -61,8 +59,6 @@ public class ManageleadresponsInfoController {
     @PutMapping(value = "/ManageleadresponsInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_EDIT')")
     public ResponseEntity update(@Validated @RequestBody ManageleadresponsInfo resources){
-        Timestamp updateTime = new Timestamp(new Date().getTime());
-        resources.setUpdateTime(updateTime);
         ManageleadresponsInfoService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -75,11 +71,11 @@ public class ManageleadresponsInfoController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @Log("获取字典项")
+    /*@Log("获取字典项")
     @ApiOperation(value = "获取字典项")
     @GetMapping(value = "/ManageleadresponsInfo/getDict")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
     public ResponseEntity getDict() {
         return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.ManageleadresponsInfo"), HttpStatus.OK);
-    }
+    }*/
 }

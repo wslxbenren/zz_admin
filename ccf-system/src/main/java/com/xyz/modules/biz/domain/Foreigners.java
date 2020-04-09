@@ -1,5 +1,8 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -35,22 +38,27 @@ public class Foreigners implements Serializable {
 
     // 性别:编码应符合GB/T2261.1
     @Column(name = "person_sex")
+    @Dict(DictEnum.XING_BIE)
     private String personSex;
 
     // 出生日期:格式为“YYYYMMDD”
     @Column(name = "date_birth")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp dateBirth;
 
     // 国籍（地区）:编码应符合GB/T2659
     @Column(name = "country")
+    @Dict(DictEnum.GJ_DQ)
     private String country;
 
     // 宗教信仰:编码应符合GA214.12
     @Column(name = "faith_type")
+    @Dict(DictEnum.ZJXY)
     private String faithType;
 
     // 证件代码:编码应符合GA/T517
     @Column(name = "card_type")
+    @Dict(DictEnum.ZJDM)
     private String cardType;
 
     // 证件号码
@@ -59,6 +67,7 @@ public class Foreigners implements Serializable {
 
     // 证件有效期:格式为“YYYYMMDD”
     @Column(name = "valid_date")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp validDate;
 
     // 联系方式:手机号码或固定电话号码
@@ -71,6 +80,7 @@ public class Foreigners implements Serializable {
 
     // 职业类别:编码应符合GB/T6565
     @Column(name = "vocation_code")
+    @Dict(DictEnum.ZYLB)
     private String vocationCode;
 
     // 职业
@@ -83,6 +93,7 @@ public class Foreigners implements Serializable {
 
     // 现住地:编码应符合GB/T2260
     @Column(name = "residence")
+    @Dict(DictEnum.ADDRESS)
     private String residence;
 
     // 现住门（楼）详址
@@ -91,10 +102,12 @@ public class Foreigners implements Serializable {
 
     // 抵达日期:格式为“YYYYMMDD”
     @Column(name = "arrival_date")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp arrivalDate;
 
     // 预计离开日期:格式为“YYYYMMDD”
     @Column(name = "plan_leave")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp planLeave;
 
     // 是否重点关注人员
@@ -103,10 +116,12 @@ public class Foreigners implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp expDate;
 
     // 同步状态

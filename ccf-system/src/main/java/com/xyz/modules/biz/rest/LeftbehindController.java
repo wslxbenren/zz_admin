@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-08
 */
 @Api(tags = "Leftbehind管理")
@@ -53,8 +53,6 @@ public class LeftbehindController {
     @PostMapping(value = "/Leftbehind")
     @PreAuthorize("hasAnyRole('ADMIN','LEFTBEHIND_ALL','LEFTBEHIND_CREATE')")
     public ResponseEntity create(@Validated @RequestBody Leftbehind resources){
-        Timestamp createTime = new Timestamp(new Date().getTime());
-        resources.setCreateTime(createTime);
         return new ResponseEntity(LeftbehindService.create(resources),HttpStatus.CREATED);
     }
 
@@ -63,8 +61,6 @@ public class LeftbehindController {
     @PutMapping(value = "/Leftbehind")
     @PreAuthorize("hasAnyRole('ADMIN','LEFTBEHIND_ALL','LEFTBEHIND_EDIT')")
     public ResponseEntity update(@Validated @RequestBody Leftbehind resources){
-        Timestamp operDate = new Timestamp(new Date().getTime());
-        resources.setOperDate(operDate);
         LeftbehindService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -78,11 +74,11 @@ public class LeftbehindController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @Log("获取字典项")
+   /* @Log("获取字典项")
     @ApiOperation(value = "获取字典项")
     @GetMapping(value = "/Leftbehind/getDict")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
     public ResponseEntity getDict() {
         return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.Leftbehind"), HttpStatus.OK);
-    }
+    }*/
 }

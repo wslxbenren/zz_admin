@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-05
 */
 @Api(tags = "MajorcaseInfo管理")
@@ -56,8 +56,6 @@ public class MajorcaseInfoController {
     @PostMapping(value = "/MajorcaseInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MAJORCASEINFO_ALL','MAJORCASEINFO_CREATE')")
     public ResponseEntity create(@Validated @RequestBody MajorcaseInfo resources){
-        Timestamp createTime = new Timestamp(new Date().getTime());
-        resources.setCreateTime(createTime);
         return new ResponseEntity(MajorcaseInfoService.create(resources),HttpStatus.CREATED);
     }
 
@@ -66,8 +64,6 @@ public class MajorcaseInfoController {
     @PutMapping(value = "/MajorcaseInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MAJORCASEINFO_ALL','MAJORCASEINFO_EDIT')")
     public ResponseEntity update(@Validated @RequestBody MajorcaseInfo resources){
-        Timestamp updateTime = new Timestamp(new Date().getTime());
-        resources.setUpdateTime(updateTime);
         MajorcaseInfoService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -81,11 +77,11 @@ public class MajorcaseInfoController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @Log("获取字典项")
+   /* @Log("获取字典项")
     @ApiOperation(value = "获取字典项")
     @GetMapping(value = "/MajorcaseInfo/getDict")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
     public ResponseEntity getDict() {
         return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.MajorcaseInfo"), HttpStatus.OK);
-    }
+    }*/
 }
