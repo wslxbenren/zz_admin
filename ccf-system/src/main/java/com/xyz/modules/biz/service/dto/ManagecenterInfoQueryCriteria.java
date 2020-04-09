@@ -38,8 +38,10 @@ public class ManagecenterInfoQueryCriteria{
     @Query(type = Query.Type.INNER_LIKE)
     private String username;
 
+    private String creator;
 
-
+    @Query(type = Query.Type.IN)
+    private List<String> unitCode;
 
     // 多字段模糊
 //    @Query(blurry = "username")

@@ -2,6 +2,9 @@ package com.xyz.modules.biz.service.impl;
 
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.Registpeople;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.RegistpeopleRepository;
 import com.xyz.modules.biz.service.RegistpeopleService;
@@ -14,8 +17,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,10 +39,37 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Autowired
     private RegistpeopleMapper RegistpeopleMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
     @Override
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
         Page<Registpeople> page = RegistpeopleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(RegistpeopleMapper::toDto));
+        List<Registpeople> content = page.getContent();
+        List<RegistpeopleDTO> registpeopleDTOS = RegistpeopleMapper.toDto(content);
+        for (RegistpeopleDTO r:registpeopleDTOS){
+            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), r.getPersonSex());
+            r.setPersonSexStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.MIN_ZU.getDistName(), r.getNation());
+            r.setNationStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.GJ_DQ.getDistName(), r.getNativeInfo());
+            r.setNativeInfoStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.HYZK.getDistName(), r.getMarriageFlag());
+            r.setMarriageFlagStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZZMM.getDistName(), r.getPartyFlag());
+            r.setPersonSexStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.XUE_LI.getDistName(), r.getEducationBg());
+            r.setEducationBgStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZJXY.getDistName(), r.getFaithType());
+            r.setFaithTypeStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZYLB.getDistName(), r.getVocationCode());
+            r.setVocationCodeStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), r.getRegisteredPlace());
+            r.setRegisteredPlaceStr(dd == null ? "无数据" : dd.getLabel());
+        }
+        Map map = new HashMap();
+        map.put("content", registpeopleDTOS);
+        map.put("totalElements", page.getTotalPages());
+        return map;
     }
 
     @Override

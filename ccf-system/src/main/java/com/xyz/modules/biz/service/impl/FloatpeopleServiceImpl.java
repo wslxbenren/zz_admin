@@ -8,8 +8,13 @@ import com.xyz.modules.biz.service.FloatpeopleService;
 import com.xyz.modules.biz.service.dto.FloatpeopleDTO;
 import com.xyz.modules.biz.service.dto.FloatpeopleQueryCriteria;
 import com.xyz.modules.biz.service.mapper.FloatpeopleMapper;
+import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.PageUtil;
 import com.xyz.utils.QueryHelp;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -34,10 +42,37 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Autowired
     private FloatpeopleMapper FloatpeopleMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+
     @Override
     public Object queryAll(FloatpeopleQueryCriteria criteria, Pageable pageable){
         Page<Floatpeople> page = FloatpeopleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(FloatpeopleMapper::toDto));
+        List<FloatpeopleDTO> floatpeopleDTOS = FloatpeopleMapper.toDto(page.getContent());
+        for (FloatpeopleDTO f:floatpeopleDTOS){
+            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
+            f.setPersonSexStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.MIN_ZU.getDistName(), f.getNation());
+            f.setNationStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.GJ_DQ.getDistName(), f.getNativeInfo());
+            f.setNativeInfoStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.HYZK.getDistName(), f.getMarriageFlag());
+            f.setMarriageFlagStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZZMM.getDistName(), f.getPartyFlag());
+            f.setPartyFlagStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.XUE_LI.getDistName(), f.getEducationBg());
+            f.setEducationBgStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZJXY.getDistName(), f.getFaithType());
+            f.setFaithTypeStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZYLB.getDistName(), f.getVocationCode());
+            f.setVocationCodeStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
+            f.setRegisteredPlaceStr(dd == null ? "无数据" : dd.getLabel());
+        }
+        Map map = new HashMap();
+        map.put("content", floatpeopleDTOS);
+        map.put("totalElements", page.getTotalPages());
+        return map;
     }
 
     @Override
@@ -55,7 +90,8 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public FloatpeopleDTO create(Floatpeople resources) {
-        resources.setFloatId(IdUtil.simpleUUID()); 
+        resources.setFloatId(IdUtil.simpleUUID());
+
         if(FloatpeopleRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(Floatpeople.class,"identity_num",resources.getIdentityNum());
         }

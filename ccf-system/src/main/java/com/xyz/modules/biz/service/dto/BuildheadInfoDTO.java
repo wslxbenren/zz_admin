@@ -46,17 +46,26 @@ public class BuildheadInfoDTO implements Serializable {
     // 性别:编码应符合GB/T2261.1
     private String sex;
 
+    // 性别:翻译后值
+    private String sexStr;
+
     // 民族:编码应符合GB/T3304
     private String national;
+    // 民族:翻译后值
+    private String nationalStr;
 
     // 政治面貌:编码应符合GB/T4762
     private String politicalStatus;
+    // 政治面貌:翻译后值
+    private String politicalStatusStr;
 
     // 出生日期:格式为“YYYYMMDD”
     private Timestamp birth;
 
     // 学历:编码应符合GB/T4658
     private String educationBg;
+    // 学历:翻译后值
+    private String educationBgStr;
 
     // 手机号码
     private String mobile;

@@ -68,4 +68,9 @@ public class RegistpeopleQueryCriteria{
 
     @Query(type = Query.Type.BETWEEN)
     private List<String> createTime;
+
+    private String creator;
+
+    @Query(type = Query.Type.IN)
+    private List<String> unitCode;
 }

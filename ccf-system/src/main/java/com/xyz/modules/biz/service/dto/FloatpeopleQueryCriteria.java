@@ -74,4 +74,9 @@ public class FloatpeopleQueryCriteria{
     // 多字段模糊
     @Query(blurry = "personName,usedName")
     private String blurry;
+
+    private String creator;
+
+    @Query(type = Query.Type.IN)
+    private List<String> unitCode;
 }

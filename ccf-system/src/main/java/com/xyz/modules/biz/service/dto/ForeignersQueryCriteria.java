@@ -40,4 +40,6 @@ public class ForeignersQueryCriteria{
     @Query(type = Query.Type.EQUAL)
     private String vocationCode;
 
+    @Query(type = Query.Type.IN)
+    private List<String> unitCode;
 }
