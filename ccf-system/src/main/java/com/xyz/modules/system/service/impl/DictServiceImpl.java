@@ -1,14 +1,14 @@
 package com.xyz.modules.system.service.impl;
 
+import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.repository.DictRepository;
+import com.xyz.modules.system.service.DictService;
 import com.xyz.modules.system.service.dto.DictDTO;
+import com.xyz.modules.system.service.dto.DictQueryCriteria;
 import com.xyz.modules.system.service.mapper.DictMapper;
 import com.xyz.utils.PageUtil;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.ValidationUtil;
-import com.xyz.modules.system.domain.Dict;
-import com.xyz.modules.system.service.dto.DictQueryCriteria;
-import com.xyz.modules.system.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -69,6 +69,12 @@ public class DictServiceImpl implements DictService {
         dictRepository.deleteById(id);
     }
 
+    /**
+     * 方法暂时作废， 后面可能还会启用
+     * @param className 指定类全限定名
+     * @return
+     */
+    @Deprecated
     public List<Dict> buildDict(String className) {
         List<String> dsf = new ArrayList<String>();
         try {
@@ -98,5 +104,10 @@ public class DictServiceImpl implements DictService {
             e.printStackTrace();
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public List<Dict> get2LevelDict() {
+        return dictRepository.findAll();
     }
 }

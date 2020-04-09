@@ -1,7 +1,7 @@
 package com.xyz.modules.system.service;
 
-import com.xyz.modules.system.service.dto.DictDTO;
 import com.xyz.modules.system.domain.Dict;
+import com.xyz.modules.system.service.dto.DictDTO;
 import com.xyz.modules.system.service.dto.DictQueryCriteria;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -62,4 +62,10 @@ public interface DictService {
      * @return
      */
     List<Dict> buildDict(String className);
+
+    /**
+     * 获取二级字典数据
+     * @return
+     */
+    List<Dict> get2LevelDict();
 }

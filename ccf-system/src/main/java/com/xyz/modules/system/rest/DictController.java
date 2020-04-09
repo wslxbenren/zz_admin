@@ -58,4 +58,11 @@ public class DictController {
         dictService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Log("查询2级字典")
+    @DeleteMapping(value = "/dict/get2LevelDict")
+    @PreAuthorize("hasAnyRole('ADMIN','DICT_ALL','DICT_DELETE')")
+    public ResponseEntity get2LevelDict(@PathVariable Long id){
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

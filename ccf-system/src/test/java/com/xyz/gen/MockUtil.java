@@ -3,6 +3,10 @@ package com.xyz.gen;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
+/**
+ * 测试数据生成工具类
+ * @author dadovicn
+ */
 public class MockUtil {
 
     private static String base = "abcdefghijklmnopqrstuvwxyz0123456789";
