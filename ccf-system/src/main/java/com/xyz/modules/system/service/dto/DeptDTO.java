@@ -43,4 +43,7 @@ public class DeptDTO implements Serializable {
     public String getLabel() {
         return name;
     }
+
+    private  String note;
+    private String contact;
 }
