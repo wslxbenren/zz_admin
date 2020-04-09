@@ -54,24 +54,12 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
         Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder)
                 -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        Dict jgcj = dictRepository.findByName(DictEnum.JGCJ.getDistName());// 机构层级
-        Dict address = dictRepository.findByName(DictEnum.ADDRESS.getDistName());// 地区
-        List<DictDetail> grageList = dictDetailRepository.findByDictId(jgcj.getId());
-        List<DictDetail> addrList = dictDetailRepository.findByDictId(address.getId());
         List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
-        // fixme 改为调用DictDetailService的根据名称和字典详细值查询的方法
         for (ManagecenterInfoDTO mid:midList ) {
-            Stream<DictDetail> detailStream= null;
-            detailStream = grageList.stream().filter(d -> {
-                return d.getValue().equals(mid.getGrage());
-            });
-            List<DictDetail> collect = detailStream.collect(Collectors.toList());
-            mid.setGrageStr( collect.size() == 0 ? "无数据":collect.get(0).getLabel());
-            detailStream = addrList.stream().filter(d -> {
-                return d.getValue().equals(mid.getAddr());
-            });
-            collect = detailStream.collect(Collectors.toList());
-            mid.setAddrStr(collect.size() == 0 ? "无数据":collect.get(0).getLabel());
+            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getGrage());
+            mid.setGrageStr(dd == null ? "无数据":dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), mid.getAddr());
+            mid.setAddr(dd == null ? "无数据":dd.getLabel());
         }
         Map map = new HashMap();
         map.put("content", midList);
