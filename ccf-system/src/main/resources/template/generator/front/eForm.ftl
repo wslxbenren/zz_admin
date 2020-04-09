@@ -53,10 +53,18 @@ export default {
       this.dialog = false
     },
     doSubmit() {
-      this.loading = true
-      if (this.isAdd) {
-        this.doAdd()
-      } else this.doEdit()
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.loading = true
+          if (this.isAdd) {
+            this.doAdd()
+          } else {
+            this.doEdit()
+          }
+        } else {
+          return false;
+        }
+      });
     },
     doAdd() {
       add(this.form).then(res => {
@@ -89,6 +97,7 @@ export default {
       })
     },
     resetForm() {
+      this.$refs['form'].resetFields()
       this.form = {
 <#if columns??>
     <#list columns as column>

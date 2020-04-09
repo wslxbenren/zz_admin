@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,4 +64,11 @@ public interface DictDetailService {
      * @return
      */
     DictDetail findByValueAndPName(String pName, String value);
+
+    /**
+     * 没有分页
+     * @param criteria
+     * @return
+     */
+    List<DictDetail> queryAll(DictDetailQueryCriteria criteria);
 }

@@ -38,6 +38,12 @@ public class DictDetailController {
         return new ResponseEntity(dictDetailService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
+    @Log("查询字典详情下级")
+    @GetMapping(value = "/dictDetail/getChildByPid")
+    public ResponseEntity getChildByPid(DictDetailQueryCriteria criteria){
+        return new ResponseEntity(dictDetailService.queryAll(criteria),HttpStatus.OK);
+    }
+
     @Log("查询多个字典详情")
     @GetMapping(value = "/dictDetail/map")
     public ResponseEntity getDictDetailMaps(DictDetailQueryCriteria criteria,

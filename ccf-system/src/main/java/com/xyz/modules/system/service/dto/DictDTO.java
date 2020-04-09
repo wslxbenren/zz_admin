@@ -21,4 +21,9 @@ public class DictDTO implements Serializable {
      * 描述
      */
     private String remark;
+
+    /**
+     * 层级数
+     */
+    private String grage;
 }
