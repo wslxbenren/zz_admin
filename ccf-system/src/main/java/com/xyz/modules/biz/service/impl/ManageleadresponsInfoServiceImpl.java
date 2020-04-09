@@ -5,6 +5,8 @@ import com.xyz.modules.biz.domain.ManageleadresponsInfo;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.repository.DictDetailRepository;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.ManageleadresponsInfoRepository;
 import com.xyz.modules.biz.service.ManageleadresponsInfoService;
@@ -41,12 +43,27 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     @Autowired
     private ManageleadresponsInfoMapper ManageleadresponsInfoMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+
     @Override
     public Object queryAll(ManageleadresponsInfoQueryCriteria criteria, Pageable pageable){
         //Sort sort = new Sort(Sort.Direction.DESC,"createTime");
         //pageable.getSortOr(sort);
         Page<ManageleadresponsInfo> page = ManageleadresponsInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(ManageleadresponsInfoMapper::toDto));
+        List<ManageleadresponsInfoDTO> manageleadresponsInfoList = ManageleadresponsInfoMapper.toDto(page.getContent());
+        for (ManageleadresponsInfoDTO mid: manageleadresponsInfoList) {
+            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getAreaGrage());
+            mid.setAreaGrageStr(dd == null ? "无数据":dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getImplementerGrage());
+            mid.setImplementerGrageStr(dd == null ? "无数据":dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZCZL.getDistName(), mid.getPolicyType());
+            mid.setPolicyTypeStr(dd == null ? "无数据":dd.getLabel());
+        }
+        Map map = new HashMap();
+        map.put("content", manageleadresponsInfoList);
+        map.put("totalElements", page.getTotalPages());
+        return map;
 
     }
 

@@ -1,6 +1,10 @@
 package com.xyz.modules.biz.service.impl;
 
 import com.xyz.modules.biz.domain.MajorcaseInfo;
+import com.xyz.modules.biz.service.dto.ManageleadresponsInfoDTO;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.MajorcaseInfoRepository;
 import com.xyz.modules.biz.service.MajorcaseInfoService;
@@ -13,8 +17,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,10 +39,25 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     @Autowired
     private MajorcaseInfoMapper MajorcaseInfoMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+
     @Override
     public Object queryAll(MajorcaseInfoQueryCriteria criteria, Pageable pageable){
         Page<MajorcaseInfo> page = MajorcaseInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(MajorcaseInfoMapper::toDto));
+        List<MajorcaseInfoDTO> majorcaseInfoList = MajorcaseInfoMapper.toDto(page.getContent());
+        for (MajorcaseInfoDTO mid: majorcaseInfoList) {
+            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), mid.getOccurAddr());
+            mid.setOccurAddrStr(dd == null ? "无数据":dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.AJFJ.getDistName(), mid.getCaseGrage());
+            mid.setCaseGrageStr(dd == null ? "无数据":dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.AJLX.getDistName(), mid.getCaseType());
+            mid.setCaseTypeStr(dd == null ? "无数据":dd.getLabel());
+        }
+        Map map = new HashMap();
+        map.put("content", majorcaseInfoList);
+        map.put("totalElements", page.getTotalPages());
+        return map;
     }
 
     @Override

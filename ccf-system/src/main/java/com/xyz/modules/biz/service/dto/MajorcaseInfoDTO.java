@@ -27,14 +27,23 @@ public class MajorcaseInfoDTO implements Serializable {
     // 发生地:编码应符合GB/T2260
     private String occurAddr;
 
+    // 发生地:编码应符合GB/T2260 字典翻译
+    private String occurAddrStr;
+
     // 发生地详址
     private String occurAddrdetail;
 
     // 案（事）件分级:字典
     private String caseGrage;
 
+    // 案（事）件分级名称:字典翻译
+    private String caseGrageStr;
+
     // 案（事）件类型:字典
     private String caseType;
+
+    // 案（事）件类型:字典翻译
+    private String caseTypeStr;
 
     // 案（事）件情况
     private String caseInfo;

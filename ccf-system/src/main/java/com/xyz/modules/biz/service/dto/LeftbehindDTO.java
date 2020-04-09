@@ -18,6 +18,9 @@ public class LeftbehindDTO implements Serializable {
     // 公民身份号码:编码应符合GB/T11643
     private String identityNum;
 
+    // 公民身份号码:编码应符合GB/T11643 字典翻译
+    private String identityNumStr;
+
     // 姓名
     private String personName;
 
@@ -27,29 +30,53 @@ public class LeftbehindDTO implements Serializable {
     // 性别:编码应符合GB/T2261.1
     private String personSex;
 
+    // 性别:编码应符合GB/T2261.1 字典翻译
+    private String personSexStr;
+
     // 出生日期:格式为“YYYYMMDD”
     private Timestamp dateBirth;
 
     // 民族:编码应符合GB/T3304
     private String nation;
 
+    // 民族:编码应符合GB/T3304 字典翻译
+    private String nationStr;
+
     // 籍贯:编码应符合GB/T2260
     private String nativeInfo;
+
+    // 籍贯:编码应符合GB/T2260 字典翻译
+    private String nativeInfoStr;
 
     // 婚姻状况:编码应符合GB/T2261.2
     private String marriageFlag;
 
+    // 婚姻状况:编码应符合GB/T2261.2 字典翻译
+    private String marriageFlagStr;
+
     // 政治面貌:编码应符合GB/T4762
     private String partyFlag;
+
+    // 政治面貌:编码应符合GB/T4762 字典翻译
+    private String partyFlagStr;
 
     // 学历:编码应符合GB/T4658
     private String educationBg;
 
+    // 学历:编码应符合GB/T4658 字典翻译
+    private String educationBgStr;
+
     // 宗教信仰:编码应符合GA214.12
     private String faithType;
 
+    // 宗教信仰:编码应符合GA214.12 字典翻译
+    private String faithTypeStr;
+
     // 职业类别:编码应符合GB/T6565
     private String vocationCode;
+
+    // 职业类别:编码应符合GB/T6565 字典翻译
+    private String vocationCodeStr;
 
     // 职业
     private String vocation;
@@ -63,11 +90,17 @@ public class LeftbehindDTO implements Serializable {
     // 户籍地:编码应符合GB/T2260
     private String registeredPlace;
 
+    // 户籍地:编码应符合GB/T2260 字典翻译
+    private String registeredPlaceStr;
+
     // 户籍门（楼）详址
     private String registeredAddr;
 
     // 现住地:编码应符合GB/T2260
     private String residence;
+
+    // 现住地:编码应符合GB/T2260 字典翻译
+    private String residenceStr;
 
     // 现住门（楼）详址
     private String residenceAddr;
@@ -95,6 +128,9 @@ public class LeftbehindDTO implements Serializable {
 
     // 与留守人员关系:编码应符合GB/T4761
     private String mainmemRela;
+
+    // 与留守人员关系:编码应符合GB/T4761 字典翻译
+    private String mainmemRelaStr;
 
     // 家庭主要成员联系方式:手机号码或固定电话号码
     private String mainmemMobile;
