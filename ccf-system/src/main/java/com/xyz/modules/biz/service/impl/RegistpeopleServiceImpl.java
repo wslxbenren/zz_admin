@@ -2,9 +2,11 @@ package com.xyz.modules.biz.service.impl;
 
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.Registpeople;
+import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.RegistpeopleRepository;
 import com.xyz.modules.biz.service.RegistpeopleService;
@@ -12,6 +14,8 @@ import com.xyz.modules.biz.service.dto.RegistpeopleDTO;
 import com.xyz.modules.biz.service.dto.RegistpeopleQueryCriteria;
 import com.xyz.modules.biz.service.mapper.RegistpeopleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +45,10 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
 
     @Autowired
     private DictDetailService dictDetailService;
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
+
     @Override
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
         Page<Registpeople> page = RegistpeopleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
@@ -88,9 +96,8 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Transactional(rollbackFor = Exception.class)
     public RegistpeopleDTO create(Registpeople resources) {
         resources.setRegisId(IdUtil.simpleUUID());
-        resources.setCreateTime(new Timestamp(new Date().getTime()));
-        resources.setOperDate(new Timestamp(new Date().getTime()));
-        resources.setCreator(null);//等
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         if(RegistpeopleRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
@@ -108,7 +115,8 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         if(Registpeople1 != null && !Registpeople1.getRegisId().equals(Registpeople.getRegisId())){
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
-
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         Registpeople.copy(resources);
         RegistpeopleRepository.save(Registpeople);
     }

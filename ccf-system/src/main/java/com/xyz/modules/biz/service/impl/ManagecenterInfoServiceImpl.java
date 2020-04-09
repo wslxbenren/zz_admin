@@ -7,6 +7,7 @@ import com.xyz.modules.biz.service.ManagecenterInfoService;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
 import com.xyz.modules.biz.service.mapper.ManagecenterInfoMapper;
+import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.repository.DictDetailRepository;
@@ -14,10 +15,13 @@ import com.xyz.modules.system.repository.DictRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.QueryHelp;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +53,10 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
 
     @Autowired
     private DictDetailService dictDetailService;
+
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
 
     @Override
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
@@ -84,8 +92,8 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Transactional(rollbackFor = Exception.class)
     public ManagecenterInfoDTO create(ManagecenterInfo resources) {
         resources.setId(IdUtil.simpleUUID());
-        resources.setCreateTime(new Timestamp(new Date().getTime()));
-        resources.setCreator(null);//等
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.save(resources));
     }
 
@@ -95,8 +103,8 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
         Optional<ManagecenterInfo> optionalManagecenterInfo = ManagecenterInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalManagecenterInfo,"ManagecenterInfo","id",resources.getId());
         ManagecenterInfo ManagecenterInfo = optionalManagecenterInfo.get();
-        resources.setUpdateTime(new Timestamp(new Date().getTime()));
-        resources.setModifier(null);//等
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         ManagecenterInfo.copy(resources);
         ManagecenterInfoRepository.save(ManagecenterInfo);
     }

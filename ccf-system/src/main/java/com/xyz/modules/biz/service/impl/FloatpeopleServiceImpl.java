@@ -17,8 +17,10 @@ import com.xyz.utils.QueryHelp;
 import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +46,10 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
 
     @Autowired
     private DictDetailService dictDetailService;
+
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
 
     @Override
     public Object queryAll(FloatpeopleQueryCriteria criteria, Pageable pageable){
@@ -95,6 +101,8 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         if(FloatpeopleRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(Floatpeople.class,"identity_num",resources.getIdentityNum());
         }
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         return FloatpeopleMapper.toDto(FloatpeopleRepository.save(resources));
     }
 
@@ -109,6 +117,8 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         if(Floatpeople1 != null && !Floatpeople1.getFloatId().equals(Floatpeople.getFloatId())){
             throw new EntityExistException(Floatpeople.class,"identity_num",resources.getIdentityNum());
         }
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         Floatpeople.copy(resources);
         FloatpeopleRepository.save(Floatpeople);
     }
