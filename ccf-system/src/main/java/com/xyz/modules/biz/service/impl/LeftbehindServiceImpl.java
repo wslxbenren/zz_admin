@@ -13,6 +13,7 @@ import com.xyz.modules.biz.service.LeftbehindService;
 import com.xyz.modules.biz.service.dto.LeftbehindDTO;
 import com.xyz.modules.biz.service.dto.LeftbehindQueryCriteria;
 import com.xyz.modules.biz.service.mapper.LeftbehindMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,6 +33,7 @@ import org.springframework.data.domain.Pageable;
 * @date 2020-04-08
 */
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class LeftbehindServiceImpl implements LeftbehindService {
 
@@ -50,6 +52,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
 
     @Override
     public Object queryAll(LeftbehindQueryCriteria criteria, Pageable pageable){
+        log.info("查询列表实有人口/留守人员信息 --开始");
         Page<Leftbehind> page = LeftbehindRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<LeftbehindDTO> leftbehindList = LeftbehindMapper.toDto(page.getContent());
         for (LeftbehindDTO mid: leftbehindList) {
@@ -92,6 +95,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
 
     @Override
     public LeftbehindDTO findById(String leftId) {
+            log.info("查询详情实有人口/留守人员信息 --开始");
             if (StringUtils.isBlank(leftId)){
                 throw new BadRequestException("主键ID不能为空");
             }
@@ -104,6 +108,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public LeftbehindDTO create(Leftbehind resources) {
+        log.info("新增实有人口/留守人员信息 --开始");
         resources.setLeftId(IdUtil.simpleUUID());
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
         resources.setCreator(u.getId());
@@ -116,6 +121,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Leftbehind resources) {
+            log.info("修改实有人口/留守人员信息 --开始");
             if (StringUtils.isBlank(resources.getLeftId())){
                 throw new BadRequestException("主键ID不能为空");
             }
@@ -137,6 +143,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String leftId) {
+            log.info("删除实有人口/留守人员信息 --开始");
             if (StringUtils.isBlank(leftId)){
                 throw new BadRequestException("主键ID不能为空");
             }
