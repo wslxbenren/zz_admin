@@ -13,6 +13,7 @@ import com.xyz.modules.biz.service.ManageleadresponsInfoService;
 import com.xyz.modules.biz.service.dto.ManageleadresponsInfoDTO;
 import com.xyz.modules.biz.service.dto.ManageleadresponsInfoQueryCriteria;
 import com.xyz.modules.biz.service.mapper.ManageleadresponsInfoMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,6 +33,7 @@ import org.springframework.data.domain.Pageable;
 * @date 2020-04-05
 */
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoService {
 
@@ -52,6 +54,7 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     public Object queryAll(ManageleadresponsInfoQueryCriteria criteria, Pageable pageable){
         //Sort sort = new Sort(Sort.Direction.DESC,"createTime");
         //pageable.getSortOr(sort);
+        log.info("查询列表综治组织/领导责任制 -- 开始");
         Page<ManageleadresponsInfo> page = ManageleadresponsInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<ManageleadresponsInfoDTO> manageleadresponsInfoList = ManageleadresponsInfoMapper.toDto(page.getContent());
         for (ManageleadresponsInfoDTO mid: manageleadresponsInfoList) {
@@ -77,6 +80,7 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
 
     @Override
     public ManageleadresponsInfoDTO findById(String id) {
+        log.info("查询详情综治组织/领导责任制 -- 开始");
             if (StringUtils.isBlank(id)){
                 throw new BadRequestException("主键ID不能为空");
             }
@@ -89,15 +93,18 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ManageleadresponsInfoDTO create(ManageleadresponsInfo resources) {
+        log.info("新增综治组织/领导责任制 -- 开始");
         resources.setId(IdUtil.simpleUUID());
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
         resources.setCreator(u.getId());
         return ManageleadresponsInfoMapper.toDto(ManageleadresponsInfoRepository.save(resources));
+
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(ManageleadresponsInfo resources) {
+            log.info("修改综治组织/领导责任制 -- 开始");
             if (StringUtils.isBlank(resources.getId())){
                 throw new BadRequestException("主键ID不能为空");
             }
@@ -110,11 +117,13 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
             ManageleadresponsInfoRepository.save(ManageleadresponsInfo);
 
 
+
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String id) {
+        log.info("删除综治组织/领导责任制 -- 开始");
         if (StringUtils.isBlank(id)){
             throw new BadRequestException("主键ID不能为空");
         }
