@@ -5,6 +5,7 @@ import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name="biz_actual_rentalhouse")
+@DynamicUpdate
 public class Rentalhouse implements Serializable {
 
     // ID，uuid()赋值
@@ -117,11 +119,11 @@ public class Rentalhouse implements Serializable {
     private Timestamp operDate;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable = false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false)
+    @Column(name = "create_time",nullable = false,updatable = false)
     @CreationTimestamp
     private Timestamp createTime;
 

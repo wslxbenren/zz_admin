@@ -1,12 +1,14 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
+import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.Floatpeople;
 import com.xyz.modules.biz.service.FloatpeopleService;
 import com.xyz.modules.biz.service.dto.FloatpeopleQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.SecurityUtils;
+import com.xyz.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +23,9 @@ import io.swagger.annotations.*;
 import java.util.List;
 
 /**
-* @author dadovicn
+* @author lx
 * @date 2020-04-09
+ *实有人口/流动人口信息
 */
 @Api(tags = "Floatpeople管理")
 @RestController
@@ -53,6 +56,17 @@ public class FloatpeopleController {
         return new ResponseEntity(FloatpeopleService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
+    @Log("查询单个Floatpeople")
+    @ApiOperation(value = "查询单个Floatpeople")
+    @GetMapping(value = "/Floatpeople/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_SELECT')")
+    public ResponseEntity getById(@PathVariable String id){
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
+        return new ResponseEntity(FloatpeopleService.findById(id),HttpStatus.OK);
+    }
+
     @Log("新增Floatpeople")
     @ApiOperation(value = "新增Floatpeople")
     @PostMapping(value = "/Floatpeople")
@@ -66,6 +80,9 @@ public class FloatpeopleController {
     @PutMapping(value = "/Floatpeople")
     @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_EDIT')")
     public ResponseEntity update(@Validated @RequestBody Floatpeople resources){
+        if (StringUtils.isBlank(resources.getFloatId())){
+            throw new BadRequestException("主键ID不能为空");
+        }
         FloatpeopleService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -75,6 +92,9 @@ public class FloatpeopleController {
     @DeleteMapping(value = "/Floatpeople/{floatId}")
     @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_DELETE')")
     public ResponseEntity delete(@PathVariable String floatId){
+        if (StringUtils.isBlank(floatId)){
+            throw new BadRequestException("主键ID不能为空");
+        }
         FloatpeopleService.delete(floatId);
         return new ResponseEntity(HttpStatus.OK);
     }

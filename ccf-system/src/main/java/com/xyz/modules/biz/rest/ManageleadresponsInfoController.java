@@ -5,7 +5,6 @@ import com.xyz.modules.biz.domain.ManageleadresponsInfo;
 import com.xyz.modules.biz.service.ManageleadresponsInfoService;
 import com.xyz.modules.biz.service.dto.ManageleadresponsInfoQueryCriteria;
 import com.xyz.modules.system.service.DictService;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,12 +14,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
-import java.sql.Timestamp;
-import java.util.Date;
+
 
 /**
 * @author xjh
 * @date 2020-04-05
+*功能模块 ： 综治组织/领导责任制
 */
 @Api(tags = "ManageleadresponsInfo管理")
 @RestController

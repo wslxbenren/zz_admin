@@ -76,7 +76,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         }
         Map map = new HashMap();
         map.put("content", registpeopleDTOS);
-        map.put("totalElements", page.getTotalPages());
+        map.put("totalElements", page.getTotalElements());
         return map;
     }
 
@@ -116,7 +116,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
+        resources.setOperName(u.getId());
         Registpeople.copy(resources);
         RegistpeopleRepository.save(Registpeople);
     }

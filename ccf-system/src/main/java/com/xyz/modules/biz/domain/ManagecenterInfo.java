@@ -7,6 +7,7 @@ import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name="biz_org_managecenter_info")
+@DynamicUpdate
 public class ManagecenterInfo implements Serializable {
 
     // 主键
@@ -78,12 +80,11 @@ public class ManagecenterInfo implements Serializable {
     private Double lat;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable = false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @Column(name = "create_time",updatable = false)
     @CreationTimestamp
     private Timestamp createTime;
 

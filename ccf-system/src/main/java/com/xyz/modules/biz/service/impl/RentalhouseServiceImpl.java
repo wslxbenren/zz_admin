@@ -61,7 +61,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
         }
         Map map = new HashMap();
         map.put("content", rentalhouseDTOS);
-        map.put("totalElements", page.getTotalPages());
+        map.put("totalElements", page.getTotalElements());
         return map;
     }
 
@@ -93,7 +93,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
         ValidationUtil.isNull( optionalRentalhouse,"Rentalhouse","id",resources.getRentId());
         Rentalhouse Rentalhouse = optionalRentalhouse.get();
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
+        resources.setOperName(u.getId());
         Rentalhouse.copy(resources);
         RentalhouseRepository.save(Rentalhouse);
     }

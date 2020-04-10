@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ import java.util.Random;
 @Entity
 @Data
 @Table(name="biz_actual_floatpeople")
+@DynamicUpdate
 public class Floatpeople implements Serializable {
 
     // ID，uuid()赋值
@@ -156,15 +158,15 @@ public class Floatpeople implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @UpdateTimestamp
     private Timestamp operDate;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable = false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false)
+    @Column(name = "create_time",nullable = false,updatable = false)
     @UpdateTimestamp
     private Timestamp createTime;
 

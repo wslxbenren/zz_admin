@@ -1,29 +1,29 @@
 package com.xyz.modules.biz.service.impl;
 
+import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.Foreigners;
-import com.xyz.modules.biz.service.dto.ManageleadresponsInfoDTO;
+import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
-import com.xyz.utils.ValidationUtil;
+import com.xyz.utils.*;
 import com.xyz.modules.biz.repository.ForeignersRepository;
 import com.xyz.modules.biz.service.ForeignersService;
 import com.xyz.modules.biz.service.dto.ForeignersDTO;
 import com.xyz.modules.biz.service.dto.ForeignersQueryCriteria;
 import com.xyz.modules.biz.service.mapper.ForeignersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.xyz.utils.PageUtil;
-import com.xyz.utils.QueryHelp;
 
 /**
 * @author xjh
@@ -41,6 +41,10 @@ public class ForeignersServiceImpl implements ForeignersService {
 
     @Autowired
     private DictDetailService dictDetailService;
+
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
 
     @Override
     public Object queryAll(ForeignersQueryCriteria criteria, Pageable pageable){
@@ -64,7 +68,8 @@ public class ForeignersServiceImpl implements ForeignersService {
         }
         Map map = new HashMap();
         map.put("content", foreignersList);
-        map.put("totalElements", page.getTotalPages());
+        map.put("totalElements", page.getTotalElements());
+        map.put("totalPages",page.getTotalPages());
         return map;
     }
 
@@ -75,33 +80,47 @@ public class ForeignersServiceImpl implements ForeignersService {
 
     @Override
     public ForeignersDTO findById(String foreId) {
-        Optional<Foreigners> Foreigners = ForeignersRepository.findById(foreId);
-        ValidationUtil.isNull(Foreigners,"Foreigners","foreId",foreId);
-        return ForeignersMapper.toDto(Foreigners.get());
+            if (StringUtils.isBlank(foreId)){
+                throw new BadRequestException("主键ID不能为空");
+            }
+            Optional<Foreigners> Foreigners = ForeignersRepository.findById(foreId);
+            ValidationUtil.isNull(Foreigners, "Foreigners", "foreId", foreId);
+            return ForeignersMapper.toDto(Foreigners.get());
+
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ForeignersDTO create(Foreigners resources) {
         resources.setForeId(IdUtil.simpleUUID());
-        resources.setCreateTime(new Timestamp(new Date().getTime()));
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         return ForeignersMapper.toDto(ForeignersRepository.save(resources));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Foreigners resources) {
-        resources.setOperDate(new Timestamp(new Date().getTime()));
-        Optional<Foreigners> optionalForeigners = ForeignersRepository.findById(resources.getForeId());
-        ValidationUtil.isNull( optionalForeigners,"Foreigners","id",resources.getForeId());
-        Foreigners Foreigners = optionalForeigners.get();
-        Foreigners.copy(resources);
-        ForeignersRepository.save(Foreigners);
+            if (StringUtils.isBlank(resources.getForeId())){
+                throw new BadRequestException("主键ID不能为空");
+            }
+            Optional<Foreigners> optionalForeigners = ForeignersRepository.findById(resources.getForeId());
+            ValidationUtil.isNull(optionalForeigners, "Foreigners", "id", resources.getForeId());
+            Foreigners Foreigners = optionalForeigners.get();
+            JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+            resources.setOperName(u.getId());
+            Foreigners.copy(resources);
+            ForeignersRepository.save(Foreigners);
+
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String foreId) {
-        ForeignersRepository.deleteById(foreId);
+            if (StringUtils.isBlank(foreId)){
+                throw new BadRequestException("主键ID不能为空");
+            }
+            ForeignersRepository.deleteById(foreId);
+
     }
 }
