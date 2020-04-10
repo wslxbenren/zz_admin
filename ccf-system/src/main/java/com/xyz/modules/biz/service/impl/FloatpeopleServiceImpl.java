@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.xyz.exception.BadRequestException;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.Floatpeople;
 import com.xyz.modules.biz.repository.FloatpeopleRepository;
@@ -12,10 +13,7 @@ import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
-import com.xyz.utils.PageUtil;
-import com.xyz.utils.QueryHelp;
-import com.xyz.utils.SecurityUtils;
-import com.xyz.utils.ValidationUtil;
+import com.xyz.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -88,6 +86,9 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
 
     @Override
     public FloatpeopleDTO findById(String floatId) {
+        if (StringUtils.isBlank(floatId)){
+            throw new BadRequestException("主键ID不能为空");
+        }
         Optional<Floatpeople> Floatpeople = FloatpeopleRepository.findById(floatId);
         ValidationUtil.isNull(Floatpeople,"Floatpeople","floatId",floatId);
         return FloatpeopleMapper.toDto(Floatpeople.get());
@@ -97,7 +98,6 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Transactional(rollbackFor = Exception.class)
     public FloatpeopleDTO create(Floatpeople resources) {
         resources.setFloatId(IdUtil.simpleUUID());
-
         if(FloatpeopleRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(Floatpeople.class,"identity_num",resources.getIdentityNum());
         }
@@ -109,6 +109,9 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Floatpeople resources) {
+        if (StringUtils.isBlank(resources.getFloatId())){
+            throw new BadRequestException("主键ID不能为空");
+        }
         Optional<Floatpeople> optionalFloatpeople = FloatpeopleRepository.findById(resources.getFloatId());
         ValidationUtil.isNull( optionalFloatpeople,"Floatpeople","id",resources.getFloatId());
         Floatpeople Floatpeople = optionalFloatpeople.get();

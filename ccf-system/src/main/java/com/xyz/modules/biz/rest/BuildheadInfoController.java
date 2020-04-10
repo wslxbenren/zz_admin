@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
+import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.BuildheadInfo;
 import com.xyz.modules.biz.service.BuildheadInfoService;
 import com.xyz.modules.biz.service.dto.BuildheadInfoQueryCriteria;
@@ -8,6 +9,7 @@ import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictService;
 import com.xyz.utils.SecurityUtils;
+import com.xyz.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import java.util.List;
 /**
 * @author lx
 * @date 2020-04-06
+ * 综治组织/楼长信息 功能模块的CRUD
 */
 @Api(tags = "BuildheadInfo管理")
 @RestController
@@ -70,6 +73,9 @@ public class BuildheadInfoController {
     @PutMapping(value = "/BuildheadInfo")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_EDIT')")
     public ResponseEntity update(@Validated @RequestBody BuildheadInfo resources){
+        if (StringUtils.isBlank(resources.getId())){
+            throw new BadRequestException("主键ID不能为空");
+        }
         BuildheadInfoService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -79,6 +85,9 @@ public class BuildheadInfoController {
     @DeleteMapping(value = "/BuildheadInfo/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
     public ResponseEntity delete(@PathVariable String id){
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
         BuildheadInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }

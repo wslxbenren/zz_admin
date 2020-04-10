@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
+import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.ManagecenterInfo;
 import com.xyz.modules.biz.service.ManagecenterInfoService;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
@@ -8,6 +9,7 @@ import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictService;
 import com.xyz.utils.SecurityUtils;
+import com.xyz.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,7 @@ import java.util.List;
 /**
 * @author lx
 * @date 2020-04-07
+ * 综治组织/综治中心信息 功能模块的CRUD。
 */
 @Api(tags = "ManagecenterInfo管理")
 @RestController
@@ -69,6 +72,9 @@ public class ManagecenterInfoController {
     @PutMapping(value = "/ManagecenterInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGECENTERINFO_ALL','MANAGECENTERINFO_EDIT')")
     public ResponseEntity update(@Validated @RequestBody ManagecenterInfo resources){
+        if (StringUtils.isBlank(resources.getId())){
+            throw new BadRequestException("主键ID不能为空");
+        }
         ManagecenterInfoService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -78,6 +84,9 @@ public class ManagecenterInfoController {
     @DeleteMapping(value = "/ManagecenterInfo/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGECENTERINFO_ALL','MANAGECENTERINFO_DELETE')")
     public ResponseEntity delete(@PathVariable String id){
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
         ManagecenterInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }

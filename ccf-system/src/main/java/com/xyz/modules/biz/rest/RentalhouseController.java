@@ -7,6 +7,7 @@ import com.xyz.modules.biz.service.dto.RentalhouseQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.SecurityUtils;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +24,12 @@ import java.util.List;
 /**
 * @author lx
 * @date 2020-04-09
+ * 实有人口/出租房信息
 */
 @Api(tags = "Rentalhouse管理")
 @RestController
 @RequestMapping("api")
+@DynamicUpdate
 public class RentalhouseController {
 
     @Autowired

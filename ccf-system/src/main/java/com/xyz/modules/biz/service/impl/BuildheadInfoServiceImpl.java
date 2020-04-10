@@ -1,21 +1,20 @@
 package com.xyz.modules.biz.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.BuildheadInfo;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
-import com.xyz.utils.SecurityUtils;
-import com.xyz.utils.ValidationUtil;
+import com.xyz.utils.*;
 import com.xyz.modules.biz.repository.BuildheadInfoRepository;
 import com.xyz.modules.biz.service.BuildheadInfoService;
 import com.xyz.modules.biz.service.dto.BuildheadInfoDTO;
 import com.xyz.modules.biz.service.dto.BuildheadInfoQueryCriteria;
 import com.xyz.modules.biz.service.mapper.BuildheadInfoMapper;
 import com.xyz.modules.biz.service.strategy.AuditSpecification;
-import com.xyz.utils.PageUtil;
 import com.xyz.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -79,6 +78,9 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
 
     @Override
     public BuildheadInfoDTO findById(String id) {
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
         Optional<BuildheadInfo> BuildheadInfo = BuildheadInfoRepository.findById(id);
         ValidationUtil.isNull(BuildheadInfo,"BuildheadInfo","id",id);
         return buildheadInfoMapper.toDto(BuildheadInfo.get());
@@ -100,7 +102,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
         ValidationUtil.isNull( optionalBuildheadInfo,"BuildheadInfo","id",resources.getId());
         BuildheadInfo BuildheadInfo = optionalBuildheadInfo.get();
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
+        resources.setModifier(u.getId());
         BuildheadInfo.copy(resources);
         BuildheadInfoRepository.save(BuildheadInfo);
     }
@@ -110,4 +112,6 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     public void delete(String id) {
         BuildheadInfoRepository.deleteById(id);
     }
+
+
 }

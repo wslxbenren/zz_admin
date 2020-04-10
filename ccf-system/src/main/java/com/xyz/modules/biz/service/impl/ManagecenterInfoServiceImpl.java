@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.ManagecenterInfo;
 import com.xyz.modules.biz.repository.ManagecenterInfoRepository;
 import com.xyz.modules.biz.service.ManagecenterInfoService;
@@ -16,6 +17,7 @@ import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.SecurityUtils;
+import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -83,6 +85,9 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
 
     @Override
     public ManagecenterInfoDTO findById(String id) {
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
         Optional<ManagecenterInfo> ManagecenterInfo = ManagecenterInfoRepository.findById(id);
         ValidationUtil.isNull(ManagecenterInfo,"ManagecenterInfo","id",id);
         return ManagecenterInfoMapper.toDto(ManagecenterInfo.get());
@@ -100,11 +105,14 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(ManagecenterInfo resources) {
+        if (StringUtils.isBlank(resources.getId())){
+            throw new BadRequestException("主键ID不能为空");
+        }
         Optional<ManagecenterInfo> optionalManagecenterInfo = ManagecenterInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalManagecenterInfo,"ManagecenterInfo","id",resources.getId());
         ManagecenterInfo ManagecenterInfo = optionalManagecenterInfo.get();
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
+        resources.setModifier(u.getId());
         ManagecenterInfo.copy(resources);
         ManagecenterInfoRepository.save(ManagecenterInfo);
     }
@@ -112,6 +120,9 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String id) {
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
         ManagecenterInfoRepository.deleteById(id);
     }
 }

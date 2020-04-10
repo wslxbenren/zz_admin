@@ -1,12 +1,14 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
+import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.Registpeople;
 import com.xyz.modules.biz.service.RegistpeopleService;
 import com.xyz.modules.biz.service.dto.RegistpeopleQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.SecurityUtils;
+import com.xyz.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import java.util.List;
 /**
 * @author lx
 * @date 2020-04-08
+ * 实有人口/户籍人员信息 CRUD，机构权限向下查询。
 */
 @Api(tags = "Registpeople管理")
 @RestController
@@ -63,6 +66,9 @@ public class RegistpeopleController {
     @PutMapping(value = "/Registpeople")
     @PreAuthorize("hasAnyRole('ADMIN','REGISTPEOPLE_ALL','REGISTPEOPLE_EDIT')")
     public ResponseEntity update(@Validated @RequestBody Registpeople resources){
+        if (StringUtils.isBlank(resources.getRegisId())){
+            throw new BadRequestException("主键ID不能为空");
+        }
         RegistpeopleService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -72,6 +78,9 @@ public class RegistpeopleController {
     @DeleteMapping(value = "/Registpeople/{regisId}")
     @PreAuthorize("hasAnyRole('ADMIN','REGISTPEOPLE_ALL','REGISTPEOPLE_DELETE')")
     public ResponseEntity delete(@PathVariable String regisId){
+        if (StringUtils.isBlank(regisId)){
+            throw new BadRequestException("主键ID不能为空");
+        }
         RegistpeopleService.delete(regisId);
         return new ResponseEntity(HttpStatus.OK);
     }
