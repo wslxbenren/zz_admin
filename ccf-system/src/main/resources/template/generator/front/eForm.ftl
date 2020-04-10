@@ -5,7 +5,7 @@
   <#list columns as column>
   <#if column.changeColumnName != '${pkChangeColName}'>
       <el-form-item label="<#if column.columnComment != ''>${column.columnComment}<#else>${column.changeColumnName}</#if>" <#if column.columnKey = 'UNI'>prop="${column.changeColumnName}"</#if>>
-        <el-input v-model="form.${column.changeColumnName}" style="width: 370px;"/>
+        <el-input v-model="form.${column.changeColumnName}"  placeholder=""/>
       </el-form-item>
   </#if>
   </#list>

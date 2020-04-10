@@ -6,7 +6,9 @@ import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -19,6 +21,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name="biz_org_manageleadrespons_info")
+@DynamicUpdate
 public class ManageleadresponsInfo implements Serializable {
 
     // 主键
@@ -54,11 +57,11 @@ public class ManageleadresponsInfo implements Serializable {
     private String policyType;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable=false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time")
+    @Column(name = "create_time",updatable=false)
     @CreationTimestamp
     private Timestamp createTime;
 

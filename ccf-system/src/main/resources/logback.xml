@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- 日志根目录 本地为logs  服务器环境为 /opt/prod/logs -->
-    <springProperty scope="context" name="LOG_HOME" source="logging.path" defaultValue="logs"/>
+    <springProperty scope="context" name="LOG_HOME" source="logging.path" defaultValue="/opt/prod/logs"/>
     <!-- 日志级别 -->
     <springProperty scope="context" name="LOG_ROOT_LEVEL" source="logging.level.root" defaultValue="INFO" value="info"/>
     <!--  标识这个"STDOUT" 将会添加到这个logger -->

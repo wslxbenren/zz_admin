@@ -7,6 +7,8 @@ import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -19,6 +21,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name="biz_org_majorcase_info")
+@DynamicUpdate
 public class MajorcaseInfo implements Serializable {
 
     // 主键
@@ -62,11 +65,11 @@ public class MajorcaseInfo implements Serializable {
     private String caseInfo;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable=false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time")
+    @Column(name = "create_time",updatable=false)
     @CreationTimestamp
     private Timestamp createTime;
 
@@ -76,7 +79,7 @@ public class MajorcaseInfo implements Serializable {
 
     // 修改时间
     @Column(name = "update_time")
-    @CreationTimestamp
+    @UpdateTimestamp
     private Timestamp updateTime;
 
     // 所属单位

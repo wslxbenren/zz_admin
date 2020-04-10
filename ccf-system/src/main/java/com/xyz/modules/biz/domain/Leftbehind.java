@@ -6,6 +6,10 @@ import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -17,6 +21,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name="biz_actual_leftbehind")
+@DynamicUpdate
 public class Leftbehind implements Serializable {
 
     // ID，uuid()赋值
@@ -187,14 +192,16 @@ public class Leftbehind implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
+    @UpdateTimestamp
     private Timestamp operDate;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable=false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false)
+    @Column(name = "create_time",updatable=false)
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理

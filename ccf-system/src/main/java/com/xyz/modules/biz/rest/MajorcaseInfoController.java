@@ -4,7 +4,6 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.MajorcaseInfo;
 import com.xyz.modules.biz.service.MajorcaseInfoService;
 import com.xyz.modules.biz.service.dto.MajorcaseInfoQueryCriteria;
-import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -15,12 +14,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
-import java.sql.Timestamp;
-import java.util.Date;
 
 /**
 * @author xjh
 * @date 2020-04-05
+ *功能模块 ： 综治组织/重大案件事件
 */
 @Api(tags = "MajorcaseInfo管理")
 @RestController

@@ -9,9 +9,9 @@ import ${package}.service.dto.${className}QueryCriteria;
 import org.springframework.data.domain.Pageable;
 
 /**
-* @author ${author}
-* @date ${date}
-*/
+ * @author ${author}
+ * @date ${date}
+ */
 //@CacheConfig(cacheNames = "${changeClassName}")
 public interface ${className}Service {
 

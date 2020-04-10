@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
 /**
-* @author ${author}
-* @date ${date}
-*/
+ * @author ${author}
+ * @date ${date}
+ */
 @Api(tags = "${className}管理")
 @RestController
 @RequestMapping("api")
