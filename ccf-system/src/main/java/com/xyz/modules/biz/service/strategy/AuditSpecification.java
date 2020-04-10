@@ -4,6 +4,7 @@ import com.xyz.utils.QueryHelp;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +22,13 @@ public class AuditSpecification {
             Predicate dd = QueryHelp.getPredicate(root,q,criteriaBuilder);
             predicateList.add(dd);
             try {
-                Predicate cc = criteriaBuilder.equal(root.get(CREATOR).as(String.class), q.getClass().getField(CREATOR).get(q));
+                Predicate cc = criteriaBuilder.equal(root.get("creator").as(String.class), q.getClass().getMethod("getCreator").invoke(q));
                 predicateList.add(cc);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (NoSuchFieldException e) {
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
             return criteriaBuilder.or((Predicate[])predicateList.toArray(new Predicate[predicateList.size()]));

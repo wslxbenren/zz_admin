@@ -13,9 +13,10 @@ import java.math.BigDecimal;
 import java.io.Serializable;
 
 /**
-* @author ${author}
-* @date ${date}
-*/
+ * ${tableComment}
+ * @author ${author}
+ * @date ${date}
+ */
 @Entity
 @Data
 @Table(name="${tableName}")
