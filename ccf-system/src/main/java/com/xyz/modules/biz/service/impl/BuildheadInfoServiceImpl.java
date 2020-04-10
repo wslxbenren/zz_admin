@@ -2,6 +2,12 @@ package com.xyz.modules.biz.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.xyz.modules.biz.domain.BuildheadInfo;
+import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.service.DeptService;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.BuildheadInfoRepository;
 import com.xyz.modules.biz.service.BuildheadInfoService;
@@ -12,15 +18,16 @@ import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.utils.PageUtil;
 import com.xyz.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 /**
 * @author lx
@@ -34,34 +41,56 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     private BuildheadInfoRepository BuildheadInfoRepository;
 
     @Autowired
-    private BuildheadInfoMapper BuildheadInfoMapper;
+    private BuildheadInfoMapper buildheadInfoMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+    @Autowired
+    private DeptService deptService;
+
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
     @Override
     public Object queryAll(BuildheadInfoQueryCriteria criteria, Pageable pageable){
         Page<BuildheadInfo> page = BuildheadInfoRepository.findAll(AuditSpecification.genSpecification(criteria)
         ,pageable);
-        return PageUtil.toPage(page.map(BuildheadInfoMapper::toDto));
+        List<BuildheadInfoDTO> buildheadInfoDTOS = buildheadInfoMapper.toDto(page.getContent());
+        for (BuildheadInfoDTO b:buildheadInfoDTOS){
+            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), b.getSex());
+            b.setSexStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.MIN_ZU.getDistName(), b.getNational());
+            b.setNational(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), b.getPoliticalStatus());
+            b.setPoliticalStatusStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.XUE_LI.getDistName(), b.getEducationBgStr());
+            b.setEducationBgStr(dd == null ? "无数据" : dd.getLabel());
+        }
+        Map map = new HashMap();
+        map.put("content", buildheadInfoDTOS);
+        map.put("totalElements", page.getTotalPages());
+        return map;
     }
 
     @Override
     public Object queryAll(BuildheadInfoQueryCriteria criteria){
-        return BuildheadInfoMapper.toDto(BuildheadInfoRepository.findAll(AuditSpecification.genSpecification(criteria)));
+        return  buildheadInfoMapper.toDto(BuildheadInfoRepository.findAll(AuditSpecification.genSpecification(criteria)));
     }
 
     @Override
     public BuildheadInfoDTO findById(String id) {
         Optional<BuildheadInfo> BuildheadInfo = BuildheadInfoRepository.findById(id);
         ValidationUtil.isNull(BuildheadInfo,"BuildheadInfo","id",id);
-        return BuildheadInfoMapper.toDto(BuildheadInfo.get());
+        return buildheadInfoMapper.toDto(BuildheadInfo.get());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BuildheadInfoDTO create(BuildheadInfo resources) {
         resources.setId(IdUtil.simpleUUID());
-        resources.setCreateTime(new Timestamp(new Date().getTime()));
-        resources.setCreator(null);//等
-        return BuildheadInfoMapper.toDto(BuildheadInfoRepository.save(resources));
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
+        return buildheadInfoMapper.toDto(BuildheadInfoRepository.save(resources));
     }
 
     @Override
@@ -70,8 +99,8 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
         Optional<BuildheadInfo> optionalBuildheadInfo = BuildheadInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalBuildheadInfo,"BuildheadInfo","id",resources.getId());
         BuildheadInfo BuildheadInfo = optionalBuildheadInfo.get();
-        resources.setUpdateTime(new Timestamp(new Date().getTime()));
-        resources.setModifier(null);//等
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         BuildheadInfo.copy(resources);
         BuildheadInfoRepository.save(BuildheadInfo);
     }

@@ -26,30 +26,46 @@ public class RegistpeopleDTO implements Serializable {
 
     // 性别:编码应符合GB/T2261.1
     private String personSex;
+    // 性别:翻译后值
+    private String personSexStr;
 
     // 出生日期:格式为“YYYYMMDD”
     private Timestamp dateBirth;
 
     // 民族:编码应符合GB/T3304
     private String nation;
+    // 民族:翻译后值
+    private String nationStr;
 
     // 籍贯:编码应符合GB/T2260
     private String nativeInfo;
+    // 籍贯:翻译后值
+    private String nativeInfoStr;
 
     // 婚姻状况:编码应符合GB/T2261.2
     private String marriageFlag;
+    // 婚姻状况:翻译后值
+    private String marriageFlagStr;
 
     // 政治面貌:编码应符合GB/T4762
     private String partyFlag;
+    // 政治面貌:翻译后值
+    private String partyFlagStr;
 
     // 学历:编码应符合GB/T4658
     private String educationBg;
+    // 学历:翻译后值
+    private String educationBgStr;
 
     // 宗教信仰:编码应符合GA214.12
     private String faithType;
+    // 宗教信仰:翻译后值
+    private String faithTypeStr;
 
     // 职业类别:编码应符合GB/T6565
     private String vocationCode;
+    // 职业类别:翻译后值
+    private String vocationCodeStr;
 
     // 职业
     private String vocation;
@@ -62,6 +78,8 @@ public class RegistpeopleDTO implements Serializable {
 
     // 户籍地:编码应符合GB/T2260
     private String registeredPlace;
+    // 户籍地:翻译后值
+    private String registeredPlaceStr;
 
     // 户籍门（楼）详址
     private String registeredAddr;

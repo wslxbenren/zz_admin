@@ -32,6 +32,8 @@ public class RentalhouseDTO implements Serializable {
 
     // 证件代码:编码应符合GA/T517
     private String cardType;
+    // 证件代码:翻译后值
+    private String cardTypeStr;
 
     // 证件号码
     private String cardNo;

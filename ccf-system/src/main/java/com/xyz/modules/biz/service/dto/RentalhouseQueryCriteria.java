@@ -59,4 +59,6 @@ public class RentalhouseQueryCriteria{
 
     private String creator;
 
+    @Query(type = Query.Type.IN)
+    private List<String> unitCode;
 }

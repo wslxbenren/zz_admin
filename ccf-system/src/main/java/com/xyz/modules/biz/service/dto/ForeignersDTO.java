@@ -18,6 +18,9 @@ public class ForeignersDTO implements Serializable {
     // 外文姓:编码应符合GB/T11643
     private String lastname;
 
+    // 外文姓:编码应符合GB/T11643 字典翻译
+    private String lastnameStr;
+
     // 外文名
     private String firstname;
 
@@ -27,17 +30,29 @@ public class ForeignersDTO implements Serializable {
     // 性别:编码应符合GB/T2261.1
     private String personSex;
 
+    // 性别:编码应符合GB/T2261.1 字典翻译
+    private String personSexStr;
+
     // 出生日期:格式为“YYYYMMDD”
     private Timestamp dateBirth;
 
     // 国籍（地区）:编码应符合GB/T2659
     private String country;
 
+    // 国籍（地区）:编码应符合GB/T2659 字典翻译
+    private String countryStr;
+
     // 宗教信仰:编码应符合GA214.12
     private String faithType;
 
+    // 宗教信仰:编码应符合GA214.12 字典翻译
+    private String faithTypeStr;
+
     // 证件代码:编码应符合GA/T517
     private String cardType;
+
+    // 证件代码:编码应符合GA/T517 字典翻译
+    private String cardTypeStr;
 
     // 证件号码
     private String cardNo;
@@ -54,6 +69,9 @@ public class ForeignersDTO implements Serializable {
     // 职业类别:编码应符合GB/T6565
     private String vocationCode;
 
+    // 职业类别:编码应符合GB/T6565 字典翻译
+    private String vocationCodeStr;
+
     // 职业
     private String vocation;
 
@@ -62,6 +80,9 @@ public class ForeignersDTO implements Serializable {
 
     // 现住地:编码应符合GB/T2260
     private String residence;
+
+    // 现住地:编码应符合GB/T2260 字典翻译
+    private String residenceStr;
 
     // 现住门（楼）详址
     private String residenceAddr;

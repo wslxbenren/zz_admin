@@ -24,14 +24,23 @@ public class ManageleadresponsInfoDTO implements Serializable {
     // 被实施地区层级:字典
     private String areaGrage;
 
+    // 被实施地区层级:字典f翻译
+    private String areaGrageStr;
+
     // 实施主体名称
     private String implementerName;
 
     // 实施主体层级:字典
     private String implementerGrage;
 
+    // 实施主体层级:字典翻译
+    private String implementerGrageStr;
+
     // 政策种类:字典
     private String policyType;
+
+    // 政策种类:字典翻译
+    private String policyTypeStr;
 
     // 创建人
     private String creator;

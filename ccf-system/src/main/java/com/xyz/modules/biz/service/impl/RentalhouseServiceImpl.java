@@ -1,6 +1,11 @@
 package com.xyz.modules.biz.service.impl;
 
 import com.xyz.modules.biz.domain.Rentalhouse;
+import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.RentalhouseRepository;
 import com.xyz.modules.biz.service.RentalhouseService;
@@ -8,9 +13,15 @@ import com.xyz.modules.biz.service.dto.RentalhouseDTO;
 import com.xyz.modules.biz.service.dto.RentalhouseQueryCriteria;
 import com.xyz.modules.biz.service.mapper.RentalhouseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -32,10 +43,26 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     @Autowired
     private RentalhouseMapper RentalhouseMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
+
     @Override
     public Object queryAll(RentalhouseQueryCriteria criteria, Pageable pageable){
         Page<Rentalhouse> page = RentalhouseRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(RentalhouseMapper::toDto));
+        List<Rentalhouse> content = page.getContent();
+        List<RentalhouseDTO> rentalhouseDTOS = RentalhouseMapper.toDto(content);
+        for (RentalhouseDTO r:rentalhouseDTOS){
+            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), r.getCardType());
+            r.setCardTypeStr(dd == null ? "无数据" : dd.getLabel());
+        }
+        Map map = new HashMap();
+        map.put("content", rentalhouseDTOS);
+        map.put("totalElements", page.getTotalPages());
+        return map;
     }
 
     @Override
@@ -53,7 +80,9 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public RentalhouseDTO create(Rentalhouse resources) {
-        resources.setRentId(IdUtil.simpleUUID()); 
+        resources.setRentId(IdUtil.simpleUUID());
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         return RentalhouseMapper.toDto(RentalhouseRepository.save(resources));
     }
 
@@ -63,6 +92,8 @@ public class RentalhouseServiceImpl implements RentalhouseService {
         Optional<Rentalhouse> optionalRentalhouse = RentalhouseRepository.findById(resources.getRentId());
         ValidationUtil.isNull( optionalRentalhouse,"Rentalhouse","id",resources.getRentId());
         Rentalhouse Rentalhouse = optionalRentalhouse.get();
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         Rentalhouse.copy(resources);
         RentalhouseRepository.save(Rentalhouse);
     }
