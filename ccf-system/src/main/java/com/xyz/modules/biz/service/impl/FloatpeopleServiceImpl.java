@@ -75,7 +75,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         }
         Map map = new HashMap();
         map.put("content", floatpeopleDTOS);
-        map.put("totalElements", page.getTotalPages());
+        map.put("totalElements", page.getTotalElements());
         return map;
     }
 

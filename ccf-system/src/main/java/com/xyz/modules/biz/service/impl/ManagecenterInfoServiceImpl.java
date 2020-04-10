@@ -73,7 +73,7 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
         }
         Map map = new HashMap();
         map.put("content", midList);
-        map.put("totalElements", page.getTotalPages());
+        map.put("totalElements", page.getTotalElements());
         return map;
     }
 

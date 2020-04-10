@@ -76,7 +76,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         }
         Map map = new HashMap();
         map.put("content", registpeopleDTOS);
-        map.put("totalElements", page.getTotalPages());
+        map.put("totalElements", page.getTotalElements());
         return map;
     }
 

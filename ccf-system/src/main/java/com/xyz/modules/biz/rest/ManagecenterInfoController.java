@@ -58,6 +58,16 @@ public class ManagecenterInfoController {
         criteria.setUnitCode(deptCodes);
         return new ResponseEntity(ManagecenterInfoService.queryAll(criteria,pageable),HttpStatus.OK);
     }
+    @Log("查询单个ManagecenterInfo")
+    @ApiOperation(value = "查询单个ManagecenterInfo")
+    @GetMapping(value = "/ManagecenterInfo/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGECENTERINFO_ALL','MANAGECENTERINFO_SELECT')")
+    public ResponseEntity getById(@PathVariable String id){
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
+        return new ResponseEntity(ManagecenterInfoService.findById(id),HttpStatus.OK);
+    }
 
     @Log("新增ManagecenterInfo")
     @ApiOperation(value = "新增ManagecenterInfo")

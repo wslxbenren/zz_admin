@@ -47,7 +47,7 @@ public class BuildheadInfoController {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
-    @Log("查询BuildheadInfo")
+    @Log("查询列表BuildheadInfo")
     @ApiOperation(value = "查询BuildheadInfo")
     @GetMapping(value = "/BuildheadInfo")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_SELECT')")
@@ -58,6 +58,16 @@ public class BuildheadInfoController {
         criteria.setCreator(u.getId());
         criteria.setUnitCode(deptCodes);
         return new ResponseEntity(BuildheadInfoService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+    @Log("查询单个BuildheadInfo")
+    @ApiOperation(value = "查询单个BuildheadInfo")
+    @GetMapping(value = "/BuildheadInfo/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_SELECT')")
+    public ResponseEntity getById(@PathVariable String id){
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
+        return new ResponseEntity(BuildheadInfoService.findById(id),HttpStatus.OK);
     }
 
     @Log("新增BuildheadInfo")

@@ -52,7 +52,16 @@ public class RegistpeopleController {
         criteria.setUnitCode(deptCodes);
         return new ResponseEntity(RegistpeopleService.queryAll(criteria,pageable),HttpStatus.OK);
     }
-
+    @Log("查询单个Registpeople")
+    @ApiOperation(value = "查询单个Registpeople")
+    @GetMapping(value = "/Registpeople/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','REGISTPEOPLE_ALL','REGISTPEOPLE_SELECT')")
+    public ResponseEntity getById(@PathVariable String id ){
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
+        return new ResponseEntity(RegistpeopleService.findById(id),HttpStatus.OK);
+    }
     @Log("新增Registpeople")
     @ApiOperation(value = "新增Registpeople")
     @PostMapping(value = "/Registpeople")

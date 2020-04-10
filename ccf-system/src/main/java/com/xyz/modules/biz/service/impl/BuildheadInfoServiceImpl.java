@@ -67,7 +67,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
         }
         Map map = new HashMap();
         map.put("content", buildheadInfoDTOS);
-        map.put("totalElements", page.getTotalPages());
+        map.put("totalElements", page.getTotalElements());
         return map;
     }
 

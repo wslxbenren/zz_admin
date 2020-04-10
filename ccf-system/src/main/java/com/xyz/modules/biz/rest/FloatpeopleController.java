@@ -56,6 +56,17 @@ public class FloatpeopleController {
         return new ResponseEntity(FloatpeopleService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
+    @Log("查询单个Floatpeople")
+    @ApiOperation(value = "查询单个Floatpeople")
+    @GetMapping(value = "/Floatpeople/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_SELECT')")
+    public ResponseEntity getById(@PathVariable String id){
+        if (StringUtils.isBlank(id)){
+            throw new BadRequestException("主键ID不能为空");
+        }
+        return new ResponseEntity(FloatpeopleService.findById(id),HttpStatus.OK);
+    }
+
     @Log("新增Floatpeople")
     @ApiOperation(value = "新增Floatpeople")
     @PostMapping(value = "/Floatpeople")

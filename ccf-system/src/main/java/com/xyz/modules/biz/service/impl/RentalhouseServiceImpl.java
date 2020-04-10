@@ -61,7 +61,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
         }
         Map map = new HashMap();
         map.put("content", rentalhouseDTOS);
-        map.put("totalElements", page.getTotalPages());
+        map.put("totalElements", page.getTotalElements());
         return map;
     }
 
