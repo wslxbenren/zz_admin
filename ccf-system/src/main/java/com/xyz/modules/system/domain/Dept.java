@@ -15,6 +15,9 @@ import java.util.Set;
 * @author Zheng Jie
 * @date 2019-03-25
 */
+
+@NamedStoredProcedureQuery(name = "getChildList", procedureName = "getChildList",
+        parameters = { @StoredProcedureParameter(mode = ParameterMode.IN, name = "v_code", type = String.class) })
 @Entity
 @Data
 @Table(name="dept")

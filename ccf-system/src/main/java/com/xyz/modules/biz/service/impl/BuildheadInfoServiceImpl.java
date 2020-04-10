@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.BuildheadInfo;
 import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.security.service.JwtUserDetailsService;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictDetailService;
@@ -44,15 +45,19 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
 
     @Autowired
     private DictDetailService dictDetailService;
-    @Autowired
-    private DeptService deptService;
 
     @Autowired
     @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private JwtUserDetailsService userDetailsService;
+
+    @Autowired
+    private AuditSpecification auditSpecification;
+
     @Override
+    @Transactional(readOnly = false)
     public Object queryAll(BuildheadInfoQueryCriteria criteria, Pageable pageable){
-        Page<BuildheadInfo> page = BuildheadInfoRepository.findAll(AuditSpecification.genSpecification(criteria)
+
+        Page<BuildheadInfo> page = BuildheadInfoRepository.findAll(auditSpecification.genSpecification(criteria)
         ,pageable);
         List<BuildheadInfoDTO> buildheadInfoDTOS = buildheadInfoMapper.toDto(page.getContent());
         for (BuildheadInfoDTO b:buildheadInfoDTOS){
@@ -73,7 +78,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
 
     @Override
     public Object queryAll(BuildheadInfoQueryCriteria criteria){
-        return  buildheadInfoMapper.toDto(BuildheadInfoRepository.findAll(AuditSpecification.genSpecification(criteria)));
+        return  buildheadInfoMapper.toDto(BuildheadInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }
 
     @Override

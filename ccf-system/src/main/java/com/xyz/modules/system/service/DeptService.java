@@ -91,11 +91,8 @@ public interface DeptService {
 
     /**
      * 获取下级部门编码集合
-     * @param id
+     * @param deptCode 当前部门 code
      * @return
      */
-    List<String> getDownGradeDeptCodes(String id);
-
-
-
+    List<String> getDownGradeDeptCodes(String deptCode);
 }

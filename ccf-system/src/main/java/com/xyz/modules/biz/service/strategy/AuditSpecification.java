@@ -1,38 +1,72 @@
 package com.xyz.modules.biz.service.strategy;
 
+import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.security.service.JwtUserDetailsService;
+import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.QueryHelp;
+import com.xyz.utils.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.Predicate;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * todo
- * 这里暂定认为同级同部门之间不可互相查看
+ * 权限以及其他扩展
  */
+@Component
+@Slf4j
 public class AuditSpecification {
+    private JwtUserDetailsService userDetailsService;
+    private DeptService deptService;
 
-    private static final String CREATOR = "creator";
+    @Autowired
+    public AuditSpecification(@Qualifier("jwtUserDetailsService") JwtUserDetailsService userDetailsService, DeptService deptService) {
+        this.userDetailsService = userDetailsService;
+        this.deptService = deptService;
+    }
 
-    public static <Q> Specification genSpecification(Q q) {
+    /**
+     * 权限&其他扩展 todo 待考虑
+     * @param q 查询封装对象
+     * @return
+     */
+    public <Q> Specification genSpecification(Q q) {
         return (Specification) (root, criteriaQuery, criteriaBuilder) -> {
-            List<Predicate> predicateList = new ArrayList<>();
-            Predicate dd = QueryHelp.getPredicate(root,q,criteriaBuilder);
-            predicateList.add(dd);
+            JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+            String deptCode = u.getDeptDto().getCode();
+            List<String> deptCodes = deptService.getDownGradeDeptCodes(deptCode);
             try {
-                Predicate cc = criteriaBuilder.equal(root.get("creator").as(String.class), q.getClass().getMethod("getCreator").invoke(q));
-                predicateList.add(cc);
+                q.getClass().getMethod("setUnitCode").invoke(q, deptCodes);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
             }
-            return criteriaBuilder.or((Predicate[])predicateList.toArray(new Predicate[predicateList.size()]));
+            return QueryHelp.getPredicate(root,q,criteriaBuilder);
         };
     }
+
+    /**
+     * 填充审计字段
+     * @param entity 当前业务实体
+     * @param <T>
+     */
+    public <T> void fillAudit(T entity) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class<T> clazz = (Class<T>) entity.getClass();
+        String invokeMethodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        if (invokeMethodName.equals("create")) {
+            clazz.getMethod("setCreator", String.class).invoke(entity, u.getId());
+        }
+        clazz.getMethod("setUnitCode").invoke(entity, u.getDeptDto().getCode());
+        clazz.getMethod("setModifier", String.class).invoke(entity, u.getId());
+    }
+
 
 }

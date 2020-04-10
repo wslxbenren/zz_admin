@@ -172,13 +172,10 @@ public class DeptServiceImpl implements DeptService {
         return zzDeptList.size();
     }
 
-    // fixme 此方法加缓存
     @Override
-    public List<String> getDownGradeDeptCodes(String id) {
-        Dept dept = deptRepository.findById(id).get();
-        List<String> codes = new ArrayList<>();
-        tree2list(dept, codes);
-        return codes;
+    public List<String> getDownGradeDeptCodes(String code) {
+        deptRepository.getChildList(code);
+        return deptRepository.getDeptDownGradeCodes();
     }
 
     private static void tree2list(Dept root, List<String> list){

@@ -5,10 +5,10 @@ import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.Rentalhouse;
 import com.xyz.modules.biz.service.RentalhouseService;
 import com.xyz.modules.biz.service.dto.RentalhouseQueryCriteria;
-import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
-import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,9 +19,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.*;
-
-import java.util.List;
 
 /**
 * @author lx
@@ -48,11 +45,6 @@ public class RentalhouseController {
     @GetMapping(value = "/Rentalhouse")
     @PreAuthorize("hasAnyRole('ADMIN','RENTALHOUSE_ALL','RENTALHOUSE_SELECT')")
     public ResponseEntity getRentalhouses(RentalhouseQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(RentalhouseService.queryAll(criteria,pageable),HttpStatus.OK);
     }
     @Log("查询单个Rentalhouse")

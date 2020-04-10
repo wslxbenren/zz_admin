@@ -52,12 +52,7 @@ public class BuildheadInfoController {
     @GetMapping(value = "/BuildheadInfo")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_SELECT')")
     public ResponseEntity getBuildheadInfos(BuildheadInfoQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
-        return new ResponseEntity(BuildheadInfoService.queryAll(criteria,pageable),HttpStatus.OK);
+        return new ResponseEntity(BuildheadInfoService.queryAll(criteria, pageable), HttpStatus.OK);
     }
     @Log("查询单个BuildheadInfo")
     @ApiOperation(value = "查询单个BuildheadInfo")

@@ -5,10 +5,10 @@ import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.Floatpeople;
 import com.xyz.modules.biz.service.FloatpeopleService;
 import com.xyz.modules.biz.service.dto.FloatpeopleQueryCriteria;
-import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
-import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.*;
-
-import java.util.List;
 
 /**
 * @author lx
@@ -48,11 +45,6 @@ public class FloatpeopleController {
     @GetMapping(value = "/Floatpeople")
     @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_SELECT')")
     public ResponseEntity getFloatpeoples(FloatpeopleQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(FloatpeopleService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 

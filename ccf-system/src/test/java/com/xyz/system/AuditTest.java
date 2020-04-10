@@ -73,6 +73,13 @@ public class AuditTest {
         }
     }
 
+    @Test
+    public void testDeptFunction() {
+        deptRepository.getChildList("411302100003");
+        List<String> codes = deptRepository.getDeptDownGradeCodes();
+        System.out.println("411300100073");
+    }
+
 
 
 }
