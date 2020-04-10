@@ -1,5 +1,7 @@
 package com.xyz.modules.biz.service.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.xyz.modules.biz.domain.Rentalhouse;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
@@ -12,6 +14,7 @@ import com.xyz.modules.biz.service.RentalhouseService;
 import com.xyz.modules.biz.service.dto.RentalhouseDTO;
 import com.xyz.modules.biz.service.dto.RentalhouseQueryCriteria;
 import com.xyz.modules.biz.service.mapper.RentalhouseMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,10 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,7 @@ import com.xyz.utils.QueryHelp;
 * @date 2020-04-09
 */
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class RentalhouseServiceImpl implements RentalhouseService {
 
@@ -52,6 +54,8 @@ public class RentalhouseServiceImpl implements RentalhouseService {
 
     @Override
     public Object queryAll(RentalhouseQueryCriteria criteria, Pageable pageable){
+        DateTime startTime = DateUtil.date(new Date().getTime());
+        log.debug("**********出租房信息列表查询开始**********");
         Page<Rentalhouse> page = RentalhouseRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<Rentalhouse> content = page.getContent();
         List<RentalhouseDTO> rentalhouseDTOS = RentalhouseMapper.toDto(content);
@@ -62,6 +66,8 @@ public class RentalhouseServiceImpl implements RentalhouseService {
         Map map = new HashMap();
         map.put("content", rentalhouseDTOS);
         map.put("totalElements", page.getTotalElements());
+        DateTime endTime = DateUtil.date(new Date().getTime());
+        log.debug("**********出租房信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
         return map;
     }
 

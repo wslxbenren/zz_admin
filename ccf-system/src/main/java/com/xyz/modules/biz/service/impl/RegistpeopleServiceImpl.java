@@ -1,5 +1,7 @@
 package com.xyz.modules.biz.service.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.Registpeople;
 import com.xyz.modules.security.security.JwtUser;
@@ -13,6 +15,7 @@ import com.xyz.modules.biz.service.RegistpeopleService;
 import com.xyz.modules.biz.service.dto.RegistpeopleDTO;
 import com.xyz.modules.biz.service.dto.RegistpeopleQueryCriteria;
 import com.xyz.modules.biz.service.mapper.RegistpeopleMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,6 +37,7 @@ import com.xyz.utils.QueryHelp;
 * @date 2020-04-08
 */
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class RegistpeopleServiceImpl implements RegistpeopleService {
 
@@ -51,6 +55,8 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
 
     @Override
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
+        DateTime startTime = DateUtil.date(new Date().getTime());
+        log.debug("**********户籍人员信息列表查询开始**********");
         Page<Registpeople> page = RegistpeopleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<Registpeople> content = page.getContent();
         List<RegistpeopleDTO> registpeopleDTOS = RegistpeopleMapper.toDto(content);
@@ -77,6 +83,8 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         Map map = new HashMap();
         map.put("content", registpeopleDTOS);
         map.put("totalElements", page.getTotalElements());
+        DateTime endTime = DateUtil.date(new Date().getTime());
+        log.debug("**********户籍人员信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
         return map;
     }
 
