@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 import java.io.Serializable;
 
 /**
- * ${tableComment}
  * @author ${author}
  * @date ${date}
  */

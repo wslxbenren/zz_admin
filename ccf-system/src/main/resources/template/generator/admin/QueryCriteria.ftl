@@ -12,9 +12,9 @@ import com.xyz.annotation.Query;
 </#if>
 
 /**
-* @author ${author}
-* @date ${date}
-*/
+ * @author ${author}
+ * @date ${date}
+ */
 @Data
 public class ${className}QueryCriteria{
 <#if queryColumns??>
