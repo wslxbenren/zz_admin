@@ -1,8 +1,13 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -10,10 +15,12 @@ import java.io.Serializable;
 /**
  * @author 刘鑫
  * @date 2020-04-10
+ * 特殊人群刑满释放人员基础信息表
  */
 @Entity
 @Data
 @Table(name="biz_special_released_person")
+@DynamicUpdate
 public class ReleasedPerson implements Serializable {
 
     // ID，uuid()赋值
@@ -35,6 +42,7 @@ public class ReleasedPerson implements Serializable {
 
     // 出生日期
     @Column(name = "date_birth")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp dateBirth;
 
     // 民族
@@ -115,6 +123,7 @@ public class ReleasedPerson implements Serializable {
 
     // 释放结束日期
     @Column(name = "prison_enddate",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp prisonEnddate;
 
     // 危险性评估类型
@@ -123,6 +132,7 @@ public class ReleasedPerson implements Serializable {
 
     // 衔接日期
     @Column(name = "join_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp joinDate;
 
     // 衔接情况
@@ -131,6 +141,7 @@ public class ReleasedPerson implements Serializable {
 
     // 安置日期
     @Column(name = "arrange_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp arrangeDate;
 
     // 安置情况
@@ -155,10 +166,12 @@ public class ReleasedPerson implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -175,14 +188,16 @@ public class ReleasedPerson implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
+    @UpdateTimestamp
     private Timestamp operDate;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable = false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false)
+    @Column(name = "create_time",nullable = false,updatable = false)
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理

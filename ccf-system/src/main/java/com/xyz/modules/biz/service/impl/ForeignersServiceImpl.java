@@ -12,6 +12,7 @@ import com.xyz.modules.biz.service.ForeignersService;
 import com.xyz.modules.biz.service.dto.ForeignersDTO;
 import com.xyz.modules.biz.service.dto.ForeignersQueryCriteria;
 import com.xyz.modules.biz.service.mapper.ForeignersMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,6 +31,7 @@ import org.springframework.data.domain.Pageable;
 * @date 2020-04-08
 */
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class ForeignersServiceImpl implements ForeignersService {
 
@@ -48,6 +50,7 @@ public class ForeignersServiceImpl implements ForeignersService {
 
     @Override
     public Object queryAll(ForeignersQueryCriteria criteria, Pageable pageable){
+        log.info("查询列表实有人口/境外人员信息--开始");
         Page<Foreigners> page = ForeignersRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<ForeignersDTO> foreignersList = ForeignersMapper.toDto(page.getContent());
         for (ForeignersDTO mid: foreignersList) {
@@ -80,6 +83,7 @@ public class ForeignersServiceImpl implements ForeignersService {
 
     @Override
     public ForeignersDTO findById(String foreId) {
+            log.info("查询详情实有人口/境外人员信息--开始");
             if (StringUtils.isBlank(foreId)){
                 throw new BadRequestException("主键ID不能为空");
             }
@@ -92,6 +96,7 @@ public class ForeignersServiceImpl implements ForeignersService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ForeignersDTO create(Foreigners resources) {
+        log.info("新增实有人口/境外人员信息--开始");
         resources.setForeId(IdUtil.simpleUUID());
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
         resources.setCreator(u.getId());
@@ -101,6 +106,7 @@ public class ForeignersServiceImpl implements ForeignersService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Foreigners resources) {
+            log.info("修改实有人口/境外人员信息--开始");
             if (StringUtils.isBlank(resources.getForeId())){
                 throw new BadRequestException("主键ID不能为空");
             }
@@ -117,6 +123,7 @@ public class ForeignersServiceImpl implements ForeignersService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String foreId) {
+            log.info("删除实有人口/境外人员信息--开始");
             if (StringUtils.isBlank(foreId)){
                 throw new BadRequestException("主键ID不能为空");
             }

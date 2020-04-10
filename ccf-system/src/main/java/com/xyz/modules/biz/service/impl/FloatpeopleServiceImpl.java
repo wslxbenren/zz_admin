@@ -1,5 +1,7 @@
 package com.xyz.modules.biz.service.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.BadRequestException;
 import com.xyz.exception.EntityExistException;
@@ -14,6 +16,7 @@ import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -23,16 +26,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
 * @author lx
 * @date 2020-04-09
 */
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class FloatpeopleServiceImpl implements FloatpeopleService {
 
@@ -51,6 +52,8 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
 
     @Override
     public Object queryAll(FloatpeopleQueryCriteria criteria, Pageable pageable){
+        DateTime startTime = DateUtil.date(new Date().getTime());
+        log.debug("**********流动人口信息列表查询开始**********");
         Page<Floatpeople> page = FloatpeopleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<FloatpeopleDTO> floatpeopleDTOS = FloatpeopleMapper.toDto(page.getContent());
         for (FloatpeopleDTO f:floatpeopleDTOS){
@@ -76,6 +79,8 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         Map map = new HashMap();
         map.put("content", floatpeopleDTOS);
         map.put("totalElements", page.getTotalElements());
+        DateTime endTime = DateUtil.date(new Date().getTime());
+        log.debug("**********流动人口信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
         return map;
     }
 

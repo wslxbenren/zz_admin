@@ -17,6 +17,7 @@ import java.io.Serializable;
 /**
 * @author lx
 * @date 2020-04-07
+ * 综治中心信息数据结构表
 */
 @Entity
 @Data

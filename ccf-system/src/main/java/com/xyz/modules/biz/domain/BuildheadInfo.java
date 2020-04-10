@@ -18,6 +18,7 @@ import java.util.Date;
 /**
 * @author lx
 * @date 2020-04-08
+ * 楼栋长信息数据结构表
 */
 @Entity
 @Data
@@ -118,16 +119,16 @@ public class BuildheadInfo implements Serializable {
 
     // 创建人
 
-    @Column(name = "creator")
+    @Column(name = "creator",updatable = false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",updatable = false)
+    @Column(name = "create_time",nullable = false,updatable = false)
     @CreationTimestamp
     private Timestamp createTime;
 
     // 修改人
-    @Column(name = "modifier",updatable = false)
+    @Column(name = "modifier")
     private String modifier;
 
     // 修改时间

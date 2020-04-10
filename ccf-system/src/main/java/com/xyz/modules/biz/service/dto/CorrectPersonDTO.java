@@ -1,13 +1,16 @@
 package com.xyz.modules.biz.service.dto;
 
+import com.xyz.annotation.Query;
 import lombok.Data;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
  * @author 刘鑫
  * @date 2020-04-10
+ * 特殊人群社区矫正人群 数据模型
  */
 @Data
 public class CorrectPersonDTO implements Serializable {
@@ -23,33 +26,47 @@ public class CorrectPersonDTO implements Serializable {
 
     // 性别
     private String personSex;
+    private String personSexStr;
 
     // 出生日期
     private Timestamp dateBirth;
 
     // 民族
     private String nation;
+    //  字典翻译：民族
+    private String nationStr;
 
     // 身份证号
     private String identityNum;
 
     // 籍贯
     private String nativeInfo;
+    //  字典翻译：籍贯
+    private String nativeInfoStr;
 
     // 婚姻状况
     private String marriageFlag;
+    //  字典翻译：婚姻状况
+    private String marriageFlagStr;
 
     // 政治面貌
     private String partyFlag;
+    //  字典翻译：婚姻状况
+    private String partyFlagStr;
 
     // 文化程度
     private String eduLevel;
+    //  字典翻译：文化程度
+    private String eduLevelStr;
 
     // 宗教信仰
     private String faithType;
+    //  字典翻译：宗教信仰
+    private String faithTypeStr;
 
     // 职业
     private String vocation;
+
 
     // 服务场所
     private String servicePlace;
@@ -59,6 +76,8 @@ public class CorrectPersonDTO implements Serializable {
 
     // 户籍地
     private String registeredPlace;
+    // 字典翻译：户籍地
+    private String registeredPlaceStr;
 
     // 户籍详细地址
     private String registeredAddress;
@@ -80,9 +99,13 @@ public class CorrectPersonDTO implements Serializable {
 
     // 矫正类别
     private String correctType;
+    // 字典翻译:矫正类别
+    private String correctTypeStr;
 
     // 案件类别
     private String caseType;
+    // 字典翻译：案件类别
+    private String caseTypeStr;
 
     // 具体罪名
     private String chargeComments;
@@ -104,6 +127,8 @@ public class CorrectPersonDTO implements Serializable {
 
     // 接收方式
     private String reviceFlag;
+    // 字典翻译：接收方式
+    private String reviceFlagStr;
 
     // 四史情况--可多选，|号隔开
     private String sishiFlag;
@@ -188,10 +213,14 @@ public class CorrectPersonDTO implements Serializable {
 
     // 职业类别
     private String vocationCode;
+    // 字典翻译：职业类别
+    private String vocationCodeStr;
 
     // 籍贯详址
     private String nativeInfoAddr;
 
     // 服务处所的省市县编码
     private String servicePlaceCode;
+
+
 }

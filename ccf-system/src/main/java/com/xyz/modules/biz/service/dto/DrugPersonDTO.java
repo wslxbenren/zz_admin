@@ -23,30 +23,44 @@ public class DrugPersonDTO implements Serializable {
 
     // 性别
     private String personSex;
+    private String personSexStr;
 
     // 出生日期
     private Timestamp dateBirth;
 
     // 民族
     private String nation;
+    //  字典翻译：民族
+    private String nationStr;
 
     // 身份证号
     private String identityNum;
 
     // 籍贯
     private String nativeInfo;
+    //  字典翻译：籍贯
+    private String nativeInfoStr;
 
     // 婚姻状况
     private String marriageFlag;
+    //  字典翻译：婚姻状况
+    private String marriageFlagStr;
 
     // 政治面貌
     private String partyFlag;
+    //  字典翻译：婚姻状况
+    private String partyFlagStr;
 
     // 文化程度
     private String eduLevel;
+    //  字典翻译：文化程度
+    private String eduLevelStr;
 
     // 宗教信仰
     private String faithType;
+    //  字典翻译：宗教信仰
+    private String faithTypeStr;
+
 
     // 职业
     private String vocation;
@@ -59,6 +73,8 @@ public class DrugPersonDTO implements Serializable {
 
     // 户籍地
     private String registeredPlace;
+    // 字典翻译：户籍地
+    private String registeredPlaceStr;
 
     // 户籍详细地址
     private String registeredAddress;
@@ -101,9 +117,13 @@ public class DrugPersonDTO implements Serializable {
 
     // 吸毒原因
     private String drugReason;
+    // 字典翻译：吸毒原因
+    private String drugReasonStr;
 
     // 吸毒后果
     private String drugResult;
+    // 字典翻译：吸毒后果
+    private String drugResultStr;
 
     // 生效时间
     private Timestamp effDate;
@@ -134,6 +154,7 @@ public class DrugPersonDTO implements Serializable {
 
     // 职业类别
     private String vocationCode;
+    private String vocationCodeStr;
 
     // 籍贯详址
     private String nativeInfoAddr;

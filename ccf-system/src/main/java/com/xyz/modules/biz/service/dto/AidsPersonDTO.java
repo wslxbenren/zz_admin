@@ -1,5 +1,6 @@
 package com.xyz.modules.biz.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -23,33 +24,48 @@ public class AidsPersonDTO implements Serializable {
 
     // 性别
     private String personSex;
+    //  字典翻译：性别
+    private String personSexStr;
 
     // 出生日期
     private Timestamp dateBirth;
 
     // 民族
     private String nation;
+    //  字典翻译：民族
+    private String nationStr;
 
     // 身份证号
     private String identityNum;
 
     // 籍贯
     private String nativeInfo;
+    //  字典翻译：籍贯
+    private String nativeInfoStr;
 
     // 婚姻状况
     private String marriageFlag;
+    //  字典翻译：婚姻状况
+    private String marriageFlagStr;
 
     // 政治面貌
     private String partyFlag;
+    //  字典翻译：婚姻状况
+    private String partyFlagStr;
 
     // 文化程度
     private String eduLevel;
+    //  字典翻译：文化程度
+    private String eduLevelStr;
 
     // 宗教信仰
     private String faithType;
+    //  字典翻译：宗教信仰
+    private String faithTypeStr;
 
     // 职业
     private String vocation;
+
 
     // 服务场所
     private String servicePlace;
@@ -59,12 +75,16 @@ public class AidsPersonDTO implements Serializable {
 
     // 户籍地
     private String registeredPlace;
+    // 字典翻译：户籍地
+    private String registeredPlaceStr;
 
     // 户籍详细地址
     private String registeredAddress;
 
     // 感染途径
     private String routesInfection;
+    // 字典翻译：感染途径
+    private String routesInfectionStr;
 
     // 是否有犯罪史
     private String isPedigree;
@@ -74,12 +94,18 @@ public class AidsPersonDTO implements Serializable {
 
     // 案件类别
     private String caseType;
+    // 字典翻译：案件类别
+    private String caseTypeStr;
 
     // 关注类型
     private String takeType;
+    // 字典翻译：关注类型
+    private String takeTypeStr;
 
     // 帮扶情况
     private String helpComments;
+    // 字典翻译:帮扶情况
+    private String helpCommentsStr;
 
     // 帮扶人姓名
     private String helperName;
@@ -89,6 +115,8 @@ public class AidsPersonDTO implements Serializable {
 
     // 收治情况
     private String detainType;
+    // 字典翻译:收治情况
+    private String detainTypeStr;
 
     // 收治机构名称
     private String detainUnion;
@@ -122,6 +150,7 @@ public class AidsPersonDTO implements Serializable {
 
     // 职业类别
     private String vocationCode;
+    private String vocationCodeStr;
 
     // 现住地
     private String residence;

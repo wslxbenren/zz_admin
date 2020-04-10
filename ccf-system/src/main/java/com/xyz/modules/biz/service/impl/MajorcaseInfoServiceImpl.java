@@ -12,6 +12,7 @@ import com.xyz.modules.biz.service.MajorcaseInfoService;
 import com.xyz.modules.biz.service.dto.MajorcaseInfoDTO;
 import com.xyz.modules.biz.service.dto.MajorcaseInfoQueryCriteria;
 import com.xyz.modules.biz.service.mapper.MajorcaseInfoMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,6 +32,7 @@ import org.springframework.data.domain.Pageable;
 * @date 2020-04-05
 */
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
 
@@ -49,6 +51,7 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
 
     @Override
     public Object queryAll(MajorcaseInfoQueryCriteria criteria, Pageable pageable){
+        log.info("查询列表综治组织/重大案件事件--开始");
         Page<MajorcaseInfo> page = MajorcaseInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<MajorcaseInfoDTO> majorcaseInfoList = MajorcaseInfoMapper.toDto(page.getContent());
         for (MajorcaseInfoDTO mid: majorcaseInfoList) {
@@ -73,6 +76,7 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
 
     @Override
     public MajorcaseInfoDTO findById(String id) {
+            log.info("查询详情综治组织/重大案件事件--开始");
             if (StringUtils.isBlank(id)){
                 throw new BadRequestException("主键ID不能为空");
             }
@@ -85,6 +89,7 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public MajorcaseInfoDTO create(MajorcaseInfo resources) {
+        log.info("新增综治组织/重大案件事件--开始");
         resources.setId(IdUtil.simpleUUID());
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
         resources.setCreator(u.getId());
@@ -94,6 +99,7 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(MajorcaseInfo resources) {
+            log.info("修改综治组织/重大案件事件--开始");
             if (StringUtils.isBlank(resources.getId())){
                 throw new BadRequestException("主键ID不能为空");
             }
@@ -111,11 +117,10 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String id) {
+        log.info("删除综治组织/重大案件事件--开始");
         if (StringUtils.isBlank(id)){
             throw new BadRequestException("主键ID不能为空");
         }
         MajorcaseInfoRepository.deleteById(id);
-
-
     }
 }

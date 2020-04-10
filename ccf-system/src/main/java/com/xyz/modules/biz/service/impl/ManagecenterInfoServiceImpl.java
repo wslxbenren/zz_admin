@@ -1,5 +1,7 @@
 package com.xyz.modules.biz.service.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.ManagecenterInfo;
@@ -19,6 +21,7 @@ import com.xyz.utils.QueryHelp;
 import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -38,6 +41,7 @@ import java.util.stream.Stream;
 * @date 2020-04-07
 */
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
 
@@ -62,6 +66,8 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
 
     @Override
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
+        DateTime startTime = DateUtil.date(new Date().getTime());
+        log.debug("**********综治中心信息列表查询开始**********");
         Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder)
                 -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
@@ -74,6 +80,8 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
         Map map = new HashMap();
         map.put("content", midList);
         map.put("totalElements", page.getTotalElements());
+        DateTime endTime = DateUtil.date(new Date().getTime());
+        log.debug("**********综治中心信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
         return map;
     }
 
