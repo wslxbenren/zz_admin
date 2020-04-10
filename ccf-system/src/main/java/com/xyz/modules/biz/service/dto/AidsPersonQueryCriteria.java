@@ -2,6 +2,8 @@ package com.xyz.modules.biz.service.dto;
 
 import lombok.Data;
 import java.sql.Timestamp;
+import java.util.List;
+
 import com.xyz.annotation.Query;
 
 /**
@@ -38,4 +40,9 @@ public class AidsPersonQueryCriteria{
     // 精确
     @Query
     private Timestamp createTime;
+
+    private String creator;
+
+    @Query(type = Query.Type.IN)
+    private List<String> unitCode;
 }

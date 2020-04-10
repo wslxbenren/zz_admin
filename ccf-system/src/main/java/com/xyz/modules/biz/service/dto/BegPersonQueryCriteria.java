@@ -2,6 +2,8 @@ package com.xyz.modules.biz.service.dto;
 
 import lombok.Data;
 import java.sql.Timestamp;
+import java.util.List;
+
 import com.xyz.annotation.Query;
 
 /**
@@ -14,4 +16,9 @@ public class BegPersonQueryCriteria{
     // 精确
     @Query
     private String personName;
+
+    private String creator;
+
+    @Query(type = Query.Type.IN)
+    private List<String> unitCode;
 }

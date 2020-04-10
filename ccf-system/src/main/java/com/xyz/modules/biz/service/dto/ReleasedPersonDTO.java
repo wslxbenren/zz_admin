@@ -8,6 +8,7 @@ import java.io.Serializable;
 /**
  * @author 刘鑫
  * @date 2020-04-10
+ * 特殊人群刑满释放人员 数据模型
  */
 @Data
 public class ReleasedPersonDTO implements Serializable {
@@ -23,33 +24,41 @@ public class ReleasedPersonDTO implements Serializable {
 
     // 性别
     private String personSex;
+    private String personSexStr;
 
     // 出生日期
     private Timestamp dateBirth;
 
     // 民族
     private String nation;
+    private String nationStr;
 
     // 身份证号
     private String identityNum;
 
     // 籍贯
     private String nativeInfo;
+    private String nativeInfoStr;
 
     // 婚姻状况
     private String marriageFlag;
+    private String marriageFlagStr;
 
     // 政治面貌
     private String partyFlag;
+    private String partyFlagStr;
 
     // 文化程度
     private String eduLevel;
+    private String eduLevelStr;
 
     // 宗教信仰
     private String faithType;
+    private String faithTypeStr;
 
     // 职业
     private String vocation;
+    private String vocationStr;
 
     // 服务场所
     private String servicePlace;
@@ -59,6 +68,7 @@ public class ReleasedPersonDTO implements Serializable {
 
     // 户籍地
     private String registeredPlace;
+    private String registeredPlaceStr;
 
     // 户籍详细地址
     private String registeredAddress;
@@ -89,24 +99,28 @@ public class ReleasedPersonDTO implements Serializable {
 
     // 危险性评估类型
     private String riskType;
+    private String riskTypeStr;
 
     // 衔接日期
     private Timestamp joinDate;
 
     // 衔接情况
     private String joinFlag;
+    private String joinFlagStr;
 
     // 安置日期
     private Timestamp arrangeDate;
 
     // 安置情况
     private String arrangeFlag;
+    private String arrangeFlagStr;
 
     // 未安置原因
     private String unarrangeReason;
 
     // 帮扶情况
     private String helpeComment;
+    private String helpeCommentStr;
 
     // 是否重新犯罪
     private String isAgain;
@@ -143,6 +157,7 @@ public class ReleasedPersonDTO implements Serializable {
 
     // 职业类别
     private String vocationCode;
+    private String vocationCodeStr;
 
     // 籍贯详址
     private String nativeInfoAddr;

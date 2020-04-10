@@ -2,6 +2,10 @@ package com.xyz.modules.biz.service.impl;
 
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.CorrectPerson;
+import com.xyz.modules.biz.service.dto.AidsPersonDTO;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.CorrectPersonRepository;
 import com.xyz.modules.biz.service.CorrectPersonService;
@@ -12,12 +16,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.xyz.utils.PageUtil;
 import com.xyz.utils.QueryHelp;
+
+import javax.annotation.Resource;
 
 /**
  * @author 刘鑫
@@ -30,13 +40,47 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     @Autowired
     private CorrectPersonRepository CorrectPersonRepository;
 
-    @Autowired
+    @Resource
     private CorrectPersonMapper CorrectPersonMapper;
+
+    @Autowired
+    private DictDetailService dictDetailService;
 
     @Override
     public Object queryAll(CorrectPersonQueryCriteria criteria, Pageable pageable){
         Page<CorrectPerson> page = CorrectPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(CorrectPersonMapper::toDto));
+        List<CorrectPersonDTO> correctPersonDTOS = CorrectPersonMapper.toDto(page.getContent());
+        for (CorrectPersonDTO f:correctPersonDTOS){
+            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
+            f.setPersonSexStr(dd == null ? "无数据" : dd.getLabel());// 性别
+            dd = dictDetailService.findByValueAndPName(DictEnum.MIN_ZU.getDistName(), f.getNation());
+            f.setNationStr(dd == null ? "无数据" : dd.getLabel());//民族
+            dd = dictDetailService.findByValueAndPName(DictEnum.GJ_DQ.getDistName(), f.getNativeInfo());
+            f.setNativeInfoStr(dd == null ? "无数据" : dd.getLabel());//籍贯
+            dd = dictDetailService.findByValueAndPName(DictEnum.HYZK.getDistName(), f.getMarriageFlag());
+            f.setMarriageFlagStr(dd == null ? "无数据" : dd.getLabel());//婚姻状况
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZZMM.getDistName(), f.getPartyFlag());
+            f.setPartyFlagStr(dd == null ? "无数据" : dd.getLabel());// 政治面貌
+            dd = dictDetailService.findByValueAndPName(DictEnum.XUE_LI.getDistName(), f.getEduLevel());
+            f.setEduLevelStr(dd == null ? "无数据" : dd.getLabel());  // 文化程度
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZJXY.getDistName(), f.getFaithType());
+            f.setFaithTypeStr(dd == null ? "无数据" : dd.getLabel());// 宗教信仰
+            dd = dictDetailService.findByValueAndPName(DictEnum.ZYLB.getDistName(), f.getVocationCode());
+            f.setVocationCodeStr(dd == null ? "无数据" : dd.getLabel()); // 职业类别
+            dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
+            f.setRegisteredPlaceStr(dd == null ? "无数据" : dd.getLabel());// 户籍地
+            dd = dictDetailService.findByValueAndPName(DictEnum.AJLB.getDistName(), f.getCaseType());
+            f.setCaseTypeStr(dd == null ? "无数据" : dd.getLabel());
+
+            dd = dictDetailService.findByValueAndPName(DictEnum.JZLX.getDistName(), f.getCorrectType());
+            f.setCorrectTypeStr(dd == null ? "无数据" : dd.getLabel());
+            dd = dictDetailService.findByValueAndPName(DictEnum.JSFS.getDistName(), f.getReviceFlag());
+            f.setReviceFlagStr(dd == null ? "无数据" : dd.getLabel());
+        }
+        Map map = new HashMap();
+        map.put("content", correctPersonDTOS);
+        map.put("totalElements", page.getTotalElements());
+        return map;
     }
 
     @Override
