@@ -1,30 +1,31 @@
 package com.xyz.modules.biz.service.impl;
 
+import com.xyz.exception.BadRequestException;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.Leftbehind;
-import com.xyz.modules.biz.service.dto.ManageleadresponsInfoDTO;
+import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
-import com.xyz.utils.ValidationUtil;
+import com.xyz.utils.*;
 import com.xyz.modules.biz.repository.LeftbehindRepository;
 import com.xyz.modules.biz.service.LeftbehindService;
 import com.xyz.modules.biz.service.dto.LeftbehindDTO;
 import com.xyz.modules.biz.service.dto.LeftbehindQueryCriteria;
 import com.xyz.modules.biz.service.mapper.LeftbehindMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
+
 import java.util.*;
 
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.xyz.utils.PageUtil;
-import com.xyz.utils.QueryHelp;
 
 /**
 * @author xjh
@@ -42,6 +43,10 @@ public class LeftbehindServiceImpl implements LeftbehindService {
 
     @Autowired
     private DictDetailService dictDetailService;
+
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
 
     @Override
     public Object queryAll(LeftbehindQueryCriteria criteria, Pageable pageable){
@@ -75,7 +80,8 @@ public class LeftbehindServiceImpl implements LeftbehindService {
         }
         Map map = new HashMap();
         map.put("content", leftbehindList);
-        map.put("totalElements", page.getTotalPages());
+        map.put("totalElements", page.getTotalElements());
+        map.put("totalPages",page.getTotalPages());
         return map;
     }
 
@@ -86,16 +92,21 @@ public class LeftbehindServiceImpl implements LeftbehindService {
 
     @Override
     public LeftbehindDTO findById(String leftId) {
-        Optional<Leftbehind> Leftbehind = LeftbehindRepository.findById(leftId);
-        ValidationUtil.isNull(Leftbehind,"Leftbehind","leftId",leftId);
-        return LeftbehindMapper.toDto(Leftbehind.get());
+            if (StringUtils.isBlank(leftId)){
+                throw new BadRequestException("主键ID不能为空");
+            }
+            Optional<Leftbehind> Leftbehind = LeftbehindRepository.findById(leftId);
+            ValidationUtil.isNull(Leftbehind, "Leftbehind", "leftId", leftId);
+            return LeftbehindMapper.toDto(Leftbehind.get());
+
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public LeftbehindDTO create(Leftbehind resources) {
         resources.setLeftId(IdUtil.simpleUUID());
-        resources.setCreateTime(new Timestamp(new Date().getTime()));
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        resources.setCreator(u.getId());
         if(LeftbehindRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(Leftbehind.class,"identity_num",resources.getIdentityNum());
         }
@@ -105,22 +116,31 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Leftbehind resources) {
-        resources.setOperDate(new Timestamp(new Date().getTime()));
-        Optional<Leftbehind> optionalLeftbehind = LeftbehindRepository.findById(resources.getLeftId());
-        ValidationUtil.isNull( optionalLeftbehind,"Leftbehind","id",resources.getLeftId());
-        Leftbehind Leftbehind = optionalLeftbehind.get();
-        Leftbehind Leftbehind1 = null;
-        Leftbehind1 = LeftbehindRepository.findByIdentityNum(resources.getIdentityNum());
-        if(Leftbehind1 != null && !Leftbehind1.getLeftId().equals(Leftbehind.getLeftId())){
-            throw new EntityExistException(Leftbehind.class,"identity_num",resources.getIdentityNum());
-        }
-        Leftbehind.copy(resources);
-        LeftbehindRepository.save(Leftbehind);
+            if (StringUtils.isBlank(resources.getLeftId())){
+                throw new BadRequestException("主键ID不能为空");
+            }
+            Optional<Leftbehind> optionalLeftbehind = LeftbehindRepository.findById(resources.getLeftId());
+            ValidationUtil.isNull(optionalLeftbehind, "Leftbehind", "id", resources.getLeftId());
+            Leftbehind Leftbehind = optionalLeftbehind.get();
+            Leftbehind Leftbehind1 = null;
+            Leftbehind1 = LeftbehindRepository.findByIdentityNum(resources.getIdentityNum());
+            if (Leftbehind1 != null && !Leftbehind1.getLeftId().equals(Leftbehind.getLeftId())) {
+                throw new EntityExistException(Leftbehind.class, "identity_num", resources.getIdentityNum());
+            }
+            JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+            resources.setOperName(u.getId());
+            Leftbehind.copy(resources);
+            LeftbehindRepository.save(Leftbehind);
+
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String leftId) {
-        LeftbehindRepository.deleteById(leftId);
+            if (StringUtils.isBlank(leftId)){
+                throw new BadRequestException("主键ID不能为空");
+            }
+            LeftbehindRepository.deleteById(leftId);
+
     }
 }

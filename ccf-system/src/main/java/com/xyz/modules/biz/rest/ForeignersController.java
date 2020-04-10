@@ -14,12 +14,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
-import java.sql.Timestamp;
-import java.util.Date;
 
 /**
 * @author xjh
 * @date 2020-04-08
+  * 功能模块 ： 实有人口/境外人员信息
 */
 @Api(tags = "Foreigners管理")
 @RestController
