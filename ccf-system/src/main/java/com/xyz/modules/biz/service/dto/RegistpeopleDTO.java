@@ -6,9 +6,10 @@ import java.io.Serializable;
 
 
 /**
-* @author lx
-* @date 2020-04-08
-*/
+ * @author lx
+ * @date 2020-04-08
+ * 实有人口->户籍人口
+ */
 @Data
 public class RegistpeopleDTO implements Serializable {
 

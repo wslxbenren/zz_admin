@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 /**
+ * 特殊人群->吸毒人员
  * @author 刘鑫
  * @date 2020-04-10
  */

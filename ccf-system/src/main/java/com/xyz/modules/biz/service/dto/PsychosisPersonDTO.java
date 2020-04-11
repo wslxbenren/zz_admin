@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @author 刘鑫
  * @date 2020-04-10
- * 特殊人群有精神病肇事人员基础信息表
+ * 特殊人群->有精神病肇事人员
  */
 @Data
 public class PsychosisPersonDTO implements Serializable {

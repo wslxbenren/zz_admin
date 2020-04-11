@@ -6,9 +6,10 @@ import java.io.Serializable;
 
 
 /**
-* @author dadovicn
-* @date 2020-04-08
-*/
+ * @author dadovicn
+ * @date 2020-04-08
+ * 实有人口->留守人员
+ */
 @Data
 public class LeftbehindDTO implements Serializable {
 

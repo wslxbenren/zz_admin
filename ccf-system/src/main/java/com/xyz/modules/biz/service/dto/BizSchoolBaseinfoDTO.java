@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 /**
+ * 学校及周边 -> 学校校园基础信息
  * @author 邢家华
  * @date 2020-04-10
  */

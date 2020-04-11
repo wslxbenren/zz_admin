@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 /**
+ * 社会治安管理->寄递物流安全管理
  * @author 刘鑫
  * @date 2020-04-10
  */

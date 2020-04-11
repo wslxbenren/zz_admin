@@ -6,9 +6,10 @@ import java.io.Serializable;
 
 
 /**
-* @author lx
-* @date 2020-04-08
-*/
+ * 综治组织及综治业务->综治中心
+ * @author lx
+ * @date 2020-04-08
+ */
 @Data
 public class ManagecenterInfoDTO implements Serializable {
 

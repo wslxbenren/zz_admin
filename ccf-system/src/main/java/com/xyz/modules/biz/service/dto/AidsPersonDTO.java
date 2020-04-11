@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 
 /**
+ * 特殊人群->艾滋病危险人群
  * @author 刘鑫
  * @date 2020-04-10
  */

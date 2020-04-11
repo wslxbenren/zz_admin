@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 /**
+ * 学校及周边-> 学校周边重点人员信息表
  * @author 邢家华
  * @date 2020-04-10
  */

@@ -8,6 +8,7 @@ import java.util.List;
 
 
 /**
+ * 特殊人群->闲散乞讨人员基
  * @author 刘鑫
  * @date 2020-04-10
  */

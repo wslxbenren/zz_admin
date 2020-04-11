@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @author 刘鑫
  * @date 2020-04-10
- * 特殊人群刑满释放人员 数据模型
+ * 特殊人群->刑满释放人员
  */
 @Data
 public class ReleasedPersonDTO implements Serializable {

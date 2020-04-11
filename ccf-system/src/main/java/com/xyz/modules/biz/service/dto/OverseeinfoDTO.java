@@ -8,6 +8,7 @@ import java.io.Serializable;
 /**
  * @author 邢家华
  * @date 2020-04-10
+ * 矛盾纠纷排查化解管理->矛盾纠纷排查督办
  */
 @Data
 public class OverseeinfoDTO implements Serializable {
