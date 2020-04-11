@@ -23,20 +23,26 @@ public class RentalhouseQueryCriteria{
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
     private List<String> updateTime;
 
-    /**
-     *  @Query(type = Query.Type.BETWEEN)
-     *   @Query(type = Query.Type.EQUAL)
-     *   @Query(type = Query.Type.IN)
-     *    @Query(type = Query.Type.INNER_LIKE)
-     */
+    // 原型查询条件
     @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "房屋编号")
     private String houseCode;
 
     @Query(type = Query.Type.INNER_LIKE)
-    private String houseName;
+    @ApiModelProperty(value = "房主姓名")
+    private String homeownerName;
 
     @Query(type = Query.Type.INNER_LIKE)
-    private String homeownerName;
+    @ApiModelProperty(value = "房主联系方式")
+    private String homeownerMobile;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "承租人姓名")
+    private String lesseeName;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "承租人联系方式")
+    private String lesseeMobile;
 
     @Query(type = Query.Type.EQUAL)
     private String cardType;
@@ -52,9 +58,6 @@ public class RentalhouseQueryCriteria{
 
     @Query(type = Query.Type.EQUAL)
     private String statusCd;
-
-    @Query(type = Query.Type.INNER_LIKE)
-    private String lesseeName;
 
     @Query(type = Query.Type.BETWEEN)
     private List<String> effDate;

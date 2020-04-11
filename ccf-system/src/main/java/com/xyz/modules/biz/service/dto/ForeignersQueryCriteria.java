@@ -2,6 +2,7 @@ package com.xyz.modules.biz.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xyz.annotation.Query;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,10 +25,32 @@ public class ForeignersQueryCriteria{
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
     private List<String> updateTime;
 
-    //其他
+    // 原型查询条件
     @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "外文姓")
+    private String lastname;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "外文名")
     private String firstname;
 
+    @ApiModelProperty(value = "国籍地区： 编码应符合GB/T2659")
+    @Query(type = Query.Type.EQUAL)
+    private String country;
+
+    @ApiModelProperty(value = "联系方式")
+    @Query(type = Query.Type.EQUAL)
+    private String contact;
+
+    @ApiModelProperty(value = "证件号码")
+    @Query(type = Query.Type.EQUAL)
+    private String cardNo;
+
+    @Query(type = Query.Type.BETWEEN)
+    @ApiModelProperty(value = "证件有效期")
+    private List<String> validDate;
+
+    // 其他
     @Query(type = Query.Type.INNER_LIKE)
     private String chinesename;
 
@@ -37,9 +60,6 @@ public class ForeignersQueryCriteria{
     //字典项
     @Query(type = Query.Type.EQUAL)
     private String personSex;
-
-    @Query(type = Query.Type.EQUAL)
-    private String country;
 
     @Query(type = Query.Type.EQUAL)
     private String vocationCode;
