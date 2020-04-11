@@ -67,7 +67,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
             DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), b.getSex());
             b.setSexStr(dd == null ? "无数据" : dd.getLabel());
             dd = dictDetailService.findByValueAndPName(DictEnum.MIN_ZU.getDistName(), b.getNational());
-            b.setNational(dd == null ? "无数据" : dd.getLabel());
+            b.setNationalStr(dd == null ? "无数据" : dd.getLabel());
             dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), b.getPoliticalStatus());
             b.setPoliticalStatusStr(dd == null ? "无数据" : dd.getLabel());
             dd = dictDetailService.findByValueAndPName(DictEnum.XUE_LI.getDistName(), b.getEducationBgStr());
