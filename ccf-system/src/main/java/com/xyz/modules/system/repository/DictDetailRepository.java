@@ -22,4 +22,14 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, Long>, J
     @Query(value = "select b.* from dict a join dict_detail b on " +
             "a.id = b.dict_id and a.name = ?1 and b.value = ?2 " , nativeQuery = true)
     DictDetail findByValueAndPName(String pName, String value);
+
+    /**
+     * 只返回字典详情名称
+     * @param pName 父级name
+     * @param value 详情value
+     * @return
+     */
+    @Query(value = "select b.label from dict a join dict_detail b on " +
+            "a.id = b.dict_id and a.name = ?1 and b.value = ?2 " , nativeQuery = true)
+    String transDict(String pName, String value);
 }

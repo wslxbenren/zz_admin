@@ -51,6 +51,11 @@ public class DictDetailServiceImpl implements DictDetailService {
     }
 
     @Override
+    public String transDict(String pName, String value) {
+        return dictDetailRepository.transDict(pName, value);
+    }
+
+    @Override
     public DictDetailDTO findById(Long id) {
         Optional<DictDetail> dictDetail = dictDetailRepository.findById(id);
         ValidationUtil.isNull(dictDetail,"DictDetail","id",id);
