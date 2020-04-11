@@ -3,6 +3,7 @@ package com.xyz.modules.biz.service.impl;
 
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.ManageleadresponsInfo;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
@@ -50,12 +51,15 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private AuditSpecification auditSpecification;
+
     @Override
     public Object queryAll(ManageleadresponsInfoQueryCriteria criteria, Pageable pageable){
         //Sort sort = new Sort(Sort.Direction.DESC,"createTime");
         //pageable.getSortOr(sort);
         log.info("查询列表综治组织/领导责任制 -- 开始");
-        Page<ManageleadresponsInfo> page = ManageleadresponsInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<ManageleadresponsInfo> page = ManageleadresponsInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<ManageleadresponsInfoDTO> manageleadresponsInfoList = ManageleadresponsInfoMapper.toDto(page.getContent());
         for (ManageleadresponsInfoDTO mid: manageleadresponsInfoList) {
             DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getAreaGrage());
@@ -75,7 +79,7 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
 
     @Override
     public Object queryAll(ManageleadresponsInfoQueryCriteria criteria){
-        return ManageleadresponsInfoMapper.toDto(ManageleadresponsInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return ManageleadresponsInfoMapper.toDto(ManageleadresponsInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }
 
     @Override

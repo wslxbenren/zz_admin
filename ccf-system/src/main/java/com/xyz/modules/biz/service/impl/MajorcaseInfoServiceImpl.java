@@ -2,6 +2,7 @@ package com.xyz.modules.biz.service.impl;
 
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.MajorcaseInfo;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
@@ -49,10 +50,13 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private AuditSpecification auditSpecification;
+
     @Override
     public Object queryAll(MajorcaseInfoQueryCriteria criteria, Pageable pageable){
         log.info("查询列表综治组织/重大案件事件--开始");
-        Page<MajorcaseInfo> page = MajorcaseInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<MajorcaseInfo> page = MajorcaseInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<MajorcaseInfoDTO> majorcaseInfoList = MajorcaseInfoMapper.toDto(page.getContent());
         for (MajorcaseInfoDTO mid: majorcaseInfoList) {
             DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), mid.getOccurAddr());
@@ -71,7 +75,7 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
 
     @Override
     public Object queryAll(MajorcaseInfoQueryCriteria criteria){
-        return MajorcaseInfoMapper.toDto(MajorcaseInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return MajorcaseInfoMapper.toDto(MajorcaseInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }
 
     @Override

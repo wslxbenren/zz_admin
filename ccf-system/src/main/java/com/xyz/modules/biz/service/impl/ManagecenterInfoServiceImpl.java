@@ -10,6 +10,7 @@ import com.xyz.modules.biz.service.ManagecenterInfoService;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
 import com.xyz.modules.biz.service.mapper.ManagecenterInfoMapper;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.domain.DictDetail;
@@ -64,12 +65,14 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private AuditSpecification auditSpecification;
+
     @Override
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********综治中心信息列表查询开始**********");
-        Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder)
-                -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
         for (ManagecenterInfoDTO mid:midList ) {
             DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getGrage());
@@ -87,8 +90,7 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
 
     @Override
     public Object queryAll(ManagecenterInfoQueryCriteria criteria){
-        return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) ->
-                QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }
 
     @Override
