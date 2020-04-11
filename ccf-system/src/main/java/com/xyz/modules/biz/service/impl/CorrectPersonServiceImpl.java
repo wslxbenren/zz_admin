@@ -1,33 +1,30 @@
 package com.xyz.modules.biz.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.CorrectPerson;
-import com.xyz.modules.biz.service.dto.AidsPersonDTO;
-import com.xyz.modules.system.domain.DictDetail;
-import com.xyz.modules.system.service.DictDetailService;
-import com.xyz.modules.system.util.DictEnum;
-import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.CorrectPersonRepository;
 import com.xyz.modules.biz.service.CorrectPersonService;
 import com.xyz.modules.biz.service.dto.CorrectPersonDTO;
 import com.xyz.modules.biz.service.dto.CorrectPersonQueryCriteria;
 import com.xyz.modules.biz.service.mapper.CorrectPersonMapper;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import cn.hutool.core.util.IdUtil;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import com.xyz.utils.PageUtil;
-import com.xyz.utils.QueryHelp;
-
-import javax.annotation.Resource;
 
 /**
  * @author 刘鑫
@@ -46,9 +43,12 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     @Autowired
     private DictDetailService dictDetailService;
 
+    @Autowired
+    private AuditSpecification audit;
+
     @Override
     public Object queryAll(CorrectPersonQueryCriteria criteria, Pageable pageable){
-        Page<CorrectPerson> page = CorrectPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<CorrectPerson> page = CorrectPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<CorrectPersonDTO> correctPersonDTOS = CorrectPersonMapper.toDto(page.getContent());
         for (CorrectPersonDTO f:correctPersonDTOS){
             DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
@@ -85,7 +85,7 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
 
     @Override
     public Object queryAll(CorrectPersonQueryCriteria criteria){
-        return CorrectPersonMapper.toDto(CorrectPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return CorrectPersonMapper.toDto(CorrectPersonRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override

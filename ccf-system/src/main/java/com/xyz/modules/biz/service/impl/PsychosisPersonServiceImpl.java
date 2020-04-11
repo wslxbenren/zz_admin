@@ -3,6 +3,7 @@ package com.xyz.modules.biz.service.impl;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.PsychosisPerson;
 import com.xyz.modules.biz.service.dto.DrugPersonDTO;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
@@ -43,13 +44,15 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     @Resource
     private PsychosisPersonMapper PsychosisPersonMapper;
 
-
     @Autowired
     private DictDetailService dictDetailService;
 
+    @Autowired
+    private AuditSpecification audit;
+
     @Override
     public Object queryAll(PsychosisPersonQueryCriteria criteria, Pageable pageable){
-        Page<PsychosisPerson> page = PsychosisPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<PsychosisPerson> page = PsychosisPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<PsychosisPersonDTO> psychosisPersonDTOS = PsychosisPersonMapper.toDto(page.getContent());
         for (PsychosisPersonDTO f:psychosisPersonDTOS){
             DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
@@ -90,7 +93,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
 
     @Override
     public Object queryAll(PsychosisPersonQueryCriteria criteria){
-        return PsychosisPersonMapper.toDto(PsychosisPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return PsychosisPersonMapper.toDto(PsychosisPersonRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override

@@ -1,32 +1,30 @@
 package com.xyz.modules.biz.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.AidsPerson;
-import com.xyz.modules.system.domain.DictDetail;
-import com.xyz.modules.system.service.DictDetailService;
-import com.xyz.modules.system.util.DictEnum;
-import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.AidsPersonRepository;
 import com.xyz.modules.biz.service.AidsPersonService;
 import com.xyz.modules.biz.service.dto.AidsPersonDTO;
 import com.xyz.modules.biz.service.dto.AidsPersonQueryCriteria;
 import com.xyz.modules.biz.service.mapper.AidsPersonMapper;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import cn.hutool.core.util.IdUtil;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import com.xyz.utils.PageUtil;
-import com.xyz.utils.QueryHelp;
-
-import javax.annotation.Resource;
 
 /**
  * @author 刘鑫
@@ -45,9 +43,12 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     @Autowired
     private DictDetailService dictDetailService;
 
+    @Autowired
+    private AuditSpecification audit;
+
     @Override
     public Object queryAll(AidsPersonQueryCriteria criteria, Pageable pageable){
-        Page<AidsPerson> page = AidsPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<AidsPerson> page = AidsPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<AidsPersonDTO> aidsPersonDTOS = AidsPersonMapper.toDto(page.getContent());
         for (AidsPersonDTO f:aidsPersonDTOS){
             DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
@@ -88,7 +89,7 @@ public class AidsPersonServiceImpl implements AidsPersonService {
 
     @Override
     public Object queryAll(AidsPersonQueryCriteria criteria){
-        return AidsPersonMapper.toDto(AidsPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return AidsPersonMapper.toDto(AidsPersonRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
