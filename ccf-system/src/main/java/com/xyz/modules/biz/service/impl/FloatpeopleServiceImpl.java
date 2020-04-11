@@ -11,6 +11,7 @@ import com.xyz.modules.biz.service.FloatpeopleService;
 import com.xyz.modules.biz.service.dto.FloatpeopleDTO;
 import com.xyz.modules.biz.service.dto.FloatpeopleQueryCriteria;
 import com.xyz.modules.biz.service.mapper.FloatpeopleMapper;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
@@ -50,11 +51,14 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private AuditSpecification audit;
+
     @Override
     public Object queryAll(FloatpeopleQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********流动人口信息列表查询开始**********");
-        Page<Floatpeople> page = FloatpeopleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<Floatpeople> page = FloatpeopleRepository.findAll(audit.genSpecification(criteria),pageable);
         List<FloatpeopleDTO> floatpeopleDTOS = FloatpeopleMapper.toDto(page.getContent());
         for (FloatpeopleDTO f:floatpeopleDTOS){
             DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
@@ -86,7 +90,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
 
     @Override
     public Object queryAll(FloatpeopleQueryCriteria criteria){
-        return FloatpeopleMapper.toDto(FloatpeopleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return FloatpeopleMapper.toDto(FloatpeopleRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override

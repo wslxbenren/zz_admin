@@ -2,35 +2,32 @@ package com.xyz.modules.biz.service.impl;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.Registpeople;
+import com.xyz.modules.biz.repository.RegistpeopleRepository;
+import com.xyz.modules.biz.service.RegistpeopleService;
+import com.xyz.modules.biz.service.dto.RegistpeopleDTO;
+import com.xyz.modules.biz.service.dto.RegistpeopleQueryCriteria;
+import com.xyz.modules.biz.service.mapper.RegistpeopleMapper;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
-import com.xyz.modules.biz.repository.RegistpeopleRepository;
-import com.xyz.modules.biz.service.RegistpeopleService;
-import com.xyz.modules.biz.service.dto.RegistpeopleDTO;
-import com.xyz.modules.biz.service.dto.RegistpeopleQueryCriteria;
-import com.xyz.modules.biz.service.mapper.RegistpeopleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.*;
-
-import cn.hutool.core.util.IdUtil;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import com.xyz.utils.PageUtil;
-import com.xyz.utils.QueryHelp;
 
 /**
 * @author lx
@@ -53,11 +50,14 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private AuditSpecification audit;
+
     @Override
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********户籍人员信息列表查询开始**********");
-        Page<Registpeople> page = RegistpeopleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<Registpeople> page = RegistpeopleRepository.findAll(audit.genSpecification(criteria),pageable);
         List<Registpeople> content = page.getContent();
         List<RegistpeopleDTO> registpeopleDTOS = RegistpeopleMapper.toDto(content);
         for (RegistpeopleDTO r:registpeopleDTOS){
@@ -90,7 +90,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
 
     @Override
     public Object queryAll(RegistpeopleQueryCriteria criteria){
-        return RegistpeopleMapper.toDto(RegistpeopleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return RegistpeopleMapper.toDto(RegistpeopleRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
