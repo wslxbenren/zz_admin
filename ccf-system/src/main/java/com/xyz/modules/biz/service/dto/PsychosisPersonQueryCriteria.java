@@ -15,11 +15,39 @@ import java.util.List;
 @Data
 @ApiModel("特殊人群->有精神病肇事人员")
 public class PsychosisPersonQueryCriteria{
+    // 时间
+    @Query(type = Query.Type.BETWEEN)
+    @ApiModelProperty(value = "创建时间: 格式[yyyy-MM-dd HH:mm:ss]")
+    private List<String> createTime;
 
-    // 精确
-    @Query
-    @ApiModelProperty(value = "")
+    @Query(type = Query.Type.BETWEEN)
+    @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
+    private List<String> updateTime;
+
+    // 原型查询条件
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "姓名")
     private String personName;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "公民身份证号")
+    private String identityNum;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "性别")
+    private String personSex;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "联系方式")
+    private String contact;
+
+    @ApiModelProperty(value = "监护人姓名")
+    @Query(type = Query.Type.EQUAL)
+    private String guarderName;
+
+    @ApiModelProperty(value = "监护人联系方式")
+    @Query(type = Query.Type.EQUAL)
+    private String guarderAddress;
 
     // 审计字段
     @Query(type = Query.Type.IN)
