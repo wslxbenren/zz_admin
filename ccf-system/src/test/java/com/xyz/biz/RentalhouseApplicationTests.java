@@ -100,7 +100,6 @@ public class RentalhouseApplicationTests {
         RentalhouseDTO r = rentalhouseService.findById("e230da2550b542c184acc54684204fb7");
         RentalhouseQueryCriteria rq = new RentalhouseQueryCriteria();
         rq.setCreateTime(Arrays.asList("2020-02-02 14:13:47","2020-04-10 12:13:47"));
-        rq.setHouseName("1");
         rq.setHomeownerName("1");
         rq.setHouseCode("1");
         rq.setCardType("1");
