@@ -51,6 +51,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(PsychosisPersonQueryCriteria criteria, Pageable pageable){
         Page<PsychosisPerson> page = PsychosisPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<PsychosisPersonDTO> psychosisPersonDTOS = PsychosisPersonMapper.toDto(page.getContent());
@@ -92,6 +93,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(PsychosisPersonQueryCriteria criteria){
         return PsychosisPersonMapper.toDto(PsychosisPersonRepository.findAll(audit.genSpecification(criteria)));
     }

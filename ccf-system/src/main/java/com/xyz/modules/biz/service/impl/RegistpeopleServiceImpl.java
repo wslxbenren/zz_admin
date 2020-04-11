@@ -54,6 +54,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********户籍人员信息列表查询开始**********");
@@ -89,6 +90,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(RegistpeopleQueryCriteria criteria){
         return RegistpeopleMapper.toDto(RegistpeopleRepository.findAll(audit.genSpecification(criteria)));
     }

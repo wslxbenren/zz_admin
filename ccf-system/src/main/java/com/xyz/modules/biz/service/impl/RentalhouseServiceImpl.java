@@ -54,6 +54,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(RentalhouseQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********出租房信息列表查询开始**********");
@@ -73,6 +74,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(RentalhouseQueryCriteria criteria){
         return RentalhouseMapper.toDto(RentalhouseRepository.findAll(audit.genSpecification(criteria)));
     }

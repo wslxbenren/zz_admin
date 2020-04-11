@@ -69,6 +69,7 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     private AuditSpecification auditSpecification;
 
     @Override
+    @Transactional
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********综治中心信息列表查询开始**********");
@@ -89,6 +90,7 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(ManagecenterInfoQueryCriteria criteria){
         return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }

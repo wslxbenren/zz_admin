@@ -33,12 +33,14 @@ public class ConvenientinfoServiceImpl implements ConvenientinfoService {
     private ConvenientinfoMapper ConvenientinfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(ConvenientinfoQueryCriteria criteria, Pageable pageable){
         Page<Convenientinfo> page = ConvenientinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(ConvenientinfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(ConvenientinfoQueryCriteria criteria){
         return ConvenientinfoMapper.toDto(ConvenientinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

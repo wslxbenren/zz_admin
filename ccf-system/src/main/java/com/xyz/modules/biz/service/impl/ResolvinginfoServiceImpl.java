@@ -33,12 +33,14 @@ public class ResolvinginfoServiceImpl implements ResolvinginfoService {
     private ResolvinginfoMapper ResolvinginfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(ResolvinginfoQueryCriteria criteria, Pageable pageable){
         Page<Resolvinginfo> page = ResolvinginfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(ResolvinginfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(ResolvinginfoQueryCriteria criteria){
         return ResolvinginfoMapper.toDto(ResolvinginfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

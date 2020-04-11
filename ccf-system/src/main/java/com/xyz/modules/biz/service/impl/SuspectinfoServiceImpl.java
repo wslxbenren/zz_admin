@@ -33,12 +33,14 @@ public class SuspectinfoServiceImpl implements SuspectinfoService {
     private SuspectinfoMapper SuspectinfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(SuspectinfoQueryCriteria criteria, Pageable pageable){
         Page<Suspectinfo> page = SuspectinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(SuspectinfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(SuspectinfoQueryCriteria criteria){
         return SuspectinfoMapper.toDto(SuspectinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

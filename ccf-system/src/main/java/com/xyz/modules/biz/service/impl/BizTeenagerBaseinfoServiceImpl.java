@@ -34,12 +34,14 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
     private BizTeenagerBaseinfoMapper bizTeenagerBaseinfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(BizTeenagerBaseinfoQueryCriteria criteria, Pageable pageable){
         Page<BizTeenagerBaseinfo> page = bizTeenagerBaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(bizTeenagerBaseinfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(BizTeenagerBaseinfoQueryCriteria criteria){
         return bizTeenagerBaseinfoMapper.toDto(bizTeenagerBaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

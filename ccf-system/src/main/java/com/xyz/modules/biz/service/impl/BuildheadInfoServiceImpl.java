@@ -82,6 +82,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(BuildheadInfoQueryCriteria criteria){
         return  buildheadInfoMapper.toDto(BuildheadInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }

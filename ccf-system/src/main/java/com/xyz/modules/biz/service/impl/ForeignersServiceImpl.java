@@ -53,6 +53,7 @@ public class ForeignersServiceImpl implements ForeignersService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(ForeignersQueryCriteria criteria, Pageable pageable){
         log.info("查询列表实有人口/境外人员信息--开始");
         Page<Foreigners> page = ForeignersRepository.findAll(audit.genSpecification(criteria),pageable);
@@ -81,6 +82,7 @@ public class ForeignersServiceImpl implements ForeignersService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(ForeignersQueryCriteria criteria){
         return ForeignersMapper.toDto(ForeignersRepository.findAll(audit.genSpecification(criteria)));
     }

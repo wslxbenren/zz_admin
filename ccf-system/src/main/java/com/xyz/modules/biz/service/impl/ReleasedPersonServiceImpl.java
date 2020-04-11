@@ -47,6 +47,7 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(ReleasedPersonQueryCriteria criteria, Pageable pageable){
         Page<ReleasedPerson> page = ReleasedPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ReleasedPersonDTO> releasedPersonDTOS = ReleasedPersonMapper.toDto(page.getContent());
@@ -86,6 +87,7 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(ReleasedPersonQueryCriteria criteria){
         return ReleasedPersonMapper.toDto(ReleasedPersonRepository.findAll(audit.genSpecification(criteria)));
     }

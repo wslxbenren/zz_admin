@@ -38,12 +38,14 @@ public class BegPersonServiceImpl implements BegPersonService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(BegPersonQueryCriteria criteria, Pageable pageable){
         Page<BegPerson> page = BegPersonRepository.findAll(audit.genSpecification(criteria), pageable);
         return PageUtil.toPage(page.map(BegPersonMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(BegPersonQueryCriteria criteria){
         return BegPersonMapper.toDto(BegPersonRepository.findAll(audit.genSpecification(criteria)));
     }

@@ -33,12 +33,14 @@ public class VictiminfoServiceImpl implements VictiminfoService {
     private VictiminfoMapper VictiminfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(VictiminfoQueryCriteria criteria, Pageable pageable){
         Page<Victiminfo> page = VictiminfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(VictiminfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(VictiminfoQueryCriteria criteria){
         return VictiminfoMapper.toDto(VictiminfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

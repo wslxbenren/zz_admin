@@ -47,6 +47,7 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(CorrectPersonQueryCriteria criteria, Pageable pageable){
         Page<CorrectPerson> page = CorrectPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<CorrectPersonDTO> correctPersonDTOS = CorrectPersonMapper.toDto(page.getContent());
@@ -84,6 +85,7 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(CorrectPersonQueryCriteria criteria){
         return CorrectPersonMapper.toDto(CorrectPersonRepository.findAll(audit.genSpecification(criteria)));
     }

@@ -47,6 +47,7 @@ public class DrugPersonServiceImpl implements DrugPersonService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(DrugPersonQueryCriteria criteria, Pageable pageable){
         Page<DrugPerson> page = DrugPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<DrugPersonDTO> drugPersonDTOS = DrugPersonMapper.toDto(page.getContent());
@@ -82,6 +83,7 @@ public class DrugPersonServiceImpl implements DrugPersonService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(DrugPersonQueryCriteria criteria){
         return DrugPersonMapper.toDto(DrugPersonRepository.findAll(audit.genSpecification(criteria)));
     }

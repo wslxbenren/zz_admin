@@ -55,6 +55,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(FloatpeopleQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********流动人口信息列表查询开始**********");
@@ -89,6 +90,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(FloatpeopleQueryCriteria criteria){
         return FloatpeopleMapper.toDto(FloatpeopleRepository.findAll(audit.genSpecification(criteria)));
     }

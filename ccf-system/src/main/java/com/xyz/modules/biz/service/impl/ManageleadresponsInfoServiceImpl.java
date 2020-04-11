@@ -55,6 +55,7 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     private AuditSpecification auditSpecification;
 
     @Override
+    @Transactional
     public Object queryAll(ManageleadresponsInfoQueryCriteria criteria, Pageable pageable){
         //Sort sort = new Sort(Sort.Direction.DESC,"createTime");
         //pageable.getSortOr(sort);
@@ -78,6 +79,7 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     }
 
     @Override
+    @Transactional
     public Object queryAll(ManageleadresponsInfoQueryCriteria criteria){
         return ManageleadresponsInfoMapper.toDto(ManageleadresponsInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }

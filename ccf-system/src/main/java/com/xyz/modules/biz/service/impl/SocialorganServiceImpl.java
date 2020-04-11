@@ -33,12 +33,14 @@ public class SocialorganServiceImpl implements SocialorganService {
     private SocialorganMapper SocialorganMapper;
 
     @Override
+    @Transactional
     public Object queryAll(SocialorganQueryCriteria criteria, Pageable pageable){
         Page<Socialorgan> page = SocialorganRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(SocialorganMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(SocialorganQueryCriteria criteria){
         return SocialorganMapper.toDto(SocialorganRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

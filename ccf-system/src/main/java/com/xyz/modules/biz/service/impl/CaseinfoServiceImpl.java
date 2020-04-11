@@ -33,12 +33,14 @@ public class CaseinfoServiceImpl implements CaseinfoService {
     private CaseinfoMapper CaseinfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(CaseinfoQueryCriteria criteria, Pageable pageable){
         Page<Caseinfo> page = CaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(CaseinfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(CaseinfoQueryCriteria criteria){
         return CaseinfoMapper.toDto(CaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

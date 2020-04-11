@@ -34,12 +34,14 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
     private BizSecurHomicidebaseinfoMapper bizSecurHomicidebaseinfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurHomicidebaseinfoQueryCriteria criteria, Pageable pageable){
         Page<BizSecurHomicidebaseinfo> page = bizSecurHomicidebaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(bizSecurHomicidebaseinfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurHomicidebaseinfoQueryCriteria criteria){
         return bizSecurHomicidebaseinfoMapper.toDto(bizSecurHomicidebaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

@@ -33,12 +33,14 @@ public class BizSecurLogisticsServiceImpl implements BizSecurLogisticsService {
     private BizSecurLogisticsMapper bizSecurLogisticsMapper;
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurLogisticsQueryCriteria criteria, Pageable pageable){
         Page<BizSecurLogistics> page = bizSecurLogisticsRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(bizSecurLogisticsMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurLogisticsQueryCriteria criteria){
         return bizSecurLogisticsMapper.toDto(bizSecurLogisticsRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

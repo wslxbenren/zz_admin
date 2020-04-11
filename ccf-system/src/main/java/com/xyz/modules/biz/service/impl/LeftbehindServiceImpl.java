@@ -55,6 +55,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(LeftbehindQueryCriteria criteria, Pageable pageable){
         log.info("查询列表实有人口/留守人员信息 --开始");
         Page<Leftbehind> page = LeftbehindRepository.findAll(audit.genSpecification(criteria),pageable);
@@ -93,6 +94,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(LeftbehindQueryCriteria criteria){
         return LeftbehindMapper.toDto(LeftbehindRepository.findAll(audit.genSpecification(criteria)));
     }

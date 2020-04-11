@@ -54,6 +54,7 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     private AuditSpecification auditSpecification;
 
     @Override
+    @Transactional
     public Object queryAll(MajorcaseInfoQueryCriteria criteria, Pageable pageable){
         log.info("查询列表综治组织/重大案件事件--开始");
         Page<MajorcaseInfo> page = MajorcaseInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
@@ -74,6 +75,7 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(MajorcaseInfoQueryCriteria criteria){
         return MajorcaseInfoMapper.toDto(MajorcaseInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }

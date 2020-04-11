@@ -47,6 +47,7 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     private AuditSpecification audit;
 
     @Override
+    @Transactional
     public Object queryAll(AidsPersonQueryCriteria criteria, Pageable pageable){
         Page<AidsPerson> page = AidsPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<AidsPersonDTO> aidsPersonDTOS = AidsPersonMapper.toDto(page.getContent());
@@ -88,6 +89,7 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(AidsPersonQueryCriteria criteria){
         return AidsPersonMapper.toDto(AidsPersonRepository.findAll(audit.genSpecification(criteria)));
     }

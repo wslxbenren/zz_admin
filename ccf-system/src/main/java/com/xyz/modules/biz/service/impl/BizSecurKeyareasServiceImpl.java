@@ -33,12 +33,14 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
     private BizSecurKeyareasMapper bizSecurKeyareasMapper;
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurKeyareasQueryCriteria criteria, Pageable pageable){
         Page<BizSecurKeyareas> page = bizSecurKeyareasRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(bizSecurKeyareasMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurKeyareasQueryCriteria criteria){
         return bizSecurKeyareasMapper.toDto(bizSecurKeyareasRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }
