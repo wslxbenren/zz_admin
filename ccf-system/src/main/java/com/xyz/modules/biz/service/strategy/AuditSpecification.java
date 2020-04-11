@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -40,12 +41,12 @@ public class AuditSpecification {
             String deptCode = u.getDeptDto().getCode();
             List<String> deptCodes = deptService.getDownGradeDeptCodes(deptCode);
             try {
-                q.getClass().getMethod("setUnitCode").invoke(q, deptCodes);
+                Field unitCode = q.getClass().getDeclaredField("unitCode");
+                unitCode.setAccessible(true);
+                unitCode.set(q, deptCodes);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
+            } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             }
             return QueryHelp.getPredicate(root,q,criteriaBuilder);
