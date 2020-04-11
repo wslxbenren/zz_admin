@@ -24,30 +24,43 @@ public class BuildheadInfoQueryCriteria{
     @ApiModelProperty(value = "")
     private List<String> updateTime;
 
+    // 原型查询项
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "小区（单位）名称")
+    private String villageName;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "楼栋名称")
+    private String buildName;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "楼长姓名")
+    private String headName;
+
     // 字典项
     @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "性别:编码应符合GB/T2261.1")
     private String sex;
 
     @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "民族:编码应符合GB/T3304")
     private String national;
 
     @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "政治面貌:编码应符合GB/T4762")
     private String politicalStatus;
 
     @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "学历:编码应符合GB/T4658")
     private String educationBg;
 
     @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "所在地:编码应符合GB/T2260")
     private String addr;
 
     // 其他
     @Query(type = Query.Type.INNER_LIKE)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "所在地详址")
     private String addrDetail;
 
     // 审计字段

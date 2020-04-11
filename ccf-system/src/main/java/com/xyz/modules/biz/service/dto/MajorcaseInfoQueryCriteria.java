@@ -24,19 +24,26 @@ public class MajorcaseInfoQueryCriteria{
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
     private List<String> updateTime;
 
+    // 原型查询条件
+    @ApiModelProperty(value = "案（事）件名称")
+    @Query(type = Query.Type.INNER_LIKE)
+    private String caseName;
+
+    @ApiModelProperty(value = "发生日期： 格式[yyyy-MM-dd]")
+    private List<String> occurDate;
+
     //字典项
     @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "发生地:编码应符合GB/T2260")
     private String occurAddr;
 
     @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "案（事）件分级:字典")
     private String caseGrage;
 
+    @ApiModelProperty(value = "案（事）件类型:字典")
     @Query(type = Query.Type.EQUAL)
     private String caseType;
-
-    //其他
-    @Query(type = Query.Type.INNER_LIKE)
-    private String caseName;
 
     // 审计字段
     @Query(type = Query.Type.IN)

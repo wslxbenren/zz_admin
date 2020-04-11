@@ -24,28 +24,35 @@ public class ManagecenterInfoQueryCriteria{
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
     private List<String> updateTime;
 
-    //字典等值
-    @Query(type = Query.Type.EQUAL)
-    private String addr;
-
-    @Query(type = Query.Type.EQUAL)
-    private String grage;
-
-    @Query(type = Query.Type.EQUAL)
-    private String centerCode;
-
-    @Query(type = Query.Type.IN)
-    private String deptId;
-
+    // 原型查询条件
     @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "综治中心名称")
     private String centerName;
 
     @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "综治中心联系方式")
+    private String centerMobile;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "综治中心代码")
+    private String centerCode;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "负责人姓名")
     private String username;
 
-    // 多字段模糊
-//    @Query(blurry = "username")
-//    private String blurry;
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "负责人联系方式")
+    private String userMobile;
+
+    //字典等值
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "所在地:字典")
+    private String addr;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "综治中心层级:字典")
+    private String grage;
 
     // 审计字段
     @Query(type = Query.Type.IN)

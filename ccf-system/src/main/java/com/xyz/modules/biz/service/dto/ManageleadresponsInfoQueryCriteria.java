@@ -24,13 +24,21 @@ public class ManageleadresponsInfoQueryCriteria{
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
     private List<String> updateTime;
 
+    // 原型查询条件
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "实施主体名称")
+    private String implementerName;
     //字典项
     @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "政策种类:字典")
     private String policyType;
 
     @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "实施主体层级:字典")
     private String implementerGrage;
-
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "被实施地区层级:字典")
+    private String areaGrage;
 
     // 审计字段
     @Query(type = Query.Type.IN)
