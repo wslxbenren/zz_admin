@@ -24,10 +24,30 @@ public class BizTeenagerBaseinfoQueryCriteria{
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
     private List<String> updateTime;
 
-    // 精确
-    @Query
-    @ApiModelProperty(value = "")
+    // 原型查询条件
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "姓名")
     private String personName;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "公民身份证号")
+    private String identityNum;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "联系方式")
+    private String contact;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "性别")
+    private String personSex;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "监护人姓名")
+    private String guardianName;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "监护人联系方式")
+    private String guardianMobile;
 
     // 审计字段
     @Query(type = Query.Type.IN)
