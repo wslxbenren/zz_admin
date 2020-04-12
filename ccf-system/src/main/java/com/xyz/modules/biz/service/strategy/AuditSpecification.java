@@ -53,21 +53,5 @@ public class AuditSpecification {
         };
     }
 
-    /**
-     * 填充审计字段
-     * @param entity 当前业务实体
-     * @param <T>
-     */
-    public <T> void fillAudit(T entity) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Class<T> clazz = (Class<T>) entity.getClass();
-        String invokeMethodName = Thread.currentThread().getStackTrace()[2].getMethodName();
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        if (invokeMethodName.equals("create")) {
-            clazz.getMethod("setCreator", String.class).invoke(entity, u.getId());
-        }
-        clazz.getMethod("setUnitCode").invoke(entity, u.getDeptDto().getCode());
-        clazz.getMethod("setModifier", String.class).invoke(entity, u.getId());
-    }
-
 
 }
