@@ -1,19 +1,19 @@
 package com.xyz.modules.biz.domain;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xyz.modules.biz.ao.AuditListener;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
 * @author lx
@@ -24,6 +24,7 @@ import java.util.Date;
 @Data
 @Table(name="biz_org_buildhead_info")
 @DynamicUpdate
+@EntityListeners(AuditListener.class)
 public class BuildheadInfo implements Serializable {
 
     // 主键
