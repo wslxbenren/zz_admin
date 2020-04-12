@@ -2,6 +2,7 @@ package com.xyz.biz;
 
 import com.xyz.modules.biz.domain.BuildheadInfo;
 import com.xyz.modules.biz.repository.BuildheadInfoRepository;
+import com.xyz.modules.biz.service.BuildheadInfoService;
 import com.xyz.modules.system.util.DictEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +25,9 @@ public class BizBuildHeadInfSaveOrUpdateTest {
 
     @Resource
     private BuildheadInfoRepository buildheadInfoRepository;
+
+    @Resource
+    private BuildheadInfoService buildheadInfoService;
 
 
 
@@ -81,8 +85,8 @@ public class BizBuildHeadInfSaveOrUpdateTest {
         buildheadInfo.setUnitCode("dd");
         buildheadInfo.setPoliticalStatus("1");
         buildheadInfo.setSex("男");
-        buildheadInfo.setVillageCode("100");
-        buildheadInfo.setVillageName("钱塘江小区update");
+        buildheadInfo.setVillageCode("200");
+        buildheadInfo.setVillageName("钱塘江小区2update");
         buildheadInfo.setNational(DictEnum.MIN_ZU.getDistName());
         buildheadInfo.setUnitNum(1);
         return buildheadInfo;
@@ -92,7 +96,8 @@ public class BizBuildHeadInfSaveOrUpdateTest {
     @Test
     public void testSave(){
         BuildheadInfo buildheadInfo = this.makeEntity();
-        buildheadInfoRepository.save(buildheadInfo);
+//        buildheadInfoRepository.save(buildheadInfo);
+        buildheadInfoService.update(buildheadInfo);
     }
 
     @Test
@@ -110,7 +115,9 @@ public class BizBuildHeadInfSaveOrUpdateTest {
 //        BuildheadInfo buildheadInfo_inDB = this.buildheadInfoRepository.findById(id).get(); //非必要,因为@Dany 注解会自动找到
 //        buildheadInfo_inDB  ---》  copy(buildheadInfo); //没必要
         //@DynamicUpdate  程序开发只要无脑save即可
-        buildheadInfoRepository.save(buildheadInfo);
+//        buildheadInfoRepository.save(buildheadInfo);
+        buildheadInfoService.update(buildheadInfo);
+
         //日志如下，
         /**
          * Hibernate: select buildheadi0_.id as id1_9_0_, buildheadi0_.addr as addr2_9_0_, buildheadi0_.addr_detail as addr_det3_9_0_, buildheadi0_.birth as birth4_9_0_, buildheadi0_.build_area as build_ar5_9_0_, buildheadi0_.build_name as build_na6_9_0_, buildheadi0_.create_time as create_t7_9_0_, buildheadi0_.creator as creator8_9_0_, buildheadi0_.education_bg as educatio9_9_0_, buildheadi0_.fixed_phone as fixed_p10_9_0_, buildheadi0_.head_name as head_na11_9_0_, buildheadi0_.households_num as househo12_9_0_, buildheadi0_.lat as lat13_9_0_, buildheadi0_.layer_num as layer_n14_9_0_, buildheadi0_.lng as lng15_9_0_, buildheadi0_.mobile as mobile16_9_0_, buildheadi0_.modifier as modifie17_9_0_, buildheadi0_.national as nationa18_9_0_, buildheadi0_.people_num as people_19_9_0_, buildheadi0_.political_status as politic20_9_0_, buildheadi0_.sex as sex21_9_0_, buildheadi0_.unit_code as unit_co22_9_0_, buildheadi0_.unit_num as unit_nu23_9_0_, buildheadi0_.update_time as update_24_9_0_, buildheadi0_.village_code as village25_9_0_, buildheadi0_.village_name as village26_9_0_ from biz_org_buildhead_info buildheadi0_ where buildheadi0_.id=?
