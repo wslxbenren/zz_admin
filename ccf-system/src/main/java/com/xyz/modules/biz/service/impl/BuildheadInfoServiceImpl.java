@@ -14,6 +14,8 @@ import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.security.service.JwtUserDetailsService;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.SecurityUtils;
@@ -55,6 +57,9 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     @Autowired
     private AuditSpecification auditSpecification;
 
+    @Autowired
+    private DeptRepository deptRepository;
+
     @Override
     @Transactional(readOnly = false)
     public Object queryAll(BuildheadInfoQueryCriteria criteria, Pageable pageable){
@@ -72,6 +77,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
             b.setPoliticalStatusStr(dd == null ? "无数据" : dd.getLabel());
             dd = dictDetailService.findByValueAndPName(DictEnum.XUE_LI.getDistName(), b.getEducationBgStr());
             b.setEducationBgStr(dd == null ? "无数据" : dd.getLabel());
+            b.setUnitCode(deptRepository.findNameByCode(b.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", buildheadInfoDTOS);
