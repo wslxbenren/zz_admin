@@ -23,4 +23,14 @@ public class DeptQueryCriteria{
 
     @Query
     private String pid;
+
+    private String note;
+    private String contact;
+    private String creditCode;
+    private String creator;
+    private String modifier;
+    private String instiType;
+    private String organType;
+    private String guideUnit;
+    private String function;
 }

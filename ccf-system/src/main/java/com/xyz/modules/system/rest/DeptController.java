@@ -32,15 +32,6 @@ public class DeptController {
     private static final String ENTITY_NAME = "dept";
 
     @Log("查询部门")
-    @GetMapping(value = "/deptMsg")
-    @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_SELECT','DEPT_ALL','DEPT_SELECT')")
-    public ResponseEntity getDeptsMsg(DeptQueryCriteria criteria){
-
-        List<DeptDTO> deptDTOS = deptService.queryAll(criteria);
-        return new ResponseEntity(deptDTOS,HttpStatus.OK);
-    }
-
-    @Log("查询部门")
     @GetMapping(value = "/dept")
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_SELECT','DEPT_ALL','DEPT_SELECT')")
     public ResponseEntity getDepts(DeptQueryCriteria criteria){
@@ -48,6 +39,17 @@ public class DeptController {
         criteria.setIds(dataScope.getDeptIds());
         List<DeptDTO> deptDTOS = deptService.queryAll(criteria);
         return new ResponseEntity(deptService.buildTree(deptDTOS),HttpStatus.OK);
+    }
+
+    @Log("查询部门")
+    @GetMapping(value = "/deptMsg")
+    @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_SELECT','DEPT_ALL','DEPT_SELECT')")
+    public ResponseEntity getDept(DeptQueryCriteria criteria){
+        // 数据权限
+//        criteria.setIds(dataScope.getDeptIds());
+//        DeptDTO deptDTOS = deptService.findById(criteria.getIds().iterator().next());
+        List<DeptDTO> deptDTOS = deptService.queryAll(criteria);
+        return new ResponseEntity(deptDTOS,HttpStatus.OK);
     }
 
     @Log("新增部门")

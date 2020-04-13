@@ -132,7 +132,39 @@ public class User implements Serializable {
 
     @Column(name = "dep_id")
     private String depId;
+/////////////////////////////////////////////////////////////////////////////综治新增
+    @Column(name = "national")
+    private String national;
 
+    @Column(name = "political_status")
+    private String politicalStatus;
+
+    @Column(name = "birth")
+    private Date birth;
+
+    @Column(name = "specialty")
+    private String specialty;
+
+    @Column(name = "education_bg")
+    private String  educationBg;
+
+    @Column(name = "card_code")
+    private String cardCode;
+
+    @Column(name = "card_number")
+    private String cardNumber;
+
+    @Column(name = "creator")
+    private String creator;
+
+    @Column(name = "modifier")
+    private String modifier;
+
+    @Column(name = "update_time")
+    private Date updateTime;
+
+    @Column(name = "realname")
+    private String realname;
 
 
 
@@ -170,6 +202,17 @@ public class User implements Serializable {
                 ", persontype='" + persontype + '\'' +
                 ", jxflag='" + jxflag + '\'' +
                 ", displayFlag='" + displayFlag + '\'' +
+                ", national='" + national + '\'' +
+                ", politicalStatus='" + politicalStatus  + '\'' +
+                ", birth='" + birth + '\'' +
+                ", specialty='" + specialty + '\'' +
+                ", educationBg='" + educationBg + '\'' +
+                ", cardCode='" + cardCode + '\'' +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", creator='" + creator + '\'' +
+                ", modifier='" + modifier + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", realname='" + realname + '\'' +
                 '}';
     }
 

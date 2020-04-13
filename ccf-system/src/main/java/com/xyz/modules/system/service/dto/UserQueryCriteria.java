@@ -4,6 +4,7 @@ import com.xyz.annotation.Query;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -27,4 +28,27 @@ public class UserQueryCriteria implements Serializable {
     private Boolean enabled;
 
     private String deptId;
+    @Query
+    private String national;
+    @Query
+    private String politicalStatus;
+    @Query
+    private Date birth;
+    @Query
+    private String specialty;
+    @Query
+    private String  educationBg;
+    @Query
+    private String cardCode;
+    @Query
+    private String cardNumber;
+    @Query
+    private String creator;
+    @Query
+    private String modifier;
+    @Query
+    private Date updateTime;
+    @Query
+    private String realname;
+
 }
