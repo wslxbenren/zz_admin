@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
 /**
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：社会治安管理/命案基本信息
  */
 @Api(tags = "BizSecurHomicidebaseinfo管理")
 @RestController
@@ -31,6 +32,14 @@ public class BizSecurHomicidebaseinfoController {
     @PreAuthorize("hasAnyRole('ADMIN','BIZSECURHOMICIDEBASEINFO_ALL','BIZSECURHOMICIDEBASEINFO_SELECT')")
     public ResponseEntity getBizSecurHomicidebaseinfos(BizSecurHomicidebaseinfoQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(bizSecurHomicidebaseinfoService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("详情BizSecurHomicidebaseinfo")
+    @GetMapping(value = "/bizSecurHomicidebaseinfo/details/{caseId}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_SELECT')")
+    public ResponseEntity getBizSecurHomicidebaseinfosDetails(@PathVariable String caseId){
+        return new ResponseEntity( bizSecurHomicidebaseinfoService.findById(caseId),HttpStatus.OK);
+
     }
 
     @Log("新增BizSecurHomicidebaseinfo")

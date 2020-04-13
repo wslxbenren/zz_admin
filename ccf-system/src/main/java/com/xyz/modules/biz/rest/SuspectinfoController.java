@@ -16,6 +16,7 @@ import io.swagger.annotations.*;
 /**
  * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：社会治安管理/命案犯罪嫌疑人信息
  */
 @Api(tags = "Suspectinfo管理")
 @RestController
@@ -31,6 +32,14 @@ public class SuspectinfoController {
     @PreAuthorize("hasAnyRole('ADMIN','SUSPECTINFO_ALL','SUSPECTINFO_SELECT')")
     public ResponseEntity getSuspectinfos(SuspectinfoQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(SuspectinfoService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("详情Suspectinfo")
+    @GetMapping(value = "/Suspectinfo/details/{suspId}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_SELECT')")
+    public ResponseEntity getSuspectinfosDetails(@PathVariable String suspId){
+        return new ResponseEntity( SuspectinfoService.findById(suspId),HttpStatus.OK);
+
     }
 
     @Log("新增Suspectinfo")

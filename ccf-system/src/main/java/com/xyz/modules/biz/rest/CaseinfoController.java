@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
 /**
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：护路护线/涉线、路案事件信息管理
  */
 @Api(tags = "Caseinfo管理")
 @RestController
@@ -31,6 +32,14 @@ public class CaseinfoController {
     @PreAuthorize("hasAnyRole('ADMIN','CASEINFO_ALL','CASEINFO_SELECT')")
     public ResponseEntity getCaseinfos(CaseinfoQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(CaseinfoService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("详情Caseinfo")
+    @GetMapping(value = "/Caseinfo/details/{caseId}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_SELECT')")
+    public ResponseEntity getCaseinfosDetails(@PathVariable String caseId){
+        return new ResponseEntity( CaseinfoService.findById(caseId),HttpStatus.OK);
+
     }
 
     @Log("新增Caseinfo")

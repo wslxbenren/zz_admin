@@ -16,6 +16,7 @@ import io.swagger.annotations.*;
 /**
  * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：社会治安管理/命案受害人信息
  */
 @Api(tags = "Victiminfo管理")
 @RestController
@@ -31,6 +32,14 @@ public class VictiminfoController {
     @PreAuthorize("hasAnyRole('ADMIN','VICTIMINFO_ALL','VICTIMINFO_SELECT')")
     public ResponseEntity getVictiminfos(VictiminfoQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(VictiminfoService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("详情Victiminfo")
+    @GetMapping(value = "/Victiminfo/details/{vicId}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_SELECT')")
+    public ResponseEntity getVictiminfosDetails(@PathVariable String vicId){
+        return new ResponseEntity( VictiminfoService.findById(vicId),HttpStatus.OK);
+
     }
 
     @Log("新增Victiminfo")

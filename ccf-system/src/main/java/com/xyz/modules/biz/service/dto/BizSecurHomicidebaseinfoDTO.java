@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 
 /**
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
  */
 @Data
@@ -56,4 +56,7 @@ public class BizSecurHomicidebaseinfoDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+
+    // 单位编码,所属单位，后续可用于权限管理  字典翻译
+    private String unitCodeStr;
 }

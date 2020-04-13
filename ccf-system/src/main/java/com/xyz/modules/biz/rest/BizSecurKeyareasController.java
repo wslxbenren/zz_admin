@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
 /**
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：社会治安管理/重点地区排查整治信息
  */
 @Api(tags = "BizSecurKeyareas管理")
 @RestController
@@ -31,6 +32,14 @@ public class BizSecurKeyareasController {
     @PreAuthorize("hasAnyRole('ADMIN','BIZSECURKEYAREAS_ALL','BIZSECURKEYAREAS_SELECT')")
     public ResponseEntity getBizSecurKeyareass(BizSecurKeyareasQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(bizSecurKeyareasService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("详情BizTeenagerBaseinfo")
+    @GetMapping(value = "/bizSecurKeyareas/details/{keyId}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_SELECT')")
+    public ResponseEntity getBizSecurKeyareassDetails(@PathVariable String keyId){
+        return new ResponseEntity( bizSecurKeyareasService.findById(keyId),HttpStatus.OK);
+
     }
 
     @Log("新增BizSecurKeyareas")

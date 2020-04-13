@@ -21,8 +21,14 @@ public class BizSecurKeyareasDTO implements Serializable {
     // 治安突出问题
     private String outproblem;
 
+    // 治安突出问题 字典翻译
+    private String outproblemStr;
+
     // 涉及区域类型
     private String areaType;
+
+    // 涉及区域类型  字典翻译
+    private String areaTypeStr;
 
     // 涉及区域范围
     private String areaScope;
@@ -80,4 +86,7 @@ public class BizSecurKeyareasDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+
+    // 单位编码,所属单位，后续可用于权限管理  字典翻译
+    private String unitCodeStr;
 }

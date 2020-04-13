@@ -24,6 +24,9 @@ public class ConvenientinfoDTO implements Serializable {
     // 路线类型
     private String routeType;
 
+    // 路线类型   字典翻译
+    private String routeTypeStr;
+
     // 隶属单位名称
     private String subordunit;
 
@@ -66,6 +69,9 @@ public class ConvenientinfoDTO implements Serializable {
     // 治安隐患等级
     private String secuhiddenLevel;
 
+    // 治安隐患等级  字典翻译
+    private String secuhiddenLevelStr;
+
     // 生效时间
     private Timestamp effDate;
 
@@ -92,4 +98,7 @@ public class ConvenientinfoDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+
+    // 单位编码,所属单位，后续可用于权限管理  字典翻译
+    private String unitCodeStr;
 }

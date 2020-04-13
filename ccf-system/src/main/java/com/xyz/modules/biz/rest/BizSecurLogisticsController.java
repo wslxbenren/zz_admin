@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
 /**
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：社会治安管理/寄递物流安全信息
  */
 @Api(tags = "BizSecurLogistics管理")
 @RestController
@@ -31,6 +32,14 @@ public class BizSecurLogisticsController {
     @PreAuthorize("hasAnyRole('ADMIN','BIZSECURLOGISTICS_ALL','BIZSECURLOGISTICS_SELECT')")
     public ResponseEntity getBizSecurLogisticss(BizSecurLogisticsQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(bizSecurLogisticsService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("详情BizSecurLogistics")
+    @GetMapping(value = "/bizSecurLogistics/details/{logisId}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_SELECT')")
+    public ResponseEntity getBizSecurLogisticssDetails(@PathVariable String logisId){
+        return new ResponseEntity( bizSecurLogisticsService.findById(logisId),HttpStatus.OK);
+
     }
 
     @Log("新增BizSecurLogistics")

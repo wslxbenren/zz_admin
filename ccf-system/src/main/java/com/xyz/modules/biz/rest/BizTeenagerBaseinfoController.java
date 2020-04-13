@@ -16,6 +16,7 @@ import io.swagger.annotations.*;
 /**
  * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：重点青少年/重点青少年基本信息
  */
 @Api(tags = "BizTeenagerBaseinfo管理")
 @RestController
@@ -31,6 +32,14 @@ public class BizTeenagerBaseinfoController {
     @PreAuthorize("hasAnyRole('ADMIN','BIZTEENAGERBASEINFO_ALL','BIZTEENAGERBASEINFO_SELECT')")
     public ResponseEntity getBizTeenagerBaseinfos(BizTeenagerBaseinfoQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(bizTeenagerBaseinfoService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("详情BizTeenagerBaseinfo")
+    @GetMapping(value = "/bizTeenagerBaseinfo/details/{teenId}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_SELECT')")
+    public ResponseEntity getBizTeenagerBaseinfosDetails(@PathVariable String teenId){
+        return new ResponseEntity( bizTeenagerBaseinfoService.findById(teenId),HttpStatus.OK);
+
     }
 
     @Log("新增BizTeenagerBaseinfo")
