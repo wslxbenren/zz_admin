@@ -52,33 +52,33 @@ public class AuditTest {
     /**
      * 测试部门数据向下递归
      */
-    @Test
-    public void testTree() {
-        Dept dept = deptRepository.findById("f14bb76c-963a-4764-84ad-21da5fd75978").get();
-        List<String> ids = new ArrayList<>();
-        tree2list(dept, ids);
-        System.out.println(ids);
-    }
-
-    public static void tree2list(Dept root, List<String> list){
-        if (root == null) {
-            return ;
-        }
-        list.add(root.getCode());
-        if (root.getDepts()==null){
-            return;
-        }
-        for (Dept sub:root.getDepts()){
-            tree2list(sub, list);
-        }
-    }
-
-    @Test
-    public void testDeptFunction() {
-        deptRepository.getChildList("411302100003");
-        List<String> codes = deptRepository.getDeptDownGradeCodes();
-        System.out.println("411300100073");
-    }
+//    @Test
+//    public void testTree() {
+//        Dept dept = deptRepository.findById("f14bb76c-963a-4764-84ad-21da5fd75978").get();
+//        List<String> ids = new ArrayList<>();
+//        tree2list(dept, ids);
+//        System.out.println(ids);
+//    }
+//
+////    public static void tree2list(Dept root, List<String> list){
+////        if (root == null) {
+////            return ;
+////        }
+////        list.add(root.getCode());
+////        if (root.getDepts()==null){
+////            return;
+////        }
+////        for (Dept sub:root.getDepts()){
+////            tree2list(sub, list);
+////        }
+////    }
+//
+//    @Test
+//    public void testDeptFunction() {
+//        deptRepository.getChildList("411302100003");
+//        List<String> codes = deptRepository.getDeptDownGradeCodes();
+//        System.out.println("411300100073");
+//    }
 
 
 
