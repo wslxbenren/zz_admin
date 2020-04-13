@@ -10,9 +10,11 @@ import com.xyz.modules.biz.service.ManagecenterInfoService;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
 import com.xyz.modules.biz.service.mapper.ManagecenterInfoMapper;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.modules.system.repository.DictRepository;
 import com.xyz.modules.system.service.DictDetailService;
@@ -60,22 +62,29 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Autowired
     private DictDetailService dictDetailService;
 
+
     @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private AuditSpecification auditSpecification;
+
+    @Autowired
+    private DeptRepository deptRepository;
+
 
     @Override
+    @Transactional
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********综治中心信息列表查询开始**********");
-        Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder)
-                -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
         for (ManagecenterInfoDTO mid:midList ) {
-            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getGrage());
-            mid.setGrageStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), mid.getAddr());
-            mid.setAddr(dd == null ? "无数据":dd.getLabel());
+            String dd = dictDetailService.transDict(DictEnum.JGCJ.getDistName(), mid.getGrage());
+            mid.setGrageStr(dd == null ? "无数据":dd);
+            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getAddr());
+            mid.setAddr(dd == null ? "无数据":dd);
+
+            dd = deptRepository.findNameByCode(mid.getUnitCode());
+            mid.setUnitCodeStr(dd);
         }
         Map map = new HashMap();
         map.put("content", midList);
@@ -86,9 +95,9 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(ManagecenterInfoQueryCriteria criteria){
-        return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.findAll((root, criteriaQuery, criteriaBuilder) ->
-                QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }
 
     @Override
@@ -105,8 +114,6 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Transactional(rollbackFor = Exception.class)
     public ManagecenterInfoDTO create(ManagecenterInfo resources) {
         resources.setId(IdUtil.simpleUUID());
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
         return ManagecenterInfoMapper.toDto(ManagecenterInfoRepository.save(resources));
     }
 
@@ -119,8 +126,6 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
         Optional<ManagecenterInfo> optionalManagecenterInfo = ManagecenterInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalManagecenterInfo,"ManagecenterInfo","id",resources.getId());
         ManagecenterInfo ManagecenterInfo = optionalManagecenterInfo.get();
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setModifier(u.getId());
         ManagecenterInfo.copy(resources);
         ManagecenterInfoRepository.save(ManagecenterInfo);
     }

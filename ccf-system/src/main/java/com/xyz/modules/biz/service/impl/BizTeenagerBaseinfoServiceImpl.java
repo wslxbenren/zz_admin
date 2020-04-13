@@ -55,6 +55,7 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
     private UserDetailsService userDetailsService;
 
     @Override
+    @Transactional
     public Object queryAll(BizTeenagerBaseinfoQueryCriteria criteria, Pageable pageable){
         log.info("查询列表重点青少年/重点青少年基本信息--开始");
         Page<BizTeenagerBaseinfo> page = bizTeenagerBaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
@@ -89,6 +90,7 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
     }
 
     @Override
+    @Transactional
     public Object queryAll(BizTeenagerBaseinfoQueryCriteria criteria){
         return bizTeenagerBaseinfoMapper.toDto(bizTeenagerBaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

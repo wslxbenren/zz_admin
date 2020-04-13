@@ -1,28 +1,38 @@
 package com.xyz.modules.biz.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.AidsPerson;
-import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.AidsPersonRepository;
 import com.xyz.modules.biz.service.AidsPersonService;
 import com.xyz.modules.biz.service.dto.AidsPersonDTO;
 import com.xyz.modules.biz.service.dto.AidsPersonQueryCriteria;
 import com.xyz.modules.biz.service.mapper.AidsPersonMapper;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
+import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.ValidationUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import cn.hutool.core.util.IdUtil;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import com.xyz.utils.PageUtil;
-import com.xyz.utils.QueryHelp;
 
 /**
  * @author 刘鑫
  * @date 2020-04-10
  */
+@Slf4j
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class AidsPersonServiceImpl implements AidsPersonService {
@@ -30,18 +40,69 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     @Autowired
     private AidsPersonRepository AidsPersonRepository;
 
-    @Autowired
+    @Resource
     private AidsPersonMapper AidsPersonMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+
+    @Autowired
+    private AuditSpecification audit;
+
+    @Autowired
+    private DeptRepository deptRepository;
+
+
     @Override
+    @Transactional
     public Object queryAll(AidsPersonQueryCriteria criteria, Pageable pageable){
-        Page<AidsPerson> page = AidsPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(AidsPersonMapper::toDto));
+      log.info("实现查询方法");
+        Page<AidsPerson> page = AidsPersonRepository.findAll(audit.genSpecification(criteria),pageable);
+        List<AidsPersonDTO> aidsPersonDTOS = AidsPersonMapper.toDto(page.getContent());
+        for (AidsPersonDTO f:aidsPersonDTOS){
+            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
+            f.setPersonSexStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNation());
+            f.setNationStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), f.getNativeInfo());
+            f.setNativeInfoStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), f.getMarriageFlag());
+            f.setMarriageFlagStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), f.getPartyFlag());
+            f.setPartyFlagStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEduLevel());
+            f.setEduLevelStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), f.getFaithType());
+            f.setFaithTypeStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), f.getVocationCode());
+            f.setVocationCodeStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
+            f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.AJLB.getDistName(), f.getCaseType());
+            f.setCaseTypeStr(dd == null ? "无数据" : dd);
+
+            dd = dictDetailService.transDict(DictEnum.GRTJ.getDistName(), f.getRoutesInfection());
+            f.setRoutesInfectionStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.GZLX.getDistName(), f.getTakeType());
+            f.setTakeTypeStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.BFQK.getDistName(), f.getHelpComments());
+            f.setHelpCommentsStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.SZQK.getDistName(), f.getDetainType());
+            f.setDetainTypeStr(dd == null ? "无数据" : dd);
+
+            dd = deptRepository.findNameByCode(f.getUnitCode());
+            f.setUnitCodeStr(dd);
+        }
+        Map map = new HashMap();
+        map.put("content", aidsPersonDTOS);
+        map.put("totalElements", page.getTotalElements());
+        return map;
     }
 
     @Override
+    @Transactional
     public Object queryAll(AidsPersonQueryCriteria criteria){
-        return AidsPersonMapper.toDto(AidsPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return AidsPersonMapper.toDto(AidsPersonRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override

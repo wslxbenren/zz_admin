@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
 * @author lx
 * @date 2020-04-06
-* 综治中心信息数据
+* 综治组织及总之业务->楼栋长信息
 */
 @Data
 public class BuildheadInfoDTO implements Serializable {
@@ -99,4 +99,5 @@ public class BuildheadInfoDTO implements Serializable {
 
     // 所属单位
     private String unitCode;
+    private String unitCodeStr;
 }

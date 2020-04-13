@@ -1,6 +1,7 @@
 ### idea ###
 .idea
 *.iml
+*.log
 
 ### mac ###
 .DS_Store

@@ -8,6 +8,7 @@ import java.io.Serializable;
 /**
  * @author 刘鑫
  * @date 2020-04-10
+ * 特殊人群->有精神病肇事人员
  */
 @Data
 public class PsychosisPersonDTO implements Serializable {
@@ -23,33 +24,50 @@ public class PsychosisPersonDTO implements Serializable {
 
     // 性别
     private String personSex;
+    //  字典翻译：性别
+    private String personSexStr;
+
 
     // 出生日期
     private Timestamp dateBirth;
 
     // 民族
     private String nation;
+    //  字典翻译：民族
+    private String nationStr;
 
     // 身份证号
     private String identityNum;
 
     // 籍贯
     private String nativeInfo;
+    //  字典翻译：籍贯
+    private String nativeInfoStr;
 
     // 婚姻状况
     private String marriageFlag;
+    //  字典翻译：婚姻状况
+    private String marriageFlagStr;
 
     // 政治面貌
     private String partyFlag;
+    //  字典翻译：婚姻状况
+    private String partyFlagStr;
 
     // 文化程度
     private String eduLevel;
+    //  字典翻译：文化程度
+    private String eduLevelStr;
 
     // 宗教信仰
     private String faithType;
+    //  字典翻译：宗教信仰
+    private String faithTypeStr;
 
     // 职业
     private String vocation;
+    //  字典翻译：职业
+    private String vocationStr;
 
     // 服务场所
     private String servicePlace;
@@ -59,6 +77,8 @@ public class PsychosisPersonDTO implements Serializable {
 
     // 户籍地
     private String registeredPlace;
+    // 字典翻译：户籍地
+    private String registeredPlaceStr;
 
     // 户籍详细地址
     private String registeredAddress;
@@ -92,6 +112,7 @@ public class PsychosisPersonDTO implements Serializable {
 
     // 诊断类型
     private String diagnoseType;
+    private String diagnoseTypeStr;
 
     // 有无肇祸史
     private String isTrouble;
@@ -104,24 +125,29 @@ public class PsychosisPersonDTO implements Serializable {
 
     // 危险性评估等级
     private String riskLevel;
+    private String riskLevelStr;
 
     // 治疗情况
     private String treatFlag;
+    private String treatFlagStr;
 
     // 治疗医院名称
     private String reatHospital;
 
     // 实施住院治疗原因  ---多选项
     private String inhospitalReason;
+    private String inhospitalReasonStr;
 
     // 接受康复机构名称
     private String reviceUnion;
 
     // 参与管理人员  ---多选项
     private String joinManager;
+    private String joinManagerStr;
 
     // 帮扶情况  ---多选项
     private String helpeFlag;
+    private String helpeFlagStr;
 
     // 生效时间
     private Timestamp effDate;
@@ -149,9 +175,11 @@ public class PsychosisPersonDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+    private String unitCodeStr;
 
     // 职业类别
     private String vocationCode;
+    private String vocationCodeStr;
 
     // 籍贯详址
     private String nativeInfoAddr;

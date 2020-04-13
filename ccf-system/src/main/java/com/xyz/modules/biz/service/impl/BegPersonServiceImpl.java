@@ -1,23 +1,24 @@
 package com.xyz.modules.biz.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.BegPerson;
-import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.repository.BegPersonRepository;
 import com.xyz.modules.biz.service.BegPersonService;
 import com.xyz.modules.biz.service.dto.BegPersonDTO;
 import com.xyz.modules.biz.service.dto.BegPersonQueryCriteria;
 import com.xyz.modules.biz.service.mapper.BegPersonMapper;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
+import com.xyz.utils.PageUtil;
+import com.xyz.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
-import cn.hutool.core.util.IdUtil;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import com.xyz.utils.PageUtil;
-import com.xyz.utils.QueryHelp;
 
 /**
  * @author 刘鑫
@@ -33,15 +34,20 @@ public class BegPersonServiceImpl implements BegPersonService {
     @Autowired
     private BegPersonMapper BegPersonMapper;
 
+    @Autowired
+    private AuditSpecification audit;
+
     @Override
+    @Transactional
     public Object queryAll(BegPersonQueryCriteria criteria, Pageable pageable){
-        Page<BegPerson> page = BegPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<BegPerson> page = BegPersonRepository.findAll(audit.genSpecification(criteria), pageable);
         return PageUtil.toPage(page.map(BegPersonMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(BegPersonQueryCriteria criteria){
-        return BegPersonMapper.toDto(BegPersonRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return BegPersonMapper.toDto(BegPersonRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override

@@ -5,23 +5,17 @@ import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.ManagecenterInfo;
 import com.xyz.modules.biz.service.ManagecenterInfoService;
 import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
-import com.xyz.modules.security.security.JwtUser;
-import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictService;
-import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.*;
-
-import java.util.List;
 
 /**
 * @author lx
@@ -39,23 +33,11 @@ public class ManagecenterInfoController {
     @Autowired
     private DictService dictService;
 
-    @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private DeptService deptService;
-
     @Log("查询ManagecenterInfo")
     @ApiOperation(value = "查询ManagecenterInfo")
     @GetMapping(value = "/ManagecenterInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGECENTERINFO_ALL','MANAGECENTERINFO_SELECT')")
     public ResponseEntity getManagecenterInfos(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(ManagecenterInfoService.queryAll(criteria,pageable),HttpStatus.OK);
     }
     @Log("查询单个ManagecenterInfo")

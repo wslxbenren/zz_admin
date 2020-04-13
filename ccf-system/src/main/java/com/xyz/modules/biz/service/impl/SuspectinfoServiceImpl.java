@@ -45,6 +45,7 @@ public class SuspectinfoServiceImpl implements SuspectinfoService {
     private UserDetailsService userDetailsService;
 
     @Override
+    @Transactional
     public Object queryAll(SuspectinfoQueryCriteria criteria, Pageable pageable){
         log.info("查询列表社会治安管理/命案犯罪嫌疑人信息--开始");
         Page<Suspectinfo> page = SuspectinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
@@ -52,6 +53,7 @@ public class SuspectinfoServiceImpl implements SuspectinfoService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(SuspectinfoQueryCriteria criteria){
         return SuspectinfoMapper.toDto(SuspectinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

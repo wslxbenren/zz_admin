@@ -33,12 +33,14 @@ public class OverseeinfoServiceImpl implements OverseeinfoService {
     private OverseeinfoMapper OverseeinfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(OverseeinfoQueryCriteria criteria, Pageable pageable){
         Page<Overseeinfo> page = OverseeinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(OverseeinfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(OverseeinfoQueryCriteria criteria){
         return OverseeinfoMapper.toDto(OverseeinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

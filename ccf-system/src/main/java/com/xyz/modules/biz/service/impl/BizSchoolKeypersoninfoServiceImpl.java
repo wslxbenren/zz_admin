@@ -33,12 +33,14 @@ public class BizSchoolKeypersoninfoServiceImpl implements BizSchoolKeypersoninfo
     private BizSchoolKeypersoninfoMapper bizSchoolKeypersoninfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(BizSchoolKeypersoninfoQueryCriteria criteria, Pageable pageable){
         Page<BizSchoolKeypersoninfo> page = bizSchoolKeypersoninfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(bizSchoolKeypersoninfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(BizSchoolKeypersoninfoQueryCriteria criteria){
         return bizSchoolKeypersoninfoMapper.toDto(bizSchoolKeypersoninfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

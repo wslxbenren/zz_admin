@@ -33,12 +33,14 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
     private KeypersoninfoMapper KeypersoninfoMapper;
 
     @Override
+    @Transactional
     public Object queryAll(KeypersoninfoQueryCriteria criteria, Pageable pageable){
         Page<Keypersoninfo> page = KeypersoninfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(KeypersoninfoMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(KeypersoninfoQueryCriteria criteria){
         return KeypersoninfoMapper.toDto(KeypersoninfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

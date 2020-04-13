@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 /**
+ * 社会治安管理->命案受害人
  * @author 邢家华
  * @date 2020-04-10
  */

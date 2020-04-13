@@ -47,6 +47,7 @@ public class VictiminfoServiceImpl implements VictiminfoService {
     private UserDetailsService userDetailsService;
 
     @Override
+    @Transactional
     public Object queryAll(VictiminfoQueryCriteria criteria, Pageable pageable){
         log.info("查询列表社会治安管理/命案受害人信息--开始");
         Page<Victiminfo> page = VictiminfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
@@ -54,6 +55,7 @@ public class VictiminfoServiceImpl implements VictiminfoService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(VictiminfoQueryCriteria criteria){
         return VictiminfoMapper.toDto(VictiminfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

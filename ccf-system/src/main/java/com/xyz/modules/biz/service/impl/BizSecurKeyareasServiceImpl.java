@@ -52,6 +52,7 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
     private UserDetailsService userDetailsService;
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurKeyareasQueryCriteria criteria, Pageable pageable){
         log.info("查询列表社会治安管理/重点地区排查整治信息--开始");
         Page<BizSecurKeyareas> page = bizSecurKeyareasRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
@@ -71,6 +72,7 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurKeyareasQueryCriteria criteria){
         return bizSecurKeyareasMapper.toDto(bizSecurKeyareasRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

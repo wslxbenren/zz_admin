@@ -1,8 +1,13 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -10,10 +15,12 @@ import java.io.Serializable;
 /**
  * @author 刘鑫
  * @date 2020-04-10
+ * 特殊人群社区矫正人群基础信息表
  */
 @Entity
 @Data
 @Table(name="biz_special_correct_person")
+@DynamicUpdate
 public class CorrectPerson implements Serializable {
 
     // ID，uuid()赋值
@@ -123,18 +130,22 @@ public class CorrectPerson implements Serializable {
 
     // 原判刑开始日期
     @Column(name = "prison_beagindate")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp prisonBeagindate;
 
     // 原判刑结束日期
     @Column(name = "prison_enddate")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp prisonEnddate;
 
     // 矫正开始日期
     @Column(name = "correct_beagindate",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp correctBeagindate;
 
     // 矫正结束日期
     @Column(name = "correct_enddate",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp correctEnddate;
 
     // 接收方式
@@ -215,10 +226,12 @@ public class CorrectPerson implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -235,14 +248,16 @@ public class CorrectPerson implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
+    @UpdateTimestamp
     private Timestamp operDate;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable = false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false)
+    @Column(name = "create_time",nullable = false,updatable = false)
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理

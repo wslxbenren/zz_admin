@@ -33,12 +33,14 @@ public class ProcessmonitorServiceImpl implements ProcessmonitorService {
     private ProcessmonitorMapper ProcessmonitorMapper;
 
     @Override
+    @Transactional
     public Object queryAll(ProcessmonitorQueryCriteria criteria, Pageable pageable){
         Page<Processmonitor> page = ProcessmonitorRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(ProcessmonitorMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(ProcessmonitorQueryCriteria criteria){
         return ProcessmonitorMapper.toDto(ProcessmonitorRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

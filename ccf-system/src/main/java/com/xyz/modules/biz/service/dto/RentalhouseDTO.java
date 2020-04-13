@@ -6,9 +6,10 @@ import java.io.Serializable;
 
 
 /**
-* @author lx
-* @date 2020-04-08
-*/
+ * 实有人口->出租房屋基础信息
+ * @author lx
+ * @date 2020-04-08
+ */
 @Data
 public class RentalhouseDTO implements Serializable {
 
@@ -91,6 +92,7 @@ public class RentalhouseDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+    private String unitCodeStr;
 
     // 房屋地址省市县编码
     private String houseAddrcode;

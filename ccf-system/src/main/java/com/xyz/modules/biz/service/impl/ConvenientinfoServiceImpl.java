@@ -47,6 +47,7 @@ public class ConvenientinfoServiceImpl implements ConvenientinfoService {
     private UserDetailsService userDetailsService;
 
     @Override
+    @Transactional
     public Object queryAll(ConvenientinfoQueryCriteria criteria, Pageable pageable){
         log.info("查询列表护路护线/护路护线基本信息--开始");
         Page<Convenientinfo> page = ConvenientinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
@@ -54,6 +55,7 @@ public class ConvenientinfoServiceImpl implements ConvenientinfoService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(ConvenientinfoQueryCriteria criteria){
         return ConvenientinfoMapper.toDto(ConvenientinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

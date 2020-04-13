@@ -33,12 +33,14 @@ public class RectificmanageServiceImpl implements RectificmanageService {
     private RectificmanageMapper RectificmanageMapper;
 
     @Override
+    @Transactional
     public Object queryAll(RectificmanageQueryCriteria criteria, Pageable pageable){
         Page<Rectificmanage> page = RectificmanageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(RectificmanageMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(RectificmanageQueryCriteria criteria){
         return RectificmanageMapper.toDto(RectificmanageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

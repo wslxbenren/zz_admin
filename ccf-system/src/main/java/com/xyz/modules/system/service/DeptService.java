@@ -11,14 +11,15 @@ import java.util.List;
 import java.util.Set;
 
 /**
-* @author Zheng Jie
-* @date 2019-03-25
-*/
+ * @author Zheng Jie
+ * @date 2019-03-25
+ */
 @CacheConfig(cacheNames = "dept")
 public interface DeptService {
 
     /**
      * queryAll
+     *
      * @param criteria
      * @return
      */
@@ -27,6 +28,7 @@ public interface DeptService {
 
     /**
      * findById
+     *
      * @param id
      * @return
      */
@@ -35,6 +37,7 @@ public interface DeptService {
 
     /**
      * create
+     *
      * @param resources
      * @return
      */
@@ -43,6 +46,7 @@ public interface DeptService {
 
     /**
      * update
+     *
      * @param resources
      */
     @CacheEvict(allEntries = true)
@@ -50,6 +54,7 @@ public interface DeptService {
 
     /**
      * delete
+     *
      * @param id
      */
     @CacheEvict(allEntries = true)
@@ -57,6 +62,7 @@ public interface DeptService {
 
     /**
      * buildTree
+     *
      * @param deptDTOS
      * @return
      */
@@ -65,6 +71,7 @@ public interface DeptService {
 
     /**
      * findByPid
+     *
      * @param pid
      * @return
      */
@@ -75,27 +82,26 @@ public interface DeptService {
 
 
     /**
-     * @Description:    通过rest获得dept信息
-     * @Author:         FuckJapan
-     * @CreateDate:     2019/11/11 10:31
-     * @UpdateUser:     FuckJapan
-     * @UpdateDate:     2019/11/11 10:31
-     * @UpdateRemark:   修改内容
-     * @Version:        1.0
+     * @Description: 通过rest获得dept信息
+     * @Author: FuckJapan
+     * @CreateDate: 2019/11/11 10:31
+     * @UpdateUser: FuckJapan
+     * @UpdateDate: 2019/11/11 10:31
+     * @UpdateRemark: 修改内容
+     * @Version: 1.0
      */
 
-    List<Dept> getHttpDeptList(String thirdld, String lastTime, String pageNo, String pageSize );
+    List<Dept> getHttpDeptList(String thirdld, String lastTime, String pageNo, String pageSize);
 
 
     int saveDeptIncrement();
 
     /**
      * 获取下级部门编码集合
-     * @param id
+     *
+     * @param deptCode 当前部门 code
      * @return
      */
-    List<String> getDownGradeDeptCodes(String id);
-
-
-
+    @Cacheable(cacheNames = "deptDownGrade", key = "#p0")
+    List<String> getDownGradeDeptCodes(String deptCode);
 }

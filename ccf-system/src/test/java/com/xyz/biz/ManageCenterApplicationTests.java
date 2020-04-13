@@ -99,7 +99,6 @@ public class ManageCenterApplicationTests {
         criteria.setAddr("sdd");
         criteria.setGrage("0");
         criteria.setCenterCode("1");
-        criteria.setDeptId("22");
         criteria.setCenterName("ccc");
         criteria.setUsername("");
 

@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 /**
+ * 非公有制经济组织及社会组织-> 社会组织
  * @author 邢家华
  * @date 2020-04-10
  */

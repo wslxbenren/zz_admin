@@ -2,6 +2,7 @@ package com.xyz.modules.biz.service.impl;
 
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.Foreigners;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.service.DictDetailService;
@@ -48,10 +49,14 @@ public class ForeignersServiceImpl implements ForeignersService {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private AuditSpecification audit;
+
     @Override
+    @Transactional
     public Object queryAll(ForeignersQueryCriteria criteria, Pageable pageable){
         log.info("查询列表实有人口/境外人员信息--开始");
-        Page<Foreigners> page = ForeignersRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<Foreigners> page = ForeignersRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ForeignersDTO> foreignersList = ForeignersMapper.toDto(page.getContent());
         for (ForeignersDTO mid: foreignersList) {
             DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getLastname());
@@ -77,8 +82,9 @@ public class ForeignersServiceImpl implements ForeignersService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(ForeignersQueryCriteria criteria){
-        return ForeignersMapper.toDto(ForeignersRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return ForeignersMapper.toDto(ForeignersRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override

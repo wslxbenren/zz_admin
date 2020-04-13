@@ -33,12 +33,14 @@ public class NonpublicServiceImpl implements NonpublicService {
     private NonpublicMapper NonpublicMapper;
 
     @Override
+    @Transactional
     public Object queryAll(NonpublicQueryCriteria criteria, Pageable pageable){
         Page<Nonpublic> page = NonpublicRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(NonpublicMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(NonpublicQueryCriteria criteria){
         return NonpublicMapper.toDto(NonpublicRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

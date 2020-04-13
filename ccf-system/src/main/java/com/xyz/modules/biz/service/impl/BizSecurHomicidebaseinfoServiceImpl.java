@@ -46,6 +46,7 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
     private UserDetailsService userDetailsService;
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurHomicidebaseinfoQueryCriteria criteria, Pageable pageable){
         log.info("列表查询社会治安管理/命案基本信息--开始");
         Page<BizSecurHomicidebaseinfo> page = bizSecurHomicidebaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
@@ -53,6 +54,7 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
     }
 
     @Override
+    @Transactional
     public Object queryAll(BizSecurHomicidebaseinfoQueryCriteria criteria){
         return bizSecurHomicidebaseinfoMapper.toDto(bizSecurHomicidebaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 /**
+ * 学校周边涉及师生安全案（事）件
  * @author 邢家华
  * @date 2020-04-10
  */

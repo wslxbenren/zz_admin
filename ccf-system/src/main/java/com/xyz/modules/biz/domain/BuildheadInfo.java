@@ -1,28 +1,30 @@
 package com.xyz.modules.biz.domain;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xyz.modules.biz.ao.AuditListener;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
 * @author lx
 * @date 2020-04-08
+ * 楼栋长信息数据结构表
 */
 @Entity
 @Data
 @Table(name="biz_org_buildhead_info")
 @DynamicUpdate
+@EntityListeners(AuditListener.class)
 public class BuildheadInfo implements Serializable {
 
     // 主键
@@ -118,16 +120,16 @@ public class BuildheadInfo implements Serializable {
 
     // 创建人
 
-    @Column(name = "creator")
+    @Column(name = "creator",updatable = false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",updatable = false)
+    @Column(name = "create_time",nullable = false,updatable = false)
     @CreationTimestamp
     private Timestamp createTime;
 
     // 修改人
-    @Column(name = "modifier",updatable = false)
+    @Column(name = "modifier")
     private String modifier;
 
     // 修改时间

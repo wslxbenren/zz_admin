@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 * @date 2020-04-09
 */
 public interface RentalhouseRepository extends JpaRepository<Rentalhouse, String>, JpaSpecificationExecutor {
+    Rentalhouse findByCardNo(String cardNo);
 }

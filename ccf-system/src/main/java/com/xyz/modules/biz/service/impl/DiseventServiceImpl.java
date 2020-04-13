@@ -33,12 +33,14 @@ public class DiseventServiceImpl implements DiseventService {
     private DiseventMapper DiseventMapper;
 
     @Override
+    @Transactional
     public Object queryAll(DiseventQueryCriteria criteria, Pageable pageable){
         Page<Disevent> page = DiseventRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(DiseventMapper::toDto));
     }
 
     @Override
+    @Transactional
     public Object queryAll(DiseventQueryCriteria criteria){
         return DiseventMapper.toDto(DiseventRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

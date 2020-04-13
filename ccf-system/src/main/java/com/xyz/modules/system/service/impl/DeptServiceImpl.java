@@ -1,5 +1,6 @@
 package com.xyz.modules.system.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.system.repository.DeptRepository;
@@ -107,6 +108,7 @@ public class DeptServiceImpl implements DeptService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public DeptDTO create(Dept resources) {
+        resources.setId(IdUtil.simpleUUID());
         return deptMapper.toDto(deptRepository.save(resources));
     }
 
@@ -172,25 +174,9 @@ public class DeptServiceImpl implements DeptService {
         return zzDeptList.size();
     }
 
-    // fixme 此方法加缓存
     @Override
-    public List<String> getDownGradeDeptCodes(String id) {
-        Dept dept = deptRepository.findById(id).get();
-        List<String> codes = new ArrayList<>();
-        tree2list(dept, codes);
-        return codes;
-    }
-
-    private static void tree2list(Dept root, List<String> list){
-        if (root == null) {
-            return ;
-        }
-        list.add(root.getCode());
-        if (root.getDepts()==null){
-            return;
-        }
-        for (Dept sub:root.getDepts()){
-            tree2list(sub, list);
-        }
+    public List<String> getDownGradeDeptCodes(String code) {
+        deptRepository.getChildList(code);
+        return deptRepository.getDeptDownGradeCodes();
     }
 }

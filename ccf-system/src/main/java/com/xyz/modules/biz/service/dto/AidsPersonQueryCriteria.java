@@ -1,7 +1,11 @@
 package com.xyz.modules.biz.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import java.sql.Timestamp;
+import java.util.List;
+
 import com.xyz.annotation.Query;
 
 /**
@@ -9,33 +13,60 @@ import com.xyz.annotation.Query;
  * @date 2020-04-10
  */
 @Data
+@ApiModel("特殊人群->艾滋病危险人群")
 public class AidsPersonQueryCriteria{
+    // 时间
+    @Query(type = Query.Type.BETWEEN)
+    @ApiModelProperty(value = "创建时间: 格式[yyyy-MM-dd HH:mm:ss]")
+    private List<String> createTime;
 
-    // 精确
-    @Query
+    @Query(type = Query.Type.BETWEEN)
+    @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
+    private List<String> updateTime;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "姓名")
     private String personName;
 
-    // 精确
-    @Query
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "公民身份证号")
+    private String identityNum;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "性别")
     private String personSex;
 
-    // 精确
-    @Query
-    private Timestamp dateBirth;
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "帮扶人姓名")
+    private String helperName;
 
-    // 精确
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "帮扶人联系方式")
+    private String helperAddress;
+
     @Query
+    @ApiModelProperty(value = "生日：格式[yyyy-MM-dd]")
+    private List<String> dateBirth;
+
+    @Query
+    @ApiModelProperty(value = "")
     private String nation;
-
-    // 精确
-    @Query
-    private String identityNum;
 
     // 模糊
     @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "")
     private String nativeInfo;
 
-    // 精确
-    @Query
-    private Timestamp createTime;
+    // 审计字段
+    @Query(type = Query.Type.IN)
+    @JsonIgnore
+    private List<String> unitCode;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "创建人id")
+    private String creator;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "修改人id")
+    private String modifier;
 }

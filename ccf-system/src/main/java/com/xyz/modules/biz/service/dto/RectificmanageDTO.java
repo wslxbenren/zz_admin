@@ -8,6 +8,7 @@ import java.io.Serializable;
 /**
  * @author 刘鑫
  * @date 2020-04-10
+ * 护路护线->线路专项整治管理
  */
 @Data
 public class RectificmanageDTO implements Serializable {

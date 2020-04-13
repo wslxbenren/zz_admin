@@ -47,6 +47,7 @@ public class CaseinfoServiceImpl implements CaseinfoService {
     private UserDetailsService userDetailsService;
 
     @Override
+    @Transactional
     public Object queryAll(CaseinfoQueryCriteria criteria, Pageable pageable){
         log.info("查询列表护路护线/涉线、路案事件信息管理--开始");
         Page<Caseinfo> page = CaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
@@ -54,6 +55,7 @@ public class CaseinfoServiceImpl implements CaseinfoService {
     }
 
     @Override
+    @Transactional
     public Object queryAll(CaseinfoQueryCriteria criteria){
         return CaseinfoMapper.toDto(CaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }

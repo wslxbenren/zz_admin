@@ -59,11 +59,21 @@ public interface DictDetailService {
 
     /**
      * 根据字典code和字典具体值查找字典具体名称
+     * 做字典翻译尽量不要使用这个方法， 更换为 transDict
      * @param pName 字典code-》父表name
      * @param value 字典项的值
-     * @return
+     * @return 字典详情
      */
+    @Deprecated
     DictDetail findByValueAndPName(String pName, String value);
+
+    /**
+     * 根据字典code和字典具体值查找字典具体名称
+     * @param pName 字典code-》父表name
+     * @param value 字典项的值
+     * @return 字典详情名称
+     */
+    String transDict(String pName, String value);
 
     /**
      * 没有分页

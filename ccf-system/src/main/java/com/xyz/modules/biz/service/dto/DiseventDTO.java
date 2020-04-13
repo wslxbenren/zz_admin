@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 /**
+ * 矛盾纠纷排查化解管理->矛盾纠纷排查事件
  * @author 邢家华
  * @date 2020-04-10
  */
