@@ -8,12 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 权限拦截&历史记录
@@ -38,7 +40,7 @@ public class AuditAspect {
      * @param point
      */
     @Before("execution(* com.xyz.modules.biz.service..*.create(..)) || execution(* com.xyz.modules.biz.service..*.update(..))")
-    public void fillAudit(JoinPoint point) {
+    public void fillAudit(JoinPoint point) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String sourceMethodName = point.getSignature().getDeclaringTypeName();
         Object o = point.getArgs()[0];
         Class clazz = o.getClass();
@@ -52,7 +54,18 @@ public class AuditAspect {
                 clazz.getMethod("setCreator", String.class).invoke(o, u.getId());
             }
             clazz.getMethod("setUnitCode", String.class).invoke(o, u.getDeptDto().getCode());
-            clazz.getMethod("setModifier", String.class).invoke(o, u.getId());
+            Method[] methods = clazz.getMethods();
+
+            for (int i = 0; i < methods.length; i++) {
+                if (methods[i].getName().equals("setOperName")){
+                    clazz.getMethod("setOperName", String.class).invoke(o, u.getId());
+                    break;
+                }
+                if (methods[i].getName().equals("setModifier")){
+                    clazz.getMethod("setModifier", String.class).invoke(o, u.getId());
+                    break;
+                }
+            }
             log.info("{}, fillAudit ok", clazz.getSimpleName());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -62,4 +75,5 @@ public class AuditAspect {
             e.printStackTrace();
         }
     }
+
 }
