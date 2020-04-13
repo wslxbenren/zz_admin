@@ -135,7 +135,7 @@ public class RegistpeopleDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
-
+    private String unitCodeStr;
     // 籍贯详址
     private String nativeInfoAddr;
 
