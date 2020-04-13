@@ -3,6 +3,7 @@ package com.xyz.modules.system.service.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -44,6 +45,14 @@ public class DeptDTO implements Serializable {
         return name;
     }
 
-    private  String note;
+    private String note;
     private String contact;
+    private String creditCode;
+    private String creator;
+    private String modifier;
+    private String instiType;
+    private String organType;
+    private String guideUnit;
+    private String function;
+
 }
