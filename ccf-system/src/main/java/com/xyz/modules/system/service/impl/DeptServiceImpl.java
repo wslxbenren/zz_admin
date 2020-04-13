@@ -176,6 +176,7 @@ public class DeptServiceImpl implements DeptService {
     public List<String> getDownGradeDeptCodes(String code) {
         deptRepository.getChildList(code);
         return deptRepository.getDeptDownGradeCodes();
+
     }
 
     private static void tree2list(Dept root, List<String> list){
