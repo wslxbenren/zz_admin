@@ -26,6 +26,7 @@ import java.util.List;
 /**
  * @author 刘鑫
  * @date 2020-04-10
+ * 特殊人群社区矫正人群 CURD
  */
 @Api(tags = "CorrectPerson管理")
 @RestController

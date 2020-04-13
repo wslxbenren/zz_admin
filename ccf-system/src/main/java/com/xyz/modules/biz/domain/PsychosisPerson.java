@@ -127,6 +127,7 @@ public class PsychosisPerson implements Serializable {
 
     // 初次发病日期
     @Column(name = "attack_date")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp attackDate;
 
     // 诊断类型
