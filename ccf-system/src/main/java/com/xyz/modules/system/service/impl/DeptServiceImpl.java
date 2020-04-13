@@ -179,17 +179,4 @@ public class DeptServiceImpl implements DeptService {
         deptRepository.getChildList(code);
         return deptRepository.getDeptDownGradeCodes();
     }
-
-    private static void tree2list(Dept root, List<String> list){
-        if (root == null) {
-            return ;
-        }
-        list.add(root.getCode());
-        if (root.getDepts()==null){
-            return;
-        }
-        for (Dept sub:root.getDepts()){
-            tree2list(sub, list);
-        }
-    }
 }
