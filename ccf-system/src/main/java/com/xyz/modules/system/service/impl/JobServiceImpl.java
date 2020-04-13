@@ -1,5 +1,6 @@
 package com.xyz.modules.system.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.JobRepository;
 import com.xyz.utils.PageUtil;
@@ -57,6 +58,7 @@ public class JobServiceImpl implements JobService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public JobDTO create(Job resources) {
+        resources.setId(IdUtil.simpleUUID());
         return jobMapper.toDto(jobRepository.save(resources));
     }
 
