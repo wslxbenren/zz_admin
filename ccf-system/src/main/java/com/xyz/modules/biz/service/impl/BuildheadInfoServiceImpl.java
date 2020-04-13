@@ -51,10 +51,6 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     private DictDetailService dictDetailService;
 
     @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private JwtUserDetailsService userDetailsService;
-
-    @Autowired
     private AuditSpecification auditSpecification;
 
     @Autowired
@@ -64,26 +60,27 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     @Transactional(readOnly = false)
     public Object queryAll(BuildheadInfoQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
-        log.debug("**********楼长信息列表查询开始**********");
+        log.info("**********楼长信息列表查询开始**********");
         Page<BuildheadInfo> page = BuildheadInfoRepository.findAll(auditSpecification.genSpecification(criteria)
         ,pageable);
         List<BuildheadInfoDTO> buildheadInfoDTOS = buildheadInfoMapper.toDto(page.getContent());
         for (BuildheadInfoDTO b:buildheadInfoDTOS){
-            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), b.getSex());
-            b.setSexStr(dd == null ? "无数据" : dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.MIN_ZU.getDistName(), b.getNational());
-            b.setNationalStr(dd == null ? "无数据" : dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), b.getPoliticalStatus());
-            b.setPoliticalStatusStr(dd == null ? "无数据" : dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.XUE_LI.getDistName(), b.getEducationBgStr());
-            b.setEducationBgStr(dd == null ? "无数据" : dd.getLabel());
-            b.setUnitCode(deptRepository.findNameByCode(b.getUnitCode()));
+            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), b.getSex());
+            b.setSexStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), b.getNational());
+            b.setNationalStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), b.getPoliticalStatus());
+            b.setPoliticalStatusStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), b.getEducationBgStr());
+            b.setEducationBgStr(dd == null ? "无数据" : dd);
+            dd = deptRepository.findNameByCode(b.getUnitCode());
+            b.setUnitCodeStr(dd);
         }
         Map map = new HashMap();
         map.put("content", buildheadInfoDTOS);
         map.put("totalElements", page.getTotalElements());
         DateTime endTime = DateUtil.date(new Date().getTime());
-        log.debug("**********楼长信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
+        log.info("**********楼长信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
         return map;
     }
 
@@ -107,8 +104,6 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     @Transactional(rollbackFor = Exception.class)
     public BuildheadInfoDTO create(BuildheadInfo resources) {
         resources.setId(IdUtil.simpleUUID());
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
         return buildheadInfoMapper.toDto(BuildheadInfoRepository.save(resources));
     }
 
@@ -118,8 +113,6 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
         Optional<BuildheadInfo> optionalBuildheadInfo = BuildheadInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalBuildheadInfo,"BuildheadInfo","id",resources.getId());
         BuildheadInfo BuildheadInfo = optionalBuildheadInfo.get();
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setModifier(u.getId());
         BuildheadInfo.copy(resources);
         BuildheadInfoRepository.save(BuildheadInfo);
     }

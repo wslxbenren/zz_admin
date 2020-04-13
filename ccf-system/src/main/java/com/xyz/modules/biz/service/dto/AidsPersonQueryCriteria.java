@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import java.sql.Timestamp;
 import java.util.List;
 
 import com.xyz.annotation.Query;
@@ -46,8 +45,8 @@ public class AidsPersonQueryCriteria{
     private String helperAddress;
 
     @Query
-    @ApiModelProperty(value = "")
-    private Timestamp dateBirth;
+    @ApiModelProperty(value = "生日：格式[yyyy-MM-dd]")
+    private List<String> dateBirth;
 
     @Query
     @ApiModelProperty(value = "")

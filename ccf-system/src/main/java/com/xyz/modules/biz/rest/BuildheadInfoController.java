@@ -43,9 +43,7 @@ public class BuildheadInfoController {
     @Autowired
     private DeptService deptService;
 
-    @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+
 
     @Log("查询列表BuildheadInfo")
     @ApiOperation(value = "查询BuildheadInfo")

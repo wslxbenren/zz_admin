@@ -175,6 +175,7 @@ public class PsychosisPersonDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+    private String unitCodeStr;
 
     // 职业类别
     private String vocationCode;

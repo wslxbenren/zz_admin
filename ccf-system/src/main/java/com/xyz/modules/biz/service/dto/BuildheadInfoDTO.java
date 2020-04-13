@@ -99,4 +99,5 @@ public class BuildheadInfoDTO implements Serializable {
 
     // 所属单位
     private String unitCode;
+    private String unitCodeStr;
 }

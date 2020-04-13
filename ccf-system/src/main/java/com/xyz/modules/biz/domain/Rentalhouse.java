@@ -52,7 +52,7 @@ public class Rentalhouse implements Serializable {
     private String cardType;
 
     // 证件号码
-    @Column(name = "card_no")
+    @Column(name = "card_no",unique = true,nullable = false)
     private String cardNo;
 
     // 房主姓名
