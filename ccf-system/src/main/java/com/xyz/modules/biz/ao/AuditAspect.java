@@ -41,7 +41,7 @@ public class AuditAspect {
      */
     @Before("execution(* com.xyz.modules.biz.service..*.create(..)) || execution(* com.xyz.modules.biz.service..*.update(..))")
     public void fillAudit(JoinPoint point) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        String sourceMethodName = point.getSignature().getDeclaringTypeName();
+        String sourceMethodName = point.getSignature().getName();
         Object o = point.getArgs()[0];
         Class clazz = o.getClass();
         log.info("{}, enter fillAudit", clazz.getSimpleName());
