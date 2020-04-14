@@ -45,7 +45,7 @@ public class RegistpeopleQueryCriteria{
     @ApiModelProperty(value = "籍贯")
     private String nativeInfo;
 
-    // 其他
+  /*  // 其他
     @Query(type = Query.Type.INNER_LIKE)
     private String usedName;
 
@@ -86,7 +86,7 @@ public class RegistpeopleQueryCriteria{
     private List<String> expDate;
 
     @Query(type = Query.Type.BETWEEN)
-    private List<String> operDate;
+    private List<String> operDate;*/
 
 
     // 审计字段

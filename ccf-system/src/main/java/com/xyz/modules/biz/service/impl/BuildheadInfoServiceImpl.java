@@ -71,7 +71,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
             b.setNationalStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), b.getPoliticalStatus());
             b.setPoliticalStatusStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), b.getEducationBgStr());
+            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), b.getEducationBg());
             b.setEducationBgStr(dd == null ? "无数据" : dd);
             dd = deptRepository.findNameByCode(b.getUnitCode());
             b.setUnitCodeStr(dd);

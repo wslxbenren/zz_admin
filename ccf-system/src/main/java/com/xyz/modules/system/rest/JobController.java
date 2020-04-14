@@ -44,9 +44,9 @@ public class JobController {
     @PostMapping(value = "/job")
     @PreAuthorize("hasAnyRole('ADMIN','USERJOB_ALL','USERJOB_CREATE')")
     public ResponseEntity create(@Validated @RequestBody Job resources){
-        if (resources.getId() != null) {
-            throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
-        }
+//        if (resources.getId() != null) {
+//            throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
+//        }
         return new ResponseEntity(jobService.create(resources),HttpStatus.CREATED);
     }
 

@@ -102,15 +102,7 @@ public class RentalhouseApplicationTests {
         rq.setCreateTime(Arrays.asList("2020-02-02 14:13:47","2020-04-10 12:13:47"));
         rq.setHomeownerName("1");
         rq.setHouseCode("1");
-        rq.setCardType("1");
-        rq.setCardNo("12222");
-        rq.setHazardType("1");
-        rq.setLesseeIdno("1");
-        rq.setStatusCd("1");
-        rq.setLesseeName("顶顶顶");
-        rq.setEffDate(Arrays.asList("2020-02-02 14:13:47","2020-04-10 12:13:47"));
-        rq.setExpDate(Arrays.asList("2020-02-02 14:13:47","2020-04-10 12:13:47"));
-        rq.setOperDate(Arrays.asList("2020-02-02 14:13:47","2020-04-10 12:13:47"));
+
         rq.setCreateTime(Arrays.asList("2020-02-02 14:13:47","2020-04-10 12:13:47"));
         rq.setCreator("管理员");
         Object o = rentalhouseService.queryAll(rq);

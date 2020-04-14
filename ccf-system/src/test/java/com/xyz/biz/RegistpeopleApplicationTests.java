@@ -140,22 +140,11 @@ public class RegistpeopleApplicationTests {
     public void testQuery() throws Exception {
         RegistpeopleDTO byId = registpeopleService.findById("70dbce8445134dcbb8718f7dbfc17821");
         RegistpeopleQueryCriteria q = new RegistpeopleQueryCriteria();
-        q.setDateBirth(Arrays.asList("2020-02-02 20-20-20","2020-04-09 10:10:10"));
-        q.setNation("1");
+
         q.setPersonName("是的");
-        q.setUsedName("dfd");
+
         q.setNativeInfo("1");
-        q.setMarriageFlag("1");
-        q.setPartyFlag("1");
-        q.setEducationBg("1");
-        q.setFaithType("1");
-        q.setVocationCode("1");
-        q.setRegisteredPlace("1");
-        q.setHouseholdId("2");
-        q.setHouseheadName("是啥");
-        q.setEffDate(Arrays.asList("2020-02-02 20-20-20","2020-04-09 10:10:10"));
-        q.setExpDate(Arrays.asList("2020-02-02 20-20-20","2020-04-09 10:10:10"));
-        q.setOperDate(Arrays.asList("2020-02-02 20-20-20","2020-04-09 10:10:10"));
+
         q.setCreateTime(Arrays.asList("2020-02-02 20-20-20","2020-04-09 10:10:10"));
         Object o = registpeopleService.queryAll(q);
 
