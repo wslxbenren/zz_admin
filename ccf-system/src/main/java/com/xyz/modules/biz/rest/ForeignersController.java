@@ -4,15 +4,22 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.Foreigners;
 import com.xyz.modules.biz.service.ForeignersService;
 import com.xyz.modules.biz.service.dto.ForeignersQueryCriteria;
+import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictService;
+import com.xyz.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
+
+import java.util.List;
 
 
 /**
@@ -29,13 +36,22 @@ public class ForeignersController {
     private ForeignersService ForeignersService;
 
     @Autowired
-    private DictService dictService;
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private DeptService deptService;
 
     @Log("查询Foreigners")
     @ApiOperation(value = "查询Foreigners")
     @GetMapping(value = "/Foreigners")
     @PreAuthorize("hasAnyRole('ADMIN','FOREIGNERS_ALL','FOREIGNERS_SELECT')")
     public ResponseEntity getForeignerss(ForeignersQueryCriteria criteria, Pageable pageable){
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        String deptId = u.getDeptDto().getId();
+        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
+        criteria.setCreator(u.getId());
+        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(ForeignersService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
@@ -73,11 +89,11 @@ public class ForeignersController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @Log("获取字典项")
+  /*  @Log("获取字典项")
     @ApiOperation(value = "获取字典项")
     @GetMapping(value = "/Foreigners/getDict")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
     public ResponseEntity getDict() {
         return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.Foreigners"), HttpStatus.OK);
-    }
+    }*/
 }

@@ -15,8 +15,9 @@ import java.sql.Timestamp;
 import java.io.Serializable;
 
 /**
-* @author dadovicn
+* @author xjh
 * @date 2020-04-08
+ * 功能模块 ： 实有人口/境外人员信息
 */
 @Entity
 @Data

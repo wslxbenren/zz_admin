@@ -6,9 +6,9 @@ import java.io.Serializable;
 
 
 /**
- * 社会治安管理->命案
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：社会治安管理/命案基本信息
  */
 @Data
 public class BizSecurHomicidebaseinfoDTO implements Serializable {
@@ -57,4 +57,7 @@ public class BizSecurHomicidebaseinfoDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+
+    // 单位编码,所属单位，后续可用于权限管理  字典翻译
+    private String unitCodeStr;
 }

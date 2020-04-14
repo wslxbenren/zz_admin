@@ -1,4 +1,8 @@
 package com.xyz;
+/**
+ * 作者：xjh
+ * 时间：2020-4-9 15:14:43
+ */
 
 import com.xyz.modules.biz.domain.Leftbehind;
 import com.xyz.modules.biz.domain.MajorcaseInfo;
@@ -148,9 +152,6 @@ public class LeftbehindTests {
         createTime.add("2020-4-9 14:48:41");
         createTime.add("2020-4-9 15:05:35");
         criteria.setCreateTime(createTime);
-        criteria.setEducationBg("");
-        criteria.setNation("");
-        criteria.setPartyFlag("");
         criteria.setPersonName("");
         leftbehindServiceImpl.queryAll(criteria);
     }

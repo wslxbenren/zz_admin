@@ -11,6 +11,7 @@ import java.util.List;
 /**
 * @author xjh
 * @date 2020-04-05
+ * 功能模块 ： 综治组织/重大案件事件
 */
 @Data
 @ApiModel("综治组织及综治业务-> 重特大案（事）件信息")
@@ -48,6 +49,7 @@ public class MajorcaseInfoQueryCriteria{
     // 审计字段
     @Query(type = Query.Type.IN)
     @JsonIgnore
+    @ApiModelProperty(value = "单位编码,所属单位")
     private List<String> unitCode;
 
     @Query(type = Query.Type.EQUAL)

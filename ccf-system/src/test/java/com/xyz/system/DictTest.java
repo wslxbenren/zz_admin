@@ -2,6 +2,7 @@ package com.xyz.system;
 
 import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DictRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.DictService;
 import com.xyz.modules.system.service.dto.DictDetailQueryCriteria;
@@ -32,10 +33,22 @@ public class DictTest {
     @Autowired
     private DictService dictService;
 
+    @Autowired
+    private DictRepository dictRepository;
+
     @Test
     public void testFindDictDetailLabel() {
         DictDetail detail = dictDetailService.findByValueAndPName(DictEnum.MIN_ZU.getDistName(), "01");
         assert detail.getLabel().equals("汉族");
+    }
+
+    @Test
+    public void testFindDictDetailByDictId() {
+        DictDetailQueryCriteria dictDetailQueryCriteria = new DictDetailQueryCriteria();
+        dictDetailQueryCriteria.setDictId("106");
+        dictDetailQueryCriteria.setPId("1");
+        List<DictDetail> ll = dictDetailService.queryAll(dictDetailQueryCriteria);
+        System.out.println("");
     }
 
     /**

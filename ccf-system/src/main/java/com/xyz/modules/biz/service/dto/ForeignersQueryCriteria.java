@@ -23,7 +23,7 @@ public class ForeignersQueryCriteria{
 
     @Query(type = Query.Type.BETWEEN)
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
-    private List<String> updateTime;
+    private List<String> operDate;
 
     // 原型查询条件
     @Query(type = Query.Type.INNER_LIKE)
@@ -50,23 +50,10 @@ public class ForeignersQueryCriteria{
     @ApiModelProperty(value = "证件有效期")
     private List<String> validDate;
 
-    // 其他
-    @Query(type = Query.Type.INNER_LIKE)
-    private String chinesename;
-
-    @Query(type = Query.Type.INNER_LIKE)
-    private String vocation;
-
-    //字典项
-    @Query(type = Query.Type.EQUAL)
-    private String personSex;
-
-    @Query(type = Query.Type.EQUAL)
-    private String vocationCode;
-
     // 审计字段
     @Query(type = Query.Type.IN)
     @JsonIgnore
+    @ApiModelProperty(value = "单位编码,所属单位")
     private List<String> unitCode;
 
     @Query(type = Query.Type.EQUAL)
@@ -75,5 +62,5 @@ public class ForeignersQueryCriteria{
 
     @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "修改人id")
-    private String modifier;
+    private String operName;
 }

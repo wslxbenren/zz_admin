@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * 社会治安管理->寄递物流安全管理
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
  */
 @Data
@@ -40,14 +40,26 @@ public class BizSecurLogisticsDTO implements Serializable {
     // 登记注册类型
     private String regisType;
 
+    // 登记注册类型  字典翻译
+    private String regisTypeStr;
+
     // 控股情况
     private String holdings;
+
+    // 控股情况   字典翻译
+    private String holdingsStr;
 
     // 经营范围
     private String businessScope;
 
+    // 经营范围  字典翻译
+    private String businessScopeStr;
+
     // 企业类型
     private String entityType;
+
+    // 企业类型   字典翻译
+    private String entityTypeStr;
 
     // 服务品牌
     private String serviceBrand;
@@ -102,4 +114,7 @@ public class BizSecurLogisticsDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+
+    // 单位编码,所属单位，后续可用于权限管理  字典翻译
+    private String unitCodeStr;
 }
