@@ -42,6 +42,7 @@ public class CorrectPerson implements Serializable {
 
     // 出生日期
     @Column(name = "date_birth")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp dateBirth;
 
     // 民族
@@ -135,17 +136,17 @@ public class CorrectPerson implements Serializable {
 
     // 原判刑结束日期
     @Column(name = "prison_enddate")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp prisonEnddate;
 
     // 矫正开始日期
     @Column(name = "correct_beagindate",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp correctBeagindate;
 
     // 矫正结束日期
     @Column(name = "correct_enddate",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp correctEnddate;
 
     // 接收方式
@@ -226,12 +227,12 @@ public class CorrectPerson implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp expDate;
 
     // 同步状态

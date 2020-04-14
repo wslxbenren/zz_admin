@@ -44,7 +44,7 @@ public class RentalhouseQueryCriteria{
     @ApiModelProperty(value = "承租人联系方式")
     private String lesseeMobile;
 
-    @Query(type = Query.Type.EQUAL)
+  /*  @Query(type = Query.Type.EQUAL)
     private String cardType;
 
     @Query(type = Query.Type.EQUAL)
@@ -66,7 +66,7 @@ public class RentalhouseQueryCriteria{
     private List<String> expDate;
 
     @Query(type = Query.Type.BETWEEN)
-    private List<String> operDate;
+    private List<String> operDate;*/
 
     // 审计字段
     @Query(type = Query.Type.IN)

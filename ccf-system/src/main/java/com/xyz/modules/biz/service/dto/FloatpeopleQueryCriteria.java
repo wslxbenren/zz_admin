@@ -45,7 +45,7 @@ public class FloatpeopleQueryCriteria{
     @ApiModelProperty(value = "籍贯")
     private String nativeInfo;
 
-    @Query(type = Query.Type.BETWEEN)
+  /*  @Query(type = Query.Type.BETWEEN)
     private List<String> dateBirth;
 
     @Query(type = Query.Type.BETWEEN)
@@ -93,7 +93,7 @@ public class FloatpeopleQueryCriteria{
 
     // 多字段模糊
     @Query(blurry = "personName,usedName")
-    private String blurry;
+    private String blurry;*/
 
     // 审计字段
     @Query(type = Query.Type.IN)

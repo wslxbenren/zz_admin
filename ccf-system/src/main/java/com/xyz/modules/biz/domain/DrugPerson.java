@@ -42,6 +42,7 @@ public class DrugPerson implements Serializable {
 
     // 出生日期
     @Column(name = "date_birth")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp dateBirth;
 
     // 民族
@@ -106,6 +107,7 @@ public class DrugPerson implements Serializable {
 
     // 初次发现日期
     @Column(name = "find_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp findDate;
 
     // 管控情况
