@@ -72,9 +72,9 @@ public class RoleController {
     @PostMapping(value = "/roles")
     @PreAuthorize("hasAnyRole('ADMIN','ROLES_ALL','ROLES_CREATE')")
     public ResponseEntity create(@Validated @RequestBody Role resources){
-        if (resources.getId() != null) {
-            throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
-        }
+//        if (resources.getId() != null) {
+//            throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
+//        }
         return new ResponseEntity(roleService.create(resources),HttpStatus.CREATED);
     }
 

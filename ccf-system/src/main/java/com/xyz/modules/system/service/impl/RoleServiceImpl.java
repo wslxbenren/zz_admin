@@ -1,5 +1,6 @@
 package com.xyz.modules.system.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.system.repository.RoleRepository;
 import com.xyz.modules.system.service.mapper.RoleMapper;
