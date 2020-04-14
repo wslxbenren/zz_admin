@@ -4,6 +4,7 @@ import com.xyz.modules.system.domain.DictDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 
 import java.util.List;
 
@@ -32,4 +33,10 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, Long>, J
     @Query(value = "select b.label from dict a join dict_detail b on " +
             "a.id = b.dict_id and a.name = ?1 and b.value = ?2 " , nativeQuery = true)
     String transDict(String pName, String value);
+
+    @Procedure(procedureName = "proAddrParentList")
+    void proAddrParentList(long v_id, String v_value);
+
+    @Query(value = "select label from pro_addrparentlist order by grage asc", nativeQuery = true)
+    String[] upRecursiveDict();
 }

@@ -83,12 +83,18 @@ public enum DictEnum {
      CZYT(262, "出租用途"),
      SJZT(263,"数据状态");
     private String distName;
+    private long dictId;
 
     DictEnum(long dictId, String distName) {
+        this.dictId = dictId;
         this.distName = distName;
     }
 
     public String getDistName() {
         return this.distName;
+    }
+
+    public long getDictId() {
+         return this.dictId;
     }
 }

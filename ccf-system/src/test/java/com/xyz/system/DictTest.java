@@ -2,6 +2,7 @@ package com.xyz.system;
 
 import com.xyz.modules.system.domain.Dict;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.modules.system.repository.DictRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.DictService;
@@ -36,6 +37,9 @@ public class DictTest {
     @Autowired
     private DictRepository dictRepository;
 
+    @Autowired
+    private DictDetailRepository dictDetailRepository;
+
     @Test
     public void testFindDictDetailLabel() {
         DictDetail detail = dictDetailService.findByValueAndPName(DictEnum.MIN_ZU.getDistName(), "01");
@@ -49,6 +53,13 @@ public class DictTest {
         dictDetailQueryCriteria.setPId("1");
         List<DictDetail> ll = dictDetailService.queryAll(dictDetailQueryCriteria);
         System.out.println("");
+    }
+
+    @Test
+    public void testDict() {
+        dictDetailRepository.proAddrParentList(106L, "140427");
+        String[] dd = dictDetailRepository.upRecursiveDict();
+        System.out.println(String.join("/", dd));
     }
 
     /**

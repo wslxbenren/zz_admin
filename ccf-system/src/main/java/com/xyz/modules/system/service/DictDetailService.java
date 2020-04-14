@@ -81,4 +81,6 @@ public interface DictDetailService {
      * @return
      */
     List<DictDetail> queryAll(DictDetailQueryCriteria criteria);
+
+    String transMultistage(long dictTypeId, String dictDetailValue);
 }

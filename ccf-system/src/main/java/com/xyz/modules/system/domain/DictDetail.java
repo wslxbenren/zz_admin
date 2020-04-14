@@ -13,6 +13,11 @@ import java.io.Serializable;
 * @author Zheng Jie
 * @date 2019-04-10
 */
+@NamedStoredProcedureQuery(name = "proAddrParentList", procedureName = "proAddrParentList",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "v_id", type = Long.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "v_value", type = String.class)
+        })
 @Entity
 @Data
 @Table(name="dict_detail")
