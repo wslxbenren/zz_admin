@@ -87,14 +87,13 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     @Override
     @Transactional
     public Object queryAll(BuildheadInfoQueryCriteria criteria){
+        log.info("********** 查询BuildheadInfo  列表**********");
         return  buildheadInfoMapper.toDto(BuildheadInfoRepository.findAll(auditSpecification.genSpecification(criteria)));
     }
 
     @Override
     public BuildheadInfoDTO findById(String id) {
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
+        log.info("********** 查询BuildheadInfo 详情**********");
         Optional<BuildheadInfo> BuildheadInfo = BuildheadInfoRepository.findById(id);
         ValidationUtil.isNull(BuildheadInfo,"BuildheadInfo","id",id);
         return buildheadInfoMapper.toDto(BuildheadInfo.get());
@@ -103,6 +102,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BuildheadInfoDTO create(BuildheadInfo resources) {
+        log.info("********** 新增 BuildheadInfo **********");
         resources.setId(IdUtil.simpleUUID());
         return buildheadInfoMapper.toDto(BuildheadInfoRepository.save(resources));
     }
@@ -110,6 +110,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(BuildheadInfo resources) {
+        log.info("********** 修改 BuildheadInfo **********");
         Optional<BuildheadInfo> optionalBuildheadInfo = BuildheadInfoRepository.findById(resources.getId());
         ValidationUtil.isNull( optionalBuildheadInfo,"BuildheadInfo","id",resources.getId());
         BuildheadInfo BuildheadInfo = optionalBuildheadInfo.get();
@@ -120,6 +121,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String id) {
+        log.info("********** 删除 BuildheadInfo **********");
         BuildheadInfoRepository.deleteById(id);
     }
 

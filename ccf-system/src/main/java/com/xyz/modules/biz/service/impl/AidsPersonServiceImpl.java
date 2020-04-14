@@ -56,7 +56,7 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     @Override
     @Transactional
     public Object queryAll(AidsPersonQueryCriteria criteria, Pageable pageable){
-      log.info("实现查询方法");
+      log.info("实现条件查询列表-分页");
         Page<AidsPerson> page = AidsPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<AidsPersonDTO> aidsPersonDTOS = AidsPersonMapper.toDto(page.getContent());
         for (AidsPersonDTO f:aidsPersonDTOS){
@@ -102,11 +102,13 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     @Override
     @Transactional
     public Object queryAll(AidsPersonQueryCriteria criteria){
+        log.info("实现条件查询AidsPerson 列表 ");
         return AidsPersonMapper.toDto(AidsPersonRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
     public AidsPersonDTO findById(String aidsId) {
+        log.info("查询AidsPerson详情 ");
         Optional<AidsPerson> AidsPerson = AidsPersonRepository.findById(aidsId);
         ValidationUtil.isNull(AidsPerson,"AidsPerson","aidsId",aidsId);
         return AidsPersonMapper.toDto(AidsPerson.get());
@@ -115,8 +117,10 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public AidsPersonDTO create(AidsPerson resources) {
+        log.info("新增 AidsPerson");
         resources.setAidsId(IdUtil.simpleUUID()); 
         if(AidsPersonRepository.findByIdentityNum(resources.getIdentityNum()) != null){
+            log.info("AidsPerson IdentityNum 重复 ");
             throw new EntityExistException(AidsPerson.class,"identity_num",resources.getIdentityNum());
         }
         return AidsPersonMapper.toDto(AidsPersonRepository.save(resources));
@@ -125,6 +129,7 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(AidsPerson resources) {
+        log.info("修改 AidsPerson");
         Optional<AidsPerson> optionalAidsPerson = AidsPersonRepository.findById(resources.getAidsId());
         ValidationUtil.isNull( optionalAidsPerson,"AidsPerson","id",resources.getAidsId());
         AidsPerson AidsPerson = optionalAidsPerson.get();
@@ -139,6 +144,7 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String aidsId) {
+        log.info("删除 AidsPerson");
         AidsPersonRepository.deleteById(aidsId);
     }
 }
