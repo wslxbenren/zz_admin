@@ -1,19 +1,26 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
 
 /**
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：社会治安管理/重点地区排查整治信息
  */
 @Entity
 @Data
 @Table(name="biz_secur_keyareas")
+@DynamicUpdate
 public class BizSecurKeyareas implements Serializable {
 
     // ID，uuid()赋值
@@ -55,6 +62,7 @@ public class BizSecurKeyareas implements Serializable {
 
     // 整改时限
     @Column(name = "limit_time")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp limitTime;
 
     // 整治期间破获刑事案件数
@@ -75,10 +83,12 @@ public class BizSecurKeyareas implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -95,14 +105,16 @@ public class BizSecurKeyareas implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
+    @UpdateTimestamp
     private Timestamp operDate;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable=false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false)
+    @Column(name = "create_time",nullable = false,updatable=false)
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理

@@ -58,7 +58,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     @Transactional
     public Object queryAll(RentalhouseQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
-        log.debug("**********出租房信息列表查询开始**********");
+        log.info("**********出租房信息列表查询开始**********");
         Page<Rentalhouse> page = RentalhouseRepository.findAll(audit.genSpecification(criteria),pageable);
         List<Rentalhouse> content = page.getContent();
         List<RentalhouseDTO> rentalhouseDTOS = RentalhouseMapper.toDto(content);
@@ -73,18 +73,20 @@ public class RentalhouseServiceImpl implements RentalhouseService {
         map.put("content", rentalhouseDTOS);
         map.put("totalElements", page.getTotalElements());
         DateTime endTime = DateUtil.date(new Date().getTime());
-        log.debug("**********出租房信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
+        log.info("**********出租房信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
         return map;
     }
 
     @Override
     @Transactional
     public Object queryAll(RentalhouseQueryCriteria criteria){
+        log.info("********** 条件查询 Rentalhouse 列表**********");
         return RentalhouseMapper.toDto(RentalhouseRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
     public RentalhouseDTO findById(String rentId) {
+        log.info("**********  查询 Rentalhouse 详情**********");
         Optional<Rentalhouse> Rentalhouse = RentalhouseRepository.findById(rentId);
         ValidationUtil.isNull(Rentalhouse,"Rentalhouse","rentId",rentId);
         return RentalhouseMapper.toDto(Rentalhouse.get());
@@ -93,8 +95,10 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public RentalhouseDTO create(Rentalhouse resources) {
+        log.info("**********  新增 Rentalhouse  **********");
         resources.setRentId(IdUtil.simpleUUID());
         if(RentalhouseRepository.findByCardNo(resources.getCardNo()) != null){
+            log.info("**********  Rentalhouse  card_no重复 新增失败  **********");
             throw new EntityExistException(Rentalhouse.class,"card_no",resources.getCardNo());
         }
         return RentalhouseMapper.toDto(RentalhouseRepository.save(resources));
@@ -103,6 +107,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Rentalhouse resources) {
+        log.info("**********  修改 Rentalhouse  **********");
         Optional<Rentalhouse> optionalRentalhouse = RentalhouseRepository.findById(resources.getRentId());
         ValidationUtil.isNull( optionalRentalhouse,"Rentalhouse","id",resources.getRentId());
         Rentalhouse Rentalhouse = optionalRentalhouse.get();
@@ -113,6 +118,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String rentId) {
+        log.info("**********  删除 Rentalhouse  **********");
         RentalhouseRepository.deleteById(rentId);
     }
 }

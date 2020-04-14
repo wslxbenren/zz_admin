@@ -1,18 +1,25 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
 
 /**
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：护路护线/护路护线基本信息
  */
 @Entity
 @Data
+@DynamicUpdate
 @Table(name="biz_route_convenientinfo")
 public class Convenientinfo implements Serializable {
 
@@ -91,10 +98,12 @@ public class Convenientinfo implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -111,14 +120,16 @@ public class Convenientinfo implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
+    @UpdateTimestamp
     private Timestamp operDate;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable=false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false)
+    @Column(name = "create_time",nullable = false,updatable=false)
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理

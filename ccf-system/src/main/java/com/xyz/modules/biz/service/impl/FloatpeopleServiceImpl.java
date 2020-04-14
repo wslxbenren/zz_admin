@@ -97,14 +97,13 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Override
     @Transactional
     public Object queryAll(FloatpeopleQueryCriteria criteria){
+        log.debug("**********条件查询 Floatpeople 列表**********");
         return FloatpeopleMapper.toDto(FloatpeopleRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
     public FloatpeopleDTO findById(String floatId) {
-        if (StringUtils.isBlank(floatId)){
-            throw new BadRequestException("主键ID不能为空");
-        }
+        log.debug("********** 查询 Floatpeople 详情**********");
         Optional<Floatpeople> Floatpeople = FloatpeopleRepository.findById(floatId);
         ValidationUtil.isNull(Floatpeople,"Floatpeople","floatId",floatId);
         return FloatpeopleMapper.toDto(Floatpeople.get());
@@ -113,8 +112,10 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public FloatpeopleDTO create(Floatpeople resources) {
+        log.debug("********** 新增 Floatpeople  **********");
         resources.setFloatId(IdUtil.simpleUUID());
         if(FloatpeopleRepository.findByIdentityNum(resources.getIdentityNum()) != null){
+            log.debug("**********   Floatpeople identity_num 重复 新增失败 **********");
             throw new EntityExistException(Floatpeople.class,"identity_num",resources.getIdentityNum());
         }
         return FloatpeopleMapper.toDto(FloatpeopleRepository.save(resources));
@@ -123,15 +124,14 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Floatpeople resources) {
-        if (StringUtils.isBlank(resources.getFloatId())){
-            throw new BadRequestException("主键ID不能为空");
-        }
+        log.debug("********** 修改 Floatpeople  **********");
         Optional<Floatpeople> optionalFloatpeople = FloatpeopleRepository.findById(resources.getFloatId());
         ValidationUtil.isNull( optionalFloatpeople,"Floatpeople","id",resources.getFloatId());
         Floatpeople Floatpeople = optionalFloatpeople.get();
         Floatpeople Floatpeople1 = null;
         Floatpeople1 = FloatpeopleRepository.findByIdentityNum(resources.getIdentityNum());
         if(Floatpeople1 != null && !Floatpeople1.getFloatId().equals(Floatpeople.getFloatId())){
+            log.debug("**********   Floatpeople identity_num 重复 修改失败 **********");
             throw new EntityExistException(Floatpeople.class,"identity_num",resources.getIdentityNum());
         }
         Floatpeople.copy(resources);
@@ -141,6 +141,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String floatId) {
+        log.debug("********** 删除 Floatpeople  **********");
         FloatpeopleRepository.deleteById(floatId);
     }
 }

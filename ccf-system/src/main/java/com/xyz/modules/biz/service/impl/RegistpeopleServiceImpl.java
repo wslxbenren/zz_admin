@@ -97,11 +97,13 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional
     public Object queryAll(RegistpeopleQueryCriteria criteria){
+        log.debug("**********条件查询 Registpeople 列表**********");
         return RegistpeopleMapper.toDto(RegistpeopleRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
     public RegistpeopleDTO findById(String regisId) {
+        log.debug("********** 查询 Registpeople 详情**********");
         Optional<Registpeople> Registpeople = RegistpeopleRepository.findById(regisId);
         ValidationUtil.isNull(Registpeople,"Registpeople","regisId",regisId);
         return RegistpeopleMapper.toDto(Registpeople.get());
@@ -110,8 +112,10 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public RegistpeopleDTO create(Registpeople resources) {
+        log.debug("********** 新增 Registpeople  **********");
         resources.setRegisId(IdUtil.simpleUUID());
         if(RegistpeopleRepository.findByIdentityNum(resources.getIdentityNum()) != null){
+            log.debug("**********   Registpeople identity_num 重复 新增失败  **********");
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
         return RegistpeopleMapper.toDto(RegistpeopleRepository.save(resources));
@@ -120,12 +124,14 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Registpeople resources) {
+        log.debug("********** 修改 Registpeople  **********");
         Optional<Registpeople> optionalRegistpeople = RegistpeopleRepository.findById(resources.getRegisId());
         ValidationUtil.isNull( optionalRegistpeople,"Registpeople","id",resources.getRegisId());
         Registpeople Registpeople = optionalRegistpeople.get();
         Registpeople Registpeople1 = null;
         Registpeople1 = RegistpeopleRepository.findByIdentityNum(resources.getIdentityNum());
         if(Registpeople1 != null && !Registpeople1.getRegisId().equals(Registpeople.getRegisId())){
+            log.debug("**********   Registpeople identity_num 重复 修改失败  **********");
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
         Registpeople.copy(resources);
@@ -135,6 +141,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String regisId) {
+        log.debug("********** 删除 Registpeople  **********");
         RegistpeopleRepository.deleteById(regisId);
     }
 }

@@ -14,6 +14,7 @@ import com.xyz.modules.biz.service.PsychosisPersonService;
 import com.xyz.modules.biz.service.dto.PsychosisPersonDTO;
 import com.xyz.modules.biz.service.dto.PsychosisPersonQueryCriteria;
 import com.xyz.modules.biz.service.mapper.PsychosisPersonMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,6 +36,7 @@ import javax.annotation.Resource;
  * @author 刘鑫
  * @date 2020-04-10
  */
+@Slf4j
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class PsychosisPersonServiceImpl implements PsychosisPersonService {
@@ -56,6 +58,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     @Override
     @Transactional
     public Object queryAll(PsychosisPersonQueryCriteria criteria, Pageable pageable){
+        log.debug("********** 条件查询 PsychosisPerson 列表-分页  **********");
         Page<PsychosisPerson> page = PsychosisPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<PsychosisPersonDTO> psychosisPersonDTOS = PsychosisPersonMapper.toDto(page.getContent());
         for (PsychosisPersonDTO f:psychosisPersonDTOS){
@@ -78,7 +81,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
             dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
             f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);// 户籍地
 
-            dd = dictDetailService.transDict(DictEnum.MQZDLX.getDistName(), f.getDiagnoseTypeStr());
+            dd = dictDetailService.transDict(DictEnum.MQZDLX.getDistName(), f.getDiagnoseType());
             f.setDiagnoseTypeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ZLQK.getDistName(), f.getTreatFlag());
             f.setTreatFlagStr(dd == null ? "无数据" : dd);
@@ -101,11 +104,13 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     @Override
     @Transactional
     public Object queryAll(PsychosisPersonQueryCriteria criteria){
+        log.debug("********** 条件查询 PsychosisPerson 列表   **********");
         return PsychosisPersonMapper.toDto(PsychosisPersonRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
     public PsychosisPersonDTO findById(String psychosisId) {
+        log.debug("**********  查询 PsychosisPerson 详情   **********");
         Optional<PsychosisPerson> PsychosisPerson = PsychosisPersonRepository.findById(psychosisId);
         ValidationUtil.isNull(PsychosisPerson,"PsychosisPerson","psychosisId",psychosisId);
         return PsychosisPersonMapper.toDto(PsychosisPerson.get());
@@ -114,6 +119,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public PsychosisPersonDTO create(PsychosisPerson resources) {
+        log.debug("**********  新增 PsychosisPerson  **********");
         resources.setPsychosisId(IdUtil.simpleUUID()); 
         if(PsychosisPersonRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(PsychosisPerson.class,"identity_num",resources.getIdentityNum());
@@ -124,11 +130,13 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(PsychosisPerson resources) {
+        log.debug("**********  修改 PsychosisPerson  **********");
         Optional<PsychosisPerson> optionalPsychosisPerson = PsychosisPersonRepository.findById(resources.getPsychosisId());
         ValidationUtil.isNull( optionalPsychosisPerson,"PsychosisPerson","id",resources.getPsychosisId());
         PsychosisPerson PsychosisPerson = optionalPsychosisPerson.get();
         PsychosisPerson psychosisPerson = PsychosisPersonRepository.findByIdentityNum(resources.getIdentityNum());
         if(psychosisPerson != null && !psychosisPerson.getPsychosisId().equals(PsychosisPerson.getPsychosisId())){
+            log.debug("********** PsychosisPerson identity_num 重复 修改失败 **********");
             throw new EntityExistException(PsychosisPerson.class,"identity_num",resources.getIdentityNum());
         }
         PsychosisPerson.copy(resources);
@@ -138,6 +146,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String psychosisId) {
+        log.debug("**********  删除 PsychosisPerson  **********");
         PsychosisPersonRepository.deleteById(psychosisId);
     }
 }

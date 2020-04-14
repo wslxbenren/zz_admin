@@ -6,6 +6,7 @@ import com.xyz.modules.biz.domain.ManageleadresponsInfo;
 import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -32,6 +33,7 @@ import org.springframework.data.domain.Pageable;
 /**
 * @author xjh
 * @date 2020-04-05
+ *  功能模块 ： 综治组织/领导责任制
 */
 @Service
 @Slf4j
@@ -48,27 +50,27 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     private DictDetailService dictDetailService;
 
     @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private AuditSpecification auditSpecification;
 
     @Autowired
-    private AuditSpecification auditSpecification;
+    private DeptRepository deptRepository;
 
     @Override
     @Transactional
     public Object queryAll(ManageleadresponsInfoQueryCriteria criteria, Pageable pageable){
-        //Sort sort = new Sort(Sort.Direction.DESC,"createTime");
-        //pageable.getSortOr(sort);
         log.info("查询列表综治组织/领导责任制 -- 开始");
         Page<ManageleadresponsInfo> page = ManageleadresponsInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<ManageleadresponsInfoDTO> manageleadresponsInfoList = ManageleadresponsInfoMapper.toDto(page.getContent());
         for (ManageleadresponsInfoDTO mid: manageleadresponsInfoList) {
-            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getAreaGrage());
-            mid.setAreaGrageStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getImplementerGrage());
-            mid.setImplementerGrageStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ZCZL.getDistName(), mid.getPolicyType());
-            mid.setPolicyTypeStr(dd == null ? "无数据":dd.getLabel());
+            String dd = dictDetailService. transDict(DictEnum.JGCJ.getDistName(), mid.getAreaGrage());
+            mid.setAreaGrageStr(dd == null ? "无数据": dd); // 被实施地区层级
+            dd = dictDetailService. transDict(DictEnum.JGCJ.getDistName(), mid.getImplementerGrage());
+            mid.setImplementerGrageStr(dd == null ? "无数据": dd); //  实施主体层级
+            dd = dictDetailService. transDict(DictEnum.ZCZL.getDistName(), mid.getPolicyType());
+            mid.setPolicyTypeStr(dd == null ? "无数据": dd);  //政策种类
+
+            dd = deptRepository.findNameByCode(mid.getUnitCode());
+            mid.setUnitCodeStr(dd);
         }
         Map map = new HashMap();
         map.put("content", manageleadresponsInfoList);
@@ -101,8 +103,6 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     public ManageleadresponsInfoDTO create(ManageleadresponsInfo resources) {
         log.info("新增综治组织/领导责任制 -- 开始");
         resources.setId(IdUtil.simpleUUID());
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
         return ManageleadresponsInfoMapper.toDto(ManageleadresponsInfoRepository.save(resources));
 
     }
@@ -117,8 +117,6 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
             Optional<ManageleadresponsInfo> optionalManageleadresponsInfo = ManageleadresponsInfoRepository.findById(resources.getId());
             ValidationUtil.isNull( optionalManageleadresponsInfo,"ManageleadresponsInfo","id",resources.getId());
             ManageleadresponsInfo ManageleadresponsInfo = optionalManageleadresponsInfo.get();
-            JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-            resources.setModifier(u.getId());
             ManageleadresponsInfo.copy(resources);
             ManageleadresponsInfoRepository.save(ManageleadresponsInfo);
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 
 /**
- * @author dadovicn
+ * @author xjh
  * @date 2020-04-08
  * 实有人口->留守人员
  */
@@ -174,6 +174,9 @@ public class LeftbehindDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+
+    // 单位编码,所属单位，后续可用于权限管理    字典翻译
+    private String unitCodeStr;
 
     // 籍贯详址
     private String nativeInfoAddr;

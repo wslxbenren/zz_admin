@@ -6,6 +6,7 @@ import com.xyz.modules.biz.domain.Leftbehind;
 import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -48,11 +49,10 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     private DictDetailService dictDetailService;
 
     @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private AuditSpecification audit;
 
     @Autowired
-    private AuditSpecification audit;
+    private DeptRepository deptRepository;
 
     @Override
     @Transactional
@@ -61,30 +61,33 @@ public class LeftbehindServiceImpl implements LeftbehindService {
         Page<Leftbehind> page = LeftbehindRepository.findAll(audit.genSpecification(criteria),pageable);
         List<LeftbehindDTO> leftbehindList = LeftbehindMapper.toDto(page.getContent());
         for (LeftbehindDTO mid: leftbehindList) {
-            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.ZJDM.getDistName(), mid.getIdentityNum());
-            mid.setIdentityNumStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), mid.getPersonSex());
-            mid.setPersonSexStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.MIN_ZU.getDistName(), mid.getNation());
-            mid.setNationStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), mid.getNativeInfo());
-            mid.setNativeInfoStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.HYZK.getDistName(), mid.getMarriageFlag());
-            mid.setMarriageFlagStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ZZMM.getDistName(), mid.getPartyFlag());
-            mid.setPartyFlagStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.XUE_LI.getDistName(), mid.getEducationBg());
-            mid.setEducationBgStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ZJXY.getDistName(), mid.getFaithType());
-            mid.setFaithTypeStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ZYLB.getDistName(), mid.getVocationCode());
-            mid.setVocationCodeStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), mid.getRegisteredPlace());
-            mid.setRegisteredPlaceStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), mid.getResidence());
-            mid.setResidenceStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.YHZGX.getDistName(), mid.getMainmemRela());
-            mid.setMainmemRelaStr(dd == null ? "无数据":dd.getLabel());
+            String dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), mid.getIdentityNum());
+            mid.setIdentityNumStr(dd == null ? "无数据": dd); // 公民身份号码
+            dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex());
+            mid.setPersonSexStr(dd == null ? "无数据": dd); //性别
+            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation());
+            mid.setNationStr(dd == null ? "无数据": dd); //民族
+            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getNativeInfo());
+            mid.setNativeInfoStr(dd == null ? "无数据": dd); //籍贯
+            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag());
+            mid.setMarriageFlagStr(dd == null ? "无数据": dd); // 婚姻状况
+            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag());
+            mid.setPartyFlagStr(dd == null ? "无数据": dd); //  政治面貌
+            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEducationBg());
+            mid.setEducationBgStr(dd == null ? "无数据": dd); //  学历
+            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType());
+            mid.setFaithTypeStr(dd == null ? "无数据": dd); //  宗教信仰
+            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), mid.getVocationCode());
+            mid.setVocationCodeStr(dd == null ? "无数据": dd); //  职业类别
+            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getRegisteredPlace());
+            mid.setRegisteredPlaceStr(dd == null ? "无数据": dd); //  户籍地
+            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getResidence());
+            mid.setResidenceStr(dd == null ? "无数据": dd); //  现住地
+            dd = dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getMainmemRela());
+            mid.setMainmemRelaStr(dd == null ? "无数据": dd); //  与留守人员关系
+
+            dd = deptRepository.findNameByCode(mid.getUnitCode());
+            mid.setUnitCodeStr(dd);
         }
         Map map = new HashMap();
         map.put("content", leftbehindList);
@@ -116,8 +119,6 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     public LeftbehindDTO create(Leftbehind resources) {
         log.info("新增实有人口/留守人员信息 --开始");
         resources.setLeftId(IdUtil.simpleUUID());
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
         if(LeftbehindRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(Leftbehind.class,"identity_num",resources.getIdentityNum());
         }
@@ -139,8 +140,6 @@ public class LeftbehindServiceImpl implements LeftbehindService {
             if (Leftbehind1 != null && !Leftbehind1.getLeftId().equals(Leftbehind.getLeftId())) {
                 throw new EntityExistException(Leftbehind.class, "identity_num", resources.getIdentityNum());
             }
-            JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-            resources.setOperName(u.getId());
             Leftbehind.copy(resources);
             LeftbehindRepository.save(Leftbehind);
 

@@ -28,29 +28,53 @@ public class BizTeenagerBaseinfoDTO implements Serializable {
     // 性别
     private String personSex;
 
+    // 性别  字典翻译
+    private String personSexStr;
+
     // 出生日期
     private Timestamp dateBirth;
 
     // 民族
     private String nation;
 
+    // 民族 字典翻译
+    private String nationStr;
+
     // 籍贯
     private String nativeInfo;
+
+    // 籍贯 字典翻译
+    private String nativeInfoStr;
 
     // 婚姻状况
     private String marriageFlag;
 
+    // 婚姻状况 字典翻译
+    private String marriageFlagStr;
+
     // 政治面貌
     private String partyFlag;
+
+    // 政治面貌 字典翻译
+    private String partyFlagStr;
 
     // 学历
     private String educationBg;
 
+    // 学历 字典翻译
+    private String educationBgStr;
+
     // 宗教信仰
     private String faithType;
 
+    // 宗教信仰  字典翻译
+    private String faithTypeStr;
+
     // 职业类别
     private String vocationCode;
+
+    // 职业类别  字典翻译
+    private String vocationCodeStr;
 
     // 职业
     private String vocation;
@@ -64,6 +88,9 @@ public class BizTeenagerBaseinfoDTO implements Serializable {
     // 户籍地
     private String registeredPlace;
 
+    // 户籍地  字典翻译
+    private String registeredPlaceStr;
+
     // 户籍门（楼）详址
     private String registeredAddr;
 
@@ -76,8 +103,14 @@ public class BizTeenagerBaseinfoDTO implements Serializable {
     // 人员类型
     private String peopleType;
 
+    // 人员类型
+    private String peopleTypeStr;
+
     // 家庭情况
     private String homeSitu;
+
+    // 家庭情况  字典翻译
+    private String homeSituStr;
 
     // 监护人公民身份号码
     private String guardianIdno;
@@ -138,6 +171,9 @@ public class BizTeenagerBaseinfoDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+
+    // 单位编码,所属单位，后续可用于权限管理  字典翻译
+    private String unitCodeStr;
 
     // 籍贯详址
     private String nativeInfoAddr;

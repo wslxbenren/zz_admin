@@ -4,15 +4,22 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.Leftbehind;
 import com.xyz.modules.biz.service.LeftbehindService;
 import com.xyz.modules.biz.service.dto.LeftbehindQueryCriteria;
+import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictService;
+import com.xyz.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
+
+import java.util.List;
 
 
 /**
@@ -29,13 +36,22 @@ public class LeftbehindController {
     private LeftbehindService LeftbehindService;
 
     @Autowired
-    private DictService dictService;
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private DeptService deptService;
 
     @Log("查询Leftbehind")
     @ApiOperation(value = "查询Leftbehind")
     @GetMapping(value = "/Leftbehind")
     @PreAuthorize("hasAnyRole('ADMIN','LEFTBEHIND_ALL','LEFTBEHIND_SELECT')")
     public ResponseEntity getLeftbehinds(LeftbehindQueryCriteria criteria, Pageable pageable){
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        String deptId = u.getDeptDto().getId();
+        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
+        criteria.setCreator(u.getId());
+        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(LeftbehindService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 

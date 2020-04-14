@@ -14,6 +14,7 @@ import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,7 @@ import java.util.Optional;
  * @author 刘鑫
  * @date 2020-04-10
  */
+@Slf4j
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class ReleasedPersonServiceImpl implements ReleasedPersonService {
@@ -53,6 +55,7 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
     @Override
     @Transactional
     public Object queryAll(ReleasedPersonQueryCriteria criteria, Pageable pageable){
+        log.debug("**********条件查询 ReleasedPerson 列表-分页**********");
         Page<ReleasedPerson> page = ReleasedPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ReleasedPersonDTO> releasedPersonDTOS = ReleasedPersonMapper.toDto(page.getContent());
         for (ReleasedPersonDTO f:releasedPersonDTOS){
@@ -96,11 +99,13 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
     @Override
     @Transactional
     public Object queryAll(ReleasedPersonQueryCriteria criteria){
+        log.debug("**********条件查询 ReleasedPerson 列表 **********");
         return ReleasedPersonMapper.toDto(ReleasedPersonRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
     public ReleasedPersonDTO findById(String releasedId) {
+        log.debug("********** 查询 ReleasedPerson 查询 **********");
         Optional<ReleasedPerson> ReleasedPerson = ReleasedPersonRepository.findById(releasedId);
         ValidationUtil.isNull(ReleasedPerson,"ReleasedPerson","releasedId",releasedId);
         return ReleasedPersonMapper.toDto(ReleasedPerson.get());
@@ -109,8 +114,10 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ReleasedPersonDTO create(ReleasedPerson resources) {
+        log.debug("********** 新增 ReleasedPerson   **********");
         resources.setReleasedId(IdUtil.simpleUUID()); 
         if(ReleasedPersonRepository.findByIdentityNum(resources.getIdentityNum()) != null){
+            log.debug("********** ReleasedPerson identity_num 重复 新增失败 **********");
             throw new EntityExistException(ReleasedPerson.class,"identity_num",resources.getIdentityNum());
         }
         return ReleasedPersonMapper.toDto(ReleasedPersonRepository.save(resources));
@@ -119,11 +126,13 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(ReleasedPerson resources) {
+        log.debug("********** 修改 ReleasedPerson   **********");
         Optional<ReleasedPerson> optionalReleasedPerson = ReleasedPersonRepository.findById(resources.getReleasedId());
         ValidationUtil.isNull( optionalReleasedPerson,"ReleasedPerson","id",resources.getReleasedId());
         ReleasedPerson ReleasedPerson = optionalReleasedPerson.get();
         ReleasedPerson releasedPerson = ReleasedPersonRepository.findByIdentityNum(resources.getIdentityNum());
         if(releasedPerson != null && !releasedPerson.getReleasedId().equals(ReleasedPerson.getReleasedId())){
+            log.debug("********** ReleasedPerson identity_num 重复 修改失败 **********");
             throw new EntityExistException(ReleasedPerson.class,"identity_num",resources.getIdentityNum());
         }
         ReleasedPerson.copy(resources);
@@ -133,6 +142,7 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String releasedId) {
+        log.debug("********** 删除 ReleasedPerson   **********");
         ReleasedPersonRepository.deleteById(releasedId);
     }
 }

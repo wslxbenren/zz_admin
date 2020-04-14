@@ -38,6 +38,7 @@ public class DictDetailController {
         return new ResponseEntity(dictDetailService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
+    /** 根据字典类型id和字典详情pid查询字典详情 */
     @Log("查询字典详情下级")
     @GetMapping(value = "/dictDetail/getChildByPid")
     public ResponseEntity getChildByPid(DictDetailQueryCriteria criteria){

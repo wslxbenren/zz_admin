@@ -49,17 +49,18 @@ public class AidsPersonQueryCriteria{
     private List<String> dateBirth;
 
     @Query
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "民族")
     private String nation;
 
     // 模糊
     @Query(type = Query.Type.INNER_LIKE)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "籍贯")
     private String nativeInfo;
 
     // 审计字段
     @Query(type = Query.Type.IN)
     @JsonIgnore
+    @ApiModelProperty(value = "单位编码,所属单位，后续可用于权限管理")
     private List<String> unitCode;
 
     @Query(type = Query.Type.EQUAL)

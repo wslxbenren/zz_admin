@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * 护路护线 -> 涉及线、路案（事）件
- * @author 刘鑫
+ * @author xjh
  * @date 2020-04-10
  */
 @Data
@@ -28,6 +28,9 @@ public class CaseinfoDTO implements Serializable {
     // 案（事）件类型
     private String caseType;
 
+    // 案（事）件类型  字典翻译
+    private String caseTypeStr;
+
     // 发生日期
     private Timestamp happenTime;
 
@@ -45,6 +48,9 @@ public class CaseinfoDTO implements Serializable {
 
     // 主犯（嫌疑人）证件代码
     private String princcardType;
+
+    // 主犯（嫌疑人）证件代码   字典翻译
+    private String princcardTypeStr;
 
     // 主犯（嫌疑人）证件号码
     private String princcardCode;
@@ -93,4 +99,7 @@ public class CaseinfoDTO implements Serializable {
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;
+
+    // 单位编码,所属单位，后续可用于权限管理  字典翻译
+    private String unitCodeStr;
 }
