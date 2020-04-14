@@ -78,7 +78,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
             dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
             f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);// 户籍地
 
-            dd = dictDetailService.transDict(DictEnum.MQZDLX.getDistName(), f.getDiagnoseTypeStr());
+            dd = dictDetailService.transDict(DictEnum.MQZDLX.getDistName(), f.getDiagnoseType());
             f.setDiagnoseTypeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ZLQK.getDistName(), f.getTreatFlag());
             f.setTreatFlagStr(dd == null ? "无数据" : dd);

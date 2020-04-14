@@ -17,11 +17,11 @@ import java.util.List;
 public class BuildheadInfoQueryCriteria{
     // 时间
     @Query(type = Query.Type.BETWEEN)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "创建时间范围查询格式[yyyy-MM-dd HH:mm:ss]")
     private List<String> createTime;
 
     @Query(type = Query.Type.BETWEEN)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "修改时间范围查询格式[yyyy-MM-dd HH:mm:ss]")
     private List<String> updateTime;
 
     // 原型查询项
@@ -66,6 +66,7 @@ public class BuildheadInfoQueryCriteria{
     // 审计字段
     @Query(type = Query.Type.IN)
     @JsonIgnore
+    @ApiModelProperty(value = "单位编码,所属单位，后续可用于权限管理")
     private List<String> unitCode;
 
     @Query(type = Query.Type.EQUAL)
