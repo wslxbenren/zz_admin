@@ -1,5 +1,6 @@
 package com.xyz.modules.biz.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.xyz.annotation.Query;
 import lombok.Data;
 import java.sql.Timestamp;
@@ -28,6 +29,7 @@ public class BegPersonDTO implements Serializable {
     private String personSex;
 
     // 出生日期
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp dateBirth;
 
     // 民族
@@ -172,7 +174,8 @@ public class BegPersonDTO implements Serializable {
     private String creator;
 
     // 创建时间
-    private Timestamp createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理
     private String unitCode;

@@ -29,7 +29,8 @@ public class AidsPersonDTO implements Serializable {
     private String personSexStr;
 
     // 出生日期
-    private Timestamp dateBirth;
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
+private Timestamp dateBirth;
 
     // 民族
     private String nation;
@@ -144,6 +145,7 @@ public class AidsPersonDTO implements Serializable {
     private String creator;
 
     // 创建时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理
