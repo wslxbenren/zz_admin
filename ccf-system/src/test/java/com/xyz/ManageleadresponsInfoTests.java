@@ -1,6 +1,9 @@
 package com.xyz;
 
-
+/**
+ * 作者：xjh
+ * 时间：2020-4-9 15:14:43
+ */
 import com.xyz.modules.biz.domain.ManageleadresponsInfo;
 import com.xyz.modules.biz.repository.ManageleadresponsInfoRepository;
 import com.xyz.modules.biz.service.dto.ManageleadresponsInfoQueryCriteria;
@@ -69,10 +72,10 @@ public class ManageleadresponsInfoTests {
     @Test
     public void manageleadresponsInfo() throws Exception {
         ManageleadresponsInfoQueryCriteria criteria = new ManageleadresponsInfoQueryCriteria();
-        criteria.setCreator("xjh");
+        //criteria.setCreator("xjh");
         List<String> createTime = new ArrayList<String>();
-        createTime.add("2020-4-9 14:48:41");
-        createTime.add("2020-4-9 15:05:35");
+        //createTime.add("2020-4-9 14:48:41");
+        //createTime.add("2020-4-9 15:05:35");
         criteria.setCreateTime(createTime);
         criteria.setImplementerGrage("");
         criteria.setModifier("");

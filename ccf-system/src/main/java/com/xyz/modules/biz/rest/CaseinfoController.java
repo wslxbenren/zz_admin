@@ -4,18 +4,26 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.Caseinfo;
 import com.xyz.modules.biz.service.CaseinfoService;
 import com.xyz.modules.biz.service.dto.CaseinfoQueryCriteria;
+import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.system.service.DeptService;
+import com.xyz.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
+import java.util.List;
+
 /**
- * @author 刘鑫
+ * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：护路护线/涉线、路案事件信息管理
  */
 @Api(tags = "Caseinfo管理")
 @RestController
@@ -25,12 +33,32 @@ public class CaseinfoController {
     @Autowired
     private CaseinfoService CaseinfoService;
 
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private DeptService deptService;
+
     @Log("查询Caseinfo")
     @ApiOperation(value = "查询Caseinfo")
     @GetMapping(value = "/Caseinfo")
     @PreAuthorize("hasAnyRole('ADMIN','CASEINFO_ALL','CASEINFO_SELECT')")
     public ResponseEntity getCaseinfos(CaseinfoQueryCriteria criteria, Pageable pageable){
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        String deptId = u.getDeptDto().getId();
+        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
+        criteria.setCreator(u.getId());
+        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(CaseinfoService.queryAll(criteria,pageable),HttpStatus.OK);
+    }
+
+    @Log("详情Caseinfo")
+    @GetMapping(value = "/Caseinfo/details/{caseId}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_SELECT')")
+    public ResponseEntity getCaseinfosDetails(@PathVariable String caseId){
+        return new ResponseEntity( CaseinfoService.findById(caseId),HttpStatus.OK);
+
     }
 
     @Log("新增Caseinfo")

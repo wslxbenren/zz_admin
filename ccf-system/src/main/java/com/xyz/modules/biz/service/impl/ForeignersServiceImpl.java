@@ -5,6 +5,7 @@ import com.xyz.modules.biz.domain.Foreigners;
 import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -46,11 +47,10 @@ public class ForeignersServiceImpl implements ForeignersService {
     private DictDetailService dictDetailService;
 
     @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private AuditSpecification audit;
 
     @Autowired
-    private AuditSpecification audit;
+    private DeptRepository deptRepository;
 
     @Override
     @Transactional
@@ -59,20 +59,23 @@ public class ForeignersServiceImpl implements ForeignersService {
         Page<Foreigners> page = ForeignersRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ForeignersDTO> foreignersList = ForeignersMapper.toDto(page.getContent());
         for (ForeignersDTO mid: foreignersList) {
-            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.JGCJ.getDistName(), mid.getLastname());
-            mid.setLastnameStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.XING_BIE.getDistName(), mid.getPersonSex());
-            mid.setPersonSexStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.GJ_DQ.getDistName(), mid.getCountry());
-            mid.setCountryStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ZJXY.getDistName(), mid.getFaithType());
-            mid.setFaithTypeStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ZJDM.getDistName(), mid.getCardType());
-            mid.setCardTypeStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ZYLB.getDistName(), mid.getVocationCode());
-            mid.setVocationCodeStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), mid.getResidence());
-            mid.setResidenceStr(dd == null ? "无数据":dd.getLabel());
+            String dd = dictDetailService.transDict(DictEnum.JGCJ.getDistName(), mid.getLastname());
+            mid.setLastnameStr(dd == null ? "无数据":dd); // 外文姓
+            dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex());
+            mid.setPersonSexStr(dd == null ? "无数据":dd); //性别
+            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), mid.getCountry());
+            mid.setCountryStr(dd == null ? "无数据":dd); // 国籍
+            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType());
+            mid.setFaithTypeStr(dd == null ? "无数据":dd); //  宗教信仰
+            dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), mid.getCardType());
+            mid.setCardTypeStr(dd == null ? "无数据":dd); //  证件代码
+            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), mid.getVocationCode());
+            mid.setVocationCodeStr(dd == null ? "无数据":dd); //  职业类别
+            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getResidence());
+            mid.setResidenceStr(dd == null ? "无数据":dd); //  现住地
+
+            dd = deptRepository.findNameByCode(mid.getUnitCode());
+            mid.setUnitCodeStr(dd);
         }
         Map map = new HashMap();
         map.put("content", foreignersList);
@@ -104,8 +107,6 @@ public class ForeignersServiceImpl implements ForeignersService {
     public ForeignersDTO create(Foreigners resources) {
         log.info("新增实有人口/境外人员信息--开始");
         resources.setForeId(IdUtil.simpleUUID());
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
         return ForeignersMapper.toDto(ForeignersRepository.save(resources));
     }
 
@@ -119,8 +120,6 @@ public class ForeignersServiceImpl implements ForeignersService {
             Optional<Foreigners> optionalForeigners = ForeignersRepository.findById(resources.getForeId());
             ValidationUtil.isNull(optionalForeigners, "Foreigners", "id", resources.getForeId());
             Foreigners Foreigners = optionalForeigners.get();
-            JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-            resources.setOperName(u.getId());
             Foreigners.copy(resources);
             ForeignersRepository.save(Foreigners);
 

@@ -14,6 +14,7 @@ import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,7 @@ import java.util.Optional;
  * @author 刘鑫
  * @date 2020-04-10
  */
+@Slf4j
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class CorrectPersonServiceImpl implements CorrectPersonService {
@@ -54,6 +56,7 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     @Override
     @Transactional
     public Object queryAll(CorrectPersonQueryCriteria criteria, Pageable pageable){
+        log.info("条件查询 CorrectPerson 分页列表 ");
         Page<CorrectPerson> page = CorrectPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<CorrectPersonDTO> correctPersonDTOS = CorrectPersonMapper.toDto(page.getContent());
         for (CorrectPersonDTO f:correctPersonDTOS){
@@ -95,11 +98,13 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     @Override
     @Transactional
     public Object queryAll(CorrectPersonQueryCriteria criteria){
+        log.info("条件查询 CorrectPerson 列表");
         return CorrectPersonMapper.toDto(CorrectPersonRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
     public CorrectPersonDTO findById(String correctId) {
+        log.info(" 查询 CorrectPerson 详情");
         Optional<CorrectPerson> CorrectPerson = CorrectPersonRepository.findById(correctId);
         ValidationUtil.isNull(CorrectPerson,"CorrectPerson","correctId",correctId);
         return CorrectPersonMapper.toDto(CorrectPerson.get());
@@ -108,6 +113,7 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public CorrectPersonDTO create(CorrectPerson resources) {
+        log.info(" 新增 CorrectPerson ");
         resources.setCorrectId(IdUtil.simpleUUID()); 
         if(CorrectPersonRepository.findByIdentityNum(resources.getIdentityNum()) != null){
             throw new EntityExistException(CorrectPerson.class,"identity_num",resources.getIdentityNum());
@@ -118,11 +124,13 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(CorrectPerson resources) {
+        log.info(" 修改 CorrectPerson ");
         Optional<CorrectPerson> optionalCorrectPerson = CorrectPersonRepository.findById(resources.getCorrectId());
         ValidationUtil.isNull( optionalCorrectPerson,"CorrectPerson","id",resources.getCorrectId());
         CorrectPerson CorrectPerson = optionalCorrectPerson.get();
         CorrectPerson correctPerson = CorrectPersonRepository.findByIdentityNum(resources.getIdentityNum());
         if(correctPerson != null && !correctPerson.getCorrectId().equals(CorrectPerson.getCorrectId())){
+            log.info("  CorrectPerson identity_num 重复 修改失败");
             throw new EntityExistException(CorrectPerson.class,"identity_num",resources.getIdentityNum());
         }
         CorrectPerson.copy(resources);
@@ -132,6 +140,7 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String correctId) {
+        log.info(" 删除 CorrectPerson ");
         CorrectPersonRepository.deleteById(correctId);
     }
 }

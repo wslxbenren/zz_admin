@@ -116,7 +116,9 @@ public class UserServiceImpl implements UserService {
             key = "role::findByUsers_Id:" + user.getId();
             redisService.delete(key);
         }
-
+        user.setCardNumber(resources.getCardNumber());
+        user.setNational(resources.getNational());
+        user.setCardCode(resources.getCardCode());
         user.setUsername(resources.getUsername());
         user.setEmail(resources.getEmail());
         user.setEnabled(resources.getEnabled());
@@ -124,6 +126,10 @@ public class UserServiceImpl implements UserService {
         user.setDept(resources.getDept());
         user.setJob(resources.getJob());
         user.setPhone(resources.getPhone());
+        user.setCreator(user.getCreator());
+        user.setBirth(resources.getBirth());
+        user.setModifier(resources.getModifier());
+        user.setEducationBg(resources.getEducationBg());
         userRepository.save(user);
     }
 
