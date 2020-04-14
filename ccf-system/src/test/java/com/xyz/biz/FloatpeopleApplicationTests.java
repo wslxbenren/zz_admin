@@ -138,24 +138,12 @@ public class FloatpeopleApplicationTests {
         FloatpeopleDTO f = floatpeopleService.findById("ede60ffda48c45ed800b585697549ad4");
         System.out.println(f);
         FloatpeopleQueryCriteria criteria = new FloatpeopleQueryCriteria();
-        criteria.setDateBirth(Arrays.asList("2020-04-09","2020-04-15"));
-        criteria.setRegisDate(Arrays.asList("2020-04-09","2020-04-15"));
-        criteria.setExpiryDate(Arrays.asList("2020-04-09","2020-04-15"));
-        criteria.setEffDate(Arrays.asList("2020-04-09","2020-04-15"));
-        criteria.setExpDate(Arrays.asList("2020-04-09","2020-04-15"));
-        criteria.setOperDate(Arrays.asList("2020-04-09","2020-04-15"));
+
         criteria.setCreateTime(Arrays.asList("2020-04-09","2020-04-15"));
-        criteria.setNation("0");
+
         criteria.setPersonSex("男");
         criteria.setNativeInfo("sdf");
-        criteria.setMarriageFlag("1");
-        criteria.setPartyFlag("1");
-        criteria.setEducationBg("1");
-        criteria.setFaithType("1");
-        criteria.setVocationCode("12");
-        criteria.setRegisteredPlace("1");
-        criteria.setServiceAddr("sssfdf登封");
-        criteria.setUsedName("陈晨");
+
         criteria.setPersonName("陈晨");
         criteria.setIdentityNum("123");
         Object o = floatpeopleService.queryAll(criteria);
