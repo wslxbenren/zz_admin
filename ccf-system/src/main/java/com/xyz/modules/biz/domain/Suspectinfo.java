@@ -15,6 +15,7 @@ import java.io.Serializable;
 /**
  * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：社会治安管理/命案犯罪嫌疑人信息
  */
 @Entity
 @Data

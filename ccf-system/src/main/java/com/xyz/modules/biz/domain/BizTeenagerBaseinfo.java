@@ -15,6 +15,7 @@ import java.io.Serializable;
 /**
  * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：重点青少年/重点青少年基本信息
  */
 @Entity
 @Data

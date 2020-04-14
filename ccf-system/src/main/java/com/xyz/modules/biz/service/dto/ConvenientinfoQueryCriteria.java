@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * @author 刘鑫
+ * @author xjh
  * @date 2020-04-10
  */
 @Data
@@ -22,16 +22,17 @@ public class ConvenientinfoQueryCriteria{
 
     @Query(type = Query.Type.BETWEEN)
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
-    private List<String> updateTime;
+    private List<String> operDate;
 
     // 精确
-    @Query
-    @ApiModelProperty(value = "")
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "名称")
     private String routeName;
 
     // 审计字段
     @Query(type = Query.Type.IN)
     @JsonIgnore
+    @ApiModelProperty(value = "单位编码,所属单位")
     private List<String> unitCode;
 
     @Query(type = Query.Type.EQUAL)
@@ -40,5 +41,5 @@ public class ConvenientinfoQueryCriteria{
 
     @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "修改人id")
-    private String modifier;
+    private String operName;
 }

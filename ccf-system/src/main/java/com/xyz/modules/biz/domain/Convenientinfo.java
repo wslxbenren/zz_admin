@@ -15,6 +15,7 @@ import java.io.Serializable;
 /**
  * @author 邢家华
  * @date 2020-04-10
+ * 功能模块：护路护线/护路护线基本信息
  */
 @Entity
 @Data

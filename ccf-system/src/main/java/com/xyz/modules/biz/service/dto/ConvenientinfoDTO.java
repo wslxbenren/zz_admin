@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * 护路护线->护路护线基本信息表
- * @author 刘鑫
+ * @author xjh
  * @date 2020-04-10
  */
 @Data

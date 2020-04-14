@@ -5,6 +5,7 @@ import com.xyz.modules.biz.domain.MajorcaseInfo;
 import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -47,11 +48,10 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     private DictDetailService dictDetailService;
 
     @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private AuditSpecification auditSpecification;
 
     @Autowired
-    private AuditSpecification auditSpecification;
+    private DeptRepository deptRepository;
 
     @Override
     @Transactional
@@ -60,12 +60,15 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
         Page<MajorcaseInfo> page = MajorcaseInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<MajorcaseInfoDTO> majorcaseInfoList = MajorcaseInfoMapper.toDto(page.getContent());
         for (MajorcaseInfoDTO mid: majorcaseInfoList) {
-            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.ADDRESS.getDistName(), mid.getOccurAddr());
-            mid.setOccurAddrStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.AJFJ.getDistName(), mid.getCaseGrage());
-            mid.setCaseGrageStr(dd == null ? "无数据":dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.AJLX.getDistName(), mid.getCaseType());
-            mid.setCaseTypeStr(dd == null ? "无数据":dd.getLabel());
+            String dd = dictDetailService. transDict(DictEnum.ADDRESS.getDistName(), mid.getOccurAddr());
+            mid.setOccurAddrStr(dd == null ? "无数据": dd); // 发生地
+            dd = dictDetailService. transDict(DictEnum.AJFJ.getDistName(), mid.getCaseGrage());
+            mid.setCaseGrageStr(dd == null ? "无数据": dd); // 案（事）件分级
+            dd = dictDetailService. transDict(DictEnum.AJLX.getDistName(), mid.getCaseType());
+            mid.setCaseTypeStr(dd == null ? "无数据": dd); //  案（事）件类型
+
+            dd = deptRepository.findNameByCode(mid.getUnitCode());
+            mid.setUnitCodeStr(dd);
         }
         Map map = new HashMap();
         map.put("content", majorcaseInfoList);
@@ -97,8 +100,6 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     public MajorcaseInfoDTO create(MajorcaseInfo resources) {
         log.info("新增综治组织/重大案件事件--开始");
         resources.setId(IdUtil.simpleUUID());
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
         return MajorcaseInfoMapper.toDto(MajorcaseInfoRepository.save(resources));
     }
 
@@ -112,8 +113,6 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
             Optional<MajorcaseInfo> optionalMajorcaseInfo = MajorcaseInfoRepository.findById(resources.getId());
             ValidationUtil.isNull( optionalMajorcaseInfo,"MajorcaseInfo","id",resources.getId());
             MajorcaseInfo MajorcaseInfo = optionalMajorcaseInfo.get();
-            JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-            resources.setModifier(u.getId());
             MajorcaseInfo.copy(resources);
             MajorcaseInfoRepository.save(MajorcaseInfo);
 

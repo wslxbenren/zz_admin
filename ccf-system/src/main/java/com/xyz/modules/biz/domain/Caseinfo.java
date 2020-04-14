@@ -5,6 +5,7 @@ import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -12,12 +13,14 @@ import java.sql.Timestamp;
 import java.io.Serializable;
 
 /**
- * @author 刘鑫
+ * @author xjh
  * @date 2020-04-10
+ * 功能模块：护路护线/涉线、路案事件信息管理
  */
 @Entity
 @Data
 @Table(name="biz_route_caseinfo")
+@DynamicUpdate
 public class Caseinfo implements Serializable {
 
     // ID，uuid()赋值

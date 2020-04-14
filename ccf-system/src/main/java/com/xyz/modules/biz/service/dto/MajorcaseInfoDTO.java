@@ -63,4 +63,7 @@ public class MajorcaseInfoDTO implements Serializable {
 
     // 所属单位
     private String unitCode;
+
+    // 所属单位 字典翻译
+    private String unitCodeStr;
 }

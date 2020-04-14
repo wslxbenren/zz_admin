@@ -115,12 +115,6 @@ public class ForeignersTests {
         createTime.add("2020-4-9 14:48:41");
         createTime.add("2020-4-9 15:05:35");
         criteria.setCreateTime(createTime);
-        criteria.setChinesename("");
-        criteria.setCountry("");
-        criteria.setFirstname("");
-        criteria.setPersonSex("");
-        criteria.setVocation("");
-        criteria.setVocationCode("");
         foreignersServiceImpl.queryAll(criteria);
     }
 }

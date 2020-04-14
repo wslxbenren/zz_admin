@@ -3,8 +3,12 @@ package com.xyz.modules.biz.service.impl;
 import com.xyz.exception.BadRequestException;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.domain.BizSecurHomicidebaseinfo;
+import com.xyz.modules.biz.service.dto.BizTeenagerBaseinfoDTO;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
 import com.xyz.modules.biz.repository.BizSecurHomicidebaseinfoRepository;
 import com.xyz.modules.biz.service.BizSecurHomicidebaseinfoService;
@@ -18,6 +22,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -39,24 +47,32 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
     private BizSecurHomicidebaseinfoMapper bizSecurHomicidebaseinfoMapper;
 
     @Autowired
-    private DictDetailService dictDetailService;
+    private AuditSpecification audit;
 
     @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private DeptRepository deptRepository;
 
     @Override
     @Transactional
     public Object queryAll(BizSecurHomicidebaseinfoQueryCriteria criteria, Pageable pageable){
         log.info("列表查询社会治安管理/命案基本信息--开始");
-        Page<BizSecurHomicidebaseinfo> page = bizSecurHomicidebaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(bizSecurHomicidebaseinfoMapper::toDto));
+        Page<BizSecurHomicidebaseinfo> page = bizSecurHomicidebaseinfoRepository.findAll(audit.genSpecification(criteria),pageable);
+        List<BizSecurHomicidebaseinfoDTO> bizSecurHomicidebaseinfoDTOList = bizSecurHomicidebaseinfoMapper.toDto(page.getContent());
+        for (BizSecurHomicidebaseinfoDTO mid: bizSecurHomicidebaseinfoDTOList) {
+            String dd = deptRepository.findNameByCode(mid.getUnitCode());
+            mid.setUnitCodeStr(dd); // 单位编码,所属单位
+        }
+        Map map = new HashMap();
+        map.put("content", bizSecurHomicidebaseinfoDTOList);
+        map.put("totalElements", page.getTotalElements());
+        map.put("totalPages",page.getTotalPages());
+        return map;
     }
 
     @Override
     @Transactional
     public Object queryAll(BizSecurHomicidebaseinfoQueryCriteria criteria){
-        return bizSecurHomicidebaseinfoMapper.toDto(bizSecurHomicidebaseinfoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return bizSecurHomicidebaseinfoMapper.toDto(bizSecurHomicidebaseinfoRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
@@ -78,8 +94,6 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
         if(bizSecurHomicidebaseinfoRepository.findByCaseCode(resources.getCaseCode()) != null){
             throw new EntityExistException(BizSecurHomicidebaseinfo.class,"case_code",resources.getCaseCode());
         }
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
         return bizSecurHomicidebaseinfoMapper.toDto(bizSecurHomicidebaseinfoRepository.save(resources));
     }
 
@@ -97,8 +111,6 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
         if(bizSecurHomicidebaseinfo1 != null && !bizSecurHomicidebaseinfo1.getCaseId().equals(bizSecurHomicidebaseinfo.getCaseId())){
             throw new EntityExistException(BizSecurHomicidebaseinfo.class,"case_code",resources.getCaseCode());
         }
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setOperName(u.getId());
         bizSecurHomicidebaseinfo.copy(resources);
         bizSecurHomicidebaseinfoRepository.save(bizSecurHomicidebaseinfo);
     }

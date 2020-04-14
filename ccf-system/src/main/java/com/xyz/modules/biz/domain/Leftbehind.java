@@ -17,6 +17,7 @@ import java.io.Serializable;
 /**
 * @author dadovicn
 * @date 2020-04-08
+ * 功能模块 ： 实有人口/留守人员信息
 */
 @Entity
 @Data

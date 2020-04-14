@@ -152,9 +152,6 @@ public class LeftbehindTests {
         createTime.add("2020-4-9 14:48:41");
         createTime.add("2020-4-9 15:05:35");
         criteria.setCreateTime(createTime);
-        criteria.setEducationBg("");
-        criteria.setNation("");
-        criteria.setPartyFlag("");
         criteria.setPersonName("");
         leftbehindServiceImpl.queryAll(criteria);
     }

@@ -4,14 +4,21 @@ import com.xyz.aop.log.Log;
 import com.xyz.modules.biz.domain.BizTeenagerBaseinfo;
 import com.xyz.modules.biz.service.BizTeenagerBaseinfoService;
 import com.xyz.modules.biz.service.dto.BizTeenagerBaseinfoQueryCriteria;
+import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.system.service.DeptService;
+import com.xyz.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
+
+import java.util.List;
 
 /**
  * @author 邢家华
@@ -26,11 +33,23 @@ public class BizTeenagerBaseinfoController {
     @Autowired
     private BizTeenagerBaseinfoService bizTeenagerBaseinfoService;
 
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private DeptService deptService;
+
     @Log("查询BizTeenagerBaseinfo")
     @ApiOperation(value = "查询BizTeenagerBaseinfo")
     @GetMapping(value = "/bizTeenagerBaseinfo")
     @PreAuthorize("hasAnyRole('ADMIN','BIZTEENAGERBASEINFO_ALL','BIZTEENAGERBASEINFO_SELECT')")
     public ResponseEntity getBizTeenagerBaseinfos(BizTeenagerBaseinfoQueryCriteria criteria, Pageable pageable){
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        String deptId = u.getDeptDto().getId();
+        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
+        criteria.setCreator(u.getId());
+        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(bizTeenagerBaseinfoService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 

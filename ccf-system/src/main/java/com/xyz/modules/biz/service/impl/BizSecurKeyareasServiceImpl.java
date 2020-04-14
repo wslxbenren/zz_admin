@@ -3,8 +3,10 @@ package com.xyz.modules.biz.service.impl;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.domain.BizSecurKeyareas;
 import com.xyz.modules.biz.service.dto.BizTeenagerBaseinfoDTO;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -48,20 +50,26 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
     private DictDetailService dictDetailService;
 
     @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private AuditSpecification audit;
+
+    @Autowired
+    private DeptRepository deptRepository;
+
 
     @Override
     @Transactional
     public Object queryAll(BizSecurKeyareasQueryCriteria criteria, Pageable pageable){
         log.info("查询列表社会治安管理/重点地区排查整治信息--开始");
-        Page<BizSecurKeyareas> page = bizSecurKeyareasRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        Page<BizSecurKeyareas> page = bizSecurKeyareasRepository.findAll(audit.genSpecification(criteria),pageable);
         List<BizSecurKeyareasDTO> bizSecurKeyareasDTOList = bizSecurKeyareasMapper.toDto(page.getContent());
         for (BizSecurKeyareasDTO mid: bizSecurKeyareasDTOList) {
-            DictDetail dd = dictDetailService.findByValueAndPName(DictEnum.ZATCWT.getDistName(), mid.getOutproblem());
-            mid.setOutproblemStr(dd == null ? "无数据" : dd.getLabel());
-            dd = dictDetailService.findByValueAndPName(DictEnum.SJQYLX.getDistName(), mid.getAreaType());
-            mid.setAreaTypeStr(dd == null ? "无数据" : dd.getLabel());
+            String dd = dictDetailService.transDict(DictEnum.ZATCWT.getDistName(), mid.getOutproblem());
+            mid.setOutproblemStr(dd == null ? "无数据" : dd); // 治安突出问题
+            dd = dictDetailService.transDict(DictEnum.SJQYLX.getDistName(), mid.getAreaType());
+            mid.setAreaTypeStr(dd == null ? "无数据" : dd); // 涉及区域类型
+
+            dd = deptRepository.findNameByCode(mid.getUnitCode());
+            mid.setUnitCodeStr(dd);
 
         }
         Map map = new HashMap();
@@ -74,7 +82,7 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
     @Override
     @Transactional
     public Object queryAll(BizSecurKeyareasQueryCriteria criteria){
-        return bizSecurKeyareasMapper.toDto(bizSecurKeyareasRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return bizSecurKeyareasMapper.toDto(bizSecurKeyareasRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
@@ -93,8 +101,6 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
     public BizSecurKeyareasDTO create(BizSecurKeyareas resources) {
         log.info("新增社会治安管理/重点地区排查整治信息--开始");
         resources.setKeyId(IdUtil.simpleUUID());
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setCreator(u.getId());
         return bizSecurKeyareasMapper.toDto(bizSecurKeyareasRepository.save(resources));
     }
 
@@ -108,8 +114,6 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
         Optional<BizSecurKeyareas> optionalBizSecurKeyareas = bizSecurKeyareasRepository.findById(resources.getKeyId());
         ValidationUtil.isNull( optionalBizSecurKeyareas,"BizSecurKeyareas","id",resources.getKeyId());
         BizSecurKeyareas bizSecurKeyareas = optionalBizSecurKeyareas.get();
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        resources.setOperName(u.getId());
         bizSecurKeyareas.copy(resources);
         bizSecurKeyareasRepository.save(bizSecurKeyareas);
     }
