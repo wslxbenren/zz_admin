@@ -3,10 +3,14 @@ package com.xyz.modules.system.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.xyz.exception.EntityExistException;
 import com.xyz.exception.EntityNotFoundException;
+import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.monitor.service.RedisService;
 import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.service.MenuService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.PageUtil;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.ValidationUtil;
@@ -29,6 +33,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -38,7 +43,6 @@ import java.util.*;
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
-
 
 
     @Autowired
@@ -56,16 +60,45 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private DeptRepository deptRepository;
 
+
+    @Autowired
+    private AuditSpecification audit;
+
+    @Autowired
+    private DictDetailService dictDetailService;
+
     @Override
+    @Transactional
     public Object queryAll(UserQueryCriteria criteria, Pageable pageable) {
-        Page<User> page = userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(userMapper::toDto));
+        Page<User> page = userRepository.findAll(audit.genSpecification(criteria), pageable);
+        List<UserDTO> userDTOList = userMapper.toDto(page.getContent());
+        for (UserDTO f : userDTOList) {
+
+            String dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), f.getPoliticalStatus());
+            f.setPoliticalStatus(dd == null ? "无数据" : dd);// 政治面貌
+//
+            dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), f.getCardCode());
+            f.setCardCode(dd == null ? "无数据" : dd);// 证件代码
+//
+            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEducationBg());
+            f.setEducationBg(dd == null ? "无数据" : dd);// 学历
+
+            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNational());
+            f.setNational(dd == null ? "无数据" : dd);//民族
+
+        }
+
+
+        Map map = new HashMap();
+        map.put("content", userDTOList);
+        map.put("totalElements", page.getTotalElements());
+        return map;
     }
 
     @Override
     public UserDTO findById(String id) {
         Optional<User> user = userRepository.findById(id);
-        ValidationUtil.isNull(user,"User","id",id);
+        ValidationUtil.isNull(user, "User", "id", id);
         return userMapper.toDto(user.get());
     }
 
@@ -73,20 +106,19 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public UserDTO create(User resources) {
 
-        if(userRepository.findByUsername(resources.getUsername())!=null){
-            throw new EntityExistException(User.class,"username",resources.getUsername());
+        if (userRepository.findByUsername(resources.getUsername()) != null) {
+            throw new EntityExistException(User.class, "username", resources.getUsername());
         }
 
-        if(userRepository.findByEmail(resources.getEmail())!=null){
-            throw new EntityExistException(User.class,"email",resources.getEmail());
+        if (userRepository.findByEmail(resources.getEmail()) != null) {
+            throw new EntityExistException(User.class, "email", resources.getEmail());
         }
-        if(resources.getId()==null)
-        {
+        if (resources.getId() == null) {
             resources.setId(UUID.randomUUID().toString());
         }
         // 默认密码 123456，此密码是加密后的字符
         resources.setPassword("e10adc3949ba59abbe56e057f20f883e");
-        resources.setAvatar("https://i.loli.net/2019/04/04/5ca5b971e1548.jpeg");
+//        resources.setAvatar("https://i.loli.net/2019/04/04/5ca5b971e1548.jpeg");
         return userMapper.toDto(userRepository.save(resources));
     }
 
@@ -94,19 +126,19 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public void update(User resources) {
         Optional<User> userOptional = userRepository.findById(resources.getId());
-        ValidationUtil.isNull(userOptional,"User","id",resources.getId());
+        ValidationUtil.isNull(userOptional, "User", "id", resources.getId());
 
         User user = userOptional.get();
 
         User user1 = userRepository.findByUsername(user.getUsername());
         User user2 = userRepository.findByEmail(user.getEmail());
 
-        if(user1 !=null&&!user.getId().equals(user1.getId())){
-            throw new EntityExistException(User.class,"username",resources.getUsername());
+        if (user1 != null && !user.getId().equals(user1.getId())) {
+            throw new EntityExistException(User.class, "username", resources.getUsername());
         }
 
-        if(user2!=null&&!user.getId().equals(user2.getId())){
-            throw new EntityExistException(User.class,"email",resources.getEmail());
+        if (user2 != null && !user.getId().equals(user2.getId())) {
+            throw new EntityExistException(User.class, "email", resources.getEmail());
         }
 
         // 如果用户的角色改变了，需要手动清理下缓存
@@ -142,7 +174,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findByName(String userName) {
         User user = null;
-        if(ValidationUtil.isEmail(userName)){
+        if (ValidationUtil.isEmail(userName)) {
             user = userRepository.findByEmail(userName);
         } else {
             user = userRepository.findByUsername(userName);
@@ -157,19 +189,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updatePass(String username, String pass) {
-        userRepository.updatePass(username,pass,new Date());
+        userRepository.updatePass(username, pass, new Date());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateAvatar(String username, String url) {
-        userRepository.updateAvatar(username,url);
+        userRepository.updateAvatar(username, url);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateEmail(String username, String email) {
-        userRepository.updateEmail(username,email);
+        userRepository.updateEmail(username, email);
     }
 
 
@@ -211,10 +243,8 @@ public class UserServiceImpl implements UserService {
                 userRepository.save(user);
             }
         }
-        return  0;
+        return 0;
     }
-
-
 
 
 }
