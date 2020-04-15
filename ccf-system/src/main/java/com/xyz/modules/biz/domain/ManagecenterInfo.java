@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
@@ -9,6 +10,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -87,6 +89,8 @@ public class ManagecenterInfo implements Serializable {
     // 创建时间
     @Column(name = "create_time",updatable = false)
     @CreationTimestamp
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonIgnore
     private Timestamp createTime;
 
     // 修改人
@@ -96,6 +100,8 @@ public class ManagecenterInfo implements Serializable {
     // 修改时间
     @Column(name = "update_time")
     @UpdateTimestamp
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonIgnore
     private Timestamp updateTime;
 
     // 所属单位

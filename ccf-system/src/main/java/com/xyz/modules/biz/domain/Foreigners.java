@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
@@ -9,6 +10,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -49,7 +51,7 @@ public class Foreigners implements Serializable {
 
     // 出生日期:格式为“YYYYMMDD”
     @Column(name = "date_birth")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Timestamp dateBirth;
 
     // 国籍（地区）:编码应符合GB/T2659
@@ -73,7 +75,7 @@ public class Foreigners implements Serializable {
 
     // 证件有效期:格式为“YYYYMMDD”
     @Column(name = "valid_date")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Timestamp validDate;
 
     // 联系方式:手机号码或固定电话号码
@@ -108,12 +110,12 @@ public class Foreigners implements Serializable {
 
     // 抵达日期:格式为“YYYYMMDD”
     @Column(name = "arrival_date")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Timestamp arrivalDate;
 
     // 预计离开日期:格式为“YYYYMMDD”
     @Column(name = "plan_leave")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Timestamp planLeave;
 
     // 是否重点关注人员
@@ -122,12 +124,12 @@ public class Foreigners implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp expDate;
 
     // 同步状态
@@ -145,6 +147,8 @@ public class Foreigners implements Serializable {
     // 操作时间
     @Column(name = "oper_date")
     @UpdateTimestamp
+    @JsonIgnore
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp operDate;
 
     // 创建人
@@ -154,6 +158,8 @@ public class Foreigners implements Serializable {
     // 创建时间
     @Column(name = "create_time",updatable=false)
     @CreationTimestamp
+    @JsonIgnore
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理

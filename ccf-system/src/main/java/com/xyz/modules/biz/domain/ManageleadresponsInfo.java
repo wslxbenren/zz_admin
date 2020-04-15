@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -65,6 +67,8 @@ public class ManageleadresponsInfo implements Serializable {
     // 创建时间
     @Column(name = "create_time",updatable=false)
     @CreationTimestamp
+    @JsonIgnore
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp createTime;
 
     // 修改人
@@ -74,6 +78,8 @@ public class ManageleadresponsInfo implements Serializable {
     // 修改时间
     @Column(name = "update_time")
     @UpdateTimestamp
+    @JsonIgnore
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp updateTime;
 
     // 所属单位
@@ -82,12 +88,12 @@ public class ManageleadresponsInfo implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp expDate;
 
     // 同步状态
