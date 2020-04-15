@@ -55,7 +55,7 @@ public class Dept implements Serializable {
     @CreationTimestamp
     private Timestamp createTime;
 /////////////////////////////////////////////////////////////////////////////////////
-    @Column(name = "code")
+    @Column(name = "CODE")
     private String code;
 
 
