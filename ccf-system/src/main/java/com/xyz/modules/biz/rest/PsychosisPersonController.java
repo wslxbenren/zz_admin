@@ -61,9 +61,6 @@ public class PsychosisPersonController {
     @GetMapping(value = "/PsychosisPerson/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','PSYCHOSISPERSON_ALL','PSYCHOSISPERSON_SELECT')")
     public ResponseEntity getById(@PathVariable String id){
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         return new ResponseEntity(PsychosisPersonService.findById(id),HttpStatus.OK);
     }
 
@@ -80,9 +77,6 @@ public class PsychosisPersonController {
     @PutMapping(value = "/PsychosisPerson")
     @PreAuthorize("hasAnyRole('ADMIN','PSYCHOSISPERSON_ALL','PSYCHOSISPERSON_EDIT')")
     public ResponseEntity update(@Validated @RequestBody PsychosisPerson resources){
-        if (StringUtils.isBlank(resources.getPsychosisId())){
-            throw new BadRequestException("主键ID不能为空");
-        }
         PsychosisPersonService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -92,9 +86,6 @@ public class PsychosisPersonController {
     @DeleteMapping(value = "/PsychosisPerson/{psychosisId}")
     @PreAuthorize("hasAnyRole('ADMIN','PSYCHOSISPERSON_ALL','PSYCHOSISPERSON_DELETE')")
     public ResponseEntity delete(@PathVariable String psychosisId){
-        if (StringUtils.isBlank(psychosisId)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         PsychosisPersonService.delete(psychosisId);
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -81,9 +81,6 @@ public class DrugPersonController {
     @PutMapping(value = "/DrugPerson")
     @PreAuthorize("hasAnyRole('ADMIN','DRUGPERSON_ALL','DRUGPERSON_EDIT')")
     public ResponseEntity update(@Validated @RequestBody DrugPerson resources){
-        if (StringUtils.isBlank(resources.getDrugId())){
-            throw new BadRequestException("主键ID不能为空");
-        }
         DrugPersonService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -93,9 +90,6 @@ public class DrugPersonController {
     @DeleteMapping(value = "/DrugPerson/{drugId}")
     @PreAuthorize("hasAnyRole('ADMIN','DRUGPERSON_ALL','DRUGPERSON_DELETE')")
     public ResponseEntity delete(@PathVariable String drugId){
-        if (StringUtils.isBlank(drugId)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         DrugPersonService.delete(drugId);
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -8,6 +8,9 @@ import com.xyz.modules.biz.service.dto.AidsPersonQueryCriteria;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  * @author 刘鑫
  * @date 2020-04-10
@@ -61,4 +64,6 @@ public interface AidsPersonService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String aidsId);
+
+    void export(HttpServletResponse response , AidsPersonQueryCriteria criteria) throws IOException;
 }

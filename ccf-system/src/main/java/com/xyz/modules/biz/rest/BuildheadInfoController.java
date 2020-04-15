@@ -57,9 +57,6 @@ public class BuildheadInfoController {
     @GetMapping(value = "/BuildheadInfo/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_SELECT')")
     public ResponseEntity getById(@PathVariable String id){
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         return new ResponseEntity(BuildheadInfoService.findById(id),HttpStatus.OK);
     }
 
@@ -76,9 +73,6 @@ public class BuildheadInfoController {
     @PutMapping(value = "/BuildheadInfo")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_EDIT')")
     public ResponseEntity update(@Validated @RequestBody BuildheadInfo resources){
-        if (StringUtils.isBlank(resources.getId())){
-            throw new BadRequestException("主键ID不能为空");
-        }
         BuildheadInfoService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -88,9 +82,6 @@ public class BuildheadInfoController {
     @DeleteMapping(value = "/BuildheadInfo/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
     public ResponseEntity delete(@PathVariable String id){
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         BuildheadInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }

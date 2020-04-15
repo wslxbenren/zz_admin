@@ -36,14 +36,11 @@ public class RegistpeopleController {
     public ResponseEntity getRegistpeoples(RegistpeopleQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(RegistpeopleService.queryAll(criteria,pageable),HttpStatus.OK);
     }
-    @Log("查询单个Registpeople")
-    @ApiOperation(value = "查询单个Registpeople")
+    @Log("查询详情Registpeople")
+    @ApiOperation(value = "查询详情Registpeople")
     @GetMapping(value = "/Registpeople/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','REGISTPEOPLE_ALL','REGISTPEOPLE_SELECT')")
     public ResponseEntity getById(@PathVariable String id ){
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         return new ResponseEntity(RegistpeopleService.findById(id),HttpStatus.OK);
     }
     @Log("新增Registpeople")
@@ -59,9 +56,6 @@ public class RegistpeopleController {
     @PutMapping(value = "/Registpeople")
     @PreAuthorize("hasAnyRole('ADMIN','REGISTPEOPLE_ALL','REGISTPEOPLE_EDIT')")
     public ResponseEntity update(@Validated @RequestBody Registpeople resources){
-        if (StringUtils.isBlank(resources.getRegisId())){
-            throw new BadRequestException("主键ID不能为空");
-        }
         RegistpeopleService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -71,18 +65,9 @@ public class RegistpeopleController {
     @DeleteMapping(value = "/Registpeople/{regisId}")
     @PreAuthorize("hasAnyRole('ADMIN','REGISTPEOPLE_ALL','REGISTPEOPLE_DELETE')")
     public ResponseEntity delete(@PathVariable String regisId){
-        if (StringUtils.isBlank(regisId)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         RegistpeopleService.delete(regisId);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-//    @Log("查看Registpeople")
-//    @ApiOperation(value = "查看Registpeople")
-//    @DeleteMapping(value = "/Registpeople/{regisId}")
-//    @PreAuthorize("hasAnyRole('ADMIN','REGISTPEOPLE_ALL','REGISTPEOPLE_DELETE')")
-//    public ResponseEntity getById(@PathVariable String regisId){
-//        return new ResponseEntity(RegistpeopleService.findById(regisId),HttpStatus.OK);
-//    }
+
 }

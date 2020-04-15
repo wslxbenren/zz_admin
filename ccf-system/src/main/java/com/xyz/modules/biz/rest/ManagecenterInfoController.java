@@ -45,9 +45,6 @@ public class ManagecenterInfoController {
     @GetMapping(value = "/ManagecenterInfo/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGECENTERINFO_ALL','MANAGECENTERINFO_SELECT')")
     public ResponseEntity getById(@PathVariable String id){
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         return new ResponseEntity(ManagecenterInfoService.findById(id),HttpStatus.OK);
     }
 
@@ -64,9 +61,6 @@ public class ManagecenterInfoController {
     @PutMapping(value = "/ManagecenterInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGECENTERINFO_ALL','MANAGECENTERINFO_EDIT')")
     public ResponseEntity update(@Validated @RequestBody ManagecenterInfo resources){
-        if (StringUtils.isBlank(resources.getId())){
-            throw new BadRequestException("主键ID不能为空");
-        }
         ManagecenterInfoService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -76,9 +70,6 @@ public class ManagecenterInfoController {
     @DeleteMapping(value = "/ManagecenterInfo/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGECENTERINFO_ALL','MANAGECENTERINFO_DELETE')")
     public ResponseEntity delete(@PathVariable String id){
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         ManagecenterInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }

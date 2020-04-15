@@ -61,9 +61,6 @@ public class CorrectPersonController {
     @GetMapping(value = "/CorrectPerson/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','CORRECTPERSON_ALL','CORRECTPERSON_SELECT')")
     public ResponseEntity getById(@PathVariable String id){
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         return new ResponseEntity(CorrectPersonService.findById(id),HttpStatus.OK);
     }
 
@@ -80,9 +77,6 @@ public class CorrectPersonController {
     @PutMapping(value = "/CorrectPerson")
     @PreAuthorize("hasAnyRole('ADMIN','CORRECTPERSON_ALL','CORRECTPERSON_EDIT')")
     public ResponseEntity update(@Validated @RequestBody CorrectPerson resources){
-        if (StringUtils.isBlank(resources.getCorrectId())){
-            throw new BadRequestException("主键ID不能为空");
-        }
         CorrectPersonService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -92,9 +86,6 @@ public class CorrectPersonController {
     @DeleteMapping(value = "/CorrectPerson/{correctId}")
     @PreAuthorize("hasAnyRole('ADMIN','CORRECTPERSON_ALL','CORRECTPERSON_DELETE')")
     public ResponseEntity delete(@PathVariable String correctId){
-        if (StringUtils.isBlank(correctId)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         CorrectPersonService.delete(correctId);
         return new ResponseEntity(HttpStatus.OK);
     }

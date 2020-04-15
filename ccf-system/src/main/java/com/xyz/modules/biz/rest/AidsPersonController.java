@@ -21,6 +21,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,9 +65,6 @@ public class AidsPersonController {
     @GetMapping(value = "/AidsPerson/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','AIDSPERSON_ALL','AIDSPERSON_SELECT')")
     public ResponseEntity getById(@PathVariable String id){
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         return new ResponseEntity(AidsPersonService.findById(id),HttpStatus.OK);
     }
 
@@ -80,9 +81,6 @@ public class AidsPersonController {
     @PutMapping(value = "/AidsPerson")
     @PreAuthorize("hasAnyRole('ADMIN','AIDSPERSON_ALL','AIDSPERSON_EDIT')")
     public ResponseEntity update(@Validated @RequestBody AidsPerson resources){
-        if (StringUtils.isBlank(resources.getAidsId())){
-            throw new BadRequestException("主键ID不能为空");
-        }
         AidsPersonService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -91,11 +89,24 @@ public class AidsPersonController {
     @ApiOperation(value = "删除AidsPerson")
     @DeleteMapping(value = "/AidsPerson/{aidsId}")
     @PreAuthorize("hasAnyRole('ADMIN','AIDSPERSON_ALL','AIDSPERSON_DELETE')")
-    public ResponseEntity delete(@PathVariable String aidsId){
-        if (StringUtils.isBlank(aidsId)){
-            throw new BadRequestException("主键ID不能为空");
-        }
+    public ResponseEntity delete(@PathVariable  String aidsId){
         AidsPersonService.delete(aidsId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Log("导出AidsPerson")
+    @ApiOperation(value = "导出AidsPerson")
+    @GetMapping(value = "/AidsPerson/export")
+    @PreAuthorize("hasAnyRole('ADMIN','AIDSPERSON_ALL','AIDSPERSON_DELETE')")
+    public ResponseEntity export(HttpServletResponse response , AidsPersonQueryCriteria criteria) throws IOException {
+        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+        String deptId = u.getDeptDto().getId();
+        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
+        criteria.setCreator(u.getId());
+        criteria.setUnitCode(deptCodes);
+        AidsPersonService.export(response,criteria);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
 }

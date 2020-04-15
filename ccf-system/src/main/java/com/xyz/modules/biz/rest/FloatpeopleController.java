@@ -53,9 +53,6 @@ public class FloatpeopleController {
     @GetMapping(value = "/Floatpeople/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_SELECT')")
     public ResponseEntity getById(@PathVariable String id){
-        if (StringUtils.isBlank(id)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         return new ResponseEntity(FloatpeopleService.findById(id),HttpStatus.OK);
     }
 
@@ -72,9 +69,6 @@ public class FloatpeopleController {
     @PutMapping(value = "/Floatpeople")
     @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_EDIT')")
     public ResponseEntity update(@Validated @RequestBody Floatpeople resources){
-        if (StringUtils.isBlank(resources.getFloatId())){
-            throw new BadRequestException("主键ID不能为空");
-        }
         FloatpeopleService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -84,9 +78,6 @@ public class FloatpeopleController {
     @DeleteMapping(value = "/Floatpeople/{floatId}")
     @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_DELETE')")
     public ResponseEntity delete(@PathVariable String floatId){
-        if (StringUtils.isBlank(floatId)){
-            throw new BadRequestException("主键ID不能为空");
-        }
         FloatpeopleService.delete(floatId);
         return new ResponseEntity(HttpStatus.OK);
     }
