@@ -30,7 +30,7 @@ public class AidsPersonDTO implements Serializable {
 
     // 出生日期
     @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
-private Timestamp dateBirth;
+    private Timestamp dateBirth;
 
     // 民族
     private String nation;
@@ -124,9 +124,11 @@ private Timestamp dateBirth;
     private String detainUnion;
 
     // 生效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp effDate;
 
     // 失效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -139,6 +141,7 @@ private Timestamp dateBirth;
     private String operName;
 
     // 操作时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp operDate;
 
     // 创建人

@@ -1,12 +1,14 @@
 package com.xyz.modules.biz.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -38,12 +40,12 @@ public class BizSecurHomicidebaseinfo implements Serializable {
 
     // 案件发生开始日期
     @Column(name = "crime_date")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp crimeDate;
 
     // 侦查终结日期
     @Column(name = "end_date")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp endDate;
 
     // 简要情况
@@ -52,12 +54,12 @@ public class BizSecurHomicidebaseinfo implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 
     // 同步状态
@@ -75,6 +77,7 @@ public class BizSecurHomicidebaseinfo implements Serializable {
     // 操作时间
     @Column(name = "oper_date")
     @UpdateTimestamp
+    @JsonIgnore
     private Timestamp operDate;
 
     // 创建人
@@ -84,6 +87,7 @@ public class BizSecurHomicidebaseinfo implements Serializable {
     // 创建时间
     @Column(name = "create_time",nullable = false,updatable=false)
     @CreationTimestamp
+    @JsonIgnore
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理
