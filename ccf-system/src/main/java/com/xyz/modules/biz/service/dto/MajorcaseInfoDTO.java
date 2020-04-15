@@ -24,6 +24,7 @@ public class MajorcaseInfoDTO implements Serializable {
     private String caseName;
 
     // 发生日期:格式为“YYYYMMDD”
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp occurDate;
 
     // 发生地:编码应符合GB/T2260

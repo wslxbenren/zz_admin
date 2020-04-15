@@ -98,12 +98,12 @@ public class KeypersoninfoDTO implements Serializable {
 
     // 危害说明
     private String hazardInfo;
-    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     // 生效时间
     private Timestamp effDate;
 
     // 失效时间
-    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp expDate;
 
     // 同步状态
