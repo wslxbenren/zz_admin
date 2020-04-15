@@ -33,6 +33,7 @@ public class CaseinfoDTO implements Serializable {
     private String caseTypeStr;
 
     // 发生日期
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp happenTime;
 
     // 发生地点省市县编码
@@ -75,9 +76,11 @@ public class CaseinfoDTO implements Serializable {
     private String solveInfo;
 
     // 生效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp effDate;
 
     // 失效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -90,6 +93,7 @@ public class CaseinfoDTO implements Serializable {
     private String operName;
 
     // 操作时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp operDate;
 
     // 创建人

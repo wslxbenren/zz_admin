@@ -125,7 +125,6 @@ public class BuildheadInfo implements Serializable {
 
     // 创建时间
     @Column(name = "create_time",nullable = false,updatable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore
     @CreationTimestamp
     private Timestamp createTime;
@@ -137,7 +136,6 @@ public class BuildheadInfo implements Serializable {
     // 修改时间
     @Column(name = "update_time")
     @UpdateTimestamp
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore
     private Timestamp updateTime;
 

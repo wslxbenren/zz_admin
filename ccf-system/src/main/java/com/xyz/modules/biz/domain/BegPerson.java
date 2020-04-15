@@ -1,8 +1,11 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -35,6 +38,7 @@ public class BegPerson implements Serializable {
 
     // 出生日期
     @Column(name = "date_birth")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Timestamp dateBirth;
 
     // 民族
@@ -175,10 +179,12 @@ public class BegPerson implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 
     // 同步状态
@@ -195,14 +201,18 @@ public class BegPerson implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
+    @JsonIgnore
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp operDate;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable=false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false)
+    @Column(name = "create_time",nullable = false,updatable=false)
+    @JsonIgnore
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理

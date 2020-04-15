@@ -1,8 +1,13 @@
 package com.xyz.modules.biz.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -35,6 +40,7 @@ public class Overseeinfo implements Serializable {
 
     // 督办时间
     @Column(name = "oversee_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd" )
     private Timestamp overseeTime;
 
     // 督办意见
@@ -51,10 +57,12 @@ public class Overseeinfo implements Serializable {
 
     // 生效时间
     @Column(name = "eff_date",nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 
     // 同步状态
@@ -71,6 +79,9 @@ public class Overseeinfo implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
+    @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonIgnore
     private Timestamp operDate;
 
     // 创建人
@@ -79,6 +90,9 @@ public class Overseeinfo implements Serializable {
 
     // 创建时间
     @Column(name = "create_time",nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonIgnore
+    @CreationTimestamp
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理
