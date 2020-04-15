@@ -1,8 +1,7 @@
 package com.xyz.gen;
 
-import com.xyz.gen.MockUtil;
-import com.xyz.modules.biz.domain.BuildheadInfo;
-import com.xyz.modules.biz.repository.BuildheadInfoRepository;
+import com.xyz.modules.biz.service.org.entity.BuildheadInfo;
+import com.xyz.modules.biz.service.org.repo.BuildheadInfoRepository;
 import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.domain.Job;
 import com.xyz.modules.system.domain.Role;

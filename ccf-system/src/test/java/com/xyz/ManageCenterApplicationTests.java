@@ -1,29 +1,21 @@
 package com.xyz;
 
-import com.xyz.modules.biz.domain.ManagecenterInfo;
-import com.xyz.modules.biz.repository.ManagecenterInfoRepository;
-import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
-import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
-import com.xyz.modules.biz.service.mapper.ManagecenterInfoMapper;
-import com.xyz.modules.system.domain.Dict;
+import com.xyz.modules.biz.service.org.entity.ManagecenterInfo;
+import com.xyz.modules.biz.service.org.repo.ManagecenterInfoRepository;
+import com.xyz.modules.biz.service.org.dto.ManagecenterInfoDTO;
+import com.xyz.modules.biz.service.org.qo.ManagecenterInfoQueryCriteria;
+import com.xyz.modules.biz.service.org.mapper.ManagecenterInfoMapper;
 import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.modules.system.repository.DictRepository;
-import com.xyz.modules.system.service.dto.DictDTO;
-import com.xyz.modules.system.service.dto.DictDetailDTO;
-import com.xyz.modules.system.service.mapper.DictDetailMapper;
-import com.xyz.modules.system.service.mapper.DictMapper;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.ValidationUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;

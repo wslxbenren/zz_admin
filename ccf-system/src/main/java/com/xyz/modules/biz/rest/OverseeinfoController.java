@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Overseeinfo;
-import com.xyz.modules.biz.service.OverseeinfoService;
-import com.xyz.modules.biz.service.dto.OverseeinfoQueryCriteria;
+import com.xyz.modules.biz.service.dispute.entity.Overseeinfo;
+import com.xyz.modules.biz.service.dispute.OverseeinfoService;
+import com.xyz.modules.biz.service.dispute.qo.OverseeinfoQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

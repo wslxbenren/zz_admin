@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Caseinfo;
-import com.xyz.modules.biz.service.CaseinfoService;
-import com.xyz.modules.biz.service.dto.CaseinfoQueryCriteria;
+import com.xyz.modules.biz.service.route.entity.Caseinfo;
+import com.xyz.modules.biz.service.route.CaseinfoService;
+import com.xyz.modules.biz.service.route.qo.CaseinfoQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.SecurityUtils;

@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Victiminfo;
-import com.xyz.modules.biz.service.VictiminfoService;
-import com.xyz.modules.biz.service.dto.VictiminfoQueryCriteria;
+import com.xyz.modules.biz.service.secur.entity.Victiminfo;
+import com.xyz.modules.biz.service.secur.VictiminfoService;
+import com.xyz.modules.biz.service.secur.dto.VictiminfoQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.SecurityUtils;

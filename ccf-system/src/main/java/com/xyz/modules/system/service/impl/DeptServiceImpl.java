@@ -3,10 +3,6 @@ package com.xyz.modules.system.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.xyz.exception.BadRequestException;
-import com.xyz.modules.biz.domain.Victiminfo;
-import com.xyz.modules.biz.service.dto.VictiminfoDTO;
-import com.xyz.modules.biz.service.dto.VictiminfoQueryCriteria;
-import com.xyz.modules.biz.service.strategy.AuditSpecification;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.mapper.DeptMapper;
@@ -19,8 +15,6 @@ import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.dto.DeptDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -33,7 +27,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.BizSecurLogistics;
-import com.xyz.modules.biz.service.BizSecurLogisticsService;
-import com.xyz.modules.biz.service.dto.BizSecurLogisticsQueryCriteria;
+import com.xyz.modules.biz.service.secur.entity.BizSecurLogistics;
+import com.xyz.modules.biz.service.secur.BizSecurLogisticsService;
+import com.xyz.modules.biz.service.secur.dto.BizSecurLogisticsQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.SecurityUtils;

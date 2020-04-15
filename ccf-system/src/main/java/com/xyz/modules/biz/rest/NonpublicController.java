@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Nonpublic;
-import com.xyz.modules.biz.service.NonpublicService;
-import com.xyz.modules.biz.service.dto.NonpublicQueryCriteria;
+import com.xyz.modules.biz.service.organ.entity.Nonpublic;
+import com.xyz.modules.biz.service.organ.NonpublicService;
+import com.xyz.modules.biz.service.organ.qo.NonpublicQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

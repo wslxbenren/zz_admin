@@ -1,16 +1,14 @@
 package com.xyz.biz;
 
-import com.alibaba.fastjson.JSON;
-import com.xyz.modules.biz.domain.BuildheadInfo;
-import com.xyz.modules.biz.service.BuildheadInfoService;
-import com.xyz.modules.biz.service.dto.BuildheadInfoQueryCriteria;
+import com.xyz.modules.biz.service.org.entity.BuildheadInfo;
+import com.xyz.modules.biz.service.org.BuildheadInfoService;
+import com.xyz.modules.biz.service.org.qo.BuildheadInfoQueryCriteria;
 import com.xyz.modules.system.util.DictEnum;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,7 +23,6 @@ import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

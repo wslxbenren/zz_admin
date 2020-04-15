@@ -1,32 +1,18 @@
 package com.xyz.biz;
 
-import com.xyz.modules.biz.domain.Floatpeople;
-import com.xyz.modules.biz.domain.ManagecenterInfo;
-import com.xyz.modules.biz.repository.FloatpeopleRepository;
-import com.xyz.modules.biz.repository.ManagecenterInfoRepository;
-import com.xyz.modules.biz.service.FloatpeopleService;
-import com.xyz.modules.biz.service.dto.FloatpeopleDTO;
-import com.xyz.modules.biz.service.dto.FloatpeopleQueryCriteria;
-import com.xyz.modules.biz.service.dto.ManagecenterInfoDTO;
-import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
-import com.xyz.modules.biz.service.mapper.ManagecenterInfoMapper;
-import com.xyz.modules.system.domain.DictDetail;
-import com.xyz.modules.system.repository.DictDetailRepository;
-import com.xyz.modules.system.repository.DictRepository;
-import com.xyz.utils.QueryHelp;
-import com.xyz.utils.ValidationUtil;
+import com.xyz.modules.biz.service.actual.entity.Floatpeople;
+import com.xyz.modules.biz.service.actual.repo.FloatpeopleRepository;
+import com.xyz.modules.biz.service.actual.FloatpeopleService;
+import com.xyz.modules.biz.service.actual.dto.FloatpeopleDTO;
+import com.xyz.modules.biz.service.actual.qo.FloatpeopleQueryCriteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  *

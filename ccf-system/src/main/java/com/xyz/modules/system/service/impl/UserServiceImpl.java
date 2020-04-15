@@ -3,16 +3,12 @@ package com.xyz.modules.system.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.xyz.exception.EntityExistException;
 import com.xyz.exception.EntityNotFoundException;
-import com.xyz.modules.biz.service.strategy.AuditSpecification;
+import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.monitor.service.RedisService;
-import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
-import com.xyz.modules.system.service.MenuService;
 import com.xyz.modules.system.util.DictEnum;
-import com.xyz.utils.PageUtil;
-import com.xyz.utils.QueryHelp;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.service.UserService;
@@ -33,7 +29,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**

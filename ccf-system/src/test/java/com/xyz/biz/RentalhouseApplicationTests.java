@@ -1,11 +1,9 @@
 package com.xyz.biz;
 
-import com.xyz.modules.biz.domain.Registpeople;
-import com.xyz.modules.biz.domain.Rentalhouse;
-import com.xyz.modules.biz.service.RegistpeopleService;
-import com.xyz.modules.biz.service.RentalhouseService;
-import com.xyz.modules.biz.service.dto.RentalhouseDTO;
-import com.xyz.modules.biz.service.dto.RentalhouseQueryCriteria;
+import com.xyz.modules.biz.service.actual.entity.Rentalhouse;
+import com.xyz.modules.biz.service.actual.RentalhouseService;
+import com.xyz.modules.biz.service.actual.dto.RentalhouseDTO;
+import com.xyz.modules.biz.service.actual.qo.RentalhouseQueryCriteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

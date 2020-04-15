@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.BizSchoolCaseinfo;
-import com.xyz.modules.biz.service.BizSchoolCaseinfoService;
-import com.xyz.modules.biz.service.dto.BizSchoolCaseinfoQueryCriteria;
+import com.xyz.modules.biz.service.school.entity.BizSchoolCaseinfo;
+import com.xyz.modules.biz.service.school.BizSchoolCaseinfoService;
+import com.xyz.modules.biz.service.school.qo.BizSchoolCaseinfoQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

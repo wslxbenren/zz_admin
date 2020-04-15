@@ -4,21 +4,14 @@ package com.xyz;
  * 时间：2020-4-9 15:14:43
  */
 
-import com.xyz.modules.biz.domain.Leftbehind;
-import com.xyz.modules.biz.domain.MajorcaseInfo;
-import com.xyz.modules.biz.service.dto.LeftbehindQueryCriteria;
-import com.xyz.modules.biz.service.dto.MajorcaseInfoQueryCriteria;
-import com.xyz.modules.biz.service.impl.LeftbehindServiceImpl;
-import org.junit.Before;
+import com.xyz.modules.biz.service.actual.entity.Leftbehind;
+import com.xyz.modules.biz.service.actual.qo.LeftbehindQueryCriteria;
+import com.xyz.modules.biz.service.actual.impl.LeftbehindServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

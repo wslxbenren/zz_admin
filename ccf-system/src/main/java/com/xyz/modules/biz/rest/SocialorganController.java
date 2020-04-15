@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Socialorgan;
-import com.xyz.modules.biz.service.SocialorganService;
-import com.xyz.modules.biz.service.dto.SocialorganQueryCriteria;
+import com.xyz.modules.biz.service.organ.entity.Socialorgan;
+import com.xyz.modules.biz.service.organ.SocialorganService;
+import com.xyz.modules.biz.service.organ.qo.SocialorganQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

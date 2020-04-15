@@ -1,12 +1,10 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.exception.BadRequestException;
-import com.xyz.modules.biz.domain.Rentalhouse;
-import com.xyz.modules.biz.service.RentalhouseService;
-import com.xyz.modules.biz.service.dto.RentalhouseQueryCriteria;
+import com.xyz.modules.biz.service.actual.entity.Rentalhouse;
+import com.xyz.modules.biz.service.actual.RentalhouseService;
+import com.xyz.modules.biz.service.actual.qo.RentalhouseQueryCriteria;
 import com.xyz.modules.system.service.DeptService;
-import com.xyz.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.hibernate.annotations.DynamicUpdate;

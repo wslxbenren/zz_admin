@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.BegPerson;
-import com.xyz.modules.biz.service.BegPersonService;
-import com.xyz.modules.biz.service.dto.BegPersonQueryCriteria;
+import com.xyz.modules.biz.service.special.entity.BegPerson;
+import com.xyz.modules.biz.service.special.BegPersonService;
+import com.xyz.modules.biz.service.special.qo.BegPersonQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictService;
