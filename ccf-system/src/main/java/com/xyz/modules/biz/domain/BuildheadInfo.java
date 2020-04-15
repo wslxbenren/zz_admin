@@ -3,7 +3,6 @@ package com.xyz.modules.biz.domain;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.xyz.modules.biz.ao.AuditListener;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
@@ -24,7 +23,6 @@ import java.sql.Timestamp;
 @Data
 @Table(name="biz_org_buildhead_info")
 @DynamicUpdate
-@EntityListeners(AuditListener.class)
 public class BuildheadInfo implements Serializable {
 
     // 主键

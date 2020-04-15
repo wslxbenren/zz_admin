@@ -61,7 +61,7 @@ public class BizBuildHeadInfSaveOrUpdateTest {
     }
 
     private BuildheadInfo makeUpdateEntity(){
-        String id = "cfee306e-c17c-45ed-bc39-1d9004839cfa";
+        String id = "06e616ee-9ae0-4dbc-889d-4259af318aad";
         BuildheadInfo buildheadInfo = new BuildheadInfo();
         //前端在更新时，比如传入Id
         buildheadInfo.setId(id);
@@ -86,7 +86,7 @@ public class BizBuildHeadInfSaveOrUpdateTest {
         buildheadInfo.setPoliticalStatus("1");
         buildheadInfo.setSex("男");
         buildheadInfo.setVillageCode("200");
-        buildheadInfo.setVillageName("钱塘江小区2update");
+        buildheadInfo.setVillageName("钱塘江小区");
         buildheadInfo.setNational(DictEnum.MIN_ZU.getDistName());
         buildheadInfo.setUnitNum(1);
         return buildheadInfo;
