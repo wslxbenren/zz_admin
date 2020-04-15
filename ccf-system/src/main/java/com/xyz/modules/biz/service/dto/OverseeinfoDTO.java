@@ -27,6 +27,7 @@ public class OverseeinfoDTO implements Serializable {
     private String overseeName;
 
     // 督办时间
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp overseeTime;
 
     // 督办意见
@@ -39,9 +40,11 @@ public class OverseeinfoDTO implements Serializable {
     private String remark;
 
     // 生效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp effDate;
 
     // 失效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -54,6 +57,7 @@ public class OverseeinfoDTO implements Serializable {
     private String operName;
 
     // 操作时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp operDate;
 
     // 创建人

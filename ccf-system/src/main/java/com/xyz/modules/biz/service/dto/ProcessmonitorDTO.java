@@ -27,6 +27,7 @@ public class ProcessmonitorDTO implements Serializable {
     private String disposalUnit;
 
     // 处理时间
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp disposalTime;
 
     // 处理人
@@ -45,9 +46,11 @@ public class ProcessmonitorDTO implements Serializable {
     private String checklOpinion;
 
     // 生效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp effDate;
 
     // 失效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -60,6 +63,7 @@ public class ProcessmonitorDTO implements Serializable {
     private String operName;
 
     // 操作时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp operDate;
 
     // 创建人

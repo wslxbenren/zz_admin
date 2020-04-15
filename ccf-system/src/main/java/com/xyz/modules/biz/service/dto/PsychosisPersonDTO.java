@@ -110,6 +110,7 @@ public class PsychosisPersonDTO implements Serializable {
     private String guarderAddress;
 
     // 初次发病日期
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp attackDate;
 
     // 诊断类型
@@ -152,9 +153,11 @@ public class PsychosisPersonDTO implements Serializable {
     private String helpeFlagStr;
 
     // 生效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp effDate;
 
     // 失效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -167,6 +170,7 @@ public class PsychosisPersonDTO implements Serializable {
     private String operName;
 
     // 操作时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp operDate;
 
     // 创建人

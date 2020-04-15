@@ -97,6 +97,7 @@ public class ReleasedPersonDTO implements Serializable {
     private String detainUnion;
 
     // 释放结束日期
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp prisonEnddate;
 
     // 危险性评估类型
@@ -104,6 +105,7 @@ public class ReleasedPersonDTO implements Serializable {
     private String riskTypeStr;
 
     // 衔接日期
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp joinDate;
 
     // 衔接情况
@@ -111,6 +113,7 @@ public class ReleasedPersonDTO implements Serializable {
     private String joinFlagStr;
 
     // 安置日期
+    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp arrangeDate;
 
     // 安置情况
@@ -131,9 +134,11 @@ public class ReleasedPersonDTO implements Serializable {
     private String againCharge;
 
     // 生效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp effDate;
 
     // 失效时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp expDate;
 
     // 同步状态
@@ -146,6 +151,7 @@ public class ReleasedPersonDTO implements Serializable {
     private String operName;
 
     // 操作时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp operDate;
 
     // 创建人
