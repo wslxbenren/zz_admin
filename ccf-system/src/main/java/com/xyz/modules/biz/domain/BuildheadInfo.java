@@ -3,12 +3,14 @@ package com.xyz.modules.biz.domain;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -83,7 +85,7 @@ public class BuildheadInfo implements Serializable {
 
     // 出生日期:格式为“YYYYMMDD”
     @Column(name = "birth")
-    @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Timestamp birth;
 
     // 学历:编码应符合GB/T4658
@@ -123,6 +125,8 @@ public class BuildheadInfo implements Serializable {
 
     // 创建时间
     @Column(name = "create_time",nullable = false,updatable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonIgnore
     @CreationTimestamp
     private Timestamp createTime;
 
@@ -133,6 +137,8 @@ public class BuildheadInfo implements Serializable {
     // 修改时间
     @Column(name = "update_time")
     @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonIgnore
     private Timestamp updateTime;
 
     // 所属单位

@@ -78,6 +78,8 @@ public class BuildheadInfoDTO implements Serializable {
     // 所在地:编码应符合GB/T2260
     private String addr;
 
+    private String addrStr;
+
     // 所在地详址
     private String addrDetail;
 

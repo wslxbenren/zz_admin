@@ -75,7 +75,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
             b.setEducationBgStr(dd == null ? "无数据" : dd);
             dd = deptRepository.findNameByCode(b.getUnitCode());
             b.setUnitCodeStr(dd);
-            b.setAddr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), b.getAddr()));
+            b.setAddrStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), b.getAddr()));
         }
         Map map = new HashMap();
         map.put("content", buildheadInfoDTOS);
