@@ -3,16 +3,18 @@ package com.xyz.modules.biz.service.org.impl;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
-import com.xyz.modules.biz.service.org.entity.ManagecenterInfo;
-import com.xyz.modules.biz.service.org.repo.ManagecenterInfoRepository;
+import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.biz.service.org.ManagecenterInfoService;
 import com.xyz.modules.biz.service.org.dto.ManagecenterInfoDTO;
-import com.xyz.modules.biz.service.org.qo.ManagecenterInfoQueryCriteria;
+import com.xyz.modules.biz.service.org.entity.ManagecenterInfo;
 import com.xyz.modules.biz.service.org.mapper.ManagecenterInfoMapper;
-import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.biz.service.org.qo.ManagecenterInfoQueryCriteria;
+import com.xyz.modules.biz.service.org.repo.ManagecenterInfoRepository;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.modules.system.repository.DictRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
@@ -57,6 +59,9 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Override
     @Transactional
@@ -68,10 +73,10 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
         for (ManagecenterInfoDTO mid:midList ) {
             String dd = dictDetailService.transDict(DictEnum.JGCJ.getDistName(), mid.getGrage());
             mid.setGrageStr(dd == null ? "无数据":dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getAddr());
-            mid.setAddr(dd == null ? "无数据":dd);
-
+            mid.setAddrStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getAddr()));
             dd = deptRepository.findNameByCode(mid.getUnitCode());
+            mid.setCreator(userRepository.findById(mid.getId()).orElse(new User()).getUsername());
+            mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(dd);
         }
         Map map = new HashMap();

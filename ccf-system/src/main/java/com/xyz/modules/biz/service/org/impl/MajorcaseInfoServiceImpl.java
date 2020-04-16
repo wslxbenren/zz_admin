@@ -3,7 +3,9 @@ package com.xyz.modules.biz.service.org.impl;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.service.org.entity.MajorcaseInfo;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -49,6 +51,9 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(MajorcaseInfoQueryCriteria criteria, Pageable pageable){
@@ -56,14 +61,14 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
         Page<MajorcaseInfo> page = MajorcaseInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<MajorcaseInfoDTO> majorcaseInfoList = MajorcaseInfoMapper.toDto(page.getContent());
         for (MajorcaseInfoDTO mid: majorcaseInfoList) {
-            String dd = dictDetailService. transDict(DictEnum.ADDRESS.getDistName(), mid.getOccurAddr());
-            mid.setOccurAddrStr(dd == null ? "无数据": dd); // 发生地
-            dd = dictDetailService. transDict(DictEnum.AJFJ.getDistName(), mid.getCaseGrage());
+            mid.setOccurAddrStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getOccurAddr()));
+            String dd = dictDetailService. transDict(DictEnum.AJFJ.getDistName(), mid.getCaseGrage());
             mid.setCaseGrageStr(dd == null ? "无数据": dd); // 案（事）件分级
             dd = dictDetailService. transDict(DictEnum.AJLX.getDistName(), mid.getCaseType());
             mid.setCaseTypeStr(dd == null ? "无数据": dd); //  案（事）件类型
-
             dd = deptRepository.findNameByCode(mid.getUnitCode());
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
+            mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(dd);
         }
         Map map = new HashMap();

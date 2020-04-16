@@ -10,7 +10,9 @@ import com.xyz.modules.biz.service.org.dto.BuildheadInfoDTO;
 import com.xyz.modules.biz.service.org.qo.BuildheadInfoQueryCriteria;
 import com.xyz.modules.biz.service.org.mapper.BuildheadInfoMapper;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
@@ -48,6 +50,9 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional(readOnly = false)
     public Object queryAll(BuildheadInfoQueryCriteria criteria, Pageable pageable){
@@ -61,13 +66,15 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
             b.setSexStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), b.getNational());
             b.setNationalStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), b.getPoliticalStatus());
+            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), b.getPoliticalStatus());
             b.setPoliticalStatusStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), b.getEducationBg());
             b.setEducationBgStr(dd == null ? "无数据" : dd);
             dd = deptRepository.findNameByCode(b.getUnitCode());
             b.setUnitCodeStr(dd);
             b.setAddrStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), b.getAddr()));
+            b.setCreator(userRepository.findById(b.getCreator()).orElse(new User()).getUsername());
+            b.setModifier(userRepository.findById(b.getModifier()).orElse(new User()).getUsername());
         }
         Map map = new HashMap();
         map.put("content", buildheadInfoDTOS);
