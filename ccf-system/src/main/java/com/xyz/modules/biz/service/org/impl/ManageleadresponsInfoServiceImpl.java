@@ -4,7 +4,9 @@ package com.xyz.modules.biz.service.org.impl;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.service.org.entity.ManageleadresponsInfo;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -50,6 +52,9 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(ManageleadresponsInfoQueryCriteria criteria, Pageable pageable){
@@ -63,7 +68,8 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
             mid.setImplementerGrageStr(dd == null ? "无数据": dd); //  实施主体层级
             dd = dictDetailService. transDict(DictEnum.ZCZL.getDistName(), mid.getPolicyType());
             mid.setPolicyTypeStr(dd == null ? "无数据": dd);  //政策种类
-
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
+            mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
             dd = deptRepository.findNameByCode(mid.getUnitCode());
             mid.setUnitCodeStr(dd);
         }
