@@ -1,7 +1,5 @@
 ### 本地楼栋长 api 测试
 
-# 分页查询
-
 ##### 分页&排序
 GET {{host}}/BuildheadInfo?page=0&size=10&sort=createTime,desc
 Accept: application/json
@@ -12,8 +10,23 @@ GET {{host}}/BuildheadInfo?{{page}}&sex=0&national=&addr=educationBg=&politicalS
 Accept: application/json
 Authorization: {{token}}
 
-####
+##### 分页&字段查询
 GET {{host}}/BuildheadInfo?{{page}}&villageName=&buildName=&headName=&addrDetail=
+Accept: application/json
+Authorization: {{token}}
+
+##### 分页&时间查询
+GET {{host}}/BuildheadInfo?{{page}}&createTime={{createTime}}
+Accept: application/json
+Authorization: {{token}}
+
+##### 分页&权限查询
+GET {{host}}/BuildheadInfo?{{page}}
+Accept: application/json
+Authorization: {{token}}
+
+### 删除测试
+DELETE {{host}}/BuildheadInfo?id=
 Accept: application/json
 Authorization: {{token}}
 
@@ -23,16 +36,72 @@ Accept: application/json
 Authorization: {{token}}
 content-type: application/json
 
+{
+  "villageCode": "",
+  "villageName":  "",
+  "buildName": "",
+  "buildArea":  "",
+  "layerNum": "",
+  "unitNum":  "",
+  "householdsNum": "",
+  "peopleNum":  "",
+  "headName": "",
+  "sex":  "",
+  "national": "",
+  "politicalStatus":  "",
+  "birth": "",
+  "educationBg":  "",
+  "mobile": "",
+  "fixedPhone":  "",
+  "addr": "",
+  "addrDetail":  "",
+  "lng": "",
+  "lat":  "",
+  "creator": "",
+  "createTime":  "",
+  "modifier": "",
+  "updateTime":  "",
+  "unitCode": ""
+}
 
+### 修改方法
+PUT {{host}}/BuildheadInfo
+Accept: application/json
+Authorization: {{token}}
+content-type: application/json
 
+{
+  "id":  "",
+  "villageCode": "",
+  "villageName":  "",
+  "buildName": "",
+  "buildArea":  "",
+  "layerNum": "",
+  "unitNum":  "",
+  "householdsNum": "",
+  "peopleNum":  "",
+  "headName": "",
+  "sex":  "",
+  "national": "",
+  "politicalStatus":  "",
+  "birth": "",
+  "educationBg":  "",
+  "mobile": "",
+  "fixedPhone":  "",
+  "addr": "",
+  "addrDetail":  "",
+  "lng": "",
+  "lat":  "",
+  "creator": "",
+  "createTime":  "",
+  "modifier": "",
+  "updateTime":  "",
+  "unitCode": ""
+
+}
 
 #### sex             select * from dict_detail where dict_id =  100 性别
 #### national        select * from dict_detail where dict_id =  101 民族
 #### politicalStatus select * from dict_detail where dict_id =  102 政治面貌
 #### educationBg     select * from dict_detail where dict_id =  105 教育背景
 #### addr            select * from dict_detail where dict_id =  106 所在地
-
-
-### 不分页查询
-
-###
