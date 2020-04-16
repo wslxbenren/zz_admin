@@ -11,7 +11,9 @@ import com.xyz.modules.biz.service.actual.dto.FloatpeopleDTO;
 import com.xyz.modules.biz.service.actual.qo.FloatpeopleQueryCriteria;
 import com.xyz.modules.biz.service.actual.mapper.FloatpeopleMapper;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -43,13 +45,14 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Autowired
     private DictDetailService dictDetailService;
 
-
-
     @Autowired
     private AuditSpecification audit;
 
     @Autowired
     private DeptRepository deptRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     @Transactional
@@ -58,28 +61,25 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         log.debug("**********流动人口信息列表查询开始**********");
         Page<Floatpeople> page = FloatpeopleRepository.findAll(audit.genSpecification(criteria),pageable);
         List<FloatpeopleDTO> floatpeopleDTOS = FloatpeopleMapper.toDto(page.getContent());
-        for (FloatpeopleDTO f:floatpeopleDTOS){
-            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
-            f.setPersonSexStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNation());
-            f.setNationStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), f.getNativeInfo());
-            f.setNativeInfoStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), f.getMarriageFlag());
-            f.setMarriageFlagStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), f.getPartyFlag());
-            f.setPartyFlagStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEducationBg());
-            f.setEducationBgStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), f.getFaithType());
-            f.setFaithTypeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), f.getVocationCode());
-            f.setVocationCodeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
-            f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
+        for (FloatpeopleDTO mid: floatpeopleDTOS){
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex()));
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation()));
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag()));
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag()));
+            mid.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEducationBg()));
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType()));
+            // 职业类别多级
+            mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode()));
+            // 户籍地
+            mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
+            // 籍贯使用所在地
+            mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo()));
+            // 现住地多级
+            mid.setResidence(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getVocationCode()));
 
-            dd = deptRepository.findNameByCode(f.getUnitCode());
-            f.setUnitCodeStr(dd);
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", floatpeopleDTOS);

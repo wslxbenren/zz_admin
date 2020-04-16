@@ -11,7 +11,9 @@ import com.xyz.modules.biz.service.actual.dto.RegistpeopleDTO;
 import com.xyz.modules.biz.service.actual.qo.RegistpeopleQueryCriteria;
 import com.xyz.modules.biz.service.actual.mapper.RegistpeopleMapper;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
@@ -50,6 +52,9 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
@@ -58,30 +63,20 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         Page<Registpeople> page = RegistpeopleRepository.findAll(audit.genSpecification(criteria),pageable);
         List<Registpeople> content = page.getContent();
         List<RegistpeopleDTO> registpeopleDTOS = RegistpeopleMapper.toDto(content);
-        for (RegistpeopleDTO r:registpeopleDTOS){
-            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), r.getPersonSex());
-            r.setPersonSexStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), r.getNation());
-            r.setNationStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getNativeInfo());
-            r.setNativeInfoStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), r.getMarriageFlag());
-            r.setMarriageFlagStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), r.getPartyFlag());
-            r.setPartyFlagStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), r.getEducationBg());
-            r.setEducationBgStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), r.getFaithType());
-            r.setFaithTypeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), r.getVocationCode());
-            r.setVocationCodeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getRegisteredPlace());
-            r.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.YHZGX.getDistName(), r.getHouseheadRela());
-            r.setHouseheadRelaStr(dd == null ? "无数据" : dd);
-
-            dd = deptRepository.findNameByCode(r.getUnitCode());
-            r.setUnitCodeStr(dd);
+        for (RegistpeopleDTO mid:registpeopleDTOS){
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex()));
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation()));
+            mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo())); // 籍贯
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag()));
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag()));
+            mid.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEducationBg()));
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType()));
+            mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode())); // 职业类别
+            mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace())); // 户籍地
+            mid.setHouseheadRelaStr(dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getHouseheadRela()));
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", registpeopleDTOS);

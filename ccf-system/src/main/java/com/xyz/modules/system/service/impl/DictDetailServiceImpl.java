@@ -52,7 +52,8 @@ public class DictDetailServiceImpl implements DictDetailService {
 
     @Override
     public String transDict(String pName, String value) {
-        return dictDetailRepository.transDict(pName, value);
+        String label = dictDetailRepository.transDict(pName, value);
+        return  label == null ? "无数据": label;
     }
 
     @Override
