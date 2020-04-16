@@ -20,7 +20,7 @@ import java.util.List;
  * @author xiaonanfeng
  * @date 2020-04-15
  */
-@Component
+//@Component
 public class DataUpdateEventListener implements PostUpdateEventListener {
 
     private static final long serialVersionUID = 1L;
