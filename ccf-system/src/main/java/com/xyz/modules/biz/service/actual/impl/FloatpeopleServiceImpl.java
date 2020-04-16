@@ -77,6 +77,14 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             f.setVocationCodeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
             f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.LRYY.getDistName(), f.getIntoCause());
+            f.setIntoCauseStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), f.getResidence());
+            f.setResidenceStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.BZLX.getDistName(), f.getCardType());
+            f.setCardTypeStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.ZSLX.getDistName(), f.getResidType());
+            f.setResidTypeStr(dd == null ? "无数据" : dd);
 
             dd = deptRepository.findNameByCode(f.getUnitCode());
             f.setUnitCodeStr(dd);

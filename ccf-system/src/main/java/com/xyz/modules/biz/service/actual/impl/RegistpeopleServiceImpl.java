@@ -79,7 +79,8 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             r.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.YHZGX.getDistName(), r.getHouseheadRela());
             r.setHouseheadRelaStr(dd == null ? "无数据" : dd);
-
+            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getResidence());
+            r.setResidenceStr(dd == null ? "无数据" : dd);
             dd = deptRepository.findNameByCode(r.getUnitCode());
             r.setUnitCodeStr(dd);
         }

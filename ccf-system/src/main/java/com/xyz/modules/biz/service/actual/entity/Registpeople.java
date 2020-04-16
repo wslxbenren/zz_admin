@@ -132,11 +132,13 @@ public class Registpeople implements Serializable {
     // 生效时间
     @Column(name = "eff_date",nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonIgnore
     private Timestamp effDate;
 
     // 失效时间
     @Column(name = "exp_date",nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonIgnore
     private Timestamp expDate;
 
     // 同步状态
