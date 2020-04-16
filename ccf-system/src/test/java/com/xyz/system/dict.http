@@ -1,0 +1,27 @@
+### 本地楼栋长 api 测试
+
+# 分页查询
+
+##### 查询所有字典类型
+GET {{host}}/dict?{page}&id=106
+Accept: application/json
+Authorization: {{token}}
+
+### 查询字典详情
+GET {{host}}/dictDetail/getChildByPid?pId=1&dictId=106
+Accept: application/json
+Authorization: {{token}}
+
+
+
+
+#### sex             select * from dict_detail where dict_id =  100 性别
+#### national        select * from dict_detail where dict_id =  101 民族
+#### politicalStatus select * from dict_detail where dict_id =  102 政治面貌
+#### educationBg     select * from dict_detail where dict_id =  105 教育背景
+#### addr            select * from dict_detail where dict_id =  106 所在地
+
+
+### 不分页查询
+
+###

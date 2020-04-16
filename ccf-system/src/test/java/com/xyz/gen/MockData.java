@@ -20,8 +20,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 /**
  * 生成测试数据
@@ -41,67 +43,42 @@ public class MockData {
 
     @Test
     public void genUser() {
+        Random userCount = new Random();
         List<Dept> dept =  deptService.findAll();
         dept.forEach(i -> {
-            User user = new User();
-            user.setId(UUID.randomUUID().toString());
-            user.setUsername(MockUtil.mockNameCn(2));
-            user.setAvatar("https://i.loli.net/2019/04/04/5ca5b971e1548.jpeg");
-            user.setEmail(MockUtil.mockEmail(10, 20));
-            user.setPhone(MockUtil.mockPhone());
-            user.setEnabled(true);
-            user.setPassword("e10adc3949ba59abbe56e057f20f883e");
-            user.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
-            user.setLastPasswordResetTime(Timestamp.valueOf(LocalDateTime.now()));
-            user.setDept(i);
-            Role role = new Role();
-            role.setId(1l);
-            user.setRoles(new HashSet<Role>() {{ add(role); }});
-            Job job = new Job();
-            job.setId("1");
-            user.setJob(job);
-            userRepository.save(user);
+            IntStream.range(0, userCount.nextInt(20) + 1 ).forEach(j -> {
+                User user = new User();
+                user.setId(UUID.randomUUID().toString());
+                user.setUsername(MockUtil.mockNameEn(10));
+                user.setNote(MockUtil.mockNameCn(2));
+                user.setAvatar("https://i.loli.net/2019/04/04/5ca5b971e1548.jpeg");
+                user.setEmail(MockUtil.mockEmail(10, 20));
+                user.setPhone(MockUtil.mockPhone());
+                user.setEnabled(true);
+                user.setPassword("e10adc3949ba59abbe56e057f20f883e");
+                user.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
+                user.setLastPasswordResetTime(Timestamp.valueOf(LocalDateTime.now()));
+                user.setDept(i);
+                Role role = new Role();
+                if(i.getGrage().equals("-1")  ) {
+                    role.setId(1L);
+                } else if(i.getGrage().equals("1")) {
+                    role.setId(8L);
+                }else if(i.getGrage().equals("2")) {
+                    role.setId(9L);
+                }else if(i.getGrage().equals("3")) {
+                    role.setId(10L);
+                }
+                user.setRoles(new HashSet<Role>() {{ add(role); }});
+                Job job = new Job();
+                job.setId("1");
+                user.setJob(job);
+                userRepository.save(user);
+            });
         });
     }
 
 
-    // 楼栋长
-    @Test
-    public void genBuildheadInfo() {
-        List<User> userList = userRepository.findAll();
-        AtomicInteger a = new AtomicInteger(0);
-        userList.forEach(i -> {
-            BuildheadInfo buildheadInfo = new BuildheadInfo();
-            buildheadInfo.setId(UUID.randomUUID().toString());
-            buildheadInfo.setVillageCode("0001");
-            buildheadInfo.setVillageName("南阳一号");
-            buildheadInfo.setBuildName("南阳一号"+ a.get()+ "号楼");
-            buildheadInfo.setBuildArea(1000.4d);
-            buildheadInfo.setLayerNum(32);
-            buildheadInfo.setUnitNum(2);
-            buildheadInfo.setHouseholdsNum(150);
-            buildheadInfo.setPeopleNum(500);
-            buildheadInfo.setHeadName(MockUtil.mockNameCn(2));
-            buildheadInfo.setSex("1");
-            buildheadInfo.setNational("01");
-            buildheadInfo.setPoliticalStatus("01");
-            buildheadInfo.setBirth(Timestamp.valueOf(LocalDateTime.now().minusYears(40)));
-            buildheadInfo.setEducationBg("10");
-            buildheadInfo.setMobile(MockUtil.mockPhone());
-            buildheadInfo.setFixedPhone(MockUtil.mockPhone());
-            buildheadInfo.setAddr("河南省南阳市");
-            buildheadInfo.setAddrDetail("某县某市");
-            buildheadInfo.setLng(1.11111);
-            buildheadInfo.setLat(1.11111);
-            buildheadInfo.setCreator(i.getId());
-            buildheadInfo.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
-            buildheadInfo.setModifier(i.getId());
-            buildheadInfo.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
-            buildheadInfo.setUnitCode(i.getDept().getCode());
-            a.incrementAndGet();
-            buildheadInfoRepository.save(buildheadInfo);
-        });
-    }
 
     // 重特大案（事）件
     public void genMajorcaseInfo() {

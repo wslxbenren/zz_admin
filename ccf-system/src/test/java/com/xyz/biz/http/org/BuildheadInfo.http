@@ -1,0 +1,38 @@
+### 本地楼栋长 api 测试
+
+# 分页查询
+
+##### 分页&排序
+GET {{host}}/BuildheadInfo?page=0&size=10&sort=createTime,desc
+Accept: application/json
+Authorization: {{token}}
+
+##### 分页&字典
+GET {{host}}/BuildheadInfo?{{page}}&sex=0&national=&addr=educationBg=&politicalStatus=
+Accept: application/json
+Authorization: {{token}}
+
+####
+GET {{host}}/BuildheadInfo?{{page}}&villageName=&buildName=&headName=&addrDetail=
+Accept: application/json
+Authorization: {{token}}
+
+### 新增测试
+POST {{host}}/BuildheadInfo
+Accept: application/json
+Authorization: {{token}}
+content-type: application/json
+
+
+
+
+#### sex             select * from dict_detail where dict_id =  100 性别
+#### national        select * from dict_detail where dict_id =  101 民族
+#### politicalStatus select * from dict_detail where dict_id =  102 政治面貌
+#### educationBg     select * from dict_detail where dict_id =  105 教育背景
+#### addr            select * from dict_detail where dict_id =  106 所在地
+
+
+### 不分页查询
+
+###
