@@ -89,6 +89,7 @@ public class RegistpeopleDTO implements Serializable {
 
     // 现住地:编码应符合GB/T2260
     private String residence;
+    private String residenceStr;
 
     // 现住门（楼）详址
     private String residenceAddr;
@@ -107,6 +108,7 @@ public class RegistpeopleDTO implements Serializable {
 
     // 与户主关系:编码应符合GB/T4761
     private String househeadRela;
+    private String househeadRelaStr;
 
     // 户主联系方式:手机号码或固定电话号码
     private String househeadMobile;

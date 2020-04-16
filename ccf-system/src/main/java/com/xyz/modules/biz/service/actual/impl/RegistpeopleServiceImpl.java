@@ -54,7 +54,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Transactional
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
-        log.debug("**********户籍人员信息列表查询开始**********");
+        log.info("**********户籍人员信息列表查询开始**********");
         Page<Registpeople> page = RegistpeopleRepository.findAll(audit.genSpecification(criteria),pageable);
         List<Registpeople> content = page.getContent();
         List<RegistpeopleDTO> registpeopleDTOS = RegistpeopleMapper.toDto(content);
@@ -63,12 +63,12 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             r.setPersonSexStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), r.getNation());
             r.setNationStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), r.getNativeInfo());
+            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getNativeInfo());
             r.setNativeInfoStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), r.getMarriageFlag());
             r.setMarriageFlagStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), r.getPartyFlag());
-            r.setPersonSexStr(dd == null ? "无数据" : dd);
+            r.setPartyFlagStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), r.getEducationBg());
             r.setEducationBgStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), r.getFaithType());
@@ -77,6 +77,8 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             r.setVocationCodeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getRegisteredPlace());
             r.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.YHZGX.getDistName(), r.getHouseheadRela());
+            r.setHouseheadRelaStr(dd == null ? "无数据" : dd);
 
             dd = deptRepository.findNameByCode(r.getUnitCode());
             r.setUnitCodeStr(dd);
@@ -85,20 +87,20 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         map.put("content", registpeopleDTOS);
         map.put("totalElements", page.getTotalElements());
         DateTime endTime = DateUtil.date(new Date().getTime());
-        log.debug("**********户籍人员信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
+        log.info("**********户籍人员信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
         return map;
     }
 
     @Override
     @Transactional
     public Object queryAll(RegistpeopleQueryCriteria criteria){
-        log.debug("**********条件查询 Registpeople 列表**********");
+        log.info("**********条件查询 Registpeople 列表**********");
         return RegistpeopleMapper.toDto(RegistpeopleRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
     public RegistpeopleDTO findById(String regisId) {
-        log.debug("********** 查询 Registpeople 详情**********");
+        log.info("********** 查询 Registpeople 详情**********");
         Optional<Registpeople> Registpeople = RegistpeopleRepository.findById(regisId);
         ValidationUtil.isNull(Registpeople,"Registpeople","regisId",regisId);
         return RegistpeopleMapper.toDto(Registpeople.get());
@@ -107,10 +109,10 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public RegistpeopleDTO create(Registpeople resources) {
-        log.debug("********** 新增 Registpeople  **********");
+        log.info("********** 新增 Registpeople  **********");
         resources.setRegisId(IdUtil.simpleUUID());
         if(RegistpeopleRepository.findByIdentityNum(resources.getIdentityNum()) != null){
-            log.debug("**********   Registpeople identity_num 重复 新增失败  **********");
+            log.info("**********   Registpeople identity_num 重复 新增失败  **********");
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
         return RegistpeopleMapper.toDto(RegistpeopleRepository.save(resources));
@@ -119,14 +121,14 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Registpeople resources) {
-        log.debug("********** 修改 Registpeople  **********");
+        log.info("********** 修改 Registpeople  **********");
         Optional<Registpeople> optionalRegistpeople = RegistpeopleRepository.findById(resources.getRegisId());
         ValidationUtil.isNull( optionalRegistpeople,"Registpeople","id",resources.getRegisId());
         Registpeople Registpeople = optionalRegistpeople.get();
         Registpeople Registpeople1 = null;
         Registpeople1 = RegistpeopleRepository.findByIdentityNum(resources.getIdentityNum());
         if(Registpeople1 != null && !Registpeople1.getRegisId().equals(Registpeople.getRegisId())){
-            log.debug("**********   Registpeople identity_num 重复 修改失败  **********");
+            log.info("**********   Registpeople identity_num 重复 修改失败  **********");
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
         Registpeople.copy(resources);
@@ -136,7 +138,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String regisId) {
-        log.debug("********** 删除 Registpeople  **********");
+        log.info("********** 删除 Registpeople  **********");
         RegistpeopleRepository.deleteById(regisId);
     }
 }
