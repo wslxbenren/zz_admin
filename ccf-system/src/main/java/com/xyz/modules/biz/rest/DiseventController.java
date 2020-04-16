@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Disevent;
-import com.xyz.modules.biz.service.DiseventService;
-import com.xyz.modules.biz.service.dto.DiseventQueryCriteria;
+import com.xyz.modules.biz.service.dispute.entity.Disevent;
+import com.xyz.modules.biz.service.dispute.DiseventService;
+import com.xyz.modules.biz.service.dispute.qo.DiseventQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,8 @@
 package com.xyz.system;
 
-import com.xyz.modules.biz.domain.BuildheadInfo;
-import com.xyz.modules.biz.service.BuildheadInfoService;
-import com.xyz.modules.biz.service.dto.BuildheadInfoQueryCriteria;
-import com.xyz.modules.system.domain.Dept;
+import com.xyz.modules.biz.service.org.entity.BuildheadInfo;
+import com.xyz.modules.biz.service.org.BuildheadInfoService;
+import com.xyz.modules.biz.service.org.qo.BuildheadInfoQueryCriteria;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DeptService;
 import org.junit.Test;
@@ -14,8 +13,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

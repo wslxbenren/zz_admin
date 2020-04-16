@@ -45,6 +45,7 @@ public class DeptDTO implements Serializable {
         return name;
     }
 
+
     private String note;
     private String contact;
     private String creditCode;

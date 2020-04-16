@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Processmonitor;
-import com.xyz.modules.biz.service.ProcessmonitorService;
-import com.xyz.modules.biz.service.dto.ProcessmonitorQueryCriteria;
+import com.xyz.modules.biz.service.dispute.entity.Processmonitor;
+import com.xyz.modules.biz.service.dispute.ProcessmonitorService;
+import com.xyz.modules.biz.service.dispute.qo.ProcessmonitorQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

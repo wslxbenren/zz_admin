@@ -1,11 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.exception.BadRequestException;
-import com.xyz.modules.biz.domain.Registpeople;
-import com.xyz.modules.biz.service.RegistpeopleService;
-import com.xyz.modules.biz.service.dto.RegistpeopleQueryCriteria;
-import com.xyz.utils.StringUtils;
+import com.xyz.modules.biz.service.actual.entity.Registpeople;
+import com.xyz.modules.biz.service.actual.RegistpeopleService;
+import com.xyz.modules.biz.service.actual.qo.RegistpeopleQueryCriteria;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

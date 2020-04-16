@@ -1,28 +1,20 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.exception.BadRequestException;
-import com.xyz.modules.biz.domain.BuildheadInfo;
-import com.xyz.modules.biz.service.BuildheadInfoService;
-import com.xyz.modules.biz.service.dto.BuildheadInfoQueryCriteria;
-import com.xyz.modules.security.security.JwtUser;
+import com.xyz.modules.biz.service.org.entity.BuildheadInfo;
+import com.xyz.modules.biz.service.org.BuildheadInfoService;
+import com.xyz.modules.biz.service.org.qo.BuildheadInfoQueryCriteria;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictService;
-import com.xyz.utils.SecurityUtils;
-import com.xyz.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
 * @author lx

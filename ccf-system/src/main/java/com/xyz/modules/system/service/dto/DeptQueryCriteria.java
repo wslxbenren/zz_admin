@@ -23,7 +23,7 @@ public class DeptQueryCriteria{
 
     @Query
     private String pid;
-
+    private String code;
     private String note;
     private String contact;
     private String creditCode;

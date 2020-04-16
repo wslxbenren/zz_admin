@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.BizSecurKeyareas;
-import com.xyz.modules.biz.service.BizSecurKeyareasService;
-import com.xyz.modules.biz.service.dto.BizSecurKeyareasQueryCriteria;
+import com.xyz.modules.biz.service.secur.entity.BizSecurKeyareas;
+import com.xyz.modules.biz.service.secur.BizSecurKeyareasService;
+import com.xyz.modules.biz.service.secur.dto.BizSecurKeyareasQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.SecurityUtils;

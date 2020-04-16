@@ -1,12 +1,11 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Leftbehind;
-import com.xyz.modules.biz.service.LeftbehindService;
-import com.xyz.modules.biz.service.dto.LeftbehindQueryCriteria;
+import com.xyz.modules.biz.service.actual.entity.Leftbehind;
+import com.xyz.modules.biz.service.actual.LeftbehindService;
+import com.xyz.modules.biz.service.actual.qo.LeftbehindQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
-import com.xyz.modules.system.service.DictService;
 import com.xyz.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -4,11 +4,9 @@ package com.xyz;
  * 作者：xjh
  * 时间：2020-4-9 15:14:43
  */
-import com.xyz.modules.biz.domain.ManageleadresponsInfo;
-import com.xyz.modules.biz.repository.ManageleadresponsInfoRepository;
-import com.xyz.modules.biz.service.dto.ManageleadresponsInfoQueryCriteria;
-import com.xyz.modules.biz.service.impl.ManageleadresponsInfoServiceImpl;
-import com.xyz.modules.biz.service.mapper.ManageleadresponsInfoMapper;
+import com.xyz.modules.biz.service.org.entity.ManageleadresponsInfo;
+import com.xyz.modules.biz.service.org.qo.ManageleadresponsInfoQueryCriteria;
+import com.xyz.modules.biz.service.org.impl.ManageleadresponsInfoServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

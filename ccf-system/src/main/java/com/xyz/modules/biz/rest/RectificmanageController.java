@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Rectificmanage;
-import com.xyz.modules.biz.service.RectificmanageService;
-import com.xyz.modules.biz.service.dto.RectificmanageQueryCriteria;
+import com.xyz.modules.biz.service.route.entity.Rectificmanage;
+import com.xyz.modules.biz.service.route.RectificmanageService;
+import com.xyz.modules.biz.service.route.qo.RectificmanageQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

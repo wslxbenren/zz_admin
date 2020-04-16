@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.BizTeenagerBaseinfo;
-import com.xyz.modules.biz.service.BizTeenagerBaseinfoService;
-import com.xyz.modules.biz.service.dto.BizTeenagerBaseinfoQueryCriteria;
+import com.xyz.modules.biz.service.teenager.entity.BizTeenagerBaseinfo;
+import com.xyz.modules.biz.service.teenager.BizTeenagerBaseinfoService;
+import com.xyz.modules.biz.service.teenager.dto.BizTeenagerBaseinfoQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.SecurityUtils;

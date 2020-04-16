@@ -4,13 +4,16 @@ import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.mapper.DeptMapper;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.service.dto.DeptQueryCriteria;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.dto.DeptDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +35,7 @@ import java.util.stream.Collectors;
  * @date 2019-03-25
  */
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DeptServiceImpl implements DeptService {
 
@@ -45,15 +49,33 @@ public class DeptServiceImpl implements DeptService {
     @Autowired
     private DeptMapper deptMapper;
 
+//    @Autowired
+//    private AuditSpecification audit;
+
+    @Autowired
+    private DictDetailService dictDetailService;
+
+
     @Override
+    @Transactional
     public List<DeptDTO> queryAll(DeptQueryCriteria criteria) {
-        return deptMapper.toDto(deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        List<DeptDTO> deptDTOList = deptMapper.toDto(deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
+        for (DeptDTO f : deptDTOList) {
+            log.info("单位信息--开始");
+            String dd = dictDetailService.transDict(DictEnum.JGLX.getDistName(), f.getInstiType());
+            f.setInstiType(dd == null ? "无数据" : dd);// 机构类型
+
+            dd = dictDetailService.transDict(DictEnum.SHZZLX.getDistName(), f.getOrganType());
+            f.setOrganType(dd == null ? "无数据" : dd);// 组织类型
+
+        }
+        return deptDTOList;
     }
 
     @Override
     public DeptDTO findById(String id) {
         Optional<Dept> dept = deptRepository.findById(id);
-        ValidationUtil.isNull(dept,"Dept","id",id);
+        ValidationUtil.isNull(dept, "Dept", "id", id);
         return deptMapper.toDto(dept.get());
     }
 
@@ -70,7 +92,7 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public Object buildTree(List<DeptDTO> deptDTOS) {
         Set<DeptDTO> trees = new LinkedHashSet<>();
-        Set<DeptDTO> depts= new LinkedHashSet<>();
+        Set<DeptDTO> depts = new LinkedHashSet<>();
         List<String> deptNames = deptDTOS.stream().map(DeptDTO::getName).collect(Collectors.toList());
         Boolean isChild;
         for (DeptDTO deptDTO : deptDTOS) {
@@ -87,9 +109,9 @@ public class DeptServiceImpl implements DeptService {
                     deptDTO.getChildren().add(it);
                 }
             }
-            if(isChild)
+            if (isChild)
                 depts.add(deptDTO);
-            else if(!deptNames.contains(deptRepository.findNameById(deptDTO.getPid())))
+            else if (!deptNames.contains(deptRepository.findNameById(deptDTO.getPid())))
                 depts.add(deptDTO);
         }
 
@@ -97,11 +119,11 @@ public class DeptServiceImpl implements DeptService {
             trees = depts;
         }
 
-        Integer totalElements = deptDTOS!=null?deptDTOS.size():0;
+        Integer totalElements = deptDTOS != null ? deptDTOS.size() : 0;
 
         Map map = new HashMap();
-        map.put("totalElements",totalElements);
-        map.put("content",CollectionUtils.isEmpty(trees)?deptDTOS:trees);
+        map.put("totalElements", totalElements);
+        map.put("content", CollectionUtils.isEmpty(trees) ? deptDTOS : trees);
         return map;
     }
 
@@ -115,13 +137,14 @@ public class DeptServiceImpl implements DeptService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Dept resources) {
-        if(resources.getId().equals(resources.getPid())) {
+        if (resources.getId().equals(resources.getPid())) {
             throw new BadRequestException("上级不能为自己");
         }
         Optional<Dept> optionalDept = deptRepository.findById(resources.getId());
-        ValidationUtil.isNull( optionalDept,"Dept","id",resources.getId());
+        ValidationUtil.isNull(optionalDept, "Dept", "id", resources.getId());
         Dept dept = optionalDept.get();
         resources.setId(dept.getId());
+//        resources.setCode(dept.getCode());
         deptRepository.save(resources);
     }
 

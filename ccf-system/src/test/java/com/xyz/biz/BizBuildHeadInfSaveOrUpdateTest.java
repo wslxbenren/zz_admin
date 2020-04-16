@@ -1,19 +1,15 @@
 package com.xyz.biz;
 
-import com.xyz.modules.biz.domain.BuildheadInfo;
-import com.xyz.modules.biz.repository.BuildheadInfoRepository;
-import com.xyz.modules.biz.service.BuildheadInfoService;
+import com.xyz.modules.biz.service.org.entity.BuildheadInfo;
+import com.xyz.modules.biz.service.org.repo.BuildheadInfoRepository;
+import com.xyz.modules.biz.service.org.BuildheadInfoService;
 import com.xyz.modules.system.util.DictEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.annotation.Repeat;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;

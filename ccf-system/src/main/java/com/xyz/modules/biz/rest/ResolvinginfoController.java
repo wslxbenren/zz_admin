@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Resolvinginfo;
-import com.xyz.modules.biz.service.ResolvinginfoService;
-import com.xyz.modules.biz.service.dto.ResolvinginfoQueryCriteria;
+import com.xyz.modules.biz.service.dispute.entity.Resolvinginfo;
+import com.xyz.modules.biz.service.dispute.ResolvinginfoService;
+import com.xyz.modules.biz.service.dispute.qo.ResolvinginfoQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,9 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.Convenientinfo;
-import com.xyz.modules.biz.service.ConvenientinfoService;
-import com.xyz.modules.biz.service.dto.ConvenientinfoQueryCriteria;
+import com.xyz.modules.biz.service.route.entity.Convenientinfo;
+import com.xyz.modules.biz.service.route.ConvenientinfoService;
+import com.xyz.modules.biz.service.route.qo.ConvenientinfoQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.utils.SecurityUtils;

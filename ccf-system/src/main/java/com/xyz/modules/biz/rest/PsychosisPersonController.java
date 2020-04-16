@@ -1,15 +1,13 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.exception.BadRequestException;
-import com.xyz.modules.biz.domain.PsychosisPerson;
-import com.xyz.modules.biz.service.PsychosisPersonService;
-import com.xyz.modules.biz.service.dto.PsychosisPersonQueryCriteria;
+import com.xyz.modules.biz.service.special.entity.PsychosisPerson;
+import com.xyz.modules.biz.service.special.PsychosisPersonService;
+import com.xyz.modules.biz.service.special.qo.PsychosisPersonQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictService;
 import com.xyz.utils.SecurityUtils;
-import com.xyz.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;

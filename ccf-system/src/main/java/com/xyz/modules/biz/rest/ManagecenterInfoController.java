@@ -1,12 +1,10 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.exception.BadRequestException;
-import com.xyz.modules.biz.domain.ManagecenterInfo;
-import com.xyz.modules.biz.service.ManagecenterInfoService;
-import com.xyz.modules.biz.service.dto.ManagecenterInfoQueryCriteria;
+import com.xyz.modules.biz.service.org.entity.ManagecenterInfo;
+import com.xyz.modules.biz.service.org.ManagecenterInfoService;
+import com.xyz.modules.biz.service.org.qo.ManagecenterInfoQueryCriteria;
 import com.xyz.modules.system.service.DictService;
-import com.xyz.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

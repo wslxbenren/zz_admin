@@ -1,12 +1,10 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.exception.BadRequestException;
-import com.xyz.modules.biz.domain.Floatpeople;
-import com.xyz.modules.biz.service.FloatpeopleService;
-import com.xyz.modules.biz.service.dto.FloatpeopleQueryCriteria;
+import com.xyz.modules.biz.service.actual.entity.Floatpeople;
+import com.xyz.modules.biz.service.actual.FloatpeopleService;
+import com.xyz.modules.biz.service.actual.qo.FloatpeopleQueryCriteria;
 import com.xyz.modules.system.service.DeptService;
-import com.xyz.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

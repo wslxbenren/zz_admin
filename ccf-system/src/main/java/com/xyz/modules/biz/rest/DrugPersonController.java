@@ -2,9 +2,9 @@ package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
 import com.xyz.exception.BadRequestException;
-import com.xyz.modules.biz.domain.DrugPerson;
-import com.xyz.modules.biz.service.DrugPersonService;
-import com.xyz.modules.biz.service.dto.DrugPersonQueryCriteria;
+import com.xyz.modules.biz.service.special.entity.DrugPerson;
+import com.xyz.modules.biz.service.special.DrugPersonService;
+import com.xyz.modules.biz.service.special.qo.DrugPersonQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictService;

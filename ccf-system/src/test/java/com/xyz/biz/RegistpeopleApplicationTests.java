@@ -1,18 +1,14 @@
 package com.xyz.biz;
 
-import com.alibaba.fastjson.JSON;
-import com.xyz.modules.biz.domain.Registpeople;
-import com.xyz.modules.biz.service.RegistpeopleService;
-import com.xyz.modules.biz.service.dto.RegistpeopleDTO;
-import com.xyz.modules.biz.service.dto.RegistpeopleQueryCriteria;
+import com.xyz.modules.biz.service.actual.entity.Registpeople;
+import com.xyz.modules.biz.service.actual.RegistpeopleService;
+import com.xyz.modules.biz.service.actual.dto.RegistpeopleDTO;
+import com.xyz.modules.biz.service.actual.qo.RegistpeopleQueryCriteria;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -25,7 +21,6 @@ import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

@@ -3,34 +3,20 @@ package com.xyz;
  * 作者：xjh
  * 时间：2020-4-9 15:14:43
  */
-import com.alibaba.fastjson.JSON;
-import com.xyz.modules.biz.domain.MajorcaseInfo;
-import com.xyz.modules.biz.service.dto.MajorcaseInfoQueryCriteria;
-import com.xyz.modules.biz.service.dto.ManageleadresponsInfoQueryCriteria;
-import com.xyz.modules.biz.service.impl.MajorcaseInfoServiceImpl;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
+import com.xyz.modules.biz.service.org.entity.MajorcaseInfo;
+import com.xyz.modules.biz.service.org.qo.MajorcaseInfoQueryCriteria;
+import com.xyz.modules.biz.service.org.impl.MajorcaseInfoServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

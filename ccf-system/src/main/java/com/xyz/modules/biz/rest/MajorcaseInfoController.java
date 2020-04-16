@@ -1,12 +1,11 @@
 package com.xyz.modules.biz.rest;
 
 import com.xyz.aop.log.Log;
-import com.xyz.modules.biz.domain.MajorcaseInfo;
-import com.xyz.modules.biz.service.MajorcaseInfoService;
-import com.xyz.modules.biz.service.dto.MajorcaseInfoQueryCriteria;
+import com.xyz.modules.biz.service.org.entity.MajorcaseInfo;
+import com.xyz.modules.biz.service.org.MajorcaseInfoService;
+import com.xyz.modules.biz.service.org.qo.MajorcaseInfoQueryCriteria;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.system.service.DeptService;
-import com.xyz.modules.system.service.DictService;
 import com.xyz.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
