@@ -29,4 +29,7 @@ public class DictDetailQueryCriteria {
     @Query(propName = "id", joinName = "dict")
     @ApiModelProperty(value = "字典类型id")
     private String dictId;
+
+    @Query(type = Query.Type.EQUAL)
+    private Integer grage;
 }
