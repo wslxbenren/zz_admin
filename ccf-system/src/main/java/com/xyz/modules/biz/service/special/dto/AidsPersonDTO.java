@@ -161,6 +161,7 @@ public class AidsPersonDTO implements Serializable {
 
     // 现住地
     private String residence;
+    private String residenceStr;
 
     // 现住门（楼）详址
     private String residenceAddr;
