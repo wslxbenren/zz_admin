@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 import java.io.Serializable;
 
 /**
-* @author dadovicn
+* @author lx
 * @date 2020-04-08
 */
 @Entity
@@ -43,6 +43,10 @@ public class Rentalhouse implements Serializable {
     // 建筑用途
     @Column(name = "constr_purpose")
     private String constrPurpose;
+
+    // 出租用途
+    @Column(name = "rental_purposes")
+    private String rentalPurposes;
 
     // 建筑面积（平方米）
     @Column(name = "constr_area")
@@ -93,13 +97,15 @@ public class Rentalhouse implements Serializable {
     private Double lat;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date",insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonIgnore
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date",insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonIgnore
     private Timestamp expDate;
 
     // 同步状态

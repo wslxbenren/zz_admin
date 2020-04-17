@@ -58,9 +58,14 @@ public class RentalhouseServiceImpl implements RentalhouseService {
         List<Rentalhouse> content = page.getContent();
         List<RentalhouseDTO> rentalhouseDTOS = RentalhouseMapper.toDto(content);
         for (RentalhouseDTO r:rentalhouseDTOS){
-            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), r.getCardType());
+            String dd = dictDetailService.transDict(DictEnum.YHLX.getDistName(), r.getHazardType());
+            r.setHazardTypeStr(dd == null ? "无数据" : dd );
+             dd = dictDetailService.transDict(DictEnum.JZYT.getDistName(), r.getConstrPurpose());
+            r.setConstrPurposeStr(dd == null ? "无数据" : dd );
+             dd = dictDetailService.transDict(DictEnum.CZYT.getDistName(), r.getRentalPurposes());
+            r.setRentalPurposesStr(dd == null ? "无数据" : dd );
+            dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), r.getCardType());
             r.setCardTypeStr(dd == null ? "无数据" : dd );
-
             dd = deptRepository.findNameByCode(r.getUnitCode());
             r.setUnitCodeStr(dd);
         }
