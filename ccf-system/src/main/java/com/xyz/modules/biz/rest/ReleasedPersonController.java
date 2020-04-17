@@ -48,11 +48,6 @@ public class ReleasedPersonController {
     @GetMapping(value = "/ReleasedPerson")
     @PreAuthorize("hasAnyRole('ADMIN','RELEASEDPERSON_ALL','RELEASEDPERSON_SELECT')")
     public ResponseEntity getReleasedPersons(ReleasedPersonQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(ReleasedPersonService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 

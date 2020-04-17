@@ -77,12 +77,4 @@ public class BuildheadInfoController {
         BuildheadInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-    @Log("获取字典项")
-    @ApiOperation(value = "获取字典项")
-    @GetMapping(value = "/BuildheadInfo/getDict")
-    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
-    public ResponseEntity getDict() {
-        return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.BuildheadInfo"), HttpStatus.OK);
-    }
 }

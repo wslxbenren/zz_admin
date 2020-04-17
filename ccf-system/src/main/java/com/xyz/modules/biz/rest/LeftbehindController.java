@@ -46,11 +46,6 @@ public class LeftbehindController {
     @GetMapping(value = "/Leftbehind")
     @PreAuthorize("hasAnyRole('ADMIN','LEFTBEHIND_ALL','LEFTBEHIND_SELECT')")
     public ResponseEntity getLeftbehinds(LeftbehindQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(LeftbehindService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
@@ -87,12 +82,4 @@ public class LeftbehindController {
         LeftbehindService.delete(leftId);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-   /* @Log("获取字典项")
-    @ApiOperation(value = "获取字典项")
-    @GetMapping(value = "/Leftbehind/getDict")
-    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
-    public ResponseEntity getDict() {
-        return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.Leftbehind"), HttpStatus.OK);
-    }*/
 }

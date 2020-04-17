@@ -47,11 +47,6 @@ public class PsychosisPersonController {
     @GetMapping(value = "/PsychosisPerson")
     @PreAuthorize("hasAnyRole('ADMIN','PSYCHOSISPERSON_ALL','PSYCHOSISPERSON_SELECT')")
     public ResponseEntity getPsychosisPersons(PsychosisPersonQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(PsychosisPersonService.queryAll(criteria,pageable),HttpStatus.OK);
     }
     @Log("查询详情PsychosisPerson")
