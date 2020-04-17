@@ -86,6 +86,8 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             r.setHouseheadRelaStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getResidence());
             r.setResidenceStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getServiceAddr());
+            r.setServiceAddrStr(dd == null ? "无数据" : dd);
             dd = deptRepository.findNameByCode(r.getUnitCode());
             r.setUnitCodeStr(dd);
             r.setCreator(userRepository.findById(r.getCreator()).orElse(new User()).getUsername());
