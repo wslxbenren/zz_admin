@@ -135,12 +135,12 @@ public class Floatpeople implements Serializable {
     private Integer ifImport;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date", insertable = false)
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date", insertable = false)
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp expDate;
 
@@ -168,7 +168,7 @@ public class Floatpeople implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false,updatable = false)
+    @Column(name = "create_time",updatable = false)
     @UpdateTimestamp
     @JsonIgnore
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
