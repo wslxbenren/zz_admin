@@ -9,6 +9,7 @@ import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.service.UserService;
@@ -70,19 +71,18 @@ public class UserServiceImpl implements UserService {
         for (UserDTO f : userDTOList) {
 
             String dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), f.getPoliticalStatus());
-            f.setPoliticalStatus(dd == null ? "无数据" : dd);// 政治面貌
+            f.setPoliticalStatusStr(dd == null ? "无数据" : dd);// 政治面貌
 //
             dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), f.getCardCode());
-            f.setCardCode(dd == null ? "无数据" : dd);// 证件代码
+            f.setCardCodeStr(dd == null ? "无数据" : dd);// 证件代码
 //
             dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEducationBg());
-            f.setEducationBg(dd == null ? "无数据" : dd);// 学历
+            f.setEducationBgStr(dd == null ? "无数据" : dd);// 学历
 
             dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNational());
-            f.setNational(dd == null ? "无数据" : dd);//民族
+            f.setNationalStr(dd == null ? "无数据" : dd);//民族
 
         }
-
 
         Map map = new HashMap();
         map.put("content", userDTOList);
@@ -113,6 +113,8 @@ public class UserServiceImpl implements UserService {
         }
         // 默认密码 123456，此密码是加密后的字符
         resources.setPassword("e10adc3949ba59abbe56e057f20f883e");
+        resources.setCreator(SecurityUtils.getUsername());
+        resources.setModifier(SecurityUtils.getUsername());
 //        resources.setAvatar("https://i.loli.net/2019/04/04/5ca5b971e1548.jpeg");
         return userMapper.toDto(userRepository.save(resources));
     }
@@ -155,8 +157,10 @@ public class UserServiceImpl implements UserService {
         user.setPhone(resources.getPhone());
         user.setCreator(user.getCreator());
         user.setBirth(resources.getBirth());
-        user.setModifier(resources.getModifier());
+        user.setModifier(SecurityUtils.getUsername());
         user.setEducationBg(resources.getEducationBg());
+        user.setRealname(resources.getRealname());
+
         userRepository.save(user);
     }
 

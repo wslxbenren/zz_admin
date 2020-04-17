@@ -28,17 +28,17 @@ public class UserQueryCriteria implements Serializable {
     private Boolean enabled;
 
     private String deptId;
-    @Query
+    @Query(type = Query.Type.EQUAL)
     private String national;
-    @Query
+    @Query(type = Query.Type.EQUAL)
     private String politicalStatus;
     @Query
     private Date birth;
     @Query
     private String specialty;
-    @Query
+    @Query(type = Query.Type.EQUAL)
     private String  educationBg;
-    @Query
+    @Query(type = Query.Type.EQUAL)
     private String cardCode;
     @Query
     private String cardNumber;

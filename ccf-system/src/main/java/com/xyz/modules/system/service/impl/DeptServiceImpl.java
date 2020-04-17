@@ -8,6 +8,7 @@ import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.mapper.DeptMapper;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.QueryHelp;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.service.dto.DeptQueryCriteria;
@@ -49,8 +50,7 @@ public class DeptServiceImpl implements DeptService {
     @Autowired
     private DeptMapper deptMapper;
 
-//    @Autowired
-//    private AuditSpecification audit;
+
 
     @Autowired
     private DictDetailService dictDetailService;
@@ -59,15 +59,13 @@ public class DeptServiceImpl implements DeptService {
     @Override
     @Transactional
     public List<DeptDTO> queryAll(DeptQueryCriteria criteria) {
+        log.info("单位信息--开始");
         List<DeptDTO> deptDTOList = deptMapper.toDto(deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
         for (DeptDTO f : deptDTOList) {
-            log.info("单位信息--开始");
             String dd = dictDetailService.transDict(DictEnum.JGLX.getDistName(), f.getInstiType());
-            f.setInstiType(dd == null ? "无数据" : dd);// 机构类型
-
+            f.setInstiTypeStr(dd == null ? "无数据" : dd);// 机构类型
             dd = dictDetailService.transDict(DictEnum.SHZZLX.getDistName(), f.getOrganType());
-            f.setOrganType(dd == null ? "无数据" : dd);// 组织类型
-
+            f.setOrganTypeStr(dd == null ? "无数据" : dd);// 组织类型
         }
         return deptDTOList;
     }
@@ -97,7 +95,7 @@ public class DeptServiceImpl implements DeptService {
         Boolean isChild;
         for (DeptDTO deptDTO : deptDTOS) {
             isChild = false;
-            if ("0".equals(deptDTO.getPid().toString())) {
+            if ("-1".equals(deptDTO.getPid().toString())) {
                 trees.add(deptDTO);
             }
             for (DeptDTO it : deptDTOS) {
@@ -131,6 +129,8 @@ public class DeptServiceImpl implements DeptService {
     @Transactional(rollbackFor = Exception.class)
     public DeptDTO create(Dept resources) {
         resources.setId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
+        resources.setModifier(SecurityUtils.getUsername());
         return deptMapper.toDto(deptRepository.save(resources));
     }
 
@@ -144,7 +144,7 @@ public class DeptServiceImpl implements DeptService {
         ValidationUtil.isNull(optionalDept, "Dept", "id", resources.getId());
         Dept dept = optionalDept.get();
         resources.setId(dept.getId());
-//        resources.setCode(dept.getCode());
+        resources.setModifier(SecurityUtils.getUsername());
         deptRepository.save(resources);
     }
 
