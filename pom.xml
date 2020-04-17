@@ -34,6 +34,17 @@
         <hutool.version>[4.1.12,)</hutool.version>
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
+
+        <!--        wagon plugin 配置-->
+        <service-path>/opt/prod</service-path>
+        <pack-name>${artifactId}-${version}.jar</pack-name>
+        <!--        服务器IP-->
+        <remote-addr>39.104.101.137</remote-addr>
+        <!--        用户-->
+        <remote-username>root</remote-username>
+        <!--        密码-->
+        <remote-passwd>1987123aA</remote-passwd>
+
     </properties>
 
     <dependencies>
@@ -192,12 +203,13 @@
                 <artifactId>wagon-maven-plugin</artifactId>
                 <version>1.0</version>
                 <configuration>
-                    <fromFile>target/${pack-name}</fromFile>
+                    <fromFile>${pack-name}</fromFile>
                     <url><![CDATA[scp://${remote-username}:${remote-passwd}@${remote-addr}${service-path}]]></url>
                     <commands>
+                        <command>cp ${service-path}/${pack-name} bk.jar .</command>
                         <command>pkill -f ${pack-name}</command>
                         <command>rm -f ${service-path}/${pack-name}.log</command>
-                        <command>export JAVA_HOME=/opt/jdk1.8.0_151</command>
+                        <command>export JAVA_HOME=/opt/jdk1.8.0_161</command>
                         <command>
                             <![CDATA[nohup java -jar ${service-path}/${pack-name} > ${service-path}/${pack-name}.log 2>&1 & ]]></command>
                         <command><![CDATA[netstat -nptl]]></command>
