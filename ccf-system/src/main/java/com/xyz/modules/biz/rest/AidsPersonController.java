@@ -49,11 +49,6 @@ public class AidsPersonController {
     @GetMapping(value = "/AidsPerson")
     @PreAuthorize("hasAnyRole('ADMIN','AIDSPERSON_ALL','AIDSPERSON_SELECT')")
     public ResponseEntity getAidsPersons(AidsPersonQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(AidsPersonService.queryAll(criteria,pageable),HttpStatus.OK);
     }
     @Log("查询详情AidsPerson")

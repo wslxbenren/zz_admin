@@ -47,11 +47,6 @@ public class CorrectPersonController {
     @GetMapping(value = "/CorrectPerson")
     @PreAuthorize("hasAnyRole('ADMIN','CORRECTPERSON_ALL','CORRECTPERSON_SELECT')")
     public ResponseEntity getCorrectPersons(CorrectPersonQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(CorrectPersonService.queryAll(criteria,pageable),HttpStatus.OK);
     }
     @Log("查询详情CorrectPerson")

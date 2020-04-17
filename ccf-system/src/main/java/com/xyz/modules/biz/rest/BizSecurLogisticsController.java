@@ -45,11 +45,6 @@ public class BizSecurLogisticsController {
     @GetMapping(value = "/bizSecurLogistics")
     @PreAuthorize("hasAnyRole('ADMIN','BIZSECURLOGISTICS_ALL','BIZSECURLOGISTICS_SELECT')")
     public ResponseEntity getBizSecurLogisticss(BizSecurLogisticsQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(bizSecurLogisticsService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 

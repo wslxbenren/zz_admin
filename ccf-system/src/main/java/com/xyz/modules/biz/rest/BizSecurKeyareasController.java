@@ -45,11 +45,6 @@ public class BizSecurKeyareasController {
     @GetMapping(value = "/bizSecurKeyareas")
     @PreAuthorize("hasAnyRole('ADMIN','BIZSECURKEYAREAS_ALL','BIZSECURKEYAREAS_SELECT')")
     public ResponseEntity getBizSecurKeyareass(BizSecurKeyareasQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(bizSecurKeyareasService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 

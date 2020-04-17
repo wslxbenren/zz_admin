@@ -47,7 +47,7 @@ public class Dict implements Serializable {
     @Column(name = "grage")
     private String grage;
 
-    @Where(clause = "grage is null or grage = 1")
+    @Where(clause = "if_valid = 1 and (grage is null or grage = 1) ")
     @OneToMany(mappedBy = "dict",cascade={CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<DictDetail> dictDetails;
 

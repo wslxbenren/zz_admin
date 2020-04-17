@@ -41,17 +41,12 @@ public class MajorcaseInfoController {
     @Autowired
     private DeptService deptService;
 
-
     @Log("查询MajorcaseInfo")
     @ApiOperation(value = "查询MajorcaseInfo")
     @GetMapping(value = "/MajorcaseInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MAJORCASEINFO_ALL','MAJORCASEINFO_SELECT')")
     public ResponseEntity getMajorcaseInfos(MajorcaseInfoQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
+        // todo 这种条件过滤暂时不要
         return new ResponseEntity(MajorcaseInfoService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
@@ -89,12 +84,4 @@ public class MajorcaseInfoController {
         MajorcaseInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-   /* @Log("获取字典项")
-    @ApiOperation(value = "获取字典项")
-    @GetMapping(value = "/MajorcaseInfo/getDict")
-    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
-    public ResponseEntity getDict() {
-        return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.MajorcaseInfo"), HttpStatus.OK);
-    }*/
 }

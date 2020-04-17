@@ -14,7 +14,7 @@ public enum DictEnum {
      ADDRESS(106, "所在地/发生地/户籍地"),
      HYZK(107, "婚姻状况"),
      ZJXY(108, "宗教信仰"),
-     YHZGX(109, "与户主关系"),
+     YHZGX(109, "与户主关系/与留守人员关系/与监护人关系"),
      GJ_DQ(110, "国籍\\(地区\\)"),
      AJLB(111, "案件类别"),
      XDHG(112, "吸毒后果"),
@@ -78,10 +78,12 @@ public enum DictEnum {
      ZSLX(256, "住所类型"),
      JKZK(257, "健康状况"),
      RHYZBS(258, "人户一致标识"),
+     LSRYLX(259, "留守人员类型"),
      LHMD(260, "来华目的"),
      JZYT(261, "建筑用途"),
      CZYT(262, "出租用途"),
      SJZT(263,"数据状态");
+
     private String distName;
     private long dictId;
 

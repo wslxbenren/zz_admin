@@ -45,11 +45,6 @@ public class SuspectinfoController {
     @GetMapping(value = "/Suspectinfo")
     @PreAuthorize("hasAnyRole('ADMIN','SUSPECTINFO_ALL','SUSPECTINFO_SELECT')")
     public ResponseEntity getSuspectinfos(SuspectinfoQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(SuspectinfoService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 

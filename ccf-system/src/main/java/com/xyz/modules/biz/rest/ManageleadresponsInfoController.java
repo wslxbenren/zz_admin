@@ -45,11 +45,6 @@ public class ManageleadresponsInfoController {
     @GetMapping(value = "/ManageleadresponsInfo")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGELEADRESPONSINFO_ALL','MANAGELEADRESPONSINFO_SELECT')")
     public ResponseEntity getManageleadresponsInfos(ManageleadresponsInfoQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(ManageleadresponsInfoService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
@@ -83,12 +78,4 @@ public class ManageleadresponsInfoController {
         ManageleadresponsInfoService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-    /*@Log("获取字典项")
-    @ApiOperation(value = "获取字典项")
-    @GetMapping(value = "/ManageleadresponsInfo/getDict")
-    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
-    public ResponseEntity getDict() {
-        return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.ManageleadresponsInfo"), HttpStatus.OK);
-    }*/
 }

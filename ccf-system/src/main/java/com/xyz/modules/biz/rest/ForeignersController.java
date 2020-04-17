@@ -46,11 +46,6 @@ public class ForeignersController {
     @GetMapping(value = "/Foreigners")
     @PreAuthorize("hasAnyRole('ADMIN','FOREIGNERS_ALL','FOREIGNERS_SELECT')")
     public ResponseEntity getForeignerss(ForeignersQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(ForeignersService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
@@ -87,12 +82,4 @@ public class ForeignersController {
         ForeignersService.delete(foreId);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-  /*  @Log("获取字典项")
-    @ApiOperation(value = "获取字典项")
-    @GetMapping(value = "/Foreigners/getDict")
-    @PreAuthorize("hasAnyRole('ADMIN','BUILDHEADINFO_ALL','BUILDHEADINFO_DELETE')")
-    public ResponseEntity getDict() {
-        return new ResponseEntity(dictService.buildDict("com.xyz.modules.biz.domain.Foreigners"), HttpStatus.OK);
-    }*/
 }

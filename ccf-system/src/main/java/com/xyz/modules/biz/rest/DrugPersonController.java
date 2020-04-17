@@ -50,11 +50,6 @@ public class DrugPersonController {
     @GetMapping(value = "/DrugPerson")
     @PreAuthorize("hasAnyRole('ADMIN','DRUGPERSON_ALL','DRUGPERSON_SELECT')")
     public ResponseEntity getDrugPersons(DrugPersonQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(DrugPersonService.queryAll(criteria,pageable),HttpStatus.OK);
     }
     @Log("查询详情DrugPerson")

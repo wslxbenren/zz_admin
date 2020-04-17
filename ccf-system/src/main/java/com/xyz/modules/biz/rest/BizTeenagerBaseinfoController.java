@@ -45,11 +45,6 @@ public class BizTeenagerBaseinfoController {
     @GetMapping(value = "/bizTeenagerBaseinfo")
     @PreAuthorize("hasAnyRole('ADMIN','BIZTEENAGERBASEINFO_ALL','BIZTEENAGERBASEINFO_SELECT')")
     public ResponseEntity getBizTeenagerBaseinfos(BizTeenagerBaseinfoQueryCriteria criteria, Pageable pageable){
-        JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
-        criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
         return new ResponseEntity(bizTeenagerBaseinfoService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
