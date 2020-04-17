@@ -6,6 +6,11 @@ import com.xyz.modules.biz.service.actual.repo.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -18,6 +23,10 @@ import static com.xyz.modules.system.util.DictEnum.*;
 /**
  * 实有人口生成测试数据模块
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Transactional
+@Rollback(false)
 public class MockActual extends MockBase {
     @Resource
     private FloatpeopleRepository floatpeopleRepository;
@@ -55,7 +64,7 @@ public class MockActual extends MockBase {
             floatpeople.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             floatpeople.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             floatpeople.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "职业");
-            floatpeople.setServiceAddr(getRandomDictValue(XING_BIE.getDictId()));
+            floatpeople.setServiceAddr(getRandomDictValue(ADDRESS.getDictId()));
             floatpeople.setContact(mockPhone());
             floatpeople.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             floatpeople.setRegisteredAddr(getRandomAddrDetail());
@@ -146,11 +155,11 @@ public class MockActual extends MockBase {
             leftbehind.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             leftbehind.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             leftbehind.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "职业");
-            leftbehind.setServiceAddr(getRandomDictValue(XING_BIE.getDictId()));
+            leftbehind.setServiceAddr(getRandomDictValue(ADDRESS.getDictId()));
             leftbehind.setContact(mockPhone());
             leftbehind.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             leftbehind.setRegisteredAddr(getRandomAddrDetail());
-            leftbehind.setResidence(getRandomDictValue(XING_BIE.getDictId()));
+            leftbehind.setResidence(getRandomDictValue(ADDRESS.getDictId()));
             leftbehind.setResidenceAddr(getRandomAddrDetail());
             leftbehind.setHealthy("健康");
             leftbehind.setAnnualPerincome(String.valueOf(RandomUtils.nextInt(1000, 100000)));
@@ -203,11 +212,11 @@ public class MockActual extends MockBase {
             registpeople.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             registpeople.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             registpeople.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "职业");
-            registpeople.setServiceAddr(getRandomDictValue(XING_BIE.getDictId()));
+            registpeople.setServiceAddr(getRandomDictValue(ADDRESS.getDictId()));
             registpeople.setContact(mockPhone());
             registpeople.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             registpeople.setRegisteredAddr(getRandomAddrDetail());
-            registpeople.setResidence(getRandomDictValue(XING_BIE.getDictId()));
+            registpeople.setResidence(getRandomDictValue(ADDRESS.getDictId()));
             registpeople.setResidenceAddr(getRandomAddrDetail());
             registpeople.setHouseholdId(getRandomDictValue(RHYZBS.getDictId()));;
             registpeople.setDoorNo(getRandomCode(4));
