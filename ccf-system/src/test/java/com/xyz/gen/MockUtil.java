@@ -39,7 +39,7 @@ public class MockUtil {
     }
 
     public static String mockCommunityStr() {
-        return "南阳" + getNum(1, 1000) +"号院";
+        return "南阳" + getNum(1, 1000) +"村" + getNum(1, 1000) +"户";
     }
 
     //生成随机用户名，数字和字母组成,

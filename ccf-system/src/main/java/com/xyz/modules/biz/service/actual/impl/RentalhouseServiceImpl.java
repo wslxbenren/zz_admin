@@ -11,7 +11,9 @@ import com.xyz.modules.biz.service.actual.dto.RentalhouseDTO;
 import com.xyz.modules.biz.service.actual.qo.RentalhouseQueryCriteria;
 import com.xyz.modules.biz.service.actual.mapper.RentalhouseMapper;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
@@ -49,6 +51,9 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(RentalhouseQueryCriteria criteria, Pageable pageable){
@@ -68,6 +73,10 @@ public class RentalhouseServiceImpl implements RentalhouseService {
             r.setCardTypeStr(dd == null ? "无数据" : dd );
             dd = deptRepository.findNameByCode(r.getUnitCode());
             r.setUnitCodeStr(dd);
+            r.setCardTypeStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), r.getCardType()) );
+            r.setCreator(userRepository.findById(r.getCreator()).orElse(new User()).getUsername());
+            r.setOperName(userRepository.findById(r.getOperName()).orElse(new User()).getUsername());
+            r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", rentalhouseDTOS);

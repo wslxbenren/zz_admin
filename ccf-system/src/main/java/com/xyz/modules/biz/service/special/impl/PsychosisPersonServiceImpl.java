@@ -3,7 +3,9 @@ package com.xyz.modules.biz.service.special.impl;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.service.special.entity.PsychosisPerson;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
@@ -51,45 +53,34 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
 
     @Autowired
     private DeptRepository deptRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(PsychosisPersonQueryCriteria criteria, Pageable pageable){
         log.debug("********** 条件查询 PsychosisPerson 列表-分页  **********");
         Page<PsychosisPerson> page = PsychosisPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<PsychosisPersonDTO> psychosisPersonDTOS = PsychosisPersonMapper.toDto(page.getContent());
-        for (PsychosisPersonDTO f:psychosisPersonDTOS){
-            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
-            f.setPersonSexStr(dd == null ? "无数据" : dd);// 性别
-            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNation());
-            f.setNationStr(dd == null ? "无数据" : dd);//民族
-            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), f.getNativeInfo());
-            f.setNativeInfoStr(dd == null ? "无数据" : dd);//籍贯
-            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), f.getMarriageFlag());
-            f.setMarriageFlagStr(dd == null ? "无数据" : dd);//婚姻状况
-            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), f.getPartyFlag());
-            f.setPartyFlagStr(dd == null ? "无数据" : dd);// 政治面貌
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEduLevel());
-            f.setEduLevelStr(dd == null ? "无数据" : dd);  // 文化程度
-            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), f.getFaithType());
-            f.setFaithTypeStr(dd == null ? "无数据" : dd);// 宗教信仰
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), f.getVocationCode());
-            f.setVocationCodeStr(dd == null ? "无数据" : dd); // 职业类别
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
-            f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);// 户籍地
-
-            dd = dictDetailService.transDict(DictEnum.MQZDLX.getDistName(), f.getDiagnoseType());
-            f.setDiagnoseTypeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZLQK.getDistName(), f.getTreatFlag());
-            f.setTreatFlagStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.SSZYZLYY.getDistName(), f.getInhospitalReason());
-            f.setInhospitalReasonStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.CYGLRY.getDistName(), f.getJoinManager());
-            f.setJoinManagerStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.BFQK.getDistName(), f.getHelpeFlag());
-            f.setHelpeFlagStr(dd == null ? "无数据" : dd);
-
-            dd = deptRepository.findNameByCode(f.getUnitCode());
-            f.setUnitCodeStr(dd);
+        for (PsychosisPersonDTO mid:psychosisPersonDTOS){
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex()));// 性别
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation()));//民族
+            mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo()));
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag()));//婚姻状况
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag()));// 政治面貌
+            mid.setEduLevelStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEduLevel()));  // 文化程度
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType()));// 宗教信仰
+            mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode()));
+            mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
+            mid.setDiagnoseTypeStr(dictDetailService.transDict(DictEnum.MQZDLX.getDistName(), mid.getDiagnoseType()));
+            mid.setTreatFlagStr(dictDetailService.transDict(DictEnum.ZLQK.getDistName(), mid.getTreatFlag()));
+            mid.setInhospitalReasonStr(dictDetailService.transDict(DictEnum.SSZYZLYY.getDistName(), mid.getInhospitalReason()));
+            mid.setJoinManagerStr(dictDetailService.transDict(DictEnum.CYGLRY.getDistName(), mid.getJoinManager()));
+            mid.setHelpeFlagStr(dictDetailService.transDict(DictEnum.BFQK.getDistName(), mid.getHelpeFlag()));
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", psychosisPersonDTOS);

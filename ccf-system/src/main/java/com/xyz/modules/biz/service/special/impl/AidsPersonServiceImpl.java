@@ -9,7 +9,9 @@ import com.xyz.modules.biz.service.special.dto.AidsPersonDTO;
 import com.xyz.modules.biz.service.special.qo.AidsPersonQueryCriteria;
 import com.xyz.modules.biz.service.special.mapper.AidsPersonMapper;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
@@ -57,6 +59,8 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     @Transactional
@@ -64,39 +68,24 @@ public class AidsPersonServiceImpl implements AidsPersonService {
         log.info("实现条件查询列表-分页");
         Page<AidsPerson> page = AidsPersonRepository.findAll(audit.genSpecification(criteria), pageable);
         List<AidsPersonDTO> aidsPersonDTOS = AidsPersonMapper.toDto(page.getContent());
-        for (AidsPersonDTO f : aidsPersonDTOS) {
-            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
-            f.setPersonSexStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNation());
-            f.setNationStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), f.getNativeInfo());
-            f.setNativeInfoStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), f.getMarriageFlag());
-            f.setMarriageFlagStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), f.getPartyFlag());
-            f.setPartyFlagStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEduLevel());
-            f.setEduLevelStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), f.getFaithType());
-            f.setFaithTypeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), f.getVocationCode());
-            f.setVocationCodeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
-            f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.AJLB.getDistName(), f.getCaseType());
-            f.setCaseTypeStr(dd == null ? "无数据" : dd);
-
-            dd = dictDetailService.transDict(DictEnum.GRTJ.getDistName(), f.getRoutesInfection());
-            f.setRoutesInfectionStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.GZLX.getDistName(), f.getTakeType());
-            f.setTakeTypeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.BFQK.getDistName(), f.getHelpComments());
-            f.setHelpCommentsStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.SZQK.getDistName(), f.getDetainType());
-            f.setDetainTypeStr(dd == null ? "无数据" : dd);
-
-            dd = deptRepository.findNameByCode(f.getUnitCode());
-            f.setUnitCodeStr(dd);
+        for (AidsPersonDTO mid : aidsPersonDTOS) {
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex()));
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation()));
+            mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo()));
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag()));
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag()));
+            mid.setEduLevelStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEduLevel()));
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType()));
+            mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode()));
+            mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
+            mid.setCaseTypeStr(dictDetailService.transMultistage(DictEnum.AJLB.getDictId(), mid.getCaseType()));
+            mid.setRoutesInfectionStr(dictDetailService.transDict(DictEnum.GRTJ.getDistName(), mid.getRoutesInfection()));
+            mid.setTakeTypeStr(dictDetailService.transDict(DictEnum.GZLX.getDistName(), mid.getTakeType()));
+            mid.setHelpCommentsStr(dictDetailService.transDict(DictEnum.BFQK.getDistName(), mid.getHelpComments()));
+            mid.setDetainTypeStr(dictDetailService.transDict(DictEnum.SZQK.getDistName(), mid.getDetainType()));
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", aidsPersonDTOS);

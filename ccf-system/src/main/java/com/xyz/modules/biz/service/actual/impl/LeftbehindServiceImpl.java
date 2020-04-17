@@ -4,7 +4,9 @@ import com.xyz.exception.BadRequestException;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.service.actual.entity.Leftbehind;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -50,6 +52,9 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(LeftbehindQueryCriteria criteria, Pageable pageable){
@@ -58,32 +63,21 @@ public class LeftbehindServiceImpl implements LeftbehindService {
         List<LeftbehindDTO> leftbehindList = LeftbehindMapper.toDto(page.getContent());
         for (LeftbehindDTO mid: leftbehindList) {
             String dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), mid.getIdentityNum());
-            mid.setIdentityNumStr(dd == null ? "无数据": dd); // 公民身份号码
-            dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex());
-            mid.setPersonSexStr(dd == null ? "无数据": dd); //性别
-            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation());
-            mid.setNationStr(dd == null ? "无数据": dd); //民族
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getNativeInfo());
-            mid.setNativeInfoStr(dd == null ? "无数据": dd); //籍贯
-            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag());
-            mid.setMarriageFlagStr(dd == null ? "无数据": dd); // 婚姻状况
-            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag());
-            mid.setPartyFlagStr(dd == null ? "无数据": dd); //  政治面貌
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEducationBg());
-            mid.setEducationBgStr(dd == null ? "无数据": dd); //  学历
-            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType());
-            mid.setFaithTypeStr(dd == null ? "无数据": dd); //  宗教信仰
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), mid.getVocationCode());
-            mid.setVocationCodeStr(dd == null ? "无数据": dd); //  职业类别
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getRegisteredPlace());
-            mid.setRegisteredPlaceStr(dd == null ? "无数据": dd); //  户籍地
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getResidence());
-            mid.setResidenceStr(dd == null ? "无数据": dd); //  现住地
-            dd = dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getMainmemRela());
-            mid.setMainmemRelaStr(dd == null ? "无数据": dd); //  与留守人员关系
-
-            dd = deptRepository.findNameByCode(mid.getUnitCode());
-            mid.setUnitCodeStr(dd);
+            mid.setIdentityNumStr(dictDetailService.transDict(DictEnum.ZJDM.getDistName(), mid.getIdentityNum())); // 公民身份号码
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex())); //性别
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation())); //民族
+            mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo())); // 籍贯
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag())); // 婚姻状况
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag())); //  政治面貌
+            mid.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEducationBg())); //  学历
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType())); //  宗教信仰
+            mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode())); // 职业类别
+            mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace())); // 户籍地
+            mid.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getResidence())); //  现住地
+            mid.setMainmemRelaStr(dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getMainmemRela())); //  与留守人员关系
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", leftbehindList);

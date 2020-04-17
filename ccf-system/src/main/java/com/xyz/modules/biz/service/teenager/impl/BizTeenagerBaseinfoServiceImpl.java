@@ -10,7 +10,9 @@ import com.xyz.modules.biz.service.teenager.dto.BizTeenagerBaseinfoDTO;
 import com.xyz.modules.biz.service.teenager.dto.BizTeenagerBaseinfoQueryCriteria;
 import com.xyz.modules.biz.service.teenager.mapper.BizTeenagerBaseinfoMapper;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.StringUtils;
@@ -54,6 +56,9 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(BizTeenagerBaseinfoQueryCriteria criteria, Pageable pageable){
@@ -61,29 +66,20 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
         Page<BizTeenagerBaseinfo> page = bizTeenagerBaseinfoRepository.findAll(audit.genSpecification(criteria),pageable);
         List<BizTeenagerBaseinfoDTO> bizTeenagerBaseinfoDTOList = bizTeenagerBaseinfoMapper.toDto(page.getContent());
         for (BizTeenagerBaseinfoDTO mid: bizTeenagerBaseinfoDTOList) {
-            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex());
-            mid.setPersonSexStr(dd == null ? "无数据" : dd); // 性别
-            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation());
-            mid.setNationStr(dd == null ? "无数据" : dd); // 民族
-            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag());
-            mid.setMarriageFlagStr(dd == null ? "无数据":dd); //  婚姻状况
-            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag());
-            mid.setPartyFlagStr(dd == null ? "无数据":dd);// 政治面貌
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEducationBg());
-            mid.setEducationBgStr(dd == null ? "无数据":dd);//  学历
-            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType());
-            mid.setFaithTypeStr(dd == null ? "无数据":dd); // 宗教信仰
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), mid.getVocationCode());
-            mid.setVocationCodeStr(dd == null ? "无数据":dd); // 职业类别
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getRegisteredPlace());
-            mid.setRegisteredPlaceStr(dd == null ? "无数据":dd);// 户籍地
-            dd = dictDetailService.transDict(DictEnum.RYLX.getDistName(), mid.getPeopleTypeStr());
-            mid.setPeopleTypeStr(dd == null ? "无数据":dd);// 人员类型
-            dd = dictDetailService.transDict(DictEnum.JTQK.getDistName(), mid.getHomeSituStr());
-            mid.setHomeSituStr(dd == null ? "无数据":dd); //  家庭情况
-
-            dd = deptRepository.findNameByCode(mid.getUnitCode());
-            mid.setUnitCodeStr(dd);
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex())); // 性别
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation())); // 民族
+            mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo()));
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag())); //  婚姻状况
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag()));// 政治面貌
+            mid.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEducationBg()));//  学历
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType())); // 宗教信仰
+            mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode()));
+            mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
+            mid.setPeopleTypeStr(dictDetailService.transDict(DictEnum.RYLX.getDistName(), mid.getPeopleTypeStr()));// 人员类型
+            mid.setHomeSituStr(dictDetailService.transDict(DictEnum.JTQK.getDistName(), mid.getHomeSituStr()));
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", bizTeenagerBaseinfoDTOList);

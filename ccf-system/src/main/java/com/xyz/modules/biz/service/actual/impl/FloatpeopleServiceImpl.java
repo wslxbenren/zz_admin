@@ -11,7 +11,9 @@ import com.xyz.modules.biz.service.actual.dto.FloatpeopleDTO;
 import com.xyz.modules.biz.service.actual.qo.FloatpeopleQueryCriteria;
 import com.xyz.modules.biz.service.actual.mapper.FloatpeopleMapper;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -43,13 +45,14 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Autowired
     private DictDetailService dictDetailService;
 
-
-
     @Autowired
     private AuditSpecification audit;
 
     @Autowired
     private DeptRepository deptRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     @Transactional
@@ -86,8 +89,9 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             dd = dictDetailService.transDict(DictEnum.ZSLX.getDistName(), f.getResidType());
             f.setResidTypeStr(dd == null ? "无数据" : dd);
 
-            dd = deptRepository.findNameByCode(f.getUnitCode());
-            f.setUnitCodeStr(dd);
+            f.setCreator(userRepository.findById(f.getCreator()).orElse(new User()).getUsername());
+            f.setOperName(userRepository.findById(f.getOperName()).orElse(new User()).getUsername());
+            f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", floatpeopleDTOS);

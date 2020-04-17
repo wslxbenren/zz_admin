@@ -3,7 +3,9 @@ package com.xyz.modules.biz.service.actual.impl;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.service.actual.entity.Foreigners;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -48,6 +50,9 @@ public class ForeignersServiceImpl implements ForeignersService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(ForeignersQueryCriteria criteria, Pageable pageable){
@@ -55,23 +60,16 @@ public class ForeignersServiceImpl implements ForeignersService {
         Page<Foreigners> page = ForeignersRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ForeignersDTO> foreignersList = ForeignersMapper.toDto(page.getContent());
         for (ForeignersDTO mid: foreignersList) {
-            String dd = dictDetailService.transDict(DictEnum.JGCJ.getDistName(), mid.getLastname());
-            mid.setLastnameStr(dd == null ? "无数据":dd); // 外文姓
-            dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex());
-            mid.setPersonSexStr(dd == null ? "无数据":dd); //性别
-            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), mid.getCountry());
-            mid.setCountryStr(dd == null ? "无数据":dd); // 国籍
-            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType());
-            mid.setFaithTypeStr(dd == null ? "无数据":dd); //  宗教信仰
-            dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), mid.getCardType());
-            mid.setCardTypeStr(dd == null ? "无数据":dd); //  证件代码
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), mid.getVocationCode());
-            mid.setVocationCodeStr(dd == null ? "无数据":dd); //  职业类别
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getResidence());
-            mid.setResidenceStr(dd == null ? "无数据":dd); //  现住地
-
-            dd = deptRepository.findNameByCode(mid.getUnitCode());
-            mid.setUnitCodeStr(dd);
+            mid.setLastnameStr(dictDetailService.transDict(DictEnum.JGCJ.getDistName(), mid.getLastname())); // 外文姓
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex())); //性别
+            mid.setCountryStr(dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), mid.getCountry())); // 国籍
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType())); //  宗教信仰
+            mid.setCardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDistName(), mid.getCardType())); //  证件代码
+            mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode())); // 职业类别
+            mid.setResidence(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getVocationCode())); // 现住地
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", foreignersList);
