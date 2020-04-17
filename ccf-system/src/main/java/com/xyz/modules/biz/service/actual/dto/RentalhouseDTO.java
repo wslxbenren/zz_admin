@@ -28,13 +28,17 @@ public class RentalhouseDTO implements Serializable {
 
     // 建筑用途
     private String constrPurpose;
+    private String constrPurposeStr;
+
+    // 出租用途
+    private String rentalPurposes;
+    private String rentalPurposesStr;
 
     // 建筑面积（平方米）
     private Double constrArea;
 
     // 证件代码:编码应符合GA/T517
     private String cardType;
-    // 证件代码:翻译后值
     private String cardTypeStr;
 
     // 证件号码
@@ -51,6 +55,7 @@ public class RentalhouseDTO implements Serializable {
 
     // 隐患类型
     private String hazardType;
+    private String hazardTypeStr;
 
     // 承租人公民身份号码:编码应符合GB11463
     private String lesseeIdno;

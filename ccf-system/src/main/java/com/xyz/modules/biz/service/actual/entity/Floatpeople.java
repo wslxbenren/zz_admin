@@ -168,7 +168,7 @@ public class Floatpeople implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",updatable = false)
+    @Column(name = "create_time",nullable = false,updatable = false)
     @UpdateTimestamp
     @JsonIgnore
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")

@@ -75,6 +75,8 @@ public class LeftbehindServiceImpl implements LeftbehindService {
             mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace())); // 户籍地
             mid.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getResidence())); //  现住地
             mid.setMainmemRelaStr(dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getMainmemRela())); //  与留守人员关系
+            mid.setHealthyStr(dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getHealthy())); //  健康状况
+            mid.setLeftbehindTypeStr(dictDetailService.transDict(DictEnum.LSRYLX.getDistName(), mid.getLeftbehindType())); //  留守人员类型
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));

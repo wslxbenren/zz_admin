@@ -97,9 +97,11 @@ public class FloatpeopleDTO implements Serializable {
 
     // 流入原因
     private String intoCause;
+    private String intoCauseStr;
 
     // 办证类型
     private String cardType;
+    private String cardTypeStr;
 
     // 证件号码
     private String cardNo;
@@ -114,6 +116,7 @@ public class FloatpeopleDTO implements Serializable {
 
     // 住所类型
     private String residType;
+    private String residTypeStr;
 
     // 是否重点关注人员
     private Integer ifImport;

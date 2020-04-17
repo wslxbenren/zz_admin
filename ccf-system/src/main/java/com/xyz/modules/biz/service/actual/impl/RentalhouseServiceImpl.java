@@ -62,11 +62,21 @@ public class RentalhouseServiceImpl implements RentalhouseService {
         Page<Rentalhouse> page = RentalhouseRepository.findAll(audit.genSpecification(criteria),pageable);
         List<Rentalhouse> content = page.getContent();
         List<RentalhouseDTO> rentalhouseDTOS = RentalhouseMapper.toDto(content);
-        for (RentalhouseDTO mid:rentalhouseDTOS){
-            mid.setCardTypeStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getCardType()) );
-            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
-            mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
-            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
+        for (RentalhouseDTO r:rentalhouseDTOS){
+            String dd = dictDetailService.transDict(DictEnum.YHLX.getDistName(), r.getHazardType());
+            r.setHazardTypeStr(dd == null ? "无数据" : dd );
+             dd = dictDetailService.transDict(DictEnum.JZYT.getDistName(), r.getConstrPurpose());
+            r.setConstrPurposeStr(dd == null ? "无数据" : dd );
+             dd = dictDetailService.transDict(DictEnum.CZYT.getDistName(), r.getRentalPurposes());
+            r.setRentalPurposesStr(dd == null ? "无数据" : dd );
+            dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), r.getCardType());
+            r.setCardTypeStr(dd == null ? "无数据" : dd );
+            dd = deptRepository.findNameByCode(r.getUnitCode());
+            r.setUnitCodeStr(dd);
+            r.setCardTypeStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), r.getCardType()) );
+            r.setCreator(userRepository.findById(r.getCreator()).orElse(new User()).getUsername());
+            r.setOperName(userRepository.findById(r.getOperName()).orElse(new User()).getUsername());
+            r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", rentalhouseDTOS);

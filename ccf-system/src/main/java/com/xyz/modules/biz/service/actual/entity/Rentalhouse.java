@@ -44,6 +44,10 @@ public class Rentalhouse implements Serializable {
     @Column(name = "constr_purpose")
     private String constrPurpose;
 
+    // 出租用途
+    @Column(name = "rental_purposes")
+    private String rentalPurposes;
+
     // 建筑面积（平方米）
     @Column(name = "constr_area")
     private Double constrArea;
