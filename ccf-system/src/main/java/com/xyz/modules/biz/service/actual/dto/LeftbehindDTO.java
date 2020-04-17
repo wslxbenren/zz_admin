@@ -111,6 +111,9 @@ public class LeftbehindDTO implements Serializable {
     // 健康状况
     private String healthy;
 
+    // 健康状况  字典翻译
+    private String healthyStr;
+
     // 个人年收入
     private String annualPerincome;
 
@@ -119,6 +122,9 @@ public class LeftbehindDTO implements Serializable {
 
     // 留守人员类型
     private String leftbehindType;
+
+    // 留守人员类型
+    private String leftbehindTypeStr;
 
     // 家庭主要成员身份号码
     private String mainmemIdno;
