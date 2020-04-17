@@ -101,7 +101,7 @@ public class MockOrg extends MockBase {
             majorcaseInfo.setOccurAddr(getRandomDictValue(ADDRESS.getDictId()));
             majorcaseInfo.setOccurAddrdetail(getRandomAddrDetail());
             majorcaseInfo.setCaseGrage(getRandomDictValue(AJFJ.getDictId()));
-            majorcaseInfo.setCaseType(getRandomDictValue(AJLB.getDictId()));
+            majorcaseInfo.setCaseType(getRandomDictValue(AJLX.getDictId()));
             majorcaseInfo.setCaseInfo(RandomStringUtils.random(20, 0x4e00, 0x9fa5, false,false));
             majorcaseInfo.setCreator(i.getId());
             majorcaseInfo.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
