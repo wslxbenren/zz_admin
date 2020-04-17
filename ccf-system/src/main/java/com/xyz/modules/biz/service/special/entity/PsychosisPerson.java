@@ -31,11 +31,11 @@ public class PsychosisPerson implements Serializable {
     private String psychosisId;
 
     // 姓名
-    @Column(name = "person_name",nullable = false)
+    @Column(name = "person_name")
     private String personName;
 
     // 曾用名
-    @Column(name = "used_name",nullable = false)
+    @Column(name = "used_name")
     private String usedName;
 
     // 性别
@@ -48,11 +48,11 @@ public class PsychosisPerson implements Serializable {
     private Timestamp dateBirth;
 
     // 民族
-    @Column(name = "nation",nullable = false)
+    @Column(name = "nation")
     private String nation;
 
     // 身份证号
-    @Column(name = "identity_num",unique = true,nullable = false)
+    @Column(name = "identity_num",unique = true)
     private String identityNum;
 
     // 籍贯
@@ -112,7 +112,7 @@ public class PsychosisPerson implements Serializable {
     private String sourceIncome;
 
     // 是否纳入低保
-    @Column(name = "is_basicliving",nullable = false)
+    @Column(name = "is_basicliving")
     private String isBasicliving;
 
     // 监护人身份证号
@@ -120,11 +120,11 @@ public class PsychosisPerson implements Serializable {
     private String guarderIdentity;
 
     // 监护人姓名
-    @Column(name = "guarder_name",nullable = false)
+    @Column(name = "guarder_name")
     private String guarderName;
 
     // 监护人联系方式
-    @Column(name = "guarder_address",nullable = false)
+    @Column(name = "guarder_address")
     private String guarderAddress;
 
     // 初次发病日期
@@ -133,11 +133,11 @@ public class PsychosisPerson implements Serializable {
     private Timestamp attackDate;
 
     // 诊断类型
-    @Column(name = "diagnose_type",nullable = false)
+    @Column(name = "diagnose_type")
     private String diagnoseType;
 
     // 有无肇祸史
-    @Column(name = "is_trouble",nullable = false)
+    @Column(name = "is_trouble")
     private String isTrouble;
 
     // 肇祸次数
@@ -149,11 +149,11 @@ public class PsychosisPerson implements Serializable {
     private String lastTrouble;
 
     // 危险性评估等级
-    @Column(name = "risk_level",nullable = false)
+    @Column(name = "risk_level")
     private String riskLevel;
 
     // 治疗情况
-    @Column(name = "treat_flag",nullable = false)
+    @Column(name = "treat_flag")
     private String treatFlag;
 
     // 治疗医院名称
@@ -177,12 +177,12 @@ public class PsychosisPerson implements Serializable {
     private String helpeFlag;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 
@@ -210,7 +210,7 @@ public class PsychosisPerson implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false,updatable = false)
+    @Column(name = "create_time",updatable = false)
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore

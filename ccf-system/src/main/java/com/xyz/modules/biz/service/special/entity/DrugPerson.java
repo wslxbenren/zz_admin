@@ -30,11 +30,11 @@ public class DrugPerson implements Serializable {
     private String drugId;
 
     // 姓名
-    @Column(name = "person_name",nullable = false)
+    @Column(name = "person_name")
     private String personName;
 
     // 曾用名
-    @Column(name = "used_name",nullable = false)
+    @Column(name = "used_name")
     private String usedName;
 
     // 性别
@@ -47,11 +47,11 @@ public class DrugPerson implements Serializable {
     private Timestamp dateBirth;
 
     // 民族
-    @Column(name = "nation",nullable = false)
+    @Column(name = "nation")
     private String nation;
 
     // 身份证号
-    @Column(name = "identity_num",unique = true,nullable = false)
+    @Column(name = "identity_num",unique = true)
     private String identityNum;
 
     // 籍贯
@@ -107,20 +107,20 @@ public class DrugPerson implements Serializable {
     private String residenceAddress;
 
     // 初次发现日期
-    @Column(name = "find_date",nullable = false)
+    @Column(name = "find_date")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Timestamp findDate;
 
     // 管控情况
-    @Column(name = "manage_type",nullable = false)
+    @Column(name = "manage_type")
     private String manageType;
 
     // 管控人姓名
-    @Column(name = "manager_name",nullable = false)
+    @Column(name = "manager_name")
     private String managerName;
 
     // 管控人联系方式
-    @Column(name = "manager_address",nullable = false)
+    @Column(name = "manager_address")
     private String managerAddress;
 
     // 帮扶情况
@@ -128,11 +128,11 @@ public class DrugPerson implements Serializable {
     private String helpeComment;
 
     // 帮扶人姓名
-    @Column(name = "helper_name",nullable = false)
+    @Column(name = "helper_name")
     private String helperName;
 
     // 帮扶人联系方式
-    @Column(name = "helper_address",nullable = false)
+    @Column(name = "helper_address")
     private String helperAddress;
 
     // 是否有犯罪史
@@ -152,12 +152,12 @@ public class DrugPerson implements Serializable {
     private String drugResult;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date", insertable = false)
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date", insertable = false)
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp expDate;
 
@@ -185,7 +185,7 @@ public class DrugPerson implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false,updatable = false)
+    @Column(name = "create_time",updatable = false)
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore

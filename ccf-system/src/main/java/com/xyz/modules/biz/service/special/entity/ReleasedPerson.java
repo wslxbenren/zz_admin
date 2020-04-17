@@ -30,11 +30,11 @@ public class ReleasedPerson implements Serializable {
     private String releasedId;
 
     // 姓名
-    @Column(name = "person_name",nullable = false)
+    @Column(name = "person_name")
     private String personName;
 
     // 曾用名
-    @Column(name = "used_name",nullable = false)
+    @Column(name = "used_name")
     private String usedName;
 
     // 性别
@@ -47,11 +47,11 @@ public class ReleasedPerson implements Serializable {
     private Timestamp dateBirth;
 
     // 民族
-    @Column(name = "nation",nullable = false)
+    @Column(name = "nation")
     private String nation;
 
     // 身份证号
-    @Column(name = "identity_num",unique = true,nullable = false)
+    @Column(name = "identity_num",unique = true)
     private String identityNum;
 
     // 籍贯
@@ -107,46 +107,46 @@ public class ReleasedPerson implements Serializable {
     private String residenceAddress;
 
     // 是否有犯罪史
-    @Column(name = "is_pedigree",nullable = false)
+    @Column(name = "is_pedigree")
     private String isPedigree;
 
     // 原罪名
-    @Column(name = "charge_comments",nullable = false)
+    @Column(name = "charge_comments")
     private String chargeComments;
 
     // 原判刑期
-    @Column(name = "prison_term",nullable = false)
+    @Column(name = "prison_term")
     private String prisonTerm;
 
     // 服刑场所
-    @Column(name = "detain_union",nullable = false)
+    @Column(name = "detain_union")
     private String detainUnion;
 
     // 释放结束日期
-    @Column(name = "prison_enddate",nullable = false)
+    @Column(name = "prison_enddate")
     @DateTimeFormat(pattern = "yyyy-MM-dd" )
     private Timestamp prisonEnddate;
 
     // 危险性评估类型
-    @Column(name = "risk_type",nullable = false)
+    @Column(name = "risk_type")
     private String riskType;
 
     // 衔接日期
-    @Column(name = "join_date",nullable = false)
+    @Column(name = "join_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd" )
     private Timestamp joinDate;
 
     // 衔接情况
-    @Column(name = "join_flag",nullable = false)
+    @Column(name = "join_flag")
     private String joinFlag;
 
     // 安置日期
-    @Column(name = "arrange_date",nullable = false)
+    @Column(name = "arrange_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd" )
     private Timestamp arrangeDate;
 
     // 安置情况
-    @Column(name = "arrange_flag",nullable = false)
+    @Column(name = "arrange_flag")
     private String arrangeFlag;
 
     // 未安置原因
@@ -158,7 +158,7 @@ public class ReleasedPerson implements Serializable {
     private String helpeComment;
 
     // 是否重新犯罪
-    @Column(name = "is_again",nullable = false)
+    @Column(name = "is_again")
     private String isAgain;
 
     // 重新犯罪罪名
@@ -166,12 +166,12 @@ public class ReleasedPerson implements Serializable {
     private String againCharge;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 
@@ -199,7 +199,7 @@ public class ReleasedPerson implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false,updatable = false)
+    @Column(name = "create_time",updatable = false)
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore

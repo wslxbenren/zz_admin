@@ -130,15 +130,13 @@ public class Registpeople implements Serializable {
     private String househeadMobile;
 
     // 生效时间
-    @Column(name = "eff_date",insertable = false)
+    @Column(name = "eff_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
-    @JsonIgnore
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",insertable = false)
+    @Column(name = "exp_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
-    @JsonIgnore
     private Timestamp expDate;
 
     // 同步状态
@@ -165,7 +163,7 @@ public class Registpeople implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false,updatable = false)
+    @Column(name = "create_time",updatable = false)
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore

@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 import java.io.Serializable;
 
 /**
-* @author lx
+* @author dadovicn
 * @date 2020-04-08
 */
 @Entity
@@ -57,7 +57,7 @@ public class Rentalhouse implements Serializable {
     private String cardType;
 
     // 证件号码
-    @Column(name = "card_no",unique = true,nullable = false)
+    @Column(name = "card_no",unique = true)
     private String cardNo;
 
     // 房主姓名
@@ -97,15 +97,13 @@ public class Rentalhouse implements Serializable {
     private Double lat;
 
     // 生效时间
-    @Column(name = "eff_date",insertable = false)
+    @Column(name = "eff_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
-    @JsonIgnore
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",insertable = false)
+    @Column(name = "exp_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
-    @JsonIgnore
     private Timestamp expDate;
 
     // 同步状态
@@ -132,7 +130,7 @@ public class Rentalhouse implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false,updatable = false)
+    @Column(name = "create_time",updatable = false)
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore

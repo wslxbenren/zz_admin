@@ -34,7 +34,7 @@ public class CorrectPerson implements Serializable {
     private String personName;
 
     // 曾用名
-    @Column(name = "used_name",nullable = false)
+    @Column(name = "used_name")
     private String usedName;
 
     // 性别
@@ -47,11 +47,11 @@ public class CorrectPerson implements Serializable {
     private Timestamp dateBirth;
 
     // 民族
-    @Column(name = "nation",nullable = false)
+    @Column(name = "nation")
     private String nation;
 
     // 身份证号
-    @Column(name = "identity_num",unique = true,nullable = false)
+    @Column(name = "identity_num",unique = true)
     private String identityNum;
 
     // 籍贯
@@ -107,7 +107,7 @@ public class CorrectPerson implements Serializable {
     private String residenceAddress;
 
     // 社区矫正人员编号
-    @Column(name = "correct_code",nullable = false)
+    @Column(name = "correct_code")
     private String correctCode;
 
     // 原羁押场所
@@ -115,15 +115,15 @@ public class CorrectPerson implements Serializable {
     private String detainUnion;
 
     // 矫正类别
-    @Column(name = "correct_type",nullable = false)
+    @Column(name = "correct_type")
     private String correctType;
 
     // 案件类别
-    @Column(name = "case_type",nullable = false)
+    @Column(name = "case_type")
     private String caseType;
 
     // 具体罪名
-    @Column(name = "charge_comments",nullable = false)
+    @Column(name = "charge_comments")
     private String chargeComments;
 
     // 原判刑期
@@ -141,12 +141,12 @@ public class CorrectPerson implements Serializable {
     private Timestamp prisonEnddate;
 
     // 矫正开始日期
-    @Column(name = "correct_beagindate",nullable = false)
+    @Column(name = "correct_beagindate")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp correctBeagindate;
 
     // 矫正结束日期
-    @Column(name = "correct_enddate",nullable = false)
+    @Column(name = "correct_enddate")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp correctEnddate;
 

@@ -1,8 +1,13 @@
 package com.xyz.modules.system.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,6 +26,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name="user")
+
 public class User implements Serializable {
 
     @Id
@@ -46,8 +52,10 @@ public class User implements Serializable {
 
     private String password;
 
+    // 创建时间
+    @Column(name = "create_time",nullable = false,updatable = false)
+    @JsonIgnore
     @CreationTimestamp
-    @Column(name = "create_time")
     private Timestamp createTime;
 
     @Column(name = "last_password_reset_time")
@@ -69,7 +77,9 @@ public class User implements Serializable {
     @Column(name = "IDENTIFIER")
     private String identifier;
 
+    // 性别:编码应符合GB/T2261.1
     @Column(name = "SEX")
+    @Dict(DictEnum.XING_BIE)
     private String sex;
 
 
@@ -135,9 +145,11 @@ public class User implements Serializable {
     private String depId;
 /////////////////////////////////////////////////////////////////////////////综治新增
     @Column(name = "national")
+    @Dict(DictEnum.MIN_ZU)
     private String national;
 
     @Column(name = "political_status")
+    @Dict(DictEnum.ZZMM)
     private String politicalStatus;
 
     @Column(name = "birth")
@@ -146,10 +158,14 @@ public class User implements Serializable {
     @Column(name = "specialty")
     private String specialty;
 
+
     @Column(name = "education_bg")
+    @Dict(DictEnum.XUE_LI)
     private String  educationBg;
 
+
     @Column(name = "card_code")
+    @Dict(DictEnum.ZJDM)
     private String cardCode;
 
     @Column(name = "card_number")
@@ -161,6 +177,10 @@ public class User implements Serializable {
     @Column(name = "modifier")
     private String modifier;
 
+
+    // 修改时间
+    @UpdateTimestamp
+    @JsonIgnore
     @Column(name = "update_time")
     private Date updateTime;
 

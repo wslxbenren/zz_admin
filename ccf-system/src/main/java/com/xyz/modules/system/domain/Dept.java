@@ -1,6 +1,8 @@
 package com.xyz.modules.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xyz.modules.system.util.DictEnum;
+import com.xyz.modules.system.util.annotation.Dict;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
@@ -103,8 +105,10 @@ public class Dept implements Serializable {
     private String creator;
     @Column(name = "modifier")
     private String modifier;
+    @Dict(DictEnum.JGLX)
     @Column(name = "insti_type")
     private String instiType;
+    @Dict(DictEnum.ZZLX)
     @Column(name = "organ_type")
     private String organType;
     @Column(name = "guide_unit")

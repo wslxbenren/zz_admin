@@ -47,20 +47,35 @@ public class UserDTO implements Serializable {
 
     private String deptId;
 
+    // 性别:编码应符合GB/T2261.1
+    private String sex;
 
+    // 性别:翻译后值
+    private String sexStr;
     /////////////////////////////////////////////////////////////////////////////综治新增
 
+    // 民族:编码应符合GB/T3304
     private String national;
+    // 民族:翻译后值
+    private String nationalStr;
 
+    // 政治面貌:编码应符合GB/T4762
     private String politicalStatus;
+    // 政治面貌:翻译后值
+    private String politicalStatusStr;
 
     private Date birth;
 
     private String specialty;
 
-    private String  educationBg;
+    // 学历:编码应符合GB/T4658
+    private String educationBg;
+    // 学历:翻译后值
+    private String educationBgStr;
 
+    //證件代碼
     private String cardCode;
+    private String cardCodeStr;
 
     private String cardNumber;
 
