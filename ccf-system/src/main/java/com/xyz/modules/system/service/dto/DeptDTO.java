@@ -51,8 +51,15 @@ public class DeptDTO implements Serializable {
     private String creditCode;
     private String creator;
     private String modifier;
+
+    //字典翻譯
     private String instiType;
+    private String instiTypeStr;
+    //字典翻譯
     private String organType;
+    private String organTypeStr;
+
+
     private String guideUnit;
     private String function;
 
