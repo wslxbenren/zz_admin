@@ -53,7 +53,7 @@ public class Rentalhouse implements Serializable {
     private String cardType;
 
     // 证件号码
-    @Column(name = "card_no",unique = true,nullable = false)
+    @Column(name = "card_no",unique = true)
     private String cardNo;
 
     // 房主姓名
@@ -93,12 +93,12 @@ public class Rentalhouse implements Serializable {
     private Double lat;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 
@@ -126,7 +126,7 @@ public class Rentalhouse implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false,updatable = false)
+    @Column(name = "create_time",updatable = false)
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore

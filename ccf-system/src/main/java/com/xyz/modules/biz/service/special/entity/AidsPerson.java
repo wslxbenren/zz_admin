@@ -30,11 +30,11 @@ public class AidsPerson implements Serializable {
     private String aidsId;
 
     // 姓名
-    @Column(name = "person_name",nullable = false)
+    @Column(name = "person_name")
     private String personName;
 
     // 曾用名
-    @Column(name = "used_name",nullable = false)
+    @Column(name = "used_name")
     private String usedName;
 
     // 性别
@@ -47,11 +47,11 @@ public class AidsPerson implements Serializable {
     private Timestamp dateBirth;
 
     // 民族
-    @Column(name = "nation",nullable = false)
+    @Column(name = "nation")
     private String nation;
 
     // 身份证号
-    @Column(name = "identity_num",unique = true,nullable = false)
+    @Column(name = "identity_num",unique = true)
     private String identityNum;
 
     // 籍贯
@@ -135,12 +135,12 @@ public class AidsPerson implements Serializable {
     private String detainUnion;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 

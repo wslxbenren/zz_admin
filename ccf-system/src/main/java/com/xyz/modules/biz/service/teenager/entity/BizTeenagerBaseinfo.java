@@ -191,7 +191,7 @@ public class BizTeenagerBaseinfo implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false,updatable=false)
+    @Column(name = "create_time", updatable=false)
     @CreationTimestamp
     @JsonIgnore
     private Timestamp createTime;

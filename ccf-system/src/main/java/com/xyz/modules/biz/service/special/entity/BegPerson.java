@@ -25,11 +25,11 @@ public class BegPerson implements Serializable {
     private String begId;
 
     // 姓名
-    @Column(name = "person_name",nullable = false)
+    @Column(name = "person_name")
     private String personName;
 
     // 曾用名
-    @Column(name = "used_name",nullable = false)
+    @Column(name = "used_name")
     private String usedName;
 
     // 性别
@@ -42,11 +42,11 @@ public class BegPerson implements Serializable {
     private Timestamp dateBirth;
 
     // 民族
-    @Column(name = "nation",nullable = false)
+    @Column(name = "nation")
     private String nation;
 
     // 身份证号
-    @Column(name = "identity_num",unique = true,nullable = false)
+    @Column(name = "identity_num",unique = true)
     private String identityNum;
 
     // 籍贯
@@ -102,31 +102,31 @@ public class BegPerson implements Serializable {
     private String residenceAddress;
 
     // 所属类别
-    @Column(name = "belong_type",nullable = false)
+    @Column(name = "belong_type")
     private String belongType;
 
     // 是否属于留守儿童
-    @Column(name = "leftover_child",nullable = false)
+    @Column(name = "leftover_child")
     private String leftoverChild;
 
     // 学习状况
-    @Column(name = "study_comment",nullable = false)
+    @Column(name = "study_comment")
     private String studyComment;
 
     // 未入学原因
-    @Column(name = "unstudy_reason",nullable = false)
+    @Column(name = "unstudy_reason")
     private String unstudyReason;
 
     // 是否享受低保补助
-    @Column(name = "is_ensure",nullable = false)
+    @Column(name = "is_ensure")
     private String isEnsure;
 
     // 辍学原因
-    @Column(name = "stopstudy_reason",nullable = false)
+    @Column(name = "stopstudy_reason")
     private String stopstudyReason;
 
     // 辍学其他原因
-    @Column(name = "stopstudy_other",nullable = false)
+    @Column(name = "stopstudy_other")
     private String stopstudyOther;
 
     // 是否有犯罪史
@@ -134,39 +134,39 @@ public class BegPerson implements Serializable {
     private String isPedigree;
 
     // 就业情况
-    @Column(name = "work_comment",nullable = false)
+    @Column(name = "work_comment")
     private String workComment;
 
     // 就业其他情况
-    @Column(name = "work_other",nullable = false)
+    @Column(name = "work_other")
     private String workOther;
 
     // 是否有不良行为
-    @Column(name = "bad_behaviour",nullable = false)
+    @Column(name = "bad_behaviour")
     private String badBehaviour;
 
     // 不良行为其他情况
-    @Column(name = "behaviour_other",nullable = false)
+    @Column(name = "behaviour_other")
     private String behaviourOther;
 
     // 未就业原因
-    @Column(name = "unwork_reason",nullable = false)
+    @Column(name = "unwork_reason")
     private String unworkReason;
 
     // 未就业其他原因
-    @Column(name = "unwork_other",nullable = false)
+    @Column(name = "unwork_other")
     private String unworkOther;
 
     // 监护情况
-    @Column(name = "guard_flag",nullable = false)
+    @Column(name = "guard_flag")
     private String guardFlag;
 
     // 监护情况原因
-    @Column(name = "guard_reason",nullable = false)
+    @Column(name = "guard_reason")
     private String guardReason;
 
     // 其他需要说明问题
-    @Column(name = "other_comments",nullable = false)
+    @Column(name = "other_comments")
     private String otherComments;
 
     // 家庭主要经济来源
@@ -178,12 +178,12 @@ public class BegPerson implements Serializable {
     private String sourceOther;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date", insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 
@@ -210,7 +210,7 @@ public class BegPerson implements Serializable {
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time",nullable = false,updatable=false)
+    @Column(name = "create_time",updatable=false)
     @JsonIgnore
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp createTime;
