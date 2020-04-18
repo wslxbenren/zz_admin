@@ -22,7 +22,7 @@ public class PsychosisPersonQueryCriteria{
 
     @Query(type = Query.Type.BETWEEN)
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
-    private List<String> updateTime;
+    private List<String> operDate;
 
     // 原型查询条件
     @Query(type = Query.Type.INNER_LIKE)
