@@ -70,6 +70,8 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(dd);
+            mid.setStatusStr(DictEnum.transSync(mid.getStatus()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
         }
         Map map = new HashMap();
         map.put("content", majorcaseInfoList);
@@ -116,8 +118,6 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
             MajorcaseInfo MajorcaseInfo = optionalMajorcaseInfo.get();
             MajorcaseInfo.copy(resources);
             MajorcaseInfoRepository.save(MajorcaseInfo);
-
-
     }
 
     @Override

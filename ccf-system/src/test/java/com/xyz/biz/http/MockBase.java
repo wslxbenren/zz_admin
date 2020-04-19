@@ -388,7 +388,7 @@ public class MockBase {
         Date date = new Date(rtn);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
         String birth = simpleDateFormat.format(date);
-        return getIdNo(birth,male);
+        return getIdNo(birth,male).substring(0, 18);
     }
     public String getIdNo(String birth,boolean male){
         StringBuilder sb = new StringBuilder();
@@ -407,7 +407,7 @@ public class MockBase {
             sb.append(value);
         }else if(value >= 10){
             sb.append('0').append(value);
-        }else{
+        }else{ //5203221998052510008
             sb.append("00").append(value);
         }
         sb.append(calcTrailingNumber(sb));

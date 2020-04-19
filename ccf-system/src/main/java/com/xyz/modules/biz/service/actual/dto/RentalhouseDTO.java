@@ -81,9 +81,11 @@ public class RentalhouseDTO implements Serializable {
     private Timestamp expDate;
 
     // 同步状态
+    private String statusStr;
     private String status;
 
     // 数据状态 10是保存待提交 12是生效状态 22是失效
+    private String statusCdStr;
     private String statusCd;
 
     // 操作人名称

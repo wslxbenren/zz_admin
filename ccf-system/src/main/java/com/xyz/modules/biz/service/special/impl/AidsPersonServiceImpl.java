@@ -87,6 +87,8 @@ public class AidsPersonServiceImpl implements AidsPersonService {
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
+            mid.setStatusStr(DictEnum.transSync(mid.getStatus()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
         }
         Map map = new HashMap();
         map.put("content", aidsPersonDTOS);

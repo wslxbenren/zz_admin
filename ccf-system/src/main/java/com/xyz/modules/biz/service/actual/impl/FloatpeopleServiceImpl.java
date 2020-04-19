@@ -91,6 +91,8 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
 
             f.setCreator(userRepository.findById(f.getCreator()).orElse(new User()).getUsername());
             f.setOperName(userRepository.findById(f.getOperName()).orElse(new User()).getUsername());
+            f.setStatusStr(DictEnum.transSync(f.getStatus()));
+            f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd()));
             f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
         }
         Map map = new HashMap();

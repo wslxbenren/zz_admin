@@ -75,6 +75,8 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
             b.setAddrStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), b.getAddr()));
             b.setCreator(userRepository.findById(b.getCreator()).orElse(new User()).getUsername());
             b.setModifier(userRepository.findById(b.getModifier()).orElse(new User()).getUsername());
+            b.setStatusStr(DictEnum.transSync(b.getStatus()));
+            b.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), b.getStatusCd()));
         }
         Map map = new HashMap();
         map.put("content", buildheadInfoDTOS);

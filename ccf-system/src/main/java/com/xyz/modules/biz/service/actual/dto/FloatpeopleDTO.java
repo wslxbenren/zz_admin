@@ -131,6 +131,7 @@ public class FloatpeopleDTO implements Serializable {
 
     // 同步状态
     private String status;
+    private String statusStr;
 
     // 数据状态 10是保存待提交 12是生效状态 22是失效
     private String statusCd;

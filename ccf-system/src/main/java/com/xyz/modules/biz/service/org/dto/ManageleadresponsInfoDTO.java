@@ -63,4 +63,10 @@ public class ManageleadresponsInfoDTO implements Serializable {
 
     // 所属单位  字典翻译
     private String unitCodeStr;
+
+    private String status;
+    private String statusStr;
+
+    private String statusCd;
+    private String statusCdStr;
 }

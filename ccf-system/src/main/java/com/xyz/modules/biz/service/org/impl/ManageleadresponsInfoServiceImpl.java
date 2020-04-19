@@ -72,6 +72,8 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
             mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
             dd = deptRepository.findNameByCode(mid.getUnitCode());
             mid.setUnitCodeStr(dd);
+            mid.setStatusStr(DictEnum.transSync(mid.getStatus()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
         }
         Map map = new HashMap();
         map.put("content", manageleadresponsInfoList);
@@ -120,9 +122,6 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
             ManageleadresponsInfo ManageleadresponsInfo = optionalManageleadresponsInfo.get();
             ManageleadresponsInfo.copy(resources);
             ManageleadresponsInfoRepository.save(ManageleadresponsInfo);
-
-
-
     }
 
     @Override
@@ -133,7 +132,5 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
             throw new BadRequestException("主键ID不能为空");
         }
         ManageleadresponsInfoRepository.deleteById(id);
-
-
     }
 }

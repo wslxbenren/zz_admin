@@ -76,6 +76,8 @@ public class RentalhouseServiceImpl implements RentalhouseService {
             r.setCardTypeStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), r.getCardType()) );
             r.setCreator(userRepository.findById(r.getCreator()).orElse(new User()).getUsername());
             r.setOperName(userRepository.findById(r.getOperName()).orElse(new User()).getUsername());
+            r.setStatusStr(DictEnum.transSync(r.getStatus()));
+            r.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), r.getStatusCd()));
             r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
         }
         Map map = new HashMap();

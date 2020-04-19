@@ -43,6 +43,15 @@ public class MockActual extends MockBase {
     @Resource
     private RentalhouseRepository rentalhouseRepository;
 
+    @Test
+    public void mock() {
+//        testFloatpeople();
+//        testForeigners();
+        testLeftbehind();
+        testRegistpeople();
+        testRentalhouse();
+    }
+
     /**
      * 流动人口
      */
@@ -51,7 +60,7 @@ public class MockActual extends MockBase {
         Floatpeople floatpeople = new Floatpeople();
         userList.forEach(i -> {
             floatpeople.setFloatId(UUID.randomUUID().toString());
-            floatpeople.setIdentityNum(getIdNo(RandomUtils.nextBoolean()));
+            floatpeople.setIdentityNum(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
             floatpeople.setPersonName(mockNameCn(3));
             floatpeople.setUsedName(mockNameCn(3));
             floatpeople.setPersonSex(getRandomDictValue(XING_BIE.getDictId()));
@@ -70,7 +79,7 @@ public class MockActual extends MockBase {
             floatpeople.setRegisteredAddr(getRandomAddrDetail());
             floatpeople.setResidence(getRandomDictValue(XING_BIE.getDictId()));
             floatpeople.setResidenceAddr(getRandomAddrDetail());
-            floatpeople.setIntoCause(RandomStringUtils.random(30, 0x4e00, 0x9fa5, false,false) + "原由");
+            floatpeople.setIntoCause(getRandomDictValue(LRYY.getDictId()));
             floatpeople.setCardType(getRandomDictValue(BZLX.getDictId()));
             floatpeople.setCardNo(getIdNo(RandomUtils.nextBoolean()));
             floatpeople.setRegisDate(Timestamp.valueOf(LocalDateTime.now()));
@@ -81,7 +90,7 @@ public class MockActual extends MockBase {
             floatpeople.setExpDate(Timestamp.valueOf(LocalDateTime.now()));
             floatpeople.setStatus("1");
             floatpeople.setStatusCd(getRandomDictValue(XING_BIE.getDictId()));
-            floatpeople.setOperName(i.getId());
+            floatpeople.setOperName(mockNameEn(2));
             floatpeople.setOperDate(getTime());
             floatpeople.setCreator(i.getId());
             floatpeople.setCreateTime(getTime());
@@ -108,10 +117,10 @@ public class MockActual extends MockBase {
             foreigners.setCountry(getRandomDictValue(GJ_DQ.getDictId()));
             foreigners.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             foreigners.setCardType(getRandomDictValue(BZLX.getDictId()));
-            foreigners.setCardNo(getIdNo(RandomUtils.nextBoolean()));
+            foreigners.setCardNo(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
             foreigners.setValidDate(getTime());
             foreigners.setContact(mockPhone());
-            foreigners.setGoalIn(RandomStringUtils.random(30, 0x4e00, 0x9fa5, false,false) + "原由");
+            foreigners.setGoalIn(getRandomDictValue(LHMD.getDictId()));
             foreigners.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             foreigners.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "职业");
             foreigners.setServiceAddr(getRandomAddrDetail());
@@ -124,7 +133,7 @@ public class MockActual extends MockBase {
             foreigners.setExpDate(getTime());
             foreigners.setStatus("1");
             foreigners.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            foreigners.setOperName(i.getId());
+            foreigners.setOperName(mockNameEn(2));
             foreigners.setOperDate(getTime());
             foreigners.setCreator(i.getId());
             foreigners.setCreateTime(getTime());
@@ -137,12 +146,11 @@ public class MockActual extends MockBase {
     /**
      * 留守人员
      */
-    @Test
     public void testLeftbehind() {
         Leftbehind leftbehind = new Leftbehind();
         userList.forEach(i -> {
             leftbehind.setLeftId(UUID.randomUUID().toString());
-            leftbehind.setIdentityNum(getIdNo(RandomUtils.nextBoolean()));
+            leftbehind.setIdentityNum(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
             leftbehind.setPersonName(mockNameCn(3));
             leftbehind.setUsedName(mockNameCn(3));
             leftbehind.setPersonSex(getRandomDictValue(XING_BIE.getDictId()));
@@ -165,20 +173,20 @@ public class MockActual extends MockBase {
             leftbehind.setAnnualPerincome(String.valueOf(RandomUtils.nextInt(1000, 100000)));
             leftbehind.setHouseholdId(getRandomDictValue(RHYZBS.getDictId()));
 //            leftbehind.setLeftbehindType();
-            leftbehind.setMainmemIdno(getIdNo(RandomUtils.nextBoolean()));
+            leftbehind.setMainmemIdno(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
             leftbehind.setMainmemName(mockNameCn(3));
-            leftbehind.setMainmemHealth("健康");
+            leftbehind.setMainmemHealth(getRandomDictValue(JKZK.getDictId()));
             leftbehind.setMainmemRela(getRandomDictValue(YHZGX.getDictId()));
             leftbehind.setMainmemMobile(mockPhone());
             leftbehind.setMainmemAddr(getRandomAddrDetail());
             leftbehind.setAnnualIncome(String.valueOf(RandomUtils.nextInt(1000, 100000)));
             leftbehind.setDemand(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "困难");
-            leftbehind.setHelpeComment(RandomStringUtils.random(11, 0x4e00, 0x9fa5, false,false));
+            leftbehind.setHelpeComment(getRandomDictValue(BFQK.getDictId()));
             leftbehind.setEffDate(getTime());
             leftbehind.setExpDate(getTime());
             leftbehind.setStatus("1");
             leftbehind.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            leftbehind.setOperName(i.getId());
+            leftbehind.setOperName(mockNameEn(2));
             leftbehind.setOperDate(getTime());
             leftbehind.setCreator(i.getId());
             leftbehind.setCreateTime(getTime());
@@ -194,12 +202,11 @@ public class MockActual extends MockBase {
     /**
      * 户籍人口
      */
-    @Test
     public void testRegistpeople() {
         Registpeople registpeople = new Registpeople();
         userList.forEach(i -> {
             registpeople.setRegisId(UUID.randomUUID().toString());
-            registpeople.setIdentityNum(getIdNo(RandomUtils.nextBoolean()));
+            registpeople.setIdentityNum(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
             registpeople.setPersonName(mockNameCn(3));
             registpeople.setUsedName(mockNameCn(3));
             registpeople.setPersonSex(getRandomDictValue(XING_BIE.getDictId()));
@@ -220,7 +227,7 @@ public class MockActual extends MockBase {
             registpeople.setResidenceAddr(getRandomAddrDetail());
             registpeople.setHouseholdId(getRandomDictValue(RHYZBS.getDictId()));;
             registpeople.setDoorNo(getRandomCode(4));
-            registpeople.setHouseheadIdno(getIdNo(RandomUtils.nextBoolean()));
+            registpeople.setHouseheadIdno(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
             registpeople.setHouseheadName(mockNameCn(3));
             registpeople.setHouseheadRela(getRandomDictValue(YHZGX.getDictId()));
             registpeople.setHouseheadMobile(mockPhone());
@@ -228,7 +235,7 @@ public class MockActual extends MockBase {
             registpeople.setExpDate(getTime());
             registpeople.setStatus("1");
             registpeople.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            registpeople.setOperName(i.getId());
+            registpeople.setOperName(mockNameEn(2));
             registpeople.setOperDate(getTime());
             registpeople.setCreator(i.getId());
             registpeople.setCreateTime(getTime());
@@ -242,7 +249,6 @@ public class MockActual extends MockBase {
     /**
      * 出租
      */
-    @Test
     public void testRentalhouse() {
         Rentalhouse rentalhouse = new Rentalhouse();
         userList.forEach(i -> {
@@ -253,12 +259,12 @@ public class MockActual extends MockBase {
             rentalhouse.setConstrPurpose(getRandomDictValue(JZYT.getDictId()));
             rentalhouse.setConstrArea(RandomUtils.nextDouble(20, 2000));
             rentalhouse.setCardType(getRandomDictValue(ZJDM.getDictId()));
-            rentalhouse.setCardNo(getIdNo(RandomUtils.nextBoolean()));
+            rentalhouse.setCardNo(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
             rentalhouse.setHomeownerName(mockNameCn(3));
             rentalhouse.setHomeownerMobile(mockPhone());
             rentalhouse.setHomeownerAddr(getRandomAddrDetail());
             rentalhouse.setHazardType(getRandomDictValue(YHLX.getDictId()));
-            rentalhouse.setLesseeIdno(getIdNo(RandomUtils.nextBoolean()));
+            rentalhouse.setLesseeIdno(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
             rentalhouse.setLesseeName(mockNameCn(3));
             rentalhouse.setLesseeMobile(mockPhone());
             rentalhouse.setLng(RandomUtils.nextDouble(20, 2000));
@@ -267,7 +273,7 @@ public class MockActual extends MockBase {
             rentalhouse.setExpDate(getTime());
             rentalhouse.setStatus("1");
             rentalhouse.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            rentalhouse.setOperName(i.getId());
+            rentalhouse.setOperName(mockNameEn(2));
             rentalhouse.setOperDate(getTime());
             rentalhouse.setCreator(i.getId());
             rentalhouse.setCreateTime(getTime());

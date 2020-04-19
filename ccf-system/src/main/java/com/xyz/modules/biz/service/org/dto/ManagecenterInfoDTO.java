@@ -76,4 +76,10 @@ public class ManagecenterInfoDTO implements Serializable {
 
     // 所在地:字典翻译后值
     private String addrStr;
+
+    private String status;
+    private String statusStr;
+
+    private String statusCd;
+    private String statusCdStr;
 }

@@ -107,6 +107,14 @@ public class ManagecenterInfo implements Serializable {
     @Column(name = "unit_code")
     private String unitCode;
 
+    // 同步状态
+    @Column(name = "status")
+    private String status;
+
+    // 数据状态 10是保存待提交 12是生效状态 22是失效
+    @Column(name = "status_cd")
+    private String statusCd;
+
     public void copy(ManagecenterInfo source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }

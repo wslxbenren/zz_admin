@@ -79,6 +79,8 @@ public class LeftbehindServiceImpl implements LeftbehindService {
             mid.setLeftbehindTypeStr(dictDetailService.transDict(DictEnum.LSRYLX.getDistName(), mid.getLeftbehindType())); //  留守人员类型
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
+            mid.setStatusStr(DictEnum.transSync(mid.getStatus()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
         }
         Map map = new HashMap();

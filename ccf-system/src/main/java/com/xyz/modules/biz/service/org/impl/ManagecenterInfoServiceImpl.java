@@ -52,7 +52,6 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Autowired
     private DictDetailService dictDetailService;
 
-
     @Autowired
     private AuditSpecification auditSpecification;
 
@@ -78,6 +77,8 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
             mid.setCreator(userRepository.findById(mid.getId()).orElse(new User()).getUsername());
             mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(dd);
+            mid.setStatusStr(DictEnum.transSync(mid.getStatus()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
         }
         Map map = new HashMap();
         map.put("content", midList);
