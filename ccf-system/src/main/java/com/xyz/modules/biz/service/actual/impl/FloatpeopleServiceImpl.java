@@ -15,6 +15,7 @@ import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
 import lombok.extern.slf4j.Slf4j;
@@ -91,7 +92,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
 
             f.setCreator(userRepository.findById(f.getCreator()).orElse(new User()).getUsername());
             f.setOperName(userRepository.findById(f.getOperName()).orElse(new User()).getUsername());
-            f.setStatusStr(DictEnum.transSync(f.getStatus()));
+            f.setStatusStr(ConstEnum.transSync(f.getStatus()));
             f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd()));
             f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
         }

@@ -14,6 +14,7 @@ import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -75,7 +76,7 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
             b.setAddrStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), b.getAddr()));
             b.setCreator(userRepository.findById(b.getCreator()).orElse(new User()).getUsername());
             b.setModifier(userRepository.findById(b.getModifier()).orElse(new User()).getUsername());
-            b.setStatusStr(DictEnum.transSync(b.getStatus()));
+            b.setStatusStr(ConstEnum.transSync(b.getStatus()));
             b.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), b.getStatusCd()));
         }
         Map map = new HashMap();

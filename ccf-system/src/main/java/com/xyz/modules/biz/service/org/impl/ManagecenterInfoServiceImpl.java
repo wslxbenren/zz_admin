@@ -16,6 +16,7 @@ import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.modules.system.repository.DictRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +78,7 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
             mid.setCreator(userRepository.findById(mid.getId()).orElse(new User()).getUsername());
             mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(dd);
-            mid.setStatusStr(DictEnum.transSync(mid.getStatus()));
+            mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
         }
         Map map = new HashMap();

@@ -15,6 +15,7 @@ import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +77,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
             r.setCardTypeStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), r.getCardType()) );
             r.setCreator(userRepository.findById(r.getCreator()).orElse(new User()).getUsername());
             r.setOperName(userRepository.findById(r.getOperName()).orElse(new User()).getUsername());
-            r.setStatusStr(DictEnum.transSync(r.getStatus()));
+            r.setStatusStr(ConstEnum.transSync(r.getStatus()));
             r.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), r.getStatusCd()));
             r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
         }

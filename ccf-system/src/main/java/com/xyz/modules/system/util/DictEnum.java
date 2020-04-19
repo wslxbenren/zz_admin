@@ -82,11 +82,7 @@ public enum DictEnum {
      LHMD(260, "来华目的"),
      JZYT(261, "建筑用途"),
      CZYT(262, "出租用途"),
-     SJZT(263,"数据状态"),
-
-     // 非库
-     SYNC_ED(0L, "已同步"),
-     UN_SYNC(0L, "未同步");
+     SJZT(263,"数据状态");
 
     private String distName;
     private long dictId;
@@ -102,9 +98,5 @@ public enum DictEnum {
 
     public long getDictId() {
          return this.dictId;
-    }
-
-    public static String transSync(String status) {
-         return status == "0" ? UN_SYNC.distName: SYNC_ED.distName;
     }
 }

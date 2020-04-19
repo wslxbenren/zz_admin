@@ -14,6 +14,7 @@ import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
@@ -80,7 +81,7 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
-            mid.setStatusStr(DictEnum.transSync(mid.getStatus()));
+            mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
         }
         Map map = new HashMap();

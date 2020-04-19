@@ -7,6 +7,7 @@ import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.special.repo.PsychosisPersonRepository;
@@ -82,7 +83,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
-            mid.setStatusStr(DictEnum.transSync(mid.getStatus()));
+            mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
         }
         Map map = new HashMap();

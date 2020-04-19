@@ -7,6 +7,7 @@ import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
 import com.xyz.modules.biz.service.org.repo.MajorcaseInfoRepository;
@@ -70,7 +71,7 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(dd);
-            mid.setStatusStr(DictEnum.transSync(mid.getStatus()));
+            mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
         }
         Map map = new HashMap();
