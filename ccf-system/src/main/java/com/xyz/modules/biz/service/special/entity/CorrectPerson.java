@@ -132,12 +132,12 @@ public class CorrectPerson implements Serializable {
 
     // 原判刑开始日期
     @Column(name = "prison_beagindate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @DateTimeFormat(pattern = "yyyy-MM-dd " )
     private Timestamp prisonBeagindate;
 
     // 原判刑结束日期
     @Column(name = "prison_enddate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @DateTimeFormat(pattern = "yyyy-MM-dd" )
     private Timestamp prisonEnddate;
 
     // 矫正开始日期
@@ -227,12 +227,12 @@ public class CorrectPerson implements Serializable {
     private String againCharge;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date", insertable= false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date",insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 

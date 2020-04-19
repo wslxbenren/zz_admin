@@ -56,5 +56,5 @@ public class CorrectPersonQueryCriteria{
 
     @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "修改人id")
-    private String modifier;
+    private String operName;
 }
