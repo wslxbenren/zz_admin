@@ -132,7 +132,7 @@ public class CorrectPerson implements Serializable {
 
     // 原判刑开始日期
     @Column(name = "prison_beagindate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd " )
+    @DateTimeFormat(pattern = "yyyy-MM-dd" )
     private Timestamp prisonBeagindate;
 
     // 原判刑结束日期
