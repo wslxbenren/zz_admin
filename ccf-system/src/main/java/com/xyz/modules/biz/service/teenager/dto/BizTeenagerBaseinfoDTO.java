@@ -131,6 +131,7 @@ public class BizTeenagerBaseinfoDTO implements Serializable {
 
     // 是否违法犯罪:1是0否
     private Integer ifIllegal;
+    private String ifIllegalStr;
 
     // 违法犯罪情况
     private String illegalSitu;

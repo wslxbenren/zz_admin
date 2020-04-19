@@ -83,6 +83,7 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
+            mid.setIfIllegalStr(ConstEnum.getBoolean(mid.getIfIllegal()));
         }
         Map map = new HashMap();
         map.put("content", bizTeenagerBaseinfoDTOList);

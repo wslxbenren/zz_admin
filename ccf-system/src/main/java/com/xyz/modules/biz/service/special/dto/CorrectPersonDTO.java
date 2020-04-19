@@ -141,12 +141,14 @@ public class CorrectPersonDTO implements Serializable {
 
     // 是否是惯犯
     private String isRecidivist;
+    private String isRecidivistStr;
 
     // 三涉情况--可多选，|号隔开
     private String sansheFlag;
 
     // 是否建立矫正小组
     private String isTeam;
+    private String isTeamStr;
 
     // 矫正小组人员情况--可多选，|号隔开
     private String teamGuys;
@@ -156,6 +158,7 @@ public class CorrectPersonDTO implements Serializable {
 
     // 是否脱管
     private String isBreakmanage;
+    private String isBreakmanageStr;
 
     // 脱管原因说明
     private String breakmanageReason;
@@ -168,6 +171,7 @@ public class CorrectPersonDTO implements Serializable {
 
     // 是否漏管
     private String isOmit;
+    private String isOmitStr;
 
     // 漏管原因
     private String omitReason;
@@ -186,6 +190,7 @@ public class CorrectPersonDTO implements Serializable {
 
     // 是否重新犯罪
     private String isAgain;
+    private String isAgainStr;
 
     // 重新犯罪罪名
     private String againCharge;

@@ -120,6 +120,7 @@ public class FloatpeopleDTO implements Serializable {
 
     // 是否重点关注人员
     private Integer ifImport;
+    private String ifImportStr;
 
     // 生效时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")

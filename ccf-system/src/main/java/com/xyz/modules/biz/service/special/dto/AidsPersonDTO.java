@@ -90,6 +90,7 @@ public class AidsPersonDTO implements Serializable {
 
     // 是否有犯罪史
     private String isPedigree;
+    private String isPedigreeStr;
 
     // 犯罪情况说明
     private String pedigreeComments;

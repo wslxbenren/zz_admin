@@ -81,6 +81,12 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
+
+            mid.setIsRecidivistStr(ConstEnum.getBoolean(mid.getIsRecidivist()));
+            mid.setIsTeamStr(ConstEnum.getBoolean(mid.getIsTeam()));
+            mid.setIsBreakmanageStr(ConstEnum.getBoolean(mid.getIsBreakmanage()));
+            mid.setIsOmitStr(ConstEnum.getBoolean(mid.getIsOmit()));
+            mid.setIsAgainStr(ConstEnum.getBoolean(mid.getIsAgain()));
         }
         Map map = new HashMap();
         map.put("content", correctPersonDTOS);

@@ -116,6 +116,7 @@ public class DrugPersonDTO implements Serializable {
 
     // 是否有犯罪史
     private String isPedigree;
+    private String isPedigreeStr;
 
     // 犯罪情况
     private String crimeComment;
