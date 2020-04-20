@@ -111,4 +111,5 @@ public class RentalhouseDTO implements Serializable {
 
     // 房主居住地址的省市县编码
     private String homeownerAddrcode;
+    private String homeownerAddrcodeStr;
 }

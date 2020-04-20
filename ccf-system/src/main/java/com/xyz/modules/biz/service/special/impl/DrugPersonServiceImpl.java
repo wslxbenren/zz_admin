@@ -82,6 +82,7 @@ public class DrugPersonServiceImpl implements DrugPersonService {
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setIsPedigreeStr(ConstEnum.getBoolean(mid.getIsPedigree()));
+            mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
         }
         Map map = new HashMap();
         map.put("content", drugPersonDTOS);

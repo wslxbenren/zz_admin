@@ -45,6 +45,10 @@ public class FloatpeopleQueryCriteria{
     @ApiModelProperty(value = "籍贯")
     private String nativeInfo;
 
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "籍贯")
+    private String residence;
+
   /*  @Query(type = Query.Type.BETWEEN)
     private List<String> dateBirth;
 

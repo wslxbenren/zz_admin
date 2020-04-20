@@ -49,6 +49,10 @@ public class PsychosisPersonQueryCriteria{
     @Query(type = Query.Type.EQUAL)
     private String guarderAddress;
 
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "籍贯")
+    private String nativeInfo;
+
     // 审计字段
     @Query(type = Query.Type.IN)
     @JsonIgnore

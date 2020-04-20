@@ -87,6 +87,7 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
             mid.setIsBreakmanageStr(ConstEnum.getBoolean(mid.getIsBreakmanage()));
             mid.setIsOmitStr(ConstEnum.getBoolean(mid.getIsOmit()));
             mid.setIsAgainStr(ConstEnum.getBoolean(mid.getIsAgain()));
+            mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
         }
         Map map = new HashMap();
         map.put("content", correctPersonDTOS);

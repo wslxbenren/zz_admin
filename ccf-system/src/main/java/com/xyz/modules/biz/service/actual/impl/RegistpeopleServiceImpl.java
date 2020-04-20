@@ -69,7 +69,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             r.setPersonSexStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), r.getNation());
             r.setNationStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getNativeInfo());
+            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getNativeInfo());
             r.setNativeInfoStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), r.getMarriageFlag());
             r.setMarriageFlagStr(dd == null ? "无数据" : dd);
@@ -81,13 +81,13 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             r.setFaithTypeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), r.getVocationCode());
             r.setVocationCodeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getRegisteredPlace());
+            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getRegisteredPlace());
             r.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.YHZGX.getDistName(), r.getHouseheadRela());
             r.setHouseheadRelaStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getResidence());
+            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getResidence());
             r.setResidenceStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), r.getServiceAddr());
+            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getServiceAddr());
             r.setServiceAddrStr(dd == null ? "无数据" : dd);
             dd = deptRepository.findNameByCode(r.getUnitCode());
             r.setUnitCodeStr(dd);
@@ -96,6 +96,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             r.setStatusStr(ConstEnum.transSync(r.getStatus()));
             r.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), r.getStatusCd()));
             r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
+            r.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), r.getServicePlaceCode()));
         }
         Map map = new HashMap();
         map.put("content", registpeopleDTOS);

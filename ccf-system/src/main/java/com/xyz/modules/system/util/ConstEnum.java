@@ -17,14 +17,23 @@ public enum  ConstEnum {
     }
 
     public static String transSync(String status) {
+        if (status == null) {
+            return "状态未知";
+        }
         return status == "0" ? UN_SYNC.desc: SYNC_ED.desc;
     }
 
     public static String getBoolean(String code) {
+        if (code == null) {
+            return "无数据";
+        }
         return code == "1"? IS.desc: NOT.desc;
     }
 
     public static String getBoolean(Integer code) {
+        if(code == null) {
+            return "无数据";
+        }
         return code == 1? IS.desc: NOT.desc;
     }
 }

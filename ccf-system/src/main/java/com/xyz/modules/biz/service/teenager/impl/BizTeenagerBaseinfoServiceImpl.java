@@ -3,13 +3,13 @@ package com.xyz.modules.biz.service.teenager.impl;
 import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.BadRequestException;
 import com.xyz.exception.EntityExistException;
-import com.xyz.modules.biz.service.teenager.entity.BizTeenagerBaseinfo;
-import com.xyz.modules.biz.service.teenager.repo.BizTeenagerBaseinfoRepository;
+import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.biz.service.teenager.BizTeenagerBaseinfoService;
 import com.xyz.modules.biz.service.teenager.dto.BizTeenagerBaseinfoDTO;
 import com.xyz.modules.biz.service.teenager.dto.BizTeenagerBaseinfoQueryCriteria;
+import com.xyz.modules.biz.service.teenager.entity.BizTeenagerBaseinfo;
 import com.xyz.modules.biz.service.teenager.mapper.BizTeenagerBaseinfoMapper;
-import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.biz.service.teenager.repo.BizTeenagerBaseinfoRepository;
 import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
@@ -86,6 +86,8 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setIfIllegalStr(ConstEnum.getBoolean(mid.getIfIllegal()));
+            mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setGuardianAddrcodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getGuardianAddrcode()));
         }
         Map map = new HashMap();
         map.put("content", bizTeenagerBaseinfoDTOList);

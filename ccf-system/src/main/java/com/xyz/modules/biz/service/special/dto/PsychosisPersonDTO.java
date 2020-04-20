@@ -196,4 +196,5 @@ public class PsychosisPersonDTO implements Serializable {
 
     // 服务处所的省市县编码
     private String servicePlaceCode;
+    private String servicePlaceCodeStr;
 }

@@ -49,6 +49,10 @@ public class BizTeenagerBaseinfoQueryCriteria{
     @ApiModelProperty(value = "监护人联系方式")
     private String guardianMobile;
 
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "籍贯")
+    private String nativeInfo;
+
     // 审计字段
     @Query(type = Query.Type.IN)
     @JsonIgnore

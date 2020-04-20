@@ -52,8 +52,7 @@ public class AidsPersonQueryCriteria{
     @ApiModelProperty(value = "民族")
     private String nation;
 
-    // 模糊
-    @Query(type = Query.Type.INNER_LIKE)
+    @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "籍贯")
     private String nativeInfo;
 
