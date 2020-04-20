@@ -49,6 +49,10 @@ public class DrugPersonQueryCriteria{
     @Query(type = Query.Type.EQUAL)
     private String managerAddress;
 
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "籍贯")
+    private String nativeInfo;
+
     // 审计字段
     @Query(type = Query.Type.IN)
     @JsonIgnore
