@@ -116,19 +116,19 @@ public class CorrectPersonDTO implements Serializable {
     private String prisonTerm;
 
     // 原判刑开始日期
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd ",  timezone="GMT+8")
     private Timestamp prisonBeagindate;
 
     // 原判刑结束日期
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd ",  timezone="GMT+8")
     private Timestamp prisonEnddate;
 
     // 矫正开始日期
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd ",  timezone="GMT+8")
     private Timestamp correctBeagindate;
 
     // 矫正结束日期
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd ",  timezone="GMT+8")
     private Timestamp correctEnddate;
 
     // 接收方式
