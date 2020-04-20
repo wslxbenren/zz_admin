@@ -57,6 +57,12 @@ public class DictDetailServiceImpl implements DictDetailService {
     }
 
     @Override
+    public String transDict(long dictTypeId, String value) {
+        String label = dictDetailRepository.transDict(dictTypeId, value);
+        return  label == null ? "无数据": label;
+    }
+
+    @Override
     public DictDetailDTO findById(Long id) {
         Optional<DictDetail> dictDetail = dictDetailRepository.findById(id);
         ValidationUtil.isNull(dictDetail,"DictDetail","id",id);

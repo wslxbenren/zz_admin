@@ -73,7 +73,16 @@ public interface DictDetailService {
      * @param value 字典项的值
      * @return 字典详情名称
      */
+    @Deprecated
     String transDict(String pName, String value);
+
+        /**
+         * 根据字典类型id和字典详情值查询详情
+         * @param dictTypeId
+         * @param dictDetailValue
+         * @return
+         */
+    String transDict(long dictTypeId, String dictDetailValue);
 
     /**
      * 没有分页

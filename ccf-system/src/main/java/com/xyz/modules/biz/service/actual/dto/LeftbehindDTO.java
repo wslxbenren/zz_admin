@@ -197,7 +197,9 @@ public class LeftbehindDTO implements Serializable {
 
     // 服务处所的省市县编码
     private String servicePlaceCode;
+    private String servicePlaceCodeStr;
 
     // 家庭主要成员居住地址省市县编码
     private String mainmemAddrcode;
+    private String mainmemAddrcodeStr;
 }
