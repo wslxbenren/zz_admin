@@ -35,6 +35,7 @@ public class DeptDTO implements Serializable {
     private String pid;
 
     private String code;
+//    private  String lable;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<DeptDTO> children;
@@ -43,6 +44,10 @@ public class DeptDTO implements Serializable {
 
     public String getLabel() {
         return name;
+    }
+
+    public String getValue() {
+        return code;
     }
 
 
