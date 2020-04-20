@@ -120,6 +120,9 @@ public class Dept implements Serializable {
 
 
 
+
+
+
 //
 //    public Dept(@NotNull(groups = Update.class) String id, @NotBlank String name, @NotNull Boolean enabled, @NotNull String pid, Set<Role> roles, Timestamp createTime, String code, String contact, String phone, String grage, String sqe, String depAbb, String note, String amount, String nLastUpdateTime, String delteFLAG, String parentId, String parentCode) {
 //        this.id = id;

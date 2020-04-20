@@ -82,6 +82,10 @@ public class UserServiceImpl implements UserService {
             dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNational());
             f.setNationalStr(dd == null ? "无数据" : dd);//民族
 
+            dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), f.getSex());
+            f.setSexStr(dd == null ? "无数据" : dd);//性別
+
+
         }
 
         Map map = new HashMap();
