@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,19 +32,29 @@ public class AuditSpecification {
     }
 
     /**
-     * 权限&其他扩展 todo 待考虑
+     * 机构权限过滤, 如果前端参数包含了机构查询参数, 则只查询当前机构下的数据
+     * todo 匿名类暂不支持异常抛出, 待解决 不能仅仅靠前端约束机构条件查询
      * @param q 查询封装对象
      * @return
      */
     public <Q> Specification genSpecification(Q q) {
         return (Specification) (root, criteriaQuery, criteriaBuilder) -> {
             JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-            String deptCode = u.getDeptDto().getCode();
-            List<String> deptCodes = deptService.getDownGradeDeptCodes(deptCode);
+            String userDeptCode = u.getDeptDto().getCode();
+            List<String> inDeptCodes;
             try {
                 Field unitCode = q.getClass().getDeclaredField("unitCode");
-                unitCode.setAccessible(true);
-                unitCode.set(q, deptCodes);
+                String unitCodeParam = (String) unitCode.get(q);
+                if (unitCodeParam != null & unitCodeParam != "") {
+                    // fixme 这里需要判断要查询的机构是否在当前用户机构内 暂时由前端约束
+                    inDeptCodes = deptService.getDownGradeDeptCodes(unitCodeParam);
+                } else {
+                    inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);
+                }
+                if(!inDeptCodes.isEmpty()) {
+                    unitCode.setAccessible(true);
+                    unitCode.set(q, inDeptCodes);
+                }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (NoSuchFieldException e) {
