@@ -74,6 +74,7 @@ public class ForeignersServiceImpl implements ForeignersService {
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setIfImportStr(ConstEnum.getBoolean(mid.getIfImport()));
+            mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
         }
         Map map = new HashMap();
         map.put("content", foreignersList);

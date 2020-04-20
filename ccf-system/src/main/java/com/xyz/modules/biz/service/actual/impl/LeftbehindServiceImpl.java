@@ -83,6 +83,8 @@ public class LeftbehindServiceImpl implements LeftbehindService {
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
+            mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setMainmemAddrcodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getMainmemAddrcode()));
         }
         Map map = new HashMap();
         map.put("content", leftbehindList);

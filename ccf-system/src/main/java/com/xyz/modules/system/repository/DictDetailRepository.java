@@ -34,6 +34,10 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, Long>, J
             "a.id = b.dict_id and a.name = ?1 and b.value = ?2 " , nativeQuery = true)
     String transDict(String pName, String value);
 
+    @Query(value = "select b.label from dict a join dict_detail b on " +
+            "a.id = b.dict_id and a.id = ?1 and b.value = ?2 " , nativeQuery = true)
+    String transDict(long dictTypeId, String value);
+
     @Procedure(procedureName = "proAddrParentList")
     void proAddrParentList(long v_id, String v_value);
 

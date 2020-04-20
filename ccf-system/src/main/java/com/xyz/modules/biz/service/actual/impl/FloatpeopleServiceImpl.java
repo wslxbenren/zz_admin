@@ -98,6 +98,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd()));
             f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
             f.setIfImportStr(ConstEnum.getBoolean(f.getIfImport()));
+            f.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getServicePlaceCode()));
         }
         Map map = new HashMap();
         map.put("content", floatpeopleDTOS);

@@ -80,6 +80,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
             r.setStatusStr(ConstEnum.transSync(r.getStatus()));
             r.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), r.getStatusCd()));
             r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
+            r.setHomeownerAddrcodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), r.getHomeownerAddrcode()));
         }
         Map map = new HashMap();
         map.put("content", rentalhouseDTOS);
