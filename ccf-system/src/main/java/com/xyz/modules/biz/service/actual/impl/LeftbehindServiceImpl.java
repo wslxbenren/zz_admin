@@ -74,7 +74,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
             mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType())); //  宗教信仰
             mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode())); // 职业类别
             mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace())); // 户籍地
-            mid.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), mid.getResidence())); //  现住地
+            mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence())); //  现住地
             mid.setMainmemRelaStr(dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getMainmemRela())); //  与留守人员关系
             mid.setHealthyStr(dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getHealthy())); //  健康状况
             mid.setLeftbehindTypeStr(dictDetailService.transDict(DictEnum.LSRYLX.getDistName(), mid.getLeftbehindType())); //  留守人员类型
@@ -83,8 +83,8 @@ public class LeftbehindServiceImpl implements LeftbehindService {
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
-            mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
-            mid.setMainmemAddrcodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getMainmemAddrcode()));
+            mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setMainmemAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getMainmemAddrcode()));
         }
         Map map = new HashMap();
         map.put("content", leftbehindList);
