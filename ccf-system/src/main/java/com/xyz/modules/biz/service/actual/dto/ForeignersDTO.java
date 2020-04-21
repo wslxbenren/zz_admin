@@ -70,6 +70,9 @@ public class ForeignersDTO implements Serializable {
     // 来华目的
     private String goalIn;
 
+    // 来华目的 字典翻译
+    private String goalInStr;
+
     // 职业类别:编码应符合GB/T6565
     private String vocationCode;
 
