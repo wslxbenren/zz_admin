@@ -45,6 +45,18 @@ public class AuditSpecification {
                 String unitCodeParam = (String) unitCode.get(q);
                 if (unitCodeParam != null & unitCodeParam != "") {
                     // fixme 这里需要判断要查询的机构是否在当前用户机构内 暂时由前端约束
+//
+//                    if(deptService.findById(unitCodeParam).getGrage == u.getDeptDto().getGrage  ) {
+//                        if(uCode == codeParam) {
+//                            // 同级同部门 可见
+//                        } else {
+//                            // 同级不同部门
+//                        }
+//                    } else if (deptService.findById(unitCodeParam).getGrage < u.getDeptDto().getGrage) {
+//                        // 下级 可见
+//                    } else {
+//                        // 上级 不可见
+//                    }
                     inDeptCodes = deptService.getDownGradeDeptCodes(unitCodeParam);
                 } else {
                     inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);

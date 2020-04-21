@@ -67,7 +67,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             f.setPersonSexStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNation());
             f.setNationStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), f.getNativeInfo());
+            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getNativeInfo());
             f.setNativeInfoStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), f.getMarriageFlag());
             f.setMarriageFlagStr(dd == null ? "无数据" : dd);
@@ -79,12 +79,14 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             f.setFaithTypeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), f.getVocationCode());
             f.setVocationCodeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
+            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getRegisteredPlace());
             f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getServiceAddr());
+            f.setServiceAddrStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getResidence());
+            f.setResidenceStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.LRYY.getDistName(), f.getIntoCause());
             f.setIntoCauseStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), f.getResidence());
-            f.setResidenceStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.BZLX.getDistName(), f.getCardType());
             f.setCardTypeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ZSLX.getDistName(), f.getResidType());

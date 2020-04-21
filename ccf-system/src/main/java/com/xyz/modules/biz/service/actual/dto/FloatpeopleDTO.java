@@ -75,6 +75,7 @@ public class FloatpeopleDTO implements Serializable {
 
     // 服务处所
     private String serviceAddr;
+    private String serviceAddrStr;
 
     // 联系方式:手机号码或固定电话号码
     private String contact;

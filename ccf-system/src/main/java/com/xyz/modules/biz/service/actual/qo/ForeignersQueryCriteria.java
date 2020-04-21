@@ -39,11 +39,11 @@ public class ForeignersQueryCriteria{
     private String country;
 
     @ApiModelProperty(value = "联系方式")
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     private String contact;
 
     @ApiModelProperty(value = "证件号码")
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     private String cardNo;
 
     @Query(type = Query.Type.BETWEEN)

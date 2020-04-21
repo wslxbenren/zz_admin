@@ -142,12 +142,12 @@ public class CorrectPerson implements Serializable {
 
     // 矫正开始日期
     @Column(name = "correct_beagindate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @DateTimeFormat(pattern = "yyyy-MM-dd" )
     private Timestamp correctBeagindate;
 
     // 矫正结束日期
     @Column(name = "correct_enddate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @DateTimeFormat(pattern = "yyyy-MM-dd" )
     private Timestamp correctEnddate;
 
     // 接收方式

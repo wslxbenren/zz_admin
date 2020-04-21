@@ -33,7 +33,7 @@ public class BizTeenagerBaseinfoQueryCriteria{
     @ApiModelProperty(value = "公民身份证号")
     private String identityNum;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "联系方式")
     private String contact;
 
@@ -41,11 +41,11 @@ public class BizTeenagerBaseinfoQueryCriteria{
     @ApiModelProperty(value = "性别")
     private String personSex;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "监护人姓名")
     private String guardianName;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "监护人联系方式")
     private String guardianMobile;
 
