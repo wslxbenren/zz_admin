@@ -41,7 +41,7 @@ public class CorrectPersonQueryCriteria{
     @ApiModelProperty(value = "籍贯")
     private String nativeInfo;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "联系方式")
     private String contact;
 

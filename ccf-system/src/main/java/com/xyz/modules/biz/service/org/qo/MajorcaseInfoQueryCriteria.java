@@ -30,6 +30,7 @@ public class MajorcaseInfoQueryCriteria{
     @Query(type = Query.Type.INNER_LIKE)
     private String caseName;
 
+    @Query(type = Query.Type.BETWEEN)
     @ApiModelProperty(value = "发生日期： 格式[yyyy-MM-dd]")
     private List<String> occurDate;
 

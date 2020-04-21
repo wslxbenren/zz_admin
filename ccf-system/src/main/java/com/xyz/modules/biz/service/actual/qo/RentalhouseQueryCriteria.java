@@ -24,7 +24,7 @@ public class RentalhouseQueryCriteria{
     private List<String> operDate;
 
     // 原型查询条件
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "房屋编号")
     private String houseCode;
 

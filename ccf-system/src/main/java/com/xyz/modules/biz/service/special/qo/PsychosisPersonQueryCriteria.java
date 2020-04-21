@@ -37,16 +37,16 @@ public class PsychosisPersonQueryCriteria{
     @ApiModelProperty(value = "性别")
     private String personSex;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "联系方式")
     private String contact;
 
     @ApiModelProperty(value = "监护人姓名")
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     private String guarderName;
 
     @ApiModelProperty(value = "监护人联系方式")
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     private String guarderAddress;
 
     @Query(type = Query.Type.EQUAL)

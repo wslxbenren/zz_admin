@@ -37,7 +37,7 @@ public class RegistpeopleQueryCriteria{
     @ApiModelProperty(value = "性别")
     private String personSex;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "联系方式")
     private String contact;
 
