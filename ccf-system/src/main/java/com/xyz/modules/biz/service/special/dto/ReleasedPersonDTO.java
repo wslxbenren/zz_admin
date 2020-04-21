@@ -77,6 +77,7 @@ public class ReleasedPersonDTO implements Serializable {
 
     // 现住地，跟现住地编码residence_code数据重复存储
     private String residence;
+    private String residenceStr;
 
     // 现住地编码
     private String residenceCode;
