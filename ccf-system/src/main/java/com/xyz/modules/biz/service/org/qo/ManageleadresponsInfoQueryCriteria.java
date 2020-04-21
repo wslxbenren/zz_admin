@@ -26,7 +26,7 @@ public class ManageleadresponsInfoQueryCriteria{
     private List<String> updateTime;
 
     // 原型查询条件
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "实施主体名称")
     private String implementerName;
     //字典项

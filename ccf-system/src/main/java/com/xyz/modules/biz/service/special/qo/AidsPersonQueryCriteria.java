@@ -36,19 +36,19 @@ public class AidsPersonQueryCriteria{
     @ApiModelProperty(value = "性别")
     private String personSex;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "帮扶人姓名")
     private String helperName;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "帮扶人联系方式")
     private String helperAddress;
 
-    @Query
+    @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "生日：格式[yyyy-MM-dd]")
     private List<String> dateBirth;
 
-    @Query
+    @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "民族")
     private String nation;
 

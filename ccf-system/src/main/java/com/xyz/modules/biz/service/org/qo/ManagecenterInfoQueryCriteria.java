@@ -33,15 +33,15 @@ public class ManagecenterInfoQueryCriteria{
     @ApiModelProperty(value = "综治中心联系方式")
     private String centerMobile;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "综治中心代码")
     private String centerCode;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "负责人姓名")
     private String username;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "负责人联系方式")
     private String userMobile;
 
