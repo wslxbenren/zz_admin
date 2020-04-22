@@ -98,6 +98,7 @@ public class BizTeenagerBaseinfoDTO implements Serializable {
 
     // 现住地
     private String residence;
+    private String residenceStr;
 
     // 现住门（楼）详址
     private String residenceAddr;
@@ -122,6 +123,7 @@ public class BizTeenagerBaseinfoDTO implements Serializable {
 
     // 与监护人关系
     private String guardianRela;
+    private String guardianRelaStr;
 
     // 监护人联系方式
     private String guardianMobile;

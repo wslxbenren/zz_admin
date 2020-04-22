@@ -8,7 +8,7 @@ public enum  ConstEnum {
     UN_SYNC("0", "未同步"),
     // 是否建立矫正小组
     IS("1", "是"),
-    NOT("1", "否");
+    NOT("0", "否");
 
     private String value;
     private String desc;
@@ -19,17 +19,17 @@ public enum  ConstEnum {
     }
 
     public static String transSync(String status) {
-        if (StringUtils.isNotBlank(status)) {
+        if (status == null || status.equals("")) {
             return "状态未知";
         }
-        return status == "0" ? UN_SYNC.desc: SYNC_ED.desc;
+        return status.equals("0") ? UN_SYNC.desc: SYNC_ED.desc;
     }
 
     public static String getBoolean(String code) {
-        if (StringUtils.isNotBlank(code)) {
+        if (code == null || code.equals("")) {
             return "无数据";
         }
-        return code == "1"? IS.desc: NOT.desc;
+        return code.equals("1") ? IS.desc: NOT.desc;
     }
 
     public static String getBoolean(Integer code) {
