@@ -3,6 +3,7 @@ package com.xyz.system;
 import com.xyz.modules.biz.service.org.entity.BuildheadInfo;
 import com.xyz.modules.biz.service.org.BuildheadInfoService;
 import com.xyz.modules.biz.service.org.qo.BuildheadInfoQueryCriteria;
+import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DeptService;
 import org.junit.Test;
@@ -44,6 +45,14 @@ public class AuditTest {
         List<BuildheadInfo> mm = (List<BuildheadInfo>) buildheadInfoService.queryAll(criteria);
         System.out.println(mm);
         System.out.println("asdf");
+    }
+
+    @Test
+    public void testDept() {
+//        String rs = deptRepository.getDeptChildList("411300100073");
+//        String ll = rs.substring(0, rs.length() -2 );
+//        String [] ss = ll.split(",");
+
     }
 
     /**

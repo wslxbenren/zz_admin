@@ -30,10 +30,6 @@ public interface DeptRepository extends JpaRepository<Dept, String>, JpaSpecific
 
     Set<Dept> findByRoles_Id(String id);
 
-    @Procedure(procedureName = "getChildList")
-    void getChildList(String v_code);
-
-    @Query(value = "select code from pro_getchildlist", nativeQuery = true)
-    List<String> getDeptDownGradeCodes();
-
+    @Query(value = "select getDeptChildList(?1)", nativeQuery = true)
+    String getDeptDownGradeCodes(String code);
 }

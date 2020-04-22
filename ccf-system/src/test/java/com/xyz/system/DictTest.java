@@ -57,9 +57,9 @@ public class DictTest {
 
     @Test
     public void testDict() {
-        dictDetailRepository.proAddrParentList(106L, "140427");
-        String[] dd = dictDetailRepository.upRecursiveDict();
-        System.out.println(String.join("/", dd));
+        String mm = dictDetailRepository.getAddrParentList(106L, "140427");
+//        System.out.println(mm);
+//        System.out.println(String.join("/", dd));
     }
 
     /**

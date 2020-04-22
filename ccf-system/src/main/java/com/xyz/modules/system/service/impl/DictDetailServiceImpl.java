@@ -94,13 +94,7 @@ public class DictDetailServiceImpl implements DictDetailService {
 
     @Override
     public String transMultistage(long dictTypeId, String dictDetailValue) {
-        dictDetailRepository.proAddrParentList(dictTypeId, dictDetailValue);
-        // todo 这里有隐患
-        String[] detailsLabels = dictDetailRepository.upRecursiveDict();
-        if(detailsLabels != null && detailsLabels.length > 0) {
-            return String.join("/", detailsLabels);
-        }
-        return "";
+        return dictDetailRepository.getAddrParentList(dictTypeId, dictDetailValue);
     }
 
     @Override

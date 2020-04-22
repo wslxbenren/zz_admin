@@ -1,5 +1,6 @@
 package com.xyz.modules.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.xyz.exception.BadRequestException;
@@ -198,8 +199,13 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
+    @Transactional
     public List<String> getDownGradeDeptCodes(String code) {
-        deptRepository.getChildList(code);
-        return deptRepository.getDeptDownGradeCodes();
+        String res = deptRepository.getDeptDownGradeCodes(code);
+        if(res.length() > 2) {
+            String tmp = res.substring(0, res.length() - 2);
+            return CollectionUtils.arrayToList(tmp.split(","));
+        }
+        return Collections.emptyList();
     }
 }

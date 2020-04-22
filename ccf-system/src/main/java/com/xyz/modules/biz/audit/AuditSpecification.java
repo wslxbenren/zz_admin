@@ -39,14 +39,17 @@ public class AuditSpecification {
         return (Specification) (root, criteriaQuery, criteriaBuilder) -> {
             JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
             String userDeptCode = u.getDeptDto().getCode();
+
             List<String> inDeptCodes;
             try {
                 Field unitCode = q.getClass().getDeclaredField("unitCode");
                 unitCode.setAccessible(true);
                 List<String> unitCodeParam = (List<String>) unitCode.get(q);
-                if (unitCodeParam == null ) {
-                    inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);
-                    unitCode.set(q, inDeptCodes);
+                if (unitCodeParam == null) {
+                    if (!"-1".equals(u.getDeptDto().getPid())) {
+                        inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);
+                        unitCode.set(q, inDeptCodes);
+                    }
                     // 一个方法调用了两遍
                     // fixme 这里需要判断要查询的机构是否在当前用户机构内 暂时由前端约束
 //                    if(deptService.findById(unitCodeParam).getGrage == u.getDeptDto().getGrage  ) {
