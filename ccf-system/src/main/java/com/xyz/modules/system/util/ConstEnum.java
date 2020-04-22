@@ -1,5 +1,7 @@
 package com.xyz.modules.system.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 public enum  ConstEnum {
     // 数据同步状态
     SYNC_ED("1", "已同步"),
@@ -17,14 +19,14 @@ public enum  ConstEnum {
     }
 
     public static String transSync(String status) {
-        if (status == null) {
+        if (StringUtils.isNotBlank(status)) {
             return "状态未知";
         }
         return status == "0" ? UN_SYNC.desc: SYNC_ED.desc;
     }
 
     public static String getBoolean(String code) {
-        if (code == null) {
+        if (StringUtils.isNotBlank(code)) {
             return "无数据";
         }
         return code == "1"? IS.desc: NOT.desc;

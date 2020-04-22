@@ -42,10 +42,13 @@ public class AuditSpecification {
             List<String> inDeptCodes;
             try {
                 Field unitCode = q.getClass().getDeclaredField("unitCode");
-                String unitCodeParam = (String) unitCode.get(q);
-                if (unitCodeParam != null & unitCodeParam != "") {
+                unitCode.setAccessible(true);
+                List<String> unitCodeParam = (List<String>) unitCode.get(q);
+                if (unitCodeParam == null ) {
+                    inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);
+                    unitCode.set(q, inDeptCodes);
+                    // 一个方法调用了两遍
                     // fixme 这里需要判断要查询的机构是否在当前用户机构内 暂时由前端约束
-//
 //                    if(deptService.findById(unitCodeParam).getGrage == u.getDeptDto().getGrage  ) {
 //                        if(uCode == codeParam) {
 //                            // 同级同部门 可见
@@ -57,13 +60,6 @@ public class AuditSpecification {
 //                    } else {
 //                        // 上级 不可见
 //                    }
-                    inDeptCodes = deptService.getDownGradeDeptCodes(unitCodeParam);
-                } else {
-                    inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);
-                }
-                if(!inDeptCodes.isEmpty()) {
-                    unitCode.setAccessible(true);
-                    unitCode.set(q, inDeptCodes);
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

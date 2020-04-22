@@ -74,13 +74,15 @@ public class RentalhouseServiceImpl implements RentalhouseService {
             r.setCardTypeStr(dd == null ? "无数据" : dd );
             dd = deptRepository.findNameByCode(r.getUnitCode());
             r.setUnitCodeStr(dd);
-            r.setCardTypeStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), r.getCardType()) );
+            r.setCardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(), r.getCardType()) );
             r.setCreator(userRepository.findById(r.getCreator()).orElse(new User()).getUsername());
             r.setOperName(userRepository.findById(r.getOperName()).orElse(new User()).getUsername());
             r.setStatusStr(ConstEnum.transSync(r.getStatus()));
-            r.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), r.getStatusCd()));
+            r.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), r.getStatusCd()));
             r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
-            r.setHomeownerAddrcodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), r.getHomeownerAddrcode()));
+            r.setHomeownerAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getHomeownerAddrcode()));
+            r.setHouseAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getHouseAddrcode()));
+
         }
         Map map = new HashMap();
         map.put("content", rentalhouseDTOS);
