@@ -82,7 +82,6 @@ public class AidsPersonServiceImpl implements AidsPersonService {
             mid.setCaseTypeStr(dictDetailService.transMultistage(DictEnum.AJLB.getDictId(), mid.getCaseType()));
             mid.setRoutesInfectionStr(dictDetailService.transDict(DictEnum.GRTJ.getDistName(), mid.getRoutesInfection()));
             mid.setTakeTypeStr(dictDetailService.transDict(DictEnum.GZLX.getDistName(), mid.getTakeType()));
-            mid.setHelpCommentsStr(dictDetailService.transDict(DictEnum.BFQK.getDistName(), mid.getHelpComments()));
             mid.setDetainTypeStr(dictDetailService.transDict(DictEnum.SZQK.getDistName(), mid.getDetainType()));
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());

@@ -129,7 +129,7 @@ public class ReleasedPersonDTO implements Serializable {
 
     // 帮扶情况
     private String helpeComment;
-    private String helpeCommentStr;
+
 
     // 是否重新犯罪
     private String isAgain;

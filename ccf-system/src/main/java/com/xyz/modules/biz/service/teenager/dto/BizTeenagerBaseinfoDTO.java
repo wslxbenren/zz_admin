@@ -151,9 +151,6 @@ public class BizTeenagerBaseinfoDTO implements Serializable {
     // 帮扶情况
     private String helpeComment;
 
-    // 帮扶情况  字典翻译
-    private String helpeCommentStr;
-
     // 生效时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp effDate;

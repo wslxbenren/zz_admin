@@ -107,8 +107,7 @@ public class AidsPersonDTO implements Serializable {
 
     // 帮扶情况
     private String helpComments;
-    // 字典翻译:帮扶情况
-    private String helpCommentsStr;
+
 
     // 帮扶人姓名
     private String helperName;
