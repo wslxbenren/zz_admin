@@ -44,5 +44,5 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, Long>, J
     @Query(value = "select label from pro_addrparentlist order by grage asc", nativeQuery = true)
     String[] upRecursiveDict();
     @Query(value = "SELECT GROUP_CONCAT(d.label ) AS labels  FROM dict_detail  d WHERE dict_id = ?1 AND d.value  in(?2) ", nativeQuery = true)
-    String getLabelByValues(long dictId, String[] joinManager);
+    String getLabelByValues(long dictId, List<String> joinManager);
 }

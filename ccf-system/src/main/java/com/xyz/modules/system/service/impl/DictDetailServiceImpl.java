@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -104,6 +105,7 @@ public class DictDetailServiceImpl implements DictDetailService {
 
     @Override
     public String getLabelByValues(long dictId,   String[]  joinManager) {
-        return dictDetailRepository.getLabelByValues(dictId,joinManager);
+        List<String> list = Arrays.asList(joinManager);
+        return dictDetailRepository.getLabelByValues(dictId,list);
     }
 }
