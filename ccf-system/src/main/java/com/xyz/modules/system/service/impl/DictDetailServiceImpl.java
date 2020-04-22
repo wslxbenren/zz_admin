@@ -101,4 +101,9 @@ public class DictDetailServiceImpl implements DictDetailService {
         }
         return "";
     }
+
+    @Override
+    public String getLabelByValues(long dictId,   String[]  joinManager) {
+        return dictDetailRepository.getLabelByValues(dictId,joinManager);
+    }
 }

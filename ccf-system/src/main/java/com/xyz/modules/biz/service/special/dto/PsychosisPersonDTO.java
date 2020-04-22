@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -148,10 +149,12 @@ public class PsychosisPersonDTO implements Serializable {
     // 参与管理人员  ---多选项
     private String joinManager;
     private String joinManagerStr;
+    private  String[] joinManagerArr;
 
     // 帮扶情况  ---多选项
     private String helpeFlag;
     private String helpeFlagStr;
+    private  String[] helpeFlagArr;
 
     // 生效时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")

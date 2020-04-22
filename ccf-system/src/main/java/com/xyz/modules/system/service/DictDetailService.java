@@ -92,4 +92,6 @@ public interface DictDetailService {
     List<DictDetail> queryAll(DictDetailQueryCriteria criteria);
 
     String transMultistage(long dictTypeId, String dictDetailValue);
+
+    String getLabelByValues(long dictId,   String[]  joinManager);
 }

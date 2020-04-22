@@ -21,10 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -86,6 +84,10 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setJoinManagerArr( mid.getJoinManager().replace('"',' ').replaceAll(" ","").trim().split(","));
+            mid.setJoinManagerStr(dictDetailService.getLabelByValues(DictEnum.CYGLRY.getDictId(),mid.getJoinManagerArr()));
+            mid.setHelpeFlagArr( mid.getHelpeFlag().replace('"',' ').replaceAll(" ","").trim().split(","));
+            mid.setHelpeFlagStr(dictDetailService.getLabelByValues(DictEnum.BFQK.getDictId(),mid.getHelpeFlagArr()));
         }
         Map map = new HashMap();
         map.put("content", psychosisPersonDTOS);
