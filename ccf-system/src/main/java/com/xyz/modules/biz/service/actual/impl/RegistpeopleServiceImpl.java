@@ -90,6 +90,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getServiceAddr());
             r.setServiceAddrStr(dd == null ? "无数据" : dd);
             dd = deptRepository.findNameByCode(r.getUnitCode());
+            r.setHouseholdIdStr(r.getHouseholdId().equals("01") ? "一致":"不一致");
             r.setUnitCodeStr(dd);
             r.setCreator(userRepository.findById(r.getCreator()).orElse(new User()).getUsername());
             r.setOperName(userRepository.findById(r.getOperName()).orElse(new User()).getUsername());

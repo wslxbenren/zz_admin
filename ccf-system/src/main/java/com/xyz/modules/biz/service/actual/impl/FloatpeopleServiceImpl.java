@@ -81,8 +81,8 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             f.setVocationCodeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getRegisteredPlace());
             f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getServiceAddr());
-            f.setServiceAddrStr(dd == null ? "无数据" : dd);
+            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getServicePlaceCode());
+            f.setServicePlaceCodeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getResidence());
             f.setResidenceStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.LRYY.getDistName(), f.getIntoCause());
@@ -98,7 +98,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd()));
             f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
             f.setIfImportStr(ConstEnum.getBoolean(f.getIfImport()));
-            f.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getServicePlaceCode()));
+
         }
         Map map = new HashMap();
         map.put("content", floatpeopleDTOS);

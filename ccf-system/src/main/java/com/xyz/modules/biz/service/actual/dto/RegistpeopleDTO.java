@@ -97,6 +97,7 @@ public class RegistpeopleDTO implements Serializable {
 
     // 人户一致标识:01：一致,02：不一致
     private String householdId;
+    private String householdIdStr;
 
     // 户号
     private String doorNo;

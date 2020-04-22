@@ -98,6 +98,7 @@ public class DrugPersonDTO implements Serializable {
 
     // 管控情况
     private String manageType;
+    private String manageTypeStr;
 
     // 管控人姓名
     private String managerName;
@@ -107,6 +108,7 @@ public class DrugPersonDTO implements Serializable {
 
     // 帮扶情况
     private String helpeComment;
+    private String helpeCommentStr;
 
     // 帮扶人姓名
     private String helperName;

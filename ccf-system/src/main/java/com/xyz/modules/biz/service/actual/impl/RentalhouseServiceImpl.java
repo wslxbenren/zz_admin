@@ -82,7 +82,6 @@ public class RentalhouseServiceImpl implements RentalhouseService {
             r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
             r.setHomeownerAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getHomeownerAddrcode()));
             r.setHouseAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getHouseAddrcode()));
-
         }
         Map map = new HashMap();
         map.put("content", rentalhouseDTOS);
