@@ -44,7 +44,7 @@ public class AuditSpecification {
                 Field unitCode = q.getClass().getDeclaredField("unitCode");
                 unitCode.setAccessible(true);
                 List<String> unitCodeParam = (List<String>) unitCode.get(q);
-                if (unitCodeParam.isEmpty()) {
+                if (unitCodeParam == null ) {
                     inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);
                     unitCode.set(q, inDeptCodes);
                     // 一个方法调用了两遍
