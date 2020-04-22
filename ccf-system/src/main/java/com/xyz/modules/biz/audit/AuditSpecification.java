@@ -42,10 +42,10 @@ public class AuditSpecification {
             List<String> inDeptCodes;
             try {
                 Field unitCode = q.getClass().getDeclaredField("unitCode");
+                unitCode.setAccessible(true);
                 List<String> unitCodeParam = (List<String>) unitCode.get(q);
                 if (unitCodeParam.isEmpty()) {
                     inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);
-                    unitCode.setAccessible(true);
                     unitCode.set(q, inDeptCodes);
                     // 一个方法调用了两遍
                     // fixme 这里需要判断要查询的机构是否在当前用户机构内 暂时由前端约束
