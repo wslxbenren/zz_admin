@@ -88,6 +88,9 @@ public class ReleasedPersonDTO implements Serializable {
     // 是否有犯罪史
     private String isPedigree;
 
+    // 是否有犯罪史
+    private String isPedigreeStr;
+
     // 原罪名
     private String chargeComments;
 
@@ -130,6 +133,9 @@ public class ReleasedPersonDTO implements Serializable {
 
     // 是否重新犯罪
     private String isAgain;
+
+    // 是否重新犯罪
+    private String isAgainStr;
 
     // 重新犯罪罪名
     private String againCharge;

@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.service.special.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.druid.sql.visitor.functions.Substring;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.service.special.entity.CorrectPerson;
 import com.xyz.modules.biz.service.special.repo.CorrectPersonRepository;
@@ -25,10 +26,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author 刘鑫
@@ -64,30 +62,41 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
         Page<CorrectPerson> page = CorrectPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<CorrectPersonDTO> correctPersonDTOS = CorrectPersonMapper.toDto(page.getContent());
         for (CorrectPersonDTO mid:correctPersonDTOS){
-            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex()));// 性别
-            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation()));//民族
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), mid.getPersonSex()));// 性别
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(), mid.getNation()));//民族
             mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo()));
-            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag()));//婚姻状况
-            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag()));// 政治面貌
-            mid.setEduLevelStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEduLevel()));  // 文化程度
-            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType()));// 宗教信仰
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDictId(), mid.getMarriageFlag()));//婚姻状况
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(), mid.getPartyFlag()));// 政治面貌
+            mid.setEduLevelStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(), mid.getEduLevel()));  // 文化程度
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(), mid.getFaithType()));// 宗教信仰
             mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode()));
             mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
             mid.setCaseTypeStr(dictDetailService.transMultistage(DictEnum.AJLB.getDictId(), mid.getCaseType()));
-            mid.setCorrectTypeStr(dictDetailService.transDict(DictEnum.JZLX.getDistName(), mid.getCorrectType()));
-            mid.setReviceFlagStr(dictDetailService.transDict(DictEnum.JSFS.getDistName(), mid.getReviceFlag()));
+            mid.setCorrectTypeStr(dictDetailService.transDict(DictEnum.JZLX.getDictId(), mid.getCorrectType()));
+            mid.setReviceFlagStr(dictDetailService.transDict(DictEnum.JSFS.getDictId(), mid.getReviceFlag()));
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
-            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
 
             mid.setIsRecidivistStr(ConstEnum.getBoolean(mid.getIsRecidivist()));
             mid.setIsTeamStr(ConstEnum.getBoolean(mid.getIsTeam()));
             mid.setIsBreakmanageStr(ConstEnum.getBoolean(mid.getIsBreakmanage()));
             mid.setIsOmitStr(ConstEnum.getBoolean(mid.getIsOmit()));
             mid.setIsAgainStr(ConstEnum.getBoolean(mid.getIsAgain()));
-            mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
+            mid.setSishiFlagArr( mid.getSansheFlag().replace('"',' ').replaceAll(" ","").split(","));
+            mid.setSishiFlagStr(dictDetailService.getLabelByValues(DictEnum.SSHIQK.getDictId(), mid.getSishiFlagArr()));
+            mid.setSansheFlagArr( mid.getSansheFlag().replace('"',' ').replaceAll(" ","").split(","));
+            mid.setSansheFlagStr(dictDetailService.getLabelByValues(DictEnum.SSHEQK.getDictId(), mid.getSansheFlagArr()));
+            mid.setTeamGuysArr( mid.getTeamGuys().replace('"',' ').replaceAll(" ","").split(","));
+            mid.setTeamGuysStr(dictDetailService.getLabelByValues(DictEnum.JZXZRYZCQK.getDictId(), mid.getTeamGuysArr()));
+
+
+            mid.setCorrectRemoveStr(dictDetailService.transDict(DictEnum.JZJCLX.getDictId(), mid.getCorrectRemove()));
+
         }
         Map map = new HashMap();
         map.put("content", correctPersonDTOS);

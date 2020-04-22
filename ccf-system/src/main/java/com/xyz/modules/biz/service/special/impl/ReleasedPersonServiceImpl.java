@@ -64,26 +64,28 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
         Page<ReleasedPerson> page = ReleasedPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ReleasedPersonDTO> releasedPersonDTOS = ReleasedPersonMapper.toDto(page.getContent());
         for (ReleasedPersonDTO mid:releasedPersonDTOS){
-            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex()));// 性别
-            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation()));//民族
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), mid.getPersonSex()));// 性别
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(), mid.getNation()));//民族
             mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo()));
-            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag()));//婚姻状况
-            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag()));// 政治面貌
-            mid.setEduLevelStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEduLevel()));  // 文化程度
-            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType()));// 宗教信仰
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDictId(), mid.getMarriageFlag()));//婚姻状况
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(), mid.getPartyFlag()));// 政治面貌
+            mid.setEduLevelStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(), mid.getEduLevel()));  // 文化程度
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(), mid.getFaithType()));// 宗教信仰
             mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode()));
             mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
-            mid.setRiskTypeStr(dictDetailService.transDict(DictEnum.WXXPGLX.getDistName(), mid.getRiskType()));
-            mid.setJoinFlagStr(dictDetailService.transDict(DictEnum.XJQK.getDistName(), mid.getJoinFlag()));
-            mid.setArrangeFlagStr(dictDetailService.transDict(DictEnum.AZQK.getDistName(), mid.getArrangeFlag()));
-            mid.setHelpeCommentStr(dictDetailService.transDict(DictEnum.BFQK.getDistName(), mid.getHelpeComment()));
+            mid.setRiskTypeStr(dictDetailService.transDict(DictEnum.WXXPGLX.getDictId(), mid.getRiskType()));
+            mid.setJoinFlagStr(dictDetailService.transDict(DictEnum.XJQK.getDictId(), mid.getJoinFlag()));
+            mid.setArrangeFlagStr(dictDetailService.transDict(DictEnum.AZQK.getDictId(), mid.getArrangeFlag()));
+            //mid.setHelpeCommentStr(dictDetailService.transDict(DictEnum.BFQK.getDictId(), mid.getHelpeComment()));
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
-            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
             mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
+            mid.setIsAgainStr(ConstEnum.getBoolean(mid.getIsAgain()));
+            mid.setIsPedigreeStr(ConstEnum.getBoolean(mid.getIsPedigree()));
         }
         Map map = new HashMap();
         map.put("content", releasedPersonDTOS);

@@ -78,16 +78,16 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
             mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
             mid.setPeopleTypeStr(dictDetailService.transDict(DictEnum.RYLX.getDistName(), mid.getPeopleTypeStr()));// 人员类型
             mid.setHelpeMethodStr(dictDetailService.transDict(DictEnum.BFSD.getDistName(), mid.getHelpeMethod()));//帮扶手段
-            mid.setHelpeCommentStr(dictDetailService.transDict(DictEnum.BFQK.getDistName(), mid.getHelpeComment()));//帮扶情况
+            //mid.setHelpeCommentStr(dictDetailService.transDict(DictEnum.BFQK.getDistName(), mid.getHelpeComment()));//帮扶情况
             mid.setHomeSituStr(dictDetailService.transDict(DictEnum.JTQK.getDistName(), mid.getHomeSituStr()));
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
-            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
             mid.setIfIllegalStr(ConstEnum.getBoolean(mid.getIfIllegal()));
-            mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
-            mid.setGuardianAddrcodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getGuardianAddrcode()));
+            mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setGuardianAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getGuardianAddrcode()));
         }
         Map map = new HashMap();
         map.put("content", bizTeenagerBaseinfoDTOList);

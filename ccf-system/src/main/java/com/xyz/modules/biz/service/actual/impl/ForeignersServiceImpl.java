@@ -61,18 +61,18 @@ public class ForeignersServiceImpl implements ForeignersService {
         Page<Foreigners> page = ForeignersRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ForeignersDTO> foreignersList = ForeignersMapper.toDto(page.getContent());
         for (ForeignersDTO mid: foreignersList) {
-            mid.setLastnameStr(dictDetailService.transDict(DictEnum.JGCJ.getDistName(), mid.getLastname())); // 外文姓
-            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex())); //性别
+            mid.setLastnameStr(dictDetailService.transDict(DictEnum.JGCJ.getDictId(), mid.getLastname())); // 外文姓
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), mid.getPersonSex())); //性别
             mid.setCountryStr(dictDetailService.transDict(DictEnum.GJ_DQ.getDictId(), mid.getCountry())); // 国籍
-            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType())); //  宗教信仰
-            mid.setCardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDistName(), mid.getCardType())); //  证件代码
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(), mid.getFaithType())); //  宗教信仰
+            mid.setCardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(), mid.getCardType())); //  证件代码
             mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode())); // 职业类别
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence())); // 现住地
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
-            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
             mid.setIfImportStr(ConstEnum.getBoolean(mid.getIfImport()));
             mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
             mid.setGoalInStr(dictDetailService.transDict(DictEnum.LHMD.getDictId(), mid.getGoalIn()));

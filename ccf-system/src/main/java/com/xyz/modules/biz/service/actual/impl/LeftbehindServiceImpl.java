@@ -63,25 +63,27 @@ public class LeftbehindServiceImpl implements LeftbehindService {
         Page<Leftbehind> page = LeftbehindRepository.findAll(audit.genSpecification(criteria),pageable);
         List<LeftbehindDTO> leftbehindList = LeftbehindMapper.toDto(page.getContent());
         for (LeftbehindDTO mid: leftbehindList) {
-            String dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), mid.getIdentityNum());
-            mid.setIdentityNumStr(dictDetailService.transDict(DictEnum.ZJDM.getDistName(), mid.getIdentityNum())); // 公民身份号码
-            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex())); //性别
-            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation())); //民族
+            String dd = dictDetailService.transDict(DictEnum.ZJDM.getDictId(), mid.getIdentityNum());
+            mid.setIdentityNumStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(), mid.getIdentityNum())); // 公民身份号码
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), mid.getPersonSex())); //性别
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(), mid.getNation())); //民族
             mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo())); // 籍贯
-            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDistName(), mid.getMarriageFlag())); // 婚姻状况
-            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag())); //  政治面貌
-            mid.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEducationBg())); //  学历
-            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType())); //  宗教信仰
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDictId(), mid.getMarriageFlag())); // 婚姻状况
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(), mid.getPartyFlag())); //  政治面貌
+            mid.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(), mid.getEducationBg())); //  学历
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(), mid.getFaithType())); //  宗教信仰
             mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode())); // 职业类别
             mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace())); // 户籍地
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence())); //  现住地
-            mid.setMainmemRelaStr(dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getMainmemRela())); //  与留守人员关系
-            mid.setHealthyStr(dictDetailService.transDict(DictEnum.YHZGX.getDistName(), mid.getHealthy())); //  健康状况
-            mid.setLeftbehindTypeStr(dictDetailService.transDict(DictEnum.LSRYLX.getDistName(), mid.getLeftbehindType())); //  留守人员类型
+            mid.setMainmemRelaStr(dictDetailService.transDict(DictEnum.YHZGX.getDictId(), mid.getMainmemRela())); //  与留守人员关系
+            mid.setHealthyStr(dictDetailService.transDict(DictEnum.YHZGX.getDictId(), mid.getHealthy())); //  健康状况
+            mid.setLeftbehindTypeStr(dictDetailService.transDict(DictEnum.LSRYLX.getDictId(), mid.getLeftbehindType())); //  留守人员类型
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
-            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
+
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
             mid.setMainmemAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getMainmemAddrcode()));

@@ -87,6 +87,9 @@ public class CorrectPersonDTO implements Serializable {
     // 现住地，跟现住地编码residence_code数据重复存储
     private String residence;
 
+    // 现住地，跟现住地编码residence_code数据重复存储
+    private String residenceStr;
+
     // 现住地编码
     private String residenceCode;
 
@@ -139,12 +142,20 @@ public class CorrectPersonDTO implements Serializable {
     // 四史情况--可多选，|号隔开
     private String sishiFlag;
 
+    // 四史情况--可多选，|号隔开
+    private String sishiFlagStr;
+    private  String[] sishiFlagArr;
+
     // 是否是惯犯
     private String isRecidivist;
     private String isRecidivistStr;
 
     // 三涉情况--可多选，|号隔开
     private String sansheFlag;
+
+    // 三涉情况--可多选，|号隔开
+    private String sansheFlagStr;
+    private  String[] sansheFlagArr;
 
     // 是否建立矫正小组
     private String isTeam;
@@ -153,8 +164,14 @@ public class CorrectPersonDTO implements Serializable {
     // 矫正小组人员情况--可多选，|号隔开
     private String teamGuys;
 
+    // 矫正小组人员情况--可多选，|号隔开
+    private String teamGuysStr;
+    private  String[] teamGuysArr;
     // 矫正解除类型
     private String correctRemove;
+
+    // 矫正解除类型
+    private String correctRemoveStr;
 
     // 是否脱管
     private String isBreakmanage;
