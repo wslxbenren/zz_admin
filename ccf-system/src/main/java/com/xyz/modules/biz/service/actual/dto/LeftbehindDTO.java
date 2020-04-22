@@ -134,6 +134,7 @@ public class LeftbehindDTO implements Serializable {
 
     // 家庭主要成员健康状况
     private String mainmemHealth;
+    private String mainmemHealthStr;
 
     // 与留守人员关系:编码应符合GB/T4761
     private String mainmemRela;
@@ -156,8 +157,6 @@ public class LeftbehindDTO implements Serializable {
     // 帮扶情况
     private String helpeComment;
 
-    // 帮扶情况
-    private String helpeCommentStr;
 
     // 生效时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")

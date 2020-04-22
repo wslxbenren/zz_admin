@@ -142,6 +142,7 @@ public class PsychosisPersonDTO implements Serializable {
     // 实施住院治疗原因  ---多选项
     private String inhospitalReason;
     private String inhospitalReasonStr;
+    private  String[] inhospitalReasonArr;
 
     // 接受康复机构名称
     private String reviceUnion;

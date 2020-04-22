@@ -76,7 +76,6 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
             mid.setRiskTypeStr(dictDetailService.transDict(DictEnum.WXXPGLX.getDictId(), mid.getRiskType()));
             mid.setJoinFlagStr(dictDetailService.transDict(DictEnum.XJQK.getDictId(), mid.getJoinFlag()));
             mid.setArrangeFlagStr(dictDetailService.transDict(DictEnum.AZQK.getDictId(), mid.getArrangeFlag()));
-            //mid.setHelpeCommentStr(dictDetailService.transDict(DictEnum.BFQK.getDictId(), mid.getHelpeComment()));
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));

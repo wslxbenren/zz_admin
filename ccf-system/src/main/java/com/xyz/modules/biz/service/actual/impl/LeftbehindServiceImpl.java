@@ -82,8 +82,7 @@ public class LeftbehindServiceImpl implements LeftbehindService {
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
-            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
-
+            mid.setMainmemHealthStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getMainmemHealth()));
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
             mid.setMainmemAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getMainmemAddrcode()));
