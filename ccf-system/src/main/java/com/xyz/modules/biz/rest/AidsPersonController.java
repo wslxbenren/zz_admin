@@ -22,6 +22,7 @@ import io.swagger.annotations.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 刘鑫
@@ -92,9 +93,9 @@ public class AidsPersonController {
     public ResponseEntity export(HttpServletResponse response , AidsPersonQueryCriteria criteria) throws IOException {
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
         String deptId = u.getDeptDto().getId();
-        List<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
+        Set<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
         criteria.setCreator(u.getId());
-        criteria.setUnitCode(deptCodes);
+//        criteria.setUnitCode(deptCodes);
         AidsPersonService.export(response,criteria);
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -1,8 +1,11 @@
 package com.xyz.modules.biz.audit;
 
+import cn.hutool.core.util.ReflectUtil;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.security.service.JwtUserDetailsService;
+import com.xyz.modules.system.domain.Role;
 import com.xyz.modules.system.service.DeptService;
+import com.xyz.modules.system.service.dto.RoleDTO;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 权限以及其他扩展
@@ -37,38 +41,20 @@ public class AuditSpecification {
      */
     public <Q> Specification genSpecification(Q q) {
         return (Specification) (root, criteriaQuery, criteriaBuilder) -> {
-            JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-            String userDeptCode = u.getDeptDto().getCode();
-
-            List<String> inDeptCodes;
-            try {
-                Field unitCode = q.getClass().getDeclaredField("unitCode");
-                unitCode.setAccessible(true);
-                List<String> unitCodeParam = (List<String>) unitCode.get(q);
-                if (unitCodeParam == null) {
-                    if (!"-1".equals(u.getDeptDto().getPid())) {
-                        inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);
-                        unitCode.set(q, inDeptCodes);
-                    }
-                    // 一个方法调用了两遍
-                    // fixme 这里需要判断要查询的机构是否在当前用户机构内 暂时由前端约束
-//                    if(deptService.findById(unitCodeParam).getGrage == u.getDeptDto().getGrage  ) {
-//                        if(uCode == codeParam) {
-//                            // 同级同部门 可见
-//                        } else {
-//                            // 同级不同部门
-//                        }
-//                    } else if (deptService.findById(unitCodeParam).getGrage < u.getDeptDto().getGrage) {
-//                        // 下级 可见
-//                    } else {
-//                        // 上级 不可见
-//                    }
+            List<String> unitCodeParam = (List<String>) ReflectUtil.getFieldValue(q, "unitCode");
+            // 先默认没有空字符串传过来
+            if (unitCodeParam == null) {
+                JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
+                String userDeptCode = u.getDeptDto().getCode();
+                if (!"-1".equals(u.getDeptDto().getPid())) {
+                    ReflectUtil.setFieldValue(q, "unitCode", deptService.getDownGradeDeptCodes(userDeptCode));
                 }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
+            } else {
+                unitCodeParam.forEach(deptCode -> {
+                    ReflectUtil.setFieldValue(q, "unitCode", deptService.getDownGradeDeptCodes(deptCode));
+                });
             }
+
             return QueryHelp.getPredicate(root,q,criteriaBuilder);
         };
     }

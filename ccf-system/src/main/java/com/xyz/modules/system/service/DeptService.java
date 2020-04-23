@@ -103,5 +103,5 @@ public interface DeptService {
      * @return
      */
     @Cacheable(cacheNames = "deptDownGrade", key = "#p0")
-    List<String> getDownGradeDeptCodes(String deptCode);
+    Set<String> getDownGradeDeptCodes(String deptCode);
 }
