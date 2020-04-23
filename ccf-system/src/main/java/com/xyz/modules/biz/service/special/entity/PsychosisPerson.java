@@ -236,6 +236,6 @@ public class PsychosisPerson implements Serializable {
     private String servicePlaceCode;
 
     public void copy(PsychosisPerson source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
+        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(false));
     }
 }
