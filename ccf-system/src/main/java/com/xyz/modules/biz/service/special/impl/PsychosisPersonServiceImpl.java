@@ -1,8 +1,14 @@
 package com.xyz.modules.biz.service.special.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
-import com.xyz.modules.biz.service.special.entity.PsychosisPerson;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.biz.service.special.PsychosisPersonService;
+import com.xyz.modules.biz.service.special.dto.PsychosisPersonDTO;
+import com.xyz.modules.biz.service.special.entity.PsychosisPerson;
+import com.xyz.modules.biz.service.special.mapper.PsychosisPersonMapper;
+import com.xyz.modules.biz.service.special.qo.PsychosisPersonQueryCriteria;
+import com.xyz.modules.biz.service.special.repo.PsychosisPersonRepository;
 import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
@@ -10,24 +16,20 @@ import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
-import com.xyz.modules.biz.service.special.repo.PsychosisPersonRepository;
-import com.xyz.modules.biz.service.special.PsychosisPersonService;
-import com.xyz.modules.biz.service.special.dto.PsychosisPersonDTO;
-import com.xyz.modules.biz.service.special.qo.PsychosisPersonQueryCriteria;
-import com.xyz.modules.biz.service.special.mapper.PsychosisPersonMapper;
+import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-
-import cn.hutool.core.util.IdUtil;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author 刘鑫
@@ -58,11 +60,11 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
 
     @Override
     @Transactional
-    public Object queryAll(PsychosisPersonQueryCriteria criteria, Pageable pageable){
+    public Object queryAll(PsychosisPersonQueryCriteria criteria, Pageable pageable) {
         log.debug("********** 条件查询 PsychosisPerson 列表-分页  **********");
-        Page<PsychosisPerson> page = PsychosisPersonRepository.findAll(audit.genSpecification(criteria),pageable);
+        Page<PsychosisPerson> page = PsychosisPersonRepository.findAll(audit.genSpecification(criteria), pageable);
         List<PsychosisPersonDTO> psychosisPersonDTOS = PsychosisPersonMapper.toDto(page.getContent());
-        for (PsychosisPersonDTO mid:psychosisPersonDTOS){
+        for (PsychosisPersonDTO mid : psychosisPersonDTOS) {
             mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex()));// 性别
             mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation()));//民族
             mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo()));
@@ -82,15 +84,23 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
-            mid.setJoinManagerArr( mid.getJoinManager().replace('"',' ').replaceAll(" ","").trim().split(","));
-            mid.setJoinManagerStr(dictDetailService.getLabelByValues(DictEnum.CYGLRY.getDictId(),mid.getJoinManagerArr()));
-            mid.setHelpeFlagArr( mid.getHelpeFlag().replace('"',' ').replaceAll(" ","").trim().split(","));
-            mid.setHelpeFlagStr(dictDetailService.getLabelByValues(DictEnum.BFQK.getDictId(),mid.getHelpeFlagArr()));
-            mid.setInhospitalReasonArr( mid.getInhospitalReason().replace('"',' ').replaceAll(" ","").trim().split(","));
-            mid.setInhospitalReasonStr(dictDetailService.getLabelByValues(DictEnum.SSZYZLYY.getDictId(), mid.getInhospitalReasonArr()));
+            if (!StringUtil.isNullOrEmpty(mid.getJoinManager())) {
+                mid.setJoinManagerArr(mid.getJoinManager().replace('"', ' ').replaceAll(" ", "").split(","));
+                mid.setJoinManagerStr(dictDetailService.getLabelByValues(DictEnum.CYGLRY.getDictId(), mid.getJoinManagerArr()));
+            }
+            if (!StringUtil.isNullOrEmpty(mid.getHelpeFlag())) {
+                mid.setHelpeFlagArr(mid.getHelpeFlag().replace('"', ' ').replaceAll(" ", "").split(","));
+                mid.setHelpeFlagStr(dictDetailService.getLabelByValues(DictEnum.BFQK.getDictId(), mid.getHelpeFlagArr()));
+            }
+            if (!StringUtil.isNullOrEmpty(mid.getInhospitalReason())) {
+                mid.setInhospitalReasonArr(mid.getInhospitalReason().replace('"', ' ')
+                        .replaceAll(" ", "").split(","));
+                mid.setInhospitalReasonStr(dictDetailService.getLabelByValues(DictEnum.SSZYZLYY.getDictId(), mid.getInhospitalReasonArr()));
+            }
+
             mid.setIsBasiclivingStr(ConstEnum.getBoolean(mid.getIsBasicliving()));
             mid.setIsTroubleStr(ConstEnum.getBoolean(mid.getIsTrouble()));
-            mid.setRiskLevelStr(dictDetailService.transDict(DictEnum.MQWXXPGDJ.getDictId(),mid.getRiskLevel()));
+            mid.setRiskLevelStr(dictDetailService.transDict(DictEnum.MQWXXPGDJ.getDictId(), mid.getRiskLevel()));
         }
         Map map = new HashMap();
         map.put("content", psychosisPersonDTOS);
@@ -100,7 +110,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
 
     @Override
     @Transactional
-    public Object queryAll(PsychosisPersonQueryCriteria criteria){
+    public Object queryAll(PsychosisPersonQueryCriteria criteria) {
         log.debug("********** 条件查询 PsychosisPerson 列表   **********");
         return PsychosisPersonMapper.toDto(PsychosisPersonRepository.findAll(audit.genSpecification(criteria)));
     }
@@ -109,7 +119,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     public PsychosisPersonDTO findById(String psychosisId) {
         log.debug("**********  查询 PsychosisPerson 详情   **********");
         Optional<PsychosisPerson> PsychosisPerson = PsychosisPersonRepository.findById(psychosisId);
-        ValidationUtil.isNull(PsychosisPerson,"PsychosisPerson","psychosisId",psychosisId);
+        ValidationUtil.isNull(PsychosisPerson, "PsychosisPerson", "psychosisId", psychosisId);
         return PsychosisPersonMapper.toDto(PsychosisPerson.get());
     }
 
@@ -117,9 +127,9 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     @Transactional(rollbackFor = Exception.class)
     public PsychosisPersonDTO create(PsychosisPerson resources) {
         log.debug("**********  新增 PsychosisPerson  **********");
-        resources.setPsychosisId(IdUtil.simpleUUID()); 
-        if(PsychosisPersonRepository.findByIdentityNum(resources.getIdentityNum()) != null){
-            throw new EntityExistException(PsychosisPerson.class,"identity_num",resources.getIdentityNum());
+        resources.setPsychosisId(IdUtil.simpleUUID());
+        if (PsychosisPersonRepository.findByIdentityNum(resources.getIdentityNum()) != null) {
+            throw new EntityExistException(PsychosisPerson.class, "identity_num", resources.getIdentityNum());
         }
         return PsychosisPersonMapper.toDto(PsychosisPersonRepository.save(resources));
     }
@@ -129,12 +139,12 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
     public void update(PsychosisPerson resources) {
         log.debug("**********  修改 PsychosisPerson  **********");
         Optional<PsychosisPerson> optionalPsychosisPerson = PsychosisPersonRepository.findById(resources.getPsychosisId());
-        ValidationUtil.isNull( optionalPsychosisPerson,"PsychosisPerson","id",resources.getPsychosisId());
+        ValidationUtil.isNull(optionalPsychosisPerson, "PsychosisPerson", "id", resources.getPsychosisId());
         PsychosisPerson PsychosisPerson = optionalPsychosisPerson.get();
         PsychosisPerson psychosisPerson = PsychosisPersonRepository.findByIdentityNum(resources.getIdentityNum());
-        if(psychosisPerson != null && !psychosisPerson.getPsychosisId().equals(PsychosisPerson.getPsychosisId())){
+        if (psychosisPerson != null && !psychosisPerson.getPsychosisId().equals(PsychosisPerson.getPsychosisId())) {
             log.debug("********** PsychosisPerson identity_num 重复 修改失败 **********");
-            throw new EntityExistException(PsychosisPerson.class,"identity_num",resources.getIdentityNum());
+            throw new EntityExistException(PsychosisPerson.class, "identity_num", resources.getIdentityNum());
         }
         PsychosisPerson.copy(resources);
         PsychosisPersonRepository.save(PsychosisPerson);

@@ -170,6 +170,7 @@ public class PsychosisPerson implements Serializable {
 
     // 参与管理人员  ---多选项
     @Column(name = "join_manager")
+
     private String joinManager;
 
     // 帮扶情况  ---多选项
