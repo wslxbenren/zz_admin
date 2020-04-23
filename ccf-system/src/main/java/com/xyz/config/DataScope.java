@@ -1,5 +1,6 @@
 package com.xyz.config;
 
+import cn.hutool.core.util.ReflectUtil;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.security.service.JwtUserDetailsService;
 import com.xyz.utils.QueryHelp;
@@ -125,23 +126,20 @@ public class DataScope {
     public <Q> Specification genSpecification(Q q) {
         return (Specification) (root, criteriaQuery, criteriaBuilder) -> {
             UserDTO user = userService.findByName(SecurityUtils.getUsername());
-            String userDeptCode = user.getDept().getCode();
-            Set<String> inDeptCodes;
-            try {
-                Field unitCode = q.getClass().getDeclaredField("unitCode");
-                unitCode.setAccessible(true);
-                List<String> unitCodeParam = (List<String>) unitCode.get(q);
-                if (unitCodeParam == null) {
-//                    if (!"-1".equals(u.getDeptDto().getPid())) {
-//                        inDeptCodes = deptService.getDownGradeDeptCodes(userDeptCode);
-//                        unitCode.set(q, inDeptCodes);
-//                    }
+            List<String> unitCodeParam = (List<String>) ReflectUtil.getFieldValue(q, "unitCode");
+            // 先默认没有空字符串传过来
+            if (unitCodeParam == null) {
+                UserDTO u = userService.findByName(SecurityUtils.getUsername());
+                String userDeptCode = u.getDept().getCode();
+                if (!"-1".equals(u.getDept().getPid())) {
+                    ReflectUtil.setFieldValue(q, "unitCode", deptService.getDownGradeDeptCodes(userDeptCode));
                 }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
+            } else {
+                unitCodeParam.forEach(deptCode -> {
+                    ReflectUtil.setFieldValue(q, "unitCode", deptService.getDownGradeDeptCodes(deptCode));
+                });
             }
+
             return QueryHelp.getPredicate(root,q,criteriaBuilder);
         };
     }

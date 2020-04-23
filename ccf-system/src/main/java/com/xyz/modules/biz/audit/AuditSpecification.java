@@ -1,11 +1,14 @@
 package com.xyz.modules.biz.audit;
 
 import cn.hutool.core.util.ReflectUtil;
+import com.xyz.config.DataScope;
 import com.xyz.modules.security.security.JwtUser;
 import com.xyz.modules.security.service.JwtUserDetailsService;
 import com.xyz.modules.system.domain.Role;
 import com.xyz.modules.system.service.DeptService;
+import com.xyz.modules.system.service.UserService;
 import com.xyz.modules.system.service.dto.RoleDTO;
+import com.xyz.modules.system.service.dto.UserDTO;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -24,13 +29,15 @@ import java.util.Set;
 @Component
 @Slf4j
 public class AuditSpecification {
-    private JwtUserDetailsService userDetailsService;
+    private UserService userDetailsService;
     private DeptService deptService;
+    private DataScope dataScope;
 
     @Autowired
-    public AuditSpecification(@Qualifier("jwtUserDetailsService") JwtUserDetailsService userDetailsService, DeptService deptService) {
+    public AuditSpecification(UserService userDetailsService, DeptService deptService, DataScope dataScope) {
         this.userDetailsService = userDetailsService;
         this.deptService = deptService;
+        this.dataScope = dataScope;
     }
 
     /**
@@ -41,18 +48,19 @@ public class AuditSpecification {
      */
     public <Q> Specification genSpecification(Q q) {
         return (Specification) (root, criteriaQuery, criteriaBuilder) -> {
+            UserDTO user = userDetailsService.findByName(SecurityUtils.getUsername());
             List<String> unitCodeParam = (List<String>) ReflectUtil.getFieldValue(q, "unitCode");
             // 先默认没有空字符串传过来
             if (unitCodeParam == null) {
-                JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-                String userDeptCode = u.getDeptDto().getCode();
-                if (!"-1".equals(u.getDeptDto().getPid())) {
-                    ReflectUtil.setFieldValue(q, "unitCode", deptService.getDownGradeDeptCodes(userDeptCode));
+                if (!"-1".equals(user.getDept().getPid())) {
+                    ReflectUtil.setFieldValue(q, "unitCode", dataScope.getDeptCodesWithRole());
                 }
             } else {
+                Set<String> tmp = Collections.EMPTY_SET;
                 unitCodeParam.forEach(deptCode -> {
-                    ReflectUtil.setFieldValue(q, "unitCode", deptService.getDownGradeDeptCodes(deptCode));
+                    tmp.addAll(deptService.getDownGradeDeptCodes(deptCode));
                 });
+                ReflectUtil.setFieldValue(q, "unitCode", dataScope.getDeptCodesWithRole().retainAll(tmp));
             }
 
             return QueryHelp.getPredicate(root,q,criteriaBuilder);
