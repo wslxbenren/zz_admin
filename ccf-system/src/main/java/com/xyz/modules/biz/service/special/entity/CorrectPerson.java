@@ -227,12 +227,12 @@ public class CorrectPerson implements Serializable {
     private String againCharge;
 
     // 生效时间
-    @Column(name = "eff_date", insertable= false)
+    @Column(name = "eff_date", insertable= false,updatable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",insertable = false)
+    @Column(name = "exp_date",insertable = false,updatable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 
@@ -281,6 +281,6 @@ public class CorrectPerson implements Serializable {
     private String servicePlaceCode;
 
     public void copy(CorrectPerson source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
+        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(false));
     }
 }

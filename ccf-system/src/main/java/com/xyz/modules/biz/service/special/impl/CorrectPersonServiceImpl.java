@@ -17,6 +17,7 @@ import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
+import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -87,10 +88,14 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
             mid.setIsAgainStr(ConstEnum.getBoolean(mid.getIsAgain()));
             mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
-            mid.setSishiFlagArr( mid.getSansheFlag().replace('"',' ').replaceAll(" ","").split(","));
-            mid.setSishiFlagStr(dictDetailService.getLabelByValues(DictEnum.SSHIQK.getDictId(), mid.getSishiFlagArr()));
-            mid.setSansheFlagArr( mid.getSansheFlag().replace('"',' ').replaceAll(" ","").split(","));
-            mid.setSansheFlagStr(dictDetailService.getLabelByValues(DictEnum.SSHEQK.getDictId(), mid.getSansheFlagArr()));
+            if (!StringUtil.isNullOrEmpty(mid.getSishiFlag())) {
+                mid.setSishiFlagArr( mid.getSishiFlag().replace('"',' ').replaceAll(" ","").split(","));
+                mid.setSishiFlagStr(dictDetailService.getLabelByValues(DictEnum.SSHIQK.getDictId(), mid.getSishiFlagArr()));
+            }
+            if (!StringUtil.isNullOrEmpty(mid.getSansheFlag())) {
+                mid.setSansheFlagArr( mid.getSansheFlag().replace('"',' ').replaceAll(" ","").split(","));
+                mid.setSansheFlagStr(dictDetailService.getLabelByValues(DictEnum.SSHEQK.getDictId(), mid.getSansheFlagArr()));
+            }
             mid.setTeamGuysArr( mid.getTeamGuys().replace('"',' ').replaceAll(" ","").split(","));
             mid.setTeamGuysStr(dictDetailService.getLabelByValues(DictEnum.JZXZRYZCQK.getDictId(), mid.getTeamGuysArr()));
 
