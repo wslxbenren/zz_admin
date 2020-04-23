@@ -71,15 +71,15 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
         Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
         for (ManagecenterInfoDTO mid:midList ) {
-            String dd = dictDetailService.transDict(DictEnum.JGCJ.getDistName(), mid.getGrage());
+            String dd = dictDetailService.transDict(DictEnum.JGCJ.getDictId(), mid.getGrage());
             mid.setGrageStr(dd == null ? "无数据":dd);
             mid.setAddrStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getAddr()));
             dd = deptRepository.findNameByCode(mid.getUnitCode());
-            mid.setCreator(userRepository.findById(mid.getId()).orElse(new User()).getUsername());
+            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(dd);
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
-            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
         }
         Map map = new HashMap();
         map.put("content", midList);
