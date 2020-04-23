@@ -26,16 +26,15 @@ import java.util.*;
  */
 @Component
 public class DataScope {
-    private final String[] scopeType = {"全部","本级", "本级及下级所有", "下级所有",  "自定义"};
+    private final String[] scopeType = {"全部","本级","自定义"};
     /**
-     * 顶级领导
+     * 超管
      */
     private static final String ALL = "全部";
-
     /**
      * 部门领导: 查看本级以及所有下级
      */
-    private static final String LEADER = "查看本级以及下级部门";
+    private static final String LEADER = "本级及下级";
     /**
      * 普通成员
      */
@@ -114,6 +113,7 @@ public class DataScope {
                     break;
             }
         }
+
         return deptCodes;
     }
 

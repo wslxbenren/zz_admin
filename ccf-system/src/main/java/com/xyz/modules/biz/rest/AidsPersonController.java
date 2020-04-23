@@ -93,7 +93,7 @@ public class AidsPersonController {
     public ResponseEntity export(HttpServletResponse response , AidsPersonQueryCriteria criteria) throws IOException {
         JwtUser u = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
         String deptId = u.getDeptDto().getId();
-        Set<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
+//        Set<String> deptCodes = deptService.getDownGradeDeptCodes(deptId);
         criteria.setCreator(u.getId());
 //        criteria.setUnitCode(deptCodes);
         AidsPersonService.export(response,criteria);

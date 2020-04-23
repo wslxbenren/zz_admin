@@ -7,6 +7,7 @@ import com.xyz.modules.system.service.dto.DeptDTO;
 import com.xyz.modules.system.service.dto.DeptQueryCriteria;
 import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.service.DeptService;
+import org.aspectj.apache.bcel.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,4 +78,5 @@ public class DeptController {
         deptService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
 }

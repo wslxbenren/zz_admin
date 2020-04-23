@@ -200,12 +200,12 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Transactional
-    public Set<String> getDownGradeDeptCodes(String code) {
+    public List<String> getDownGradeDeptCodes(String code) {
         String res = deptRepository.getDeptDownGradeCodes(code);
         if(res.length() > 2) {
             String tmp = res.substring(0, res.length() - 2);
-            return new HashSet<>(CollectionUtils.arrayToList(tmp.split(",")));
+            return CollectionUtils.arrayToList(tmp.split(","));
         }
-        return Collections.emptySet();
+        return Collections.emptyList();
     }
 }

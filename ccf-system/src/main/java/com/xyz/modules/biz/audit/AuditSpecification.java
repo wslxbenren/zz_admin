@@ -18,10 +18,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 权限以及其他扩展
@@ -41,8 +38,7 @@ public class AuditSpecification {
     }
 
     /**
-     * 机构权限过滤, 如果前端参数包含了机构查询参数, 则只查询当前机构下的数据
-     * todo 匿名类暂不支持异常抛出, 待解决 不能仅仅靠前端约束机构条件查询
+     * 查询统一数据权限过滤
      * @param q 查询封装对象
      * @return
      */
@@ -50,19 +46,25 @@ public class AuditSpecification {
         return (Specification) (root, criteriaQuery, criteriaBuilder) -> {
             UserDTO user = userDetailsService.findByName(SecurityUtils.getUsername());
             List<String> unitCodeParam = (List<String>) ReflectUtil.getFieldValue(q, "unitCode");
-            // 先默认没有空字符串传过来
             if (unitCodeParam == null) {
                 if (!"-1".equals(user.getDept().getPid())) {
-                    ReflectUtil.setFieldValue(q, "unitCode", dataScope.getDeptCodesWithRole());
+                    Set<String> t = dataScope.getDeptCodesWithRole();
+                    ReflectUtil.setFieldValue(q, "unitCode", t);
                 }
             } else {
-                Set<String> tmp = Collections.EMPTY_SET;
+                // 如果指定机构查询则与当前角色集所有的数据权限做交集处理.
+                Set<String> tmp = new HashSet<>();
                 unitCodeParam.forEach(deptCode -> {
                     tmp.addAll(deptService.getDownGradeDeptCodes(deptCode));
                 });
-                ReflectUtil.setFieldValue(q, "unitCode", dataScope.getDeptCodesWithRole().retainAll(tmp));
+                Set<String> roleDeptCodes = dataScope.getDeptCodesWithRole();
+                if(roleDeptCodes.isEmpty()) {
+                    ReflectUtil.setFieldValue(q, "unitCode", tmp);
+                } else {
+                    tmp.retainAll(roleDeptCodes);
+                }
+                ReflectUtil.setFieldValue(q, "unitCode", tmp);
             }
-
             return QueryHelp.getPredicate(root,q,criteriaBuilder);
         };
     }
