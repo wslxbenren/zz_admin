@@ -91,6 +91,7 @@ public class AidsPersonServiceImpl implements AidsPersonService {
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setIsPedigreeStr(ConstEnum.getBoolean(mid.getIsPedigree()));
             mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setIsPedigreeStr(ConstEnum.getBoolean(mid.getIsPedigree()));
         }
         Map map = new HashMap();
         map.put("content", aidsPersonDTOS);

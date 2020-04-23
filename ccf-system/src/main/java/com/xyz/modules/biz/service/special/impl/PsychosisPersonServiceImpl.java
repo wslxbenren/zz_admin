@@ -70,6 +70,7 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
             mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDistName(), mid.getPartyFlag()));// 政治面貌
             mid.setEduLevelStr(dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), mid.getEduLevel()));  // 文化程度
             mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDistName(), mid.getFaithType()));// 宗教信仰
+            mid.setSourceIncomeStr(dictDetailService.transDict(DictEnum.JTQK.getDistName(), mid.getSourceIncome()));
             mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode()));
             mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
             mid.setDiagnoseTypeStr(dictDetailService.transDict(DictEnum.MQZDLX.getDistName(), mid.getDiagnoseType()));
@@ -80,14 +81,16 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
-            mid.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
             mid.setJoinManagerArr( mid.getJoinManager().replace('"',' ').replaceAll(" ","").trim().split(","));
             mid.setJoinManagerStr(dictDetailService.getLabelByValues(DictEnum.CYGLRY.getDictId(),mid.getJoinManagerArr()));
             mid.setHelpeFlagArr( mid.getHelpeFlag().replace('"',' ').replaceAll(" ","").trim().split(","));
             mid.setHelpeFlagStr(dictDetailService.getLabelByValues(DictEnum.BFQK.getDictId(),mid.getHelpeFlagArr()));
             mid.setInhospitalReasonArr( mid.getInhospitalReason().replace('"',' ').replaceAll(" ","").trim().split(","));
             mid.setInhospitalReasonStr(dictDetailService.getLabelByValues(DictEnum.SSZYZLYY.getDictId(), mid.getInhospitalReasonArr()));
-
+            mid.setIsBasiclivingStr(ConstEnum.getBoolean(mid.getIsBasicliving()));
+            mid.setIsTroubleStr(ConstEnum.getBoolean(mid.getIsTrouble()));
+            mid.setRiskLevelStr(dictDetailService.transDict(DictEnum.MQWXXPGDJ.getDictId(),mid.getRiskLevel()));
         }
         Map map = new HashMap();
         map.put("content", psychosisPersonDTOS);

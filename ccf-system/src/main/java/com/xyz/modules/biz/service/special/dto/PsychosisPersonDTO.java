@@ -98,9 +98,11 @@ public class PsychosisPersonDTO implements Serializable {
 
     // 家庭经济情况
     private String sourceIncome;
+    private String sourceIncomeStr;
 
     // 是否纳入低保
     private String isBasicliving;
+    private String isBasiclivingStr;
 
     // 监护人身份证号
     private String guarderIdentity;
@@ -121,6 +123,7 @@ public class PsychosisPersonDTO implements Serializable {
 
     // 有无肇祸史
     private String isTrouble;
+    private String isTroubleStr;
 
     // 肇祸次数
     private Integer troubleTimes;

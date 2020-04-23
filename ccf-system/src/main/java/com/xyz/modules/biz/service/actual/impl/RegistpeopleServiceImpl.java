@@ -97,7 +97,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             r.setStatusStr(ConstEnum.transSync(r.getStatus()));
             r.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), r.getStatusCd()));
             r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
-            r.setServicePlaceCodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), r.getServicePlaceCode()));
+            r.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getServicePlaceCode()));
         }
         Map map = new HashMap();
         map.put("content", registpeopleDTOS);
