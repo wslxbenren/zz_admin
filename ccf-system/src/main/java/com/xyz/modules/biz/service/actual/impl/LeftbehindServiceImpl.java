@@ -60,6 +60,14 @@ public class LeftbehindServiceImpl implements LeftbehindService {
     @Transactional
     public Object queryAll(LeftbehindQueryCriteria criteria, Pageable pageable){
         log.info("查询列表实有人口/留守人员信息 --开始");
+        if (StringUtils.isNotBlank(criteria.getResidence())) {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getResidence());
+            if(addrPrefix.length() != 6) {
+                criteria.setResidenceWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setResidenceWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<Leftbehind> page = LeftbehindRepository.findAll(audit.genSpecification(criteria),pageable);
         List<LeftbehindDTO> leftbehindList = LeftbehindMapper.toDto(page.getContent());
         for (LeftbehindDTO mid: leftbehindList) {

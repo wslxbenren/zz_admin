@@ -59,44 +59,37 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Transactional
     public Object queryAll(FloatpeopleQueryCriteria criteria, Pageable pageable){
         log.debug("**********流动人口信息列表查询开始**********");
+        if (StringUtils.isNotBlank(criteria.getResidence())) {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getResidence());
+            if(addrPrefix.length() != 6) {
+                criteria.setResidenceWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setResidenceWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<Floatpeople> page = FloatpeopleRepository.findAll(audit.genSpecification(criteria),pageable);
         List<FloatpeopleDTO> floatpeopleDTOS = FloatpeopleMapper.toDto(page.getContent());
-        for (FloatpeopleDTO f:floatpeopleDTOS){
-            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
-            f.setPersonSexStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNation());
-            f.setNationStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getNativeInfo());
-            f.setNativeInfoStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), f.getMarriageFlag());
-            f.setMarriageFlagStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), f.getPartyFlag());
-            f.setPartyFlagStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEducationBg());
-            f.setEducationBgStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), f.getFaithType());
-            f.setFaithTypeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), f.getVocationCode());
-            f.setVocationCodeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getRegisteredPlace());
-            f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getServicePlaceCode());
-            f.setServicePlaceCodeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getResidence());
-            f.setResidenceStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.LRYY.getDistName(), f.getIntoCause());
-            f.setIntoCauseStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.BZLX.getDistName(), f.getCardType());
-            f.setCardTypeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZSLX.getDistName(), f.getResidType());
-            f.setResidTypeStr(dd == null ? "无数据" : dd);
-
-            f.setCreator(userRepository.findById(Optional.ofNullable(f.getCreator()).orElse("")).orElse(new User()).getUsername());
-            f.setOperName(userRepository.findById(Optional.ofNullable(f.getOperName()).orElse("")).orElse(new User()).getUsername());
-            f.setStatusStr(ConstEnum.transSync(f.getStatus()));
-            f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd()));
-            f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
-            f.setIfImportStr(ConstEnum.getBoolean(f.getIfImport()));
+        for (FloatpeopleDTO mid:floatpeopleDTOS){
+            mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), mid.getPersonSex()));
+            mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(), mid.getNation()));
+            mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo()));
+            mid.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDictId(), mid.getMarriageFlag()));
+            mid.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(), mid.getPartyFlag()));
+            mid.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(), mid.getEducationBg()));
+            mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(), mid.getFaithType()));
+            mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode()));
+            mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
+            mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
+            mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
+            mid.setIntoCauseStr(dictDetailService.transDict(DictEnum.LRYY.getDictId(), mid.getIntoCause()));
+            mid.setCardTypeStr(dictDetailService.transDict(DictEnum.BZLX.getDictId(), mid.getCardType()));
+            mid.setResidTypeStr(dictDetailService.transDict(DictEnum.ZSLX.getDictId(), mid.getResidType()));
+            mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(Optional.ofNullable(mid.getOperName()).orElse("")).orElse(new User()).getUsername());
+            mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
+            mid.setIfImportStr(ConstEnum.getBoolean(mid.getIfImport()));
 
         }
         Map map = new HashMap();

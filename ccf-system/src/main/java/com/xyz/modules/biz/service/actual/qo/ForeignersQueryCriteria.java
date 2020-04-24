@@ -50,6 +50,12 @@ public class ForeignersQueryCriteria{
     @ApiModelProperty(value = "证件有效期")
     private List<String> validDate;
 
+    @ApiModelProperty(value = "现住地")
+    private String residence;
+
+    @Query(type = Query.Type.IN, propName = "residence")
+    private List<String> residenceWithDownGrade;
+
     // 审计字段
     @Query(type = Query.Type.IN)
     @JsonIgnore

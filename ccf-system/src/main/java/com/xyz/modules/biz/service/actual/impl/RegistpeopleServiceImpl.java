@@ -17,6 +17,7 @@ import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,14 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Transactional
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
         log.info("**********户籍人员信息列表查询开始**********");
+        if (StringUtils.isNotBlank(criteria.getResidence())) {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getResidence());
+            if(addrPrefix.length() != 6) {
+                criteria.setResidenceWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setResidenceWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<Registpeople> page = RegistpeopleRepository.findAll(audit.genSpecification(criteria),pageable);
         List<Registpeople> content = page.getContent();
         List<RegistpeopleDTO> registpeopleDTOS = RegistpeopleMapper.toDto(content);

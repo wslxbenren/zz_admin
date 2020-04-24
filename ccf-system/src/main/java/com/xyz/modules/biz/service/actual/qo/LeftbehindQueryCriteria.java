@@ -42,9 +42,11 @@ public class LeftbehindQueryCriteria{
     @ApiModelProperty(value = "联系方式")
     private String contact;
 
-    @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "现住地")
     private String residence;
+
+    @Query(type = Query.Type.IN, propName = "residence")
+    private List<String> residenceWithDownGrade;
 
     // 审计字段
     @Query(type = Query.Type.IN)

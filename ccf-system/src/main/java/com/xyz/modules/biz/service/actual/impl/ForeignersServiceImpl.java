@@ -58,6 +58,14 @@ public class ForeignersServiceImpl implements ForeignersService {
     @Transactional
     public Object queryAll(ForeignersQueryCriteria criteria, Pageable pageable){
         log.info("查询列表实有人口/境外人员信息--开始");
+        if (StringUtils.isNotBlank(criteria.getResidence())) {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getResidence());
+            if(addrPrefix.length() != 6) {
+                criteria.setResidenceWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setResidenceWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<Foreigners> page = ForeignersRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ForeignersDTO> foreignersList = ForeignersMapper.toDto(page.getContent());
         for (ForeignersDTO mid: foreignersList) {
