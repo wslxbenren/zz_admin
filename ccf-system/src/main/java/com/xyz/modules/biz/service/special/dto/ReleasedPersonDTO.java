@@ -93,6 +93,7 @@ public class ReleasedPersonDTO implements Serializable {
 
     // 原罪名
     private String chargeComments;
+    private String chargeCommentsStr;
 
     // 原判刑期
     private String prisonTerm;

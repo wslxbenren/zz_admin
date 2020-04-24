@@ -10,6 +10,8 @@ public enum  ConstEnum {
     IS("1", "是"),
     NOT("0", "否");
 
+
+
     private String value;
     private String desc;
 

@@ -76,9 +76,9 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
             mid.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(), mid.getFaithType())); // 宗教信仰
             mid.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), mid.getVocationCode()));
             mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace()));
-            mid.setPeopleTypeStr(dictDetailService.transDict(DictEnum.RYLX.getDictId(), mid.getPeopleTypeStr()));// 人员类型
+            mid.setPeopleTypeStr(dictDetailService.transDict(DictEnum.RYLX.getDictId(), mid.getPeopleType()));// 人员类型
             mid.setHelpeMethodStr(dictDetailService.transDict(DictEnum.BFSD.getDictId(), mid.getHelpeMethod()));//帮扶手段
-            mid.setHomeSituStr(dictDetailService.transDict(DictEnum.JTQK.getDictId(), mid.getHomeSituStr()));
+            mid.setHomeSituStr(dictDetailService.transDict(DictEnum.JTQK.getDictId(), mid.getHomeSitu()));
             mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));

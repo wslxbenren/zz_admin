@@ -43,8 +43,8 @@ public class LeftbehindQueryCriteria{
     private String contact;
 
     @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "籍贯")
-    private String nativeInfo;
+    @ApiModelProperty(value = "现住地")
+    private String residence;
 
     // 审计字段
     @Query(type = Query.Type.IN)

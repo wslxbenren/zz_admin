@@ -36,7 +36,7 @@ public class ForeignersQueryCriteria{
 
     @ApiModelProperty(value = "国籍地区： 编码应符合GB/T2659")
     @Query(type = Query.Type.EQUAL)
-    private String residence;
+    private String country;
 
     @ApiModelProperty(value = "联系方式")
     @Query(type = Query.Type.INNER_LIKE)
