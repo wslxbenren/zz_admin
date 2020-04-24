@@ -59,6 +59,14 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
     @Transactional
     public Object queryAll(MajorcaseInfoQueryCriteria criteria, Pageable pageable){
         log.info("查询列表综治组织/重大案件事件--开始");
+        if (StringUtils.isNotBlank(criteria.getOccurAddr())) {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getOccurAddr());
+            if(addrPrefix.length() != 6) {
+                criteria.setOccurAddrWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setOccurAddrWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<MajorcaseInfo> page = MajorcaseInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<MajorcaseInfoDTO> majorcaseInfoList = MajorcaseInfoMapper.toDto(page.getContent());
         for (MajorcaseInfoDTO mid: majorcaseInfoList) {

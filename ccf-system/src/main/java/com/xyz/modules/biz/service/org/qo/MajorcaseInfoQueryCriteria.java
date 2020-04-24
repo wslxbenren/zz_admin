@@ -35,9 +35,11 @@ public class MajorcaseInfoQueryCriteria{
     private List<String> occurDate;
 
     //字典项
-    @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "发生地:编码应符合GB/T2260")
     private String occurAddr;
+
+    @Query(type = Query.Type.IN, propName = "occurAddr")
+    private List<String> occurAddrWithDownGrade;
 
     @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "案（事）件分级:字典")
