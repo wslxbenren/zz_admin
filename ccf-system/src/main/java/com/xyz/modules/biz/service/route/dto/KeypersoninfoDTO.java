@@ -37,34 +37,46 @@ public class KeypersoninfoDTO implements Serializable {
 
     // 性别
     private String personSex;
+    //字典项
+    private  String personSexStr;
 
     // 出生日期
     @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
     private Timestamp dateBirth;
 
-    // 民族
+    // 民族   字典
     private String nation;
+    private String nationStr;
 
-    // 籍贯
+    // 籍贯 字典
     private String nativeInfo;
+    private String nativeInfoStr;
 
     // 籍贯详址
     private String nativeAddr;
 
-    // 婚姻状况
+    // 婚姻状况 字典
     private String marriageFlag;
+    private String marriageFlagStr;
 
-    // 政治面貌
+    // 政治面貌 字典
     private String partyFlag;
+    private String partyFlagStr;
 
-    // 学历
+    // 学历 字典
     private String educationBg;
+    private String educationBgStr;
 
-    // 宗教信仰
+
+    // 宗教信仰 字典
     private String faithType;
+    private String faithTypeStr;
 
-    // 职业类别
+
+    // 职业类别 字典
     private String vocationCode;
+    private String vocationCodeStr;
+
 
     // 职业
     private String vocation;
@@ -78,14 +90,17 @@ public class KeypersoninfoDTO implements Serializable {
     // 联系方式
     private String mobile;
 
-    // 户籍地
+    // 户籍地 字典
     private String registeredPlace;
+    private String registeredPlaceStr;
+
 
     // 户籍门（楼）详址
     private String registeredAddr;
 
-    // 现住地
+    // 现住地 字典
     private String residence;
+    private String residenceStr;
 
     // 现住门（楼）详址
     private String residenceAddr;
@@ -93,8 +108,9 @@ public class KeypersoninfoDTO implements Serializable {
     // 是否关注
     private Integer ifFocus;
 
-    // 危害程度
+    // 危害程度 字典
     private String hazardLevel;
+    private String hazardLevelStr;
 
     // 危害说明
     private String hazardInfo;
@@ -111,6 +127,7 @@ public class KeypersoninfoDTO implements Serializable {
 
     // 数据状态 10是保存待提交 12是生效状态 22是失效
     private String statusCd;
+    private String statusCdStr;
 
     // 操作人名称
     private String operName;
@@ -126,6 +143,7 @@ public class KeypersoninfoDTO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp createTime;
 
-    // 单位编码,所属单位，后续可用于权限管理
+    // 单位编码,所属单位，后续可用于权限管理 字典
     private String unitCode;
+    private String unitCodeStr;
 }

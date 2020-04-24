@@ -45,8 +45,17 @@ public class BizSecurHomicidebaseinfoDTO implements Serializable {
     // 同步状态
     private String status;
 
+    // 同步状态
+    private String statusStr;
+
+
+
     // 数据状态 10是保存待提交 12是生效状态 22是失效
+
     private String statusCd;
+
+    //字典项
+    private String statusCdStr;
 
     // 操作人名称
     private String operName;

@@ -67,6 +67,9 @@ public class DeptServiceImpl implements DeptService {
             f.setInstiTypeStr(dd == null ? "无数据" : dd);// 机构类型
             dd = dictDetailService.transDict(DictEnum.SHZZLX.getDistName(), f.getOrganType());
             f.setOrganTypeStr(dd == null ? "无数据" : dd);// 组织类型
+
+            dd = deptRepository.findNameByCode(f.getGuideUnit());
+            f.setGuideUnit(dd);//所属单位
         }
         return deptDTOList;
     }
