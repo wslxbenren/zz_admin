@@ -1,20 +1,19 @@
 package com.xyz.modules.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.xyz.exception.BadRequestException;
+import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.service.DeptService;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.service.dto.DeptDTO;
+import com.xyz.modules.system.service.dto.DeptQueryCriteria;
 import com.xyz.modules.system.service.mapper.DeptMapper;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.QueryHelp;
 import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
-import com.xyz.modules.system.domain.Dept;
-import com.xyz.modules.system.service.dto.DeptQueryCriteria;
-import com.xyz.modules.system.service.DeptService;
-import com.xyz.modules.system.service.dto.DeptDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -72,6 +71,11 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
+    public List<DeptDTO> queryWithoutDict(DeptQueryCriteria criteria) {
+        return deptMapper.toDto(deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
+    }
+
+    @Override
     public DeptDTO findById(String id) {
         Optional<Dept> dept = deptRepository.findById(id);
         ValidationUtil.isNull(dept, "Dept", "id", id);
@@ -84,7 +88,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public Set<Dept> findByRoleIds(String id) {
+    public Set<Dept> findByRoleIds(Long id) {
         return deptRepository.findByRoles_Id(id);
     }
 
@@ -207,5 +211,10 @@ public class DeptServiceImpl implements DeptService {
             return CollectionUtils.arrayToList(tmp.split(","));
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public String getGradeByCode(String code) {
+        return deptRepository.getDeptDownGradeCodes(code);
     }
 }

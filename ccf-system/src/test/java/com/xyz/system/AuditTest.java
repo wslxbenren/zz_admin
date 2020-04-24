@@ -37,14 +37,14 @@ public class AuditTest {
 
     @Test
     public void testBuildhead() {
-        List<String> deptCodes = deptService.getDownGradeDeptCodes("2e7061d1-74a9-11ea-9c4d-00163e00af9c");
-        BuildheadInfoQueryCriteria criteria = new BuildheadInfoQueryCriteria();
-        criteria.setCreator("f14bb76c-963a-4764-84ad-21da5fd75978");
-        criteria.setUnitCode(deptCodes);
-
-        List<BuildheadInfo> mm = (List<BuildheadInfo>) buildheadInfoService.queryAll(criteria);
-        System.out.println(mm);
-        System.out.println("asdf");
+//        List<String> deptCodes = deptService.getDownGradeDeptCodes("2e7061d1-74a9-11ea-9c4d-00163e00af9c");
+//        BuildheadInfoQueryCriteria criteria = new BuildheadInfoQueryCriteria();
+//        criteria.setCreator("f14bb76c-963a-4764-84ad-21da5fd75978");
+//        criteria.setUnitCode(deptCodes);
+//
+//        List<BuildheadInfo> mm = (List<BuildheadInfo>) buildheadInfoService.queryAll(criteria);
+//        System.out.println(mm);
+//        System.out.println("asdf");
     }
 
     @Test
