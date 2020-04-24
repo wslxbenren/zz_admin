@@ -43,7 +43,7 @@ public class RegistpeopleQueryCriteria{
 
     @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "籍贯")
-    private String nativeInfo;
+    private String residence;
 
   /*  // 其他
     @Query(type = Query.Type.INNER_LIKE)

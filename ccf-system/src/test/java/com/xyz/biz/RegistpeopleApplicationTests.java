@@ -138,7 +138,7 @@ public class RegistpeopleApplicationTests {
 
         q.setPersonName("是的");
 
-        q.setNativeInfo("1");
+        //q.setNativeInfo("1");
 
         q.setCreateTime(Arrays.asList("2020-02-02 20-20-20","2020-04-09 10:10:10"));
         Object o = registpeopleService.queryAll(q);

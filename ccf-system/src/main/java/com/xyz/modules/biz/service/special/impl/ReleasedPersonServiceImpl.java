@@ -85,6 +85,8 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
             mid.setIsAgainStr(ConstEnum.getBoolean(mid.getIsAgain()));
             mid.setIsPedigreeStr(ConstEnum.getBoolean(mid.getIsPedigree()));
+            mid.setChargeCommentsStr(dictDetailService.transDict(DictEnum.YZM.getDictId(), mid.getChargeComments()));
+
         }
         Map map = new HashMap();
         map.put("content", releasedPersonDTOS);
