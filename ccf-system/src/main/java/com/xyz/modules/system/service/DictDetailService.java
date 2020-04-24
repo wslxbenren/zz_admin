@@ -94,4 +94,6 @@ public interface DictDetailService {
     String transMultistage(long dictTypeId, String dictDetailValue);
 
     String getLabelByValues(long dictId,   String[]  joinManager);
+
+    List<String> addrWithDownGrade(String prefix, long dictTypeId);
 }

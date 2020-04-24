@@ -40,4 +40,14 @@ public enum  ConstEnum {
         }
         return code == 1? IS.desc: NOT.desc;
     }
+
+    public static String genAddrPrefix(String addr) {
+        if(addr.endsWith("0000")) {
+            return addr.substring(0, 2);
+        }
+        if(addr.endsWith("00")) {
+            return addr.substring(0, 4);
+        }
+        return addr;
+    }
 }

@@ -59,6 +59,14 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
     public Object queryAll(BuildheadInfoQueryCriteria criteria, Pageable pageable){
         DateTime startTime = DateUtil.date(new Date().getTime());
         log.info("**********楼长信息列表查询开始**********");
+        if (criteria.getAddr() != null & criteria.getAddr() != "") {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getAddr());
+            if(addrPrefix.length() != 6) {
+                criteria.setAddrWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setAddrWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<BuildheadInfo> page = BuildheadInfoRepository.findAll(auditSpecification.genSpecification(criteria)
         ,pageable);
         List<BuildheadInfoDTO> buildheadInfoDTOS = buildheadInfoMapper.toDto(page.getContent());

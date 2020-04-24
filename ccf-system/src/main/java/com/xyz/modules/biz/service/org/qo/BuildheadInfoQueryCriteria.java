@@ -54,9 +54,11 @@ public class BuildheadInfoQueryCriteria{
     @ApiModelProperty(value = "学历:编码应符合GB/T4658")
     private String educationBg;
 
-    @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "所在地:编码应符合GB/T2260")
     private String addr;
+
+    @Query(type = Query.Type.IN, propName = "addr")
+    private List<String> addrWithDownGrade;
 
     // 其他
     @Query(type = Query.Type.INNER_LIKE)

@@ -102,4 +102,9 @@ public class DictDetailServiceImpl implements DictDetailService {
         List<String> list = Arrays.asList(joinManager);
         return dictDetailRepository.getLabelByValues(dictId,list);
     }
+
+    @Override
+    public List<String> addrWithDownGrade(String prefix, long dictTypeId) {
+        return dictDetailRepository.addrWithDownGrade(prefix, dictTypeId);
+    }
 }
