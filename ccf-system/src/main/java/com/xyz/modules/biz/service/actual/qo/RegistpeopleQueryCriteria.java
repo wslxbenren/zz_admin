@@ -45,6 +45,9 @@ public class RegistpeopleQueryCriteria{
     @ApiModelProperty(value = "籍贯")
     private String residence;
 
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "现住地")
+    private String residence;
   /*  // 其他
     @Query(type = Query.Type.INNER_LIKE)
     private String usedName;

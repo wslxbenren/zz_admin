@@ -20,4 +20,14 @@ public @interface Dict {
      * 对应的字典name
      */
     DictEnum value() default DictEnum.EMPTY;
+
+    /**
+     * Whether it is multiple choice
+     */
+    boolean multiple() default false;
+
+    /**
+     * Whether it is multiple grade
+     */
+    boolean level() default false;
 }

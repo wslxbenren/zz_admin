@@ -26,6 +26,9 @@ public interface DeptService {
     @Cacheable(keyGenerator = "keyGenerator")
     List<DeptDTO> queryAll(DeptQueryCriteria criteria);
 
+    @Cacheable(keyGenerator = "keyGenerator")
+    List<DeptDTO> queryWithoutDict(DeptQueryCriteria criteria);
+
     /**
      * findById
      *
@@ -78,7 +81,7 @@ public interface DeptService {
     @Cacheable(keyGenerator = "keyGenerator")
     List<Dept> findByPid(String pid);
 
-    Set<Dept> findByRoleIds(String id);
+    Set<Dept> findByRoleIds(Long id);
 
 
     /**
@@ -104,4 +107,9 @@ public interface DeptService {
      */
     @Cacheable(cacheNames = "deptDownGrade", key = "#p0")
     List<String> getDownGradeDeptCodes(String deptCode);
+
+    /**
+     * 查询层级
+     */
+    String getGradeByCode(String code);
 }
