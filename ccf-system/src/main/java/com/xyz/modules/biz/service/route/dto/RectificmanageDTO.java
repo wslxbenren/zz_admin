@@ -23,14 +23,17 @@ public class RectificmanageDTO implements Serializable {
     // 线路名称
     private String routeName;
 
-    // 行动类型
+    // 行动类型 字典
     private String actionType;
+    private String actionTypeStr;
+
 
     // 行动主题
     private String actionTheme;
 
-    // 行动地
+    // 行动地 字典
     private String actionAddr;
+    private String actionAddrStr;
 
     // 行动日期
     @JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
@@ -48,11 +51,13 @@ public class RectificmanageDTO implements Serializable {
     // 责任人
     private String responName;
 
-    // 责任单位
+    // 责任单位 字典
     private String responUnit;
+    private String responUnitStr;
 
-    // 协办单位
+    // 协办单位 字典
     private String assistUnit;
+    private String assistUnitStr;
 
     // 出动人员
     private Integer assistOutnum;
@@ -71,8 +76,10 @@ public class RectificmanageDTO implements Serializable {
     // 同步状态
     private String status;
 
-    // 数据状态 10是保存待提交 12是生效状态 22是失效
+    // 数据状态 10是保存待提交 12是生效状态 22是失效 字典
     private String statusCd;
+    private String statusCdStr;
+
 
     // 操作人名称
     private String operName;
@@ -88,6 +95,8 @@ public class RectificmanageDTO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
     private Timestamp createTime;
 
-    // 单位编码,所属单位，后续可用于权限管理
+    // 单位编码,所属单位，后续可用于权限管理 字典
     private String unitCode;
+    private String unitCodeStr;
+
 }

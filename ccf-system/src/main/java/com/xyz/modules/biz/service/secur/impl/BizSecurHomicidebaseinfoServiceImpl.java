@@ -5,6 +5,8 @@ import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.service.secur.entity.BizSecurHomicidebaseinfo;
 import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
 import com.xyz.modules.biz.service.secur.repo.BizSecurHomicidebaseinfoRepository;
 import com.xyz.modules.biz.service.secur.BizSecurHomicidebaseinfoService;
@@ -46,6 +48,9 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+
     @Override
     @Transactional
     public Object queryAll(BizSecurHomicidebaseinfoQueryCriteria criteria, Pageable pageable){
@@ -55,6 +60,8 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
         for (BizSecurHomicidebaseinfoDTO mid: bizSecurHomicidebaseinfoDTOList) {
             String dd = deptRepository.findNameByCode(mid.getUnitCode());
             mid.setUnitCodeStr(dd); // 单位编码,所属单位
+            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(),mid.getStatusCd());
+            mid.setStatusCdStr(dd==null?"无数据":dd);//数据状态
         }
         Map map = new HashMap();
         map.put("content", bizSecurHomicidebaseinfoDTOList);

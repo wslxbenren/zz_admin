@@ -66,7 +66,6 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Override
     @Transactional
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
-        DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********综治中心信息列表查询开始**********");
         Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
@@ -84,8 +83,7 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
         Map map = new HashMap();
         map.put("content", midList);
         map.put("totalElements", page.getTotalElements());
-        DateTime endTime = DateUtil.date(new Date().getTime());
-        log.debug("**********综治中心信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
+
         return map;
     }
 

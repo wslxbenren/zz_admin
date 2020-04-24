@@ -55,7 +55,7 @@ public class DiseventServiceImpl implements DiseventService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public DiseventDTO create(Disevent resources) {
-        resources.setEventId(IdUtil.simpleUUID()); 
+        resources.setEventId(IdUtil.simpleUUID());
         return DiseventMapper.toDto(DiseventRepository.save(resources));
     }
 

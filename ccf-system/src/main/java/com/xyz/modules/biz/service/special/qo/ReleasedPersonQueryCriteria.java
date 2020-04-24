@@ -46,7 +46,7 @@ public class ReleasedPersonQueryCriteria{
     private String contact;
 
     @ApiModelProperty(value = "释放日期")
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.BETWEEN)
     private List<String> prisonEnddate;
 
     // 审计字段

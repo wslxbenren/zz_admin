@@ -1,6 +1,11 @@
 package com.xyz.modules.biz.service.route.impl;
 
+import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.biz.service.route.dto.KeypersoninfoDTO;
 import com.xyz.modules.biz.service.route.entity.Rectificmanage;
+import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.route.repo.RectificmanageRepository;
 import com.xyz.modules.biz.service.route.RectificmanageService;
@@ -11,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -32,11 +41,50 @@ public class RectificmanageServiceImpl implements RectificmanageService {
     @Autowired
     private RectificmanageMapper RectificmanageMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+
+    @Autowired
+    private DeptRepository deptRepository;
+
+    @Autowired
+    private AuditSpecification audit;
+
+
+
     @Override
     @Transactional
     public Object queryAll(RectificmanageQueryCriteria criteria, Pageable pageable){
-        Page<Rectificmanage> page = RectificmanageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(RectificmanageMapper::toDto));
+//        Page<Rectificmanage> page = RectificmanageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+//        return PageUtil.toPage(page.map(RectificmanageMapper::toDto));
+        Page<Rectificmanage> page=RectificmanageRepository.findAll(audit.genSpecification(criteria), pageable);
+        List<RectificmanageDTO> RectificmanageDTOList = RectificmanageMapper.toDto(page.getContent());
+        for (RectificmanageDTO dto:RectificmanageDTOList)
+        {
+           String dd = deptRepository.findNameByCode(dto.getResponUnit());
+            dto.setResponUnitStr(dd);//责任单位
+
+             dd = deptRepository.findNameByCode(dto.getAssistUnit());
+            dto.setAssistUnitStr(dd);//协助单位
+
+            dd = deptRepository.findNameByCode(dto.getAssistUnit());
+            dto.setAssistUnitStr(dd);//协助单位
+
+            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(),dto.getStatusCd());
+            dto.setStatusCdStr(dd==null?"无数据":dd);//数据状态
+
+            dd = deptRepository.findNameByCode(dto.getUnitCode());
+            dto.setUnitCodeStr(dd);//所属单位
+        }
+
+
+        Map map = new HashMap();
+        map.put("content", RectificmanageDTOList);
+        map.put("totalElements", page.getTotalElements());
+        map.put("totalPages",page.getTotalPages());
+        return map;
+
+
     }
 
     @Override
