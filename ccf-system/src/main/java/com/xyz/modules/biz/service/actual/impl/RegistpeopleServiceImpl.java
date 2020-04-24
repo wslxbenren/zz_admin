@@ -59,7 +59,6 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
-        DateTime startTime = DateUtil.date(new Date().getTime());
         log.info("**********户籍人员信息列表查询开始**********");
         Page<Registpeople> page = RegistpeopleRepository.findAll(audit.genSpecification(criteria),pageable);
         List<Registpeople> content = page.getContent();
@@ -79,7 +78,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             r.setEducationBgStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), r.getFaithType());
             r.setFaithTypeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), r.getVocationCode());
+            dd = dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), r.getVocationCode());
             r.setVocationCodeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), r.getRegisteredPlace());
             r.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
@@ -102,8 +101,6 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         Map map = new HashMap();
         map.put("content", registpeopleDTOS);
         map.put("totalElements", page.getTotalElements());
-        DateTime endTime = DateUtil.date(new Date().getTime());
-        log.info("**********户籍人员信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
         return map;
     }
 

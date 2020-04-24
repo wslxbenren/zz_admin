@@ -58,7 +58,6 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Override
     @Transactional
     public Object queryAll(FloatpeopleQueryCriteria criteria, Pageable pageable){
-        DateTime startTime = DateUtil.date(new Date().getTime());
         log.debug("**********流动人口信息列表查询开始**********");
         Page<Floatpeople> page = FloatpeopleRepository.findAll(audit.genSpecification(criteria),pageable);
         List<FloatpeopleDTO> floatpeopleDTOS = FloatpeopleMapper.toDto(page.getContent());
@@ -77,7 +76,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             f.setEducationBgStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), f.getFaithType());
             f.setFaithTypeStr(dd == null ? "无数据" : dd);
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), f.getVocationCode());
+            dd = dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), f.getVocationCode());
             f.setVocationCodeStr(dd == null ? "无数据" : dd);
             dd = dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getRegisteredPlace());
             f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);
@@ -103,8 +102,6 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         Map map = new HashMap();
         map.put("content", floatpeopleDTOS);
         map.put("totalElements", page.getTotalElements());
-        DateTime endTime = DateUtil.date(new Date().getTime());
-        log.debug("**********流动人口信息列表查询用时"+(DateUtil.betweenMs(startTime, endTime))+"毫秒结束**********");
         return map;
     }
 
