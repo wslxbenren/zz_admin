@@ -74,8 +74,8 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
             mid.setGrageStr(dd == null ? "无数据":dd);
             mid.setAddrStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getAddr()));
             dd = deptRepository.findNameByCode(mid.getUnitCode());
-            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
-            mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
+            mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
+            mid.setModifier(userRepository.findById(Optional.ofNullable(mid.getModifier()).orElse("")).orElse(new User()).getUsername());
             mid.setUnitCodeStr(dd);
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));

@@ -68,8 +68,8 @@ public class MajorcaseInfoServiceImpl implements MajorcaseInfoService {
             dd = dictDetailService. transDict(DictEnum.AJLX.getDistName(), mid.getCaseType());
             mid.setCaseTypeStr(dd == null ? "无数据": dd); //  案（事）件类型
             dd = deptRepository.findNameByCode(mid.getUnitCode());
-            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
-            mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
+            mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
+            mid.setModifier(userRepository.findById(Optional.ofNullable(mid.getModifier()).orElse("")).orElse(new User()).getUsername());
             mid.setUnitCodeStr(dd);
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));

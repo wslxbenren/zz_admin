@@ -75,8 +75,8 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
             mid.setCaseTypeStr(dictDetailService.transMultistage(DictEnum.AJLB.getDictId(), mid.getCaseType()));
             mid.setCorrectTypeStr(dictDetailService.transDict(DictEnum.JZLX.getDictId(), mid.getCorrectType()));
             mid.setReviceFlagStr(dictDetailService.transDict(DictEnum.JSFS.getDictId(), mid.getReviceFlag()));
-            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
-            mid.setOperName(userRepository.findById(mid.getOperName()).orElse(new User()).getUsername());
+            mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(Optional.ofNullable(mid.getOperName()).orElse("")).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));

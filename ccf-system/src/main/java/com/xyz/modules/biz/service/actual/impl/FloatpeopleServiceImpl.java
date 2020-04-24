@@ -91,8 +91,8 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             dd = dictDetailService.transDict(DictEnum.ZSLX.getDistName(), f.getResidType());
             f.setResidTypeStr(dd == null ? "无数据" : dd);
 
-            f.setCreator(userRepository.findById(f.getCreator()).orElse(new User()).getUsername());
-            f.setOperName(userRepository.findById(f.getOperName()).orElse(new User()).getUsername());
+            f.setCreator(userRepository.findById(Optional.ofNullable(f.getCreator()).orElse("")).orElse(new User()).getUsername());
+            f.setOperName(userRepository.findById(Optional.ofNullable(f.getOperName()).orElse("")).orElse(new User()).getUsername());
             f.setStatusStr(ConstEnum.transSync(f.getStatus()));
             f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd()));
             f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));

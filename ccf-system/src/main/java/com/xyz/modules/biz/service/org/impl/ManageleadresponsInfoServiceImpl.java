@@ -65,12 +65,12 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
         for (ManageleadresponsInfoDTO mid: manageleadresponsInfoList) {
             String dd = dictDetailService. transDict(DictEnum.JGCJ.getDistName(), mid.getAreaGrage());
             mid.setAreaGrageStr(dd == null ? "无数据": dd); // 被实施地区层级
-            dd = dictDetailService. transDict(DictEnum.JGCJ.getDistName(), mid.getImplementerGrage());
+            dd = dictDetailService. transDict(DictEnum.JGCJ.getDictId(), mid.getImplementerGrage());
             mid.setImplementerGrageStr(dd == null ? "无数据": dd); //  实施主体层级
             dd = dictDetailService. transDict(DictEnum.ZCZL.getDistName(), mid.getPolicyType());
             mid.setPolicyTypeStr(dd == null ? "无数据": dd);  //政策种类
-            mid.setCreator(userRepository.findById(mid.getCreator()).orElse(new User()).getUsername());
-            mid.setModifier(userRepository.findById(mid.getModifier()).orElse(new User()).getUsername());
+            mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
+            mid.setModifier(userRepository.findById(Optional.ofNullable(mid.getModifier()).orElse("")).orElse(new User()).getUsername());
             dd = deptRepository.findNameByCode(mid.getUnitCode());
             mid.setUnitCodeStr(dd);
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));

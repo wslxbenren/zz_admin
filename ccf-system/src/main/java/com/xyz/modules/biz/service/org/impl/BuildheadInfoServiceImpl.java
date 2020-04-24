@@ -82,8 +82,8 @@ public class BuildheadInfoServiceImpl implements BuildheadInfoService {
             dd = deptRepository.findNameByCode(b.getUnitCode());
             b.setUnitCodeStr(dd);
             b.setAddrStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), b.getAddr()));
-            b.setCreator(userRepository.findById(b.getCreator()).orElse(new User()).getUsername());
-            b.setModifier(userRepository.findById(b.getModifier()).orElse(new User()).getUsername());
+            b.setCreator(userRepository.findById(Optional.ofNullable(b.getCreator()).orElse("")).orElse(new User()).getUsername());
+            b.setModifier(userRepository.findById(Optional.ofNullable(b.getModifier()).orElse("")).orElse(new User()).getUsername());
             b.setStatusStr(ConstEnum.transSync(b.getStatus()));
             b.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), b.getStatusCd()));
         }

@@ -75,8 +75,8 @@ public class RentalhouseServiceImpl implements RentalhouseService {
             dd = deptRepository.findNameByCode(r.getUnitCode());
             r.setUnitCodeStr(dd);
             r.setCardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(), r.getCardType()) );
-            r.setCreator(userRepository.findById(r.getCreator()).orElse(new User()).getUsername());
-            r.setOperName(userRepository.findById(r.getOperName()).orElse(new User()).getUsername());
+            r.setCreator(userRepository.findById(Optional.ofNullable(r.getCreator()).orElse("")).orElse(new User()).getUsername());
+            r.setOperName(userRepository.findById(Optional.ofNullable(r.getOperName()).orElse("")).orElse(new User()).getUsername());
             r.setStatusStr(ConstEnum.transSync(r.getStatus()));
             r.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), r.getStatusCd()));
             r.setUnitCodeStr(deptRepository.findNameByCode(r.getUnitCode()));
