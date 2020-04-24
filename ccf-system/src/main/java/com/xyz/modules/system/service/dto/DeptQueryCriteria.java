@@ -15,6 +15,9 @@ public class DeptQueryCriteria{
     @Query(type = Query.Type.IN, propName="id")
     private Set<String> ids;
 
+    @Query(type = Query.Type.IN, propName = "code")
+    private Set<String> codes;
+
     @Query(type = Query.Type.INNER_LIKE)
     private String name;
 

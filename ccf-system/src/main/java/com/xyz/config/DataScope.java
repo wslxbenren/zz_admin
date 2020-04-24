@@ -1,32 +1,26 @@
 package com.xyz.config;
 
-import cn.hutool.core.util.ReflectUtil;
-import com.xyz.modules.security.security.JwtUser;
-import com.xyz.modules.security.service.JwtUserDetailsService;
-import com.xyz.utils.QueryHelp;
-import com.xyz.utils.SecurityUtils;
 import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.service.DeptService;
-import com.xyz.modules.system.service.RoleService;
 import com.xyz.modules.system.service.UserService;
+import com.xyz.modules.system.service.dto.DeptSmallDTO;
 import com.xyz.modules.system.service.dto.RoleSmallDTO;
 import com.xyz.modules.system.service.dto.UserDTO;
-import lombok.Getter;
-import org.apache.commons.collections.CollectionUtils;
+import com.xyz.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 权限控制
  */
 @Component
 public class DataScope {
-    private final String[] scopeType = {"全部","本级","自定义"};
+    private final String[] scopeType = {"全部","本级","本级及下级", "自定义"};
     /**
      * 超管
      */
@@ -57,8 +51,10 @@ public class DataScope {
 
     /**
      * 角色与部门
+     * 方法已过期, 换 {@link #getDeptCodesWithRole()}
      * @return
      */
+    @Deprecated
     public Set<String> getDeptIds() {
         UserDTO user = userService.findByName(SecurityUtils.getUsername());
         Set<String> deptIds = new HashSet<>();
@@ -72,9 +68,15 @@ public class DataScope {
             if (scopeType[1].equals(role.getDataScope())) {
                 deptIds.add(user.getDept().getId());
             }
-            // 存储自定义的数据权限
+
+            // 本级及下级
             if (scopeType[2].equals(role.getDataScope())) {
-                Set<Dept> depts = deptService.findByRoleIds(role.getId().toString());
+                deptIds.addAll(getDeptChildren(user.getDept()));
+            }
+
+            // 存储自定义的数据权限
+            if (scopeType[3].equals(role.getDataScope())) {
+                Set<Dept> depts = deptService.findByRoleIds(role.getId());
                 for (Dept dept : depts) {
                     deptIds.add(dept.getId());
                     List<Dept> deptChildren = deptService.findByPid(dept.getId());
@@ -97,15 +99,15 @@ public class DataScope {
         for (RoleSmallDTO role : userRoles) {
             switch (role.getDataScope()) {
                 case ALL:
-                    return Collections.EMPTY_SET;
+                    return null;
                 case LEADER:
                     deptCodes.addAll(deptService.getDownGradeDeptCodes(user.getDept().getCode()));
                     break;
                 case ORDINARY_MEMBER:
-                    deptCodes.add(user.getDeptId());
+                    deptCodes.add(user.getDept().getCode());
                     break;
                 case CUSTOM:
-                    deptService.findByRoleIds(role.getId().toString()).forEach(dept -> {
+                    deptService.findByRoleIds(role.getId()).forEach(dept -> {
                         deptCodes.addAll(deptService.getDownGradeDeptCodes(dept.getCode()));
                     });
                     break;
@@ -113,35 +115,7 @@ public class DataScope {
                     break;
             }
         }
-
         return deptCodes;
-    }
-
-    /**
-     * 机构权限过滤, 如果前端参数包含了机构查询参数, 则只查询当前机构下的数据
-     * todo 匿名类暂不支持异常抛出, 待解决 不能仅仅靠前端约束机构条件查询
-     * @param q 查询封装对象
-     * @return
-     */
-    public <Q> Specification genSpecification(Q q) {
-        return (Specification) (root, criteriaQuery, criteriaBuilder) -> {
-            UserDTO user = userService.findByName(SecurityUtils.getUsername());
-            List<String> unitCodeParam = (List<String>) ReflectUtil.getFieldValue(q, "unitCode");
-            // 先默认没有空字符串传过来
-            if (unitCodeParam == null) {
-                UserDTO u = userService.findByName(SecurityUtils.getUsername());
-                String userDeptCode = u.getDept().getCode();
-                if (!"-1".equals(u.getDept().getPid())) {
-                    ReflectUtil.setFieldValue(q, "unitCode", deptService.getDownGradeDeptCodes(userDeptCode));
-                }
-            } else {
-                unitCodeParam.forEach(deptCode -> {
-                    ReflectUtil.setFieldValue(q, "unitCode", deptService.getDownGradeDeptCodes(deptCode));
-                });
-            }
-
-            return QueryHelp.getPredicate(root,q,criteriaBuilder);
-        };
     }
 
     public List<String> getDeptChildren(List<Dept> deptList) {
@@ -157,6 +131,17 @@ public class DataScope {
                     }
                 }
         );
+        return list;
+    }
+
+    public List<String> getDeptChildren(DeptSmallDTO dept) {
+        List<String> list = new ArrayList<>();
+        // fixme 这里没有 enable 校验
+        if (dept != null ){
+            List<Dept> depts = deptService.findByPid(dept.getId());
+            list.addAll(getDeptChildren(depts));
+            list.add(dept.getId());
+        }
         return list;
     }
 }

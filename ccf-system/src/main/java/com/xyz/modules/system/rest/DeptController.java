@@ -2,19 +2,20 @@ package com.xyz.modules.system.rest;
 
 import com.xyz.aop.log.Log;
 import com.xyz.config.DataScope;
-import com.xyz.exception.BadRequestException;
-import com.xyz.modules.system.service.dto.DeptDTO;
-import com.xyz.modules.system.service.dto.DeptQueryCriteria;
 import com.xyz.modules.system.domain.Dept;
 import com.xyz.modules.system.service.DeptService;
-import org.aspectj.apache.bcel.Repository;
+import com.xyz.modules.system.service.dto.DeptDTO;
+import com.xyz.modules.system.service.dto.DeptQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Zheng Jie
@@ -36,9 +37,16 @@ public class DeptController {
     @GetMapping(value = "/dept")
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_SELECT','DEPT_ALL','DEPT_SELECT')")
     public ResponseEntity getDepts(DeptQueryCriteria criteria){
-        // 数据权限
-        criteria.setIds(dataScope.getDeptIds());
+        criteria.setCodes(Optional.ofNullable(dataScope.getDeptCodesWithRole()).orElse(new HashSet<>()));
         List<DeptDTO> deptDTOS = deptService.queryAll(criteria);
+        return new ResponseEntity(deptService.buildTree(deptDTOS),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getDeptWithoutDict")
+    @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_SELECT','DEPT_ALL','DEPT_SELECT')")
+    public ResponseEntity getDeptWithoutDict(DeptQueryCriteria criteria) {
+        criteria.setCodes(Optional.ofNullable(dataScope.getDeptCodesWithRole()).orElse(new HashSet<>()));
+        List<DeptDTO> deptDTOS = deptService.queryWithoutDict(criteria);
         return new ResponseEntity(deptService.buildTree(deptDTOS),HttpStatus.OK);
     }
 
@@ -46,9 +54,6 @@ public class DeptController {
     @GetMapping(value = "/deptMsg")
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_SELECT','DEPT_ALL','DEPT_SELECT')")
     public ResponseEntity getDept(DeptQueryCriteria criteria){
-        // 数据权限
-//        criteria.setIds(dataScope.getDeptIds());
-//        DeptDTO deptDTOS = deptService.findById(criteria.getIds().iterator().next());
         List<DeptDTO> deptDTOS = deptService.queryAll(criteria);
         return new ResponseEntity(deptDTOS,HttpStatus.OK);
     }
@@ -57,9 +62,6 @@ public class DeptController {
     @PostMapping(value = "/dept")
     @PreAuthorize("hasAnyRole('ADMIN','DEPT_ALL','DEPT_CREATE')")
     public ResponseEntity create(@Validated @RequestBody Dept resources){
-//        if (resources.getId() != null) {
-//            throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
-//        }
         return new ResponseEntity(deptService.create(resources),HttpStatus.CREATED);
     }
 
