@@ -4,10 +4,7 @@
 
 ### 环境搭建
 1. git clone https://gitee.com/hnxzy/biz_gov_admin.git --depth=1
-2. 将项目根目录下 libs 目录下面的 3个 jar 包 安装到本地 maven 仓库 
-    - com/xyz/ccf-common/ccf-common-2.1.jar
-    - com/xyz/ccf-logging/ccf-logging-2.1.jar
-    - com/xyz/ccf-tools/ccf-tools-2.1.jar
+2. libs 目录下 覆盖本地依赖.zip 解压到本地仓库
     
 ### 开发须知
 1. 改动范围: com.xyz.modules.system 下, 其他包下面勿动
