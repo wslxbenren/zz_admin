@@ -60,7 +60,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
     @Override
     @Transactional
     public Object queryAll(RegistpeopleQueryCriteria criteria, Pageable pageable){
-        log.info("**********户籍人员信息列表查询开始**********");
+        log.info("**********户籍人员信息列表**********");
         if (StringUtils.isNotBlank(criteria.getResidence())) {
             String addrPrefix = ConstEnum.genAddrPrefix(criteria.getResidence());
             if(addrPrefix.length() != 6) {
