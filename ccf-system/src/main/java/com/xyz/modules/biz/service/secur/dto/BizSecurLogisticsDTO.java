@@ -90,11 +90,11 @@ public class BizSecurLogisticsDTO implements Serializable {
     private Double lat;
 
     // 生效时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+
     private Timestamp effDate;
 
     // 失效时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+
     private Timestamp expDate;
 
     // 同步状态
@@ -107,14 +107,14 @@ public class BizSecurLogisticsDTO implements Serializable {
     private String operName;
 
     // 操作时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+
     private Timestamp operDate;
 
     // 创建人
     private String creator;
 
     // 创建时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+
     private Timestamp createTime;
 
     // 单位编码,所属单位，后续可用于权限管理
