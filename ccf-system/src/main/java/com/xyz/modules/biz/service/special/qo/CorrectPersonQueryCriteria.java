@@ -37,9 +37,11 @@ public class CorrectPersonQueryCriteria{
     @ApiModelProperty(value = "性别")
     private String personSex;
 
-    @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "籍贯")
     private String nativeInfo;
+
+    @Query(type = Query.Type.IN, propName = "nativeInfo")
+    private List<String> nativeInfoWithDownGrade;
 
     @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "联系方式")

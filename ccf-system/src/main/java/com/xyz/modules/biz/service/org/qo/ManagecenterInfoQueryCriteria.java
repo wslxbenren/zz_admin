@@ -46,9 +46,11 @@ public class ManagecenterInfoQueryCriteria{
     private String userMobile;
 
     //字典等值
-    @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "所在地:字典")
+    @ApiModelProperty(value = "所在地:编码应符合GB/T2260")
     private String addr;
+
+    @Query(type = Query.Type.IN, propName = "addr")
+    private List<String> addrWithDownGrade;
 
     @Query(type = Query.Type.EQUAL)
     @ApiModelProperty(value = "综治中心层级:字典")

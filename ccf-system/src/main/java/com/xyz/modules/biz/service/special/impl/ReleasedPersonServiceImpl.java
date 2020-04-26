@@ -25,10 +25,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author 刘鑫
@@ -61,6 +58,14 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
     @Transactional
     public Object queryAll(ReleasedPersonQueryCriteria criteria, Pageable pageable){
         log.debug("**********条件查询 ReleasedPerson 列表-分页**********");
+        if (criteria.getNativeInfo() != null & criteria.getNativeInfo() != "") {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getNativeInfo());
+            if(addrPrefix.length() != 6) {
+                criteria.setNativeInfoWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setNativeInfoWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<ReleasedPerson> page = ReleasedPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ReleasedPersonDTO> releasedPersonDTOS = ReleasedPersonMapper.toDto(page.getContent());
         for (ReleasedPersonDTO mid:releasedPersonDTOS){
