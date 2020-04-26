@@ -58,7 +58,7 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
     @Override
     @Transactional
     public Object queryAll(FloatpeopleQueryCriteria criteria, Pageable pageable){
-        log.debug("**********流动人口信息列表查询开始**********");
+        log.debug("**********流动人口信息列**********");
         if (StringUtils.isNotBlank(criteria.getResidence())) {
             String addrPrefix = ConstEnum.genAddrPrefix(criteria.getResidence());
             if(addrPrefix.length() != 6) {

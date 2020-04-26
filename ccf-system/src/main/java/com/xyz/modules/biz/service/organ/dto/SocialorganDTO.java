@@ -42,8 +42,9 @@ public class SocialorganDTO implements Serializable {
 
     private Timestamp apprDate;
 
-    // 社会组织类型
+    // 社会组织类型 字典
     private String socialorganType;
+    private String socialorganTypeStr;
 
     // 状态
     private String scoiStatus;
@@ -72,8 +73,10 @@ public class SocialorganDTO implements Serializable {
     // 治保负责人联系方式
     private String supervisorMobile;
 
-    // 关注程度
+    // 关注程度 字典
     private String attention;
+    private String attentionStr;
+
 
     // 是否具备建立中共党组织条件:1是0否
     private Integer ifCondition;
@@ -125,8 +128,9 @@ public class SocialorganDTO implements Serializable {
     // 同步状态
     private String status;
 
-    // 数据状态 10是保存待提交 12是生效状态 22是失效
+    // 数据状态 10是保存待提交 12是生效状态 22是失效 字典
     private String statusCd;
+    private String statusCdStr;
 
     // 操作人名称
     private String operName;
@@ -142,6 +146,7 @@ public class SocialorganDTO implements Serializable {
 
     private Timestamp createTime;
 
-    // 单位编码,所属单位，后续可用于权限管理
+    // 单位编码,所属单位，后续可用于权限管理 字典
     private String unitCode;
+    private String unitCodeStr;
 }

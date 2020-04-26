@@ -23,8 +23,9 @@ public class NonpublicDTO implements Serializable {
     // 企业名称
     private String entityName;
 
-    // 企业类别
+    // 企业类别 字典
     private String entityType;
+    private String entityTypeStr;
 
     // 企业地址省市县编码
     private String entityAddrcode;
@@ -59,11 +60,15 @@ public class NonpublicDTO implements Serializable {
     // 是否危化企业
     private Integer ifDangerous;
 
-    // 安全隐患类型
+    // 安全隐患类型 字典
     private String safetroubleType;
+    private String safetroubleTypeStr;
 
-    // 关注程度
+
+    // 关注程度 字典
     private String attention;
+    private String attentionStr;
+
 
     // 是否具备建立中共党组织条件:1是0否
     private Integer ifCondition;
@@ -109,8 +114,10 @@ public class NonpublicDTO implements Serializable {
     // 同步状态
     private String status;
 
-    // 数据状态 10是保存待提交 12是生效状态 22是失效
+    // 数据状态 10是保存待提交 12是生效状态 22是失效 字典
     private String statusCd;
+    private String statusCdStr;
+
 
     // 操作人名称
     private String operName;
@@ -126,6 +133,7 @@ public class NonpublicDTO implements Serializable {
 
     private Timestamp createTime;
 
-    // 单位编码,所属单位，后续可用于权限管理
+    // 单位编码,所属单位，后续可用于权限管理 字典
     private String unitCode;
+    private String unitCodeStr;
 }

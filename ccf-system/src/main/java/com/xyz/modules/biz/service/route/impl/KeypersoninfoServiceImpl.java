@@ -96,7 +96,8 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
             dd=dictDetailService.transDict(DictEnum.WXCD.getDistName(),dto.getHazardLevel());
             dto.setHazardLevelStr(dd == null ? "无数据" : dd);//危害程度
 
-
+            dd=deptRepository.findNameByCode(dto.getUnitCode());
+            dto.setUnitCodeStr(dd);//所属单位
         }
 
 

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -18,9 +19,11 @@ public class RegistpeopleQueryCriteria{
     // 时间
     @Query(type = Query.Type.BETWEEN)
     @ApiModelProperty(value = "创建时间: 格式[yyyy-MM-dd HH:mm:ss]")
+    @NotBlank
     private List<String> createTime;
 
     @Query(type = Query.Type.BETWEEN)
+    @NotBlank
     @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
     private List<String> operDate;
 

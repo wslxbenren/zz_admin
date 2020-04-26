@@ -76,6 +76,7 @@ public class BizSecurKeyareasDTO implements Serializable {
 
     // 数据状态 10是保存待提交 12是生效状态 22是失效
     private String statusCd;
+    private String statusCdStr;
 
     // 操作人名称
     private String operName;
