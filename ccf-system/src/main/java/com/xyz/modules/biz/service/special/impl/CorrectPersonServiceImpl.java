@@ -60,6 +60,14 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
     @Transactional
     public Object queryAll(CorrectPersonQueryCriteria criteria, Pageable pageable){
         log.info("条件查询 CorrectPerson 分页列表 ");
+        if (criteria.getNativeInfo() != null & criteria.getNativeInfo() != "") {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getNativeInfo());
+            if(addrPrefix.length() != 6) {
+                criteria.setNativeInfoWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setNativeInfoWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<CorrectPerson> page = CorrectPersonRepository.findAll(audit.genSpecification(criteria),pageable);
         List<CorrectPersonDTO> correctPersonDTOS = CorrectPersonMapper.toDto(page.getContent());
         for (CorrectPersonDTO mid:correctPersonDTOS){

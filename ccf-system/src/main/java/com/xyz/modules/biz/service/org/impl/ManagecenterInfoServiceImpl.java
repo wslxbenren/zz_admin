@@ -67,6 +67,14 @@ public class ManagecenterInfoServiceImpl implements ManagecenterInfoService {
     @Transactional
     public Object queryAll(ManagecenterInfoQueryCriteria criteria, Pageable pageable){
         log.debug("**********综治中心信息列表查询开始**********");
+        if (criteria.getAddr() != null & criteria.getAddr() != "") {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getAddr());
+            if(addrPrefix.length() != 6) {
+                criteria.setAddrWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setAddrWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<ManagecenterInfo> page = ManagecenterInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<ManagecenterInfoDTO> midList = ManagecenterInfoMapper.toDto(page.getContent());
         for (ManagecenterInfoDTO mid:midList ) {
