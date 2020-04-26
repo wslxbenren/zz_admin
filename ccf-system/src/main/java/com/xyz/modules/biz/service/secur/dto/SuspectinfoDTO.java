@@ -143,8 +143,9 @@ public class SuspectinfoDTO implements Serializable {
     // 同步状态
     private String status;
 
-    // 数据状态 10是保存待提交 12是生效状态 22是失效
+    // 数据状态 10是保存待提交 12是生效状态 22是失效 字典
     private String statusCd;
+    private String statusCdStr;
 
     // 操作人名称
     private String operName;

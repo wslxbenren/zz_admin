@@ -62,6 +62,8 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
             mid.setOutproblemStr(dd == null ? "无数据" : dd); // 治安突出问题
             dd = dictDetailService.transDict(DictEnum.SJQYLX.getDistName(), mid.getAreaType());
             mid.setAreaTypeStr(dd == null ? "无数据" : dd); // 涉及区域类型
+            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd());
+            mid.setStatusCdStr(dd == null ? "无数据" : dd); // 数据状态
 
             dd = deptRepository.findNameByCode(mid.getUnitCode());
             mid.setUnitCodeStr(dd);

@@ -81,7 +81,8 @@ public class VictiminfoServiceImpl implements VictiminfoService {
             f.setCountryStr(dd == null ? "无数据" : dd);// 国籍
             dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEducationBg());
             f.setEducationBgStr(dd == null ? "无数据" : dd);// 学历
-
+            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd());
+            f.setStatusCdStr(dd == null ? "无数据" : dd);// 数据状态
 
             dd = deptRepository.findNameByCode(f.getUnitCode());
             f.setUnitCodeStr(dd);

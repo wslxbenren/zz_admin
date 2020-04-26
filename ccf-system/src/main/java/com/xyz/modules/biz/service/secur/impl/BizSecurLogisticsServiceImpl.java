@@ -67,10 +67,12 @@ public class BizSecurLogisticsServiceImpl implements BizSecurLogisticsService {
             f.setBusinessScopeStr(dd == null ? "无数据" : dd);//经营范围
             dd = dictDetailService.transDict(DictEnum.QYLX.getDistName(), f.getEntityType());
             f.setEntityTypeStr(dd == null ? "无数据" : dd);//企业类型
+            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd());
+            f.setStatusCdStr(dd == null ? "无数据" : dd);//数据状态
 
 
             dd = deptRepository.findNameByCode(f.getUnitCode());
-            f.setUnitCodeStr(dd);
+            f.setUnitCodeStr(dd);//所属单位
         }
         Map map = new HashMap();
         map.put("content", bizSecurLogisticsDTOList);

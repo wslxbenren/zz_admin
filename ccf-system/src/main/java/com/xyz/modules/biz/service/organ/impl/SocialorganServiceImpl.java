@@ -1,6 +1,10 @@
 package com.xyz.modules.biz.service.organ.impl;
 
+import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.biz.service.organ.entity.Socialorgan;
+import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.organ.repo.SocialorganRepository;
 import com.xyz.modules.biz.service.organ.SocialorganService;
@@ -11,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -32,11 +40,47 @@ public class SocialorganServiceImpl implements SocialorganService {
     @Autowired
     private SocialorganMapper SocialorganMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+
+    @Autowired
+    private DeptRepository deptRepository;
+
+    @Autowired
+    private AuditSpecification audit;
+
+
+
+
     @Override
     @Transactional
     public Object queryAll(SocialorganQueryCriteria criteria, Pageable pageable){
-        Page<Socialorgan> page = SocialorganRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(SocialorganMapper::toDto));
+//        Page<Socialorgan> page = SocialorganRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+//        return PageUtil.toPage(page.map(SocialorganMapper::toDto));
+
+    Page<Socialorgan> page=SocialorganRepository.findAll(audit.genSpecification(criteria),pageable);
+        List<SocialorganDTO> socialorganDTOList=SocialorganMapper.toDto(page.getContent());
+        for(SocialorganDTO dto:socialorganDTOList){
+
+                String dd=dictDetailService.transDict(DictEnum.GZCD.getDistName(),dto.getAttention());
+                dto.setAttentionStr(dd==null?"无数据":dd);//关注程度
+
+                dd=dictDetailService.transDict(DictEnum.GZCD.getDistName(),dto.getAddrcode());
+                dto.setAttentionStr(dd==null?"无数据":dd);
+
+                dd=dictDetailService.transDict(DictEnum.SJZT.getDistName(),dto.getStatusCd());
+                dto.setStatusCdStr(dd==null?"无数据":dd);
+
+            dd = deptRepository.findNameByCode(dto.getUnitCode());
+            dto.setUnitCodeStr(dd);
+
+        }
+        Map map=new HashMap();
+        map.put("content", socialorganDTOList);
+        map.put("totalElements", page.getTotalElements());
+        map.put("totalPages",page.getTotalPages());
+
+    return map;
     }
 
     @Override
