@@ -38,16 +38,13 @@ public class DataScope {
      */
     private static final String CUSTOM = "自定义";
 
-
+    @Autowired
     private DeptService deptService;
 
+    @Autowired
     private UserService userService;
 
-    @Autowired
-    public DataScope(UserService userService, DeptService deptService) {
-        this.deptService = deptService;
-        this.userService = userService;
-    }
+
 
     /**
      * 角色与部门

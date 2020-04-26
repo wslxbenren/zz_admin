@@ -66,14 +66,14 @@ public class MockTeen extends MockBase {
             teenagerBaseinfo.setExpDate(getTime());
             teenagerBaseinfo.setStatus("1");
             teenagerBaseinfo.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            teenagerBaseinfo.setOperName(mockNameCn(2));
+            teenagerBaseinfo.setOperName(i.getId());
             teenagerBaseinfo.setOperDate(getTime());
             teenagerBaseinfo.setCreator(i.getId());
             teenagerBaseinfo.setCreateTime(getTime());
             teenagerBaseinfo.setUnitCode(i.getDept().getCode());
             teenagerBaseinfo.setNativeInfoAddr(getRandomAddrDetail());
-            teenagerBaseinfo.setServicePlaceCode(String.valueOf(RandomUtils.nextInt(1000, 100000)));
-            teenagerBaseinfo.setGuardianAddrcode(String.valueOf(RandomUtils.nextInt(1000, 100000)));
+            teenagerBaseinfo.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
+            teenagerBaseinfo.setGuardianAddrcode(getRandomDictValue(ADDRESS.getDictId()));
             bizTeenagerBaseinfoRepository.save(teenagerBaseinfo);
         });
     }

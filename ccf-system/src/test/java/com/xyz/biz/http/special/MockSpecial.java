@@ -67,7 +67,7 @@ public class MockSpecial extends MockBase {
             aidsPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             aidsPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             aidsPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            aidsPerson.setServicePlace(getRandomCode(4));
+            aidsPerson.setServicePlace(getRandomAddrDetail());
             aidsPerson.setContact(mockPhone());
             aidsPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             aidsPerson.setRegisteredAddress(getRandomAddrDetail());
@@ -94,7 +94,7 @@ public class MockSpecial extends MockBase {
             aidsPerson.setResidence(getRandomDictValue(ADDRESS.getDictId()));
             aidsPerson.setResidenceAddr(getRandomAddrDetail());
             aidsPerson.setNativeInfoAddr(getRandomAddrDetail());
-            aidsPerson.setServicePlaceCode(getRandomCode(4));
+            aidsPerson.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
             aidsPersonReposity.save(aidsPerson);
         });
     }
@@ -116,7 +116,7 @@ public class MockSpecial extends MockBase {
             begPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             begPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             begPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setServicePlace(getRandomCode(4));
+            begPerson.setServicePlace(getRandomAddrDetail());
             begPerson.setContact(mockPhone());
             begPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             begPerson.setRegisteredAddress(getRandomAddrDetail());
@@ -145,7 +145,7 @@ public class MockSpecial extends MockBase {
             begPerson.setExpDate(getTime());
             begPerson.setStatus("1");
             begPerson.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            begPerson.setOperName(mockNameCn(2));
+            begPerson.setOperName(i.getId());
             begPerson.setOperDate(getTime());
             begPerson.setCreator(i.getId());
             begPerson.setCreateTime(getTime());
@@ -176,7 +176,7 @@ public class MockSpecial extends MockBase {
             correctPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             correctPerson.setRegisteredAddress(getRandomAddrDetail());
             correctPerson.setResidence(getRandomDictValue(ADDRESS.getDictId()));
-            correctPerson.setResidenceCode(getRandomCode(4));
+            correctPerson.setResidenceCode(getRandomDictValue(ADDRESS.getDictId()));
             correctPerson.setResidenceAddress(getRandomAddrDetail());
             correctPerson.setCorrectCode(getRandomCode(4));
             correctPerson.setDetainUnion(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
@@ -211,14 +211,14 @@ public class MockSpecial extends MockBase {
             correctPerson.setExpDate(getTime());
             correctPerson.setStatus("1");
             correctPerson.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            correctPerson.setOperName(mockNameCn(2));
+            correctPerson.setOperName(i.getId());
             correctPerson.setOperDate(getTime());
             correctPerson.setCreator(i.getId());
             correctPerson.setCreateTime(getTime());
             correctPerson.setUnitCode(i.getDept().getCode());
-            correctPerson.setVocationCode(getRandomCode(4));
+            correctPerson.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             correctPerson.setNativeInfoAddr(getRandomAddrDetail());
-            correctPerson.setServicePlaceCode(getRandomCode(4));
+            correctPerson.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
             correctPersonReposity.save(correctPerson);
         });
     }
@@ -241,12 +241,12 @@ public class MockSpecial extends MockBase {
             drugPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             drugPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             drugPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            drugPerson.setServicePlace(getRandomCode(4));
+            drugPerson.setServicePlace(getRandomAddrDetail());
             drugPerson.setContact(mockPhone());
             drugPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             drugPerson.setRegisteredAddress(getRandomAddrDetail());
             drugPerson.setResidence(getRandomDictValue(ADDRESS.getDictId()));
-            drugPerson.setResidenceCode(getRandomCode(4));
+            drugPerson.setResidenceCode(getRandomDictValue(ADDRESS.getDictId()));
             drugPerson.setResidenceAddress(getRandomAddrDetail());
             drugPerson.setFindDate(getTime());
             drugPerson.setManageType(getRandomDictValue(GKQK.getDictId()));
@@ -268,9 +268,9 @@ public class MockSpecial extends MockBase {
             drugPerson.setCreator(i.getId());
             drugPerson.setCreateTime(getTime());
             drugPerson.setUnitCode(i.getDept().getCode());
-            drugPerson.setVocationCode(getRandomCode(4));
+            drugPerson.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             drugPerson.setNativeInfoAddr(getRandomAddrDetail());
-            drugPerson.setServicePlaceCode(getRandomCode(4));
+            drugPerson.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
             drugPersonReposity.save(drugPerson);
         });
     }
@@ -292,12 +292,12 @@ public class MockSpecial extends MockBase {
             psychosisPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             psychosisPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             psychosisPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            psychosisPerson.setServicePlace(getRandomCode(4));
+            psychosisPerson.setServicePlace(getRandomAddrDetail());
             psychosisPerson.setContact(mockPhone());
             psychosisPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             psychosisPerson.setRegisteredAddress(getRandomAddrDetail());
             psychosisPerson.setResidence(getRandomDictValue(ADDRESS.getDictId()));
-            psychosisPerson.setResidenceCode(getRandomCode(4));
+            psychosisPerson.setResidenceCode(getRandomDictValue(ADDRESS.getDictId()));
             psychosisPerson.setResidenceAddress(getRandomAddrDetail());
             psychosisPerson.setSourceIncome(getRandomDictValue(JTJJZK.getDictId()));
             psychosisPerson.setIsBasicliving(String.valueOf(RandomUtils.nextInt(0, 2)));
@@ -325,9 +325,9 @@ public class MockSpecial extends MockBase {
             psychosisPerson.setCreator(i.getId());
             psychosisPerson.setCreateTime(getTime());
             psychosisPerson.setUnitCode(i.getDept().getCode());
-            psychosisPerson.setVocationCode(getRandomCode(4));
+            psychosisPerson.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             psychosisPerson.setNativeInfoAddr(getRandomAddrDetail());
-            psychosisPerson.setServicePlaceCode(getRandomCode(4));
+            psychosisPerson.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
             psychosisPersonReposity.save(psychosisPerson);
         });
     }
@@ -348,13 +348,13 @@ public class MockSpecial extends MockBase {
             releasedPerson.setPartyFlag(getRandomDictValue(ZZMM.getDictId()));
             releasedPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             releasedPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
-            releasedPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            releasedPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "职业");
             releasedPerson.setServicePlace(getRandomCode(4));
             releasedPerson.setContact(mockPhone());
             releasedPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             releasedPerson.setRegisteredAddress(getRandomAddrDetail());
             releasedPerson.setResidence(getRandomDictValue(ADDRESS.getDictId()));
-            releasedPerson.setResidenceCode(getRandomCode(4));
+            releasedPerson.setResidenceCode(getRandomDictValue(ADDRESS.getDictId()));
             releasedPerson.setResidenceAddress(getRandomAddrDetail());
             releasedPerson.setIsPedigree(String.valueOf(RandomUtils.nextInt(0, 2)));
             releasedPerson.setChargeComments(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
@@ -379,9 +379,9 @@ public class MockSpecial extends MockBase {
             releasedPerson.setCreator(i.getId());
             releasedPerson.setCreateTime(getTime());
             releasedPerson.setUnitCode(i.getDept().getCode());
-            releasedPerson.setVocationCode(getRandomCode(4));
+            releasedPerson.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             releasedPerson.setNativeInfoAddr(getRandomAddrDetail());
-            releasedPerson.setServicePlaceCode(getRandomCode(4));
+            releasedPerson.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
             releasedPersonReposity.save(releasedPerson);
         });
     }
