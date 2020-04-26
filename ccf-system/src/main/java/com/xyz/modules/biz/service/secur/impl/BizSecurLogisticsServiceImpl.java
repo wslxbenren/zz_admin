@@ -6,6 +6,7 @@ import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.secur.repo.BizSecurLogisticsRepository;
@@ -102,7 +103,8 @@ public class BizSecurLogisticsServiceImpl implements BizSecurLogisticsService {
     @Transactional(rollbackFor = Exception.class)
     public BizSecurLogisticsDTO create(BizSecurLogistics resources) {
         log.info("新增社会治安管理/寄递物流安全信息--开始");
-        resources.setLogisId(IdUtil.simpleUUID()); 
+        resources.setLogisId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return bizSecurLogisticsMapper.toDto(bizSecurLogisticsRepository.save(resources));
     }
 

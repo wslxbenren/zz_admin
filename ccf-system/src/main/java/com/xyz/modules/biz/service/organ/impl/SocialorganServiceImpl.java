@@ -5,6 +5,7 @@ import com.xyz.modules.biz.service.organ.entity.Socialorgan;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.organ.repo.SocialorganRepository;
 import com.xyz.modules.biz.service.organ.SocialorganService;
@@ -99,7 +100,8 @@ public class SocialorganServiceImpl implements SocialorganService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SocialorganDTO create(Socialorgan resources) {
-        resources.setSociaId(IdUtil.simpleUUID()); 
+        resources.setSociaId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return SocialorganMapper.toDto(SocialorganRepository.save(resources));
     }
 

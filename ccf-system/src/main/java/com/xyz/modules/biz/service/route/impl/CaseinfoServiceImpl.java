@@ -6,6 +6,7 @@ import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.route.repo.CaseinfoRepository;
@@ -95,7 +96,8 @@ public class CaseinfoServiceImpl implements CaseinfoService {
     @Transactional(rollbackFor = Exception.class)
     public CaseinfoDTO create(Caseinfo resources) {
         log.info("新增护路护线/涉线、路案事件信息管理--开始");
-        resources.setCaseId(IdUtil.simpleUUID()); 
+        resources.setCaseId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return CaseinfoMapper.toDto(CaseinfoRepository.save(resources));
     }
 

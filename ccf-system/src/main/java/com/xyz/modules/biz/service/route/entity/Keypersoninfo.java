@@ -15,6 +15,7 @@ import java.io.Serializable;
 /**
  * @author 刘鑫
  * @date 2020-04-10
+ * 线路周边重点人员管理信息表线路周边重点人员管理信息表
  */
 @Entity
 @Data

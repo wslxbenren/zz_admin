@@ -15,6 +15,7 @@ import java.io.Serializable;
 /**
  * @author 刘鑫
  * @date 2020-04-10
+ * 线路专项整治管理信息表
  */
 @Entity
 @Data

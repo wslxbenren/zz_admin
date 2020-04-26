@@ -138,7 +138,7 @@ public class DeptServiceImpl implements DeptService {
     public DeptDTO create(Dept resources) {
         resources.setId(IdUtil.simpleUUID());
         resources.setCreator(SecurityUtils.getUsername());
-        resources.setModifier(SecurityUtils.getUsername());
+//        resources.setModifier(SecurityUtils.getUsername());
         return deptMapper.toDto(deptRepository.save(resources));
     }
 

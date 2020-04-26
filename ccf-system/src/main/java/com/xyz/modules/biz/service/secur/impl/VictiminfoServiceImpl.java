@@ -6,6 +6,7 @@ import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.secur.repo.VictiminfoRepository;
@@ -115,7 +116,8 @@ public class VictiminfoServiceImpl implements VictiminfoService {
     @Transactional(rollbackFor = Exception.class)
     public VictiminfoDTO create(Victiminfo resources) {
         log.info("新增社会治安管理/命案受害人信息--开始");
-        resources.setVicId(IdUtil.simpleUUID()); 
+        resources.setVicId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return VictiminfoMapper.toDto(VictiminfoRepository.save(resources));
     }
 

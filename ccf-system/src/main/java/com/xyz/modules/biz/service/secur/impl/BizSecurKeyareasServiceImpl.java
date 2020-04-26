@@ -98,6 +98,7 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
     public BizSecurKeyareasDTO create(BizSecurKeyareas resources) {
         log.info("新增社会治安管理/重点地区排查整治信息--开始");
         resources.setKeyId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return bizSecurKeyareasMapper.toDto(bizSecurKeyareasRepository.save(resources));
     }
 

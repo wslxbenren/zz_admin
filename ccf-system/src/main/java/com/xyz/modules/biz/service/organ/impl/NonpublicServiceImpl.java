@@ -6,6 +6,7 @@ import com.xyz.modules.system.domain.DictDetail;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.organ.repo.NonpublicRepository;
 import com.xyz.modules.biz.service.organ.NonpublicService;
@@ -108,6 +109,7 @@ public class NonpublicServiceImpl implements NonpublicService {
     @Transactional(rollbackFor = Exception.class)
     public NonpublicDTO create(Nonpublic resources) {
         resources.setNonId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return NonpublicMapper.toDto(NonpublicRepository.save(resources));
     }
 
