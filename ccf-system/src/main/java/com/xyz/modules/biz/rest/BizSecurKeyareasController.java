@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2020-04-10
  * 功能模块：社会治安管理/重点地区排查整治信息
  */
-@Api(tags = "BizSecurKeyareas管理")
+@Api(tags = "BizSecurKeyareas管理--社会治安管理/重点地区排查整治信息")
 @RestController
 @RequestMapping("api")
 public class BizSecurKeyareasController {
