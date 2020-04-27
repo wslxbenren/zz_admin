@@ -2,8 +2,11 @@ package com.xyz.modules.biz.service.organ.impl;
 
 import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.biz.service.organ.entity.Socialorgan;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.organ.repo.SocialorganRepository;
@@ -49,6 +52,9 @@ public class SocialorganServiceImpl implements SocialorganService {
     @Autowired
     private AuditSpecification audit;
 
+    @Autowired
+    private UserRepository userRepository;
+
 
 
 
@@ -61,18 +67,22 @@ public class SocialorganServiceImpl implements SocialorganService {
     Page<Socialorgan> page=SocialorganRepository.findAll(audit.genSpecification(criteria),pageable);
         List<SocialorganDTO> socialorganDTOList=SocialorganMapper.toDto(page.getContent());
         for(SocialorganDTO dto:socialorganDTOList){
+                dto.setAttentionStr(dictDetailService.transDict(DictEnum.GZCD.getDictId(),dto.getAttention()));//关注程度
+                dto.setAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getAddrcode()));
+                dto.setWorkAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getWorkAddrcode()));
+                dto.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),dto.getStatusCd()));
+                dto.setIfOverseabgStr(ConstEnum.getBoolean(dto.getIfOverseabg()));
+                dto.setIfConditionStr(ConstEnum.getBoolean(dto.getIfCondition()));
+                dto.setIfOrganStr(ConstEnum.getBoolean(dto.getIfOrgan()));
+                dto.setIfUnionStr(ConstEnum.getBoolean(dto.getIfUnion()));
+                dto.setIfWomenfederStr(ConstEnum.getBoolean(dto.getIfWomenfeder()));
+                dto.setIfYouthleagueStr(ConstEnum.getBoolean(dto.getIfYouthleague()));
+                dto.setStatusStr(ConstEnum.transSync(dto.getStatus()));
+                dto.setCreator(userRepository.findById(Optional.ofNullable(dto.getCreator()).orElse("")).orElse(new User()).getUsername());
+                dto.setOperName(userRepository.findById(Optional.ofNullable(dto.getOperName()).orElse("")).orElse(new User()).getUsername());
 
-                String dd=dictDetailService.transDict(DictEnum.GZCD.getDistName(),dto.getAttention());
-                dto.setAttentionStr(dd==null?"无数据":dd);//关注程度
 
-                dd=dictDetailService.transDict(DictEnum.GZCD.getDistName(),dto.getAddrcode());
-                dto.setAttentionStr(dd==null?"无数据":dd);
-
-                dd=dictDetailService.transDict(DictEnum.SJZT.getDistName(),dto.getStatusCd());
-                dto.setStatusCdStr(dd==null?"无数据":dd);
-
-            dd = deptRepository.findNameByCode(dto.getUnitCode());
-            dto.setUnitCodeStr(dd);
+                dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));
 
         }
         Map map=new HashMap();

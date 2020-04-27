@@ -60,8 +60,10 @@ public class BizSecurKeyareasDTO implements Serializable {
     // 整治情况
     private String regulation;
 
+
     // 效果评估
     private String evaluation;
+    private String evaluationStr;
 
     // 生效时间
 

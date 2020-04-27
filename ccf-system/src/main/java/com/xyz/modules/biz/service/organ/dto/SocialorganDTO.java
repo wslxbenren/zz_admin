@@ -34,6 +34,7 @@ public class SocialorganDTO implements Serializable {
 
     // 住所省市县编码
     private String addrcode;
+    private String addrcodeStr;
 
     // 住所
     private String addr;
@@ -51,6 +52,7 @@ public class SocialorganDTO implements Serializable {
 
     // 法定代表人证件代码
     private String legalcardType;
+    private String legalcardTypeStr;
 
     // 法定代表人证件号码
     private String legalcardCode;
@@ -63,6 +65,7 @@ public class SocialorganDTO implements Serializable {
 
     // 办公地址省市县编码
     private String workAddrcode;
+    private String workAddrcodeStr;
 
     // 办公地址
     private String workAddr;
@@ -80,27 +83,33 @@ public class SocialorganDTO implements Serializable {
 
     // 是否具备建立中共党组织条件:1是0否
     private Integer ifCondition;
+    private String ifConditionStr;
 
     // 是否有中共党组织:1是0否
     private Integer ifOrgan;
+    private String ifOrganStr;
+
 
     // 中共党员数量
     private Integer organNum;
 
     // 是否有工会:1是0否
     private Integer ifUnion;
+    private String ifUnionStr;
 
     // 工会会员数量
     private Integer unionNum;
 
     // 是否有共青团组织:1是0否
     private Integer ifYouthleague;
+    private String ifYouthleagueStr;
 
     // 共青团团员数量
     private Integer youthleagueNum;
 
     // 是否有妇联组织:1是0否
     private Integer ifWomenfeder;
+    private String ifWomenfederStr;
 
     // 妇女数量
     private Integer womenfederNum;
@@ -110,6 +119,7 @@ public class SocialorganDTO implements Serializable {
 
     // 是否有境外背景:1是0否
     private Integer ifOverseabg;
+    private String ifOverseabgStr;
 
     // 经度
     private Double lng;
@@ -127,6 +137,7 @@ public class SocialorganDTO implements Serializable {
 
     // 同步状态
     private String status;
+    private String statusStr;
 
     // 数据状态 10是保存待提交 12是生效状态 22是失效 字典
     private String statusCd;

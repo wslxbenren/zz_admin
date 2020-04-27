@@ -64,10 +64,9 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
             mid.setAreaTypeStr(dd == null ? "无数据" : dd); // 涉及区域类型
             dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd());
             mid.setStatusCdStr(dd == null ? "无数据" : dd); // 数据状态
-
+            mid.setEvaluationStr(dictDetailService.transDict(DictEnum.XGPG.getDictId(), mid.getEvaluation())); //效果评估
             dd = deptRepository.findNameByCode(mid.getUnitCode());
             mid.setUnitCodeStr(dd);
-
         }
         Map map = new HashMap();
         map.put("content", bizSecurKeyareasDTOList);

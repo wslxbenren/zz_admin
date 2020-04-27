@@ -83,12 +83,12 @@ public class BizSecurKeyareas implements Serializable {
     private String evaluation;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
+    @Column(name = "eff_date",insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
+    @Column(name = "exp_date",insertable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Timestamp expDate;
 

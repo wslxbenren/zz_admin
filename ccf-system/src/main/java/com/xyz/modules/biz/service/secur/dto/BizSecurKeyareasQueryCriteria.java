@@ -25,9 +25,21 @@ public class BizSecurKeyareasQueryCriteria{
     private List<String> operDate;
 
     // 精确
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "治安重点地区")
     private String securityKarea;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "整治牵头单位负责人姓名")
+    private String leadunitPername;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "整治牵头单位负责人联系方式")
+    private String leadunitPermobile;
+
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "治安突出问题")
+    private String outproblem;
 
     // 审计字段
     @Query(type = Query.Type.IN)
