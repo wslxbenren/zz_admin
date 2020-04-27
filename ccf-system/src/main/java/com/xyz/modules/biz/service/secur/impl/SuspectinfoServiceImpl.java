@@ -5,6 +5,7 @@ import com.xyz.modules.biz.service.secur.entity.Suspectinfo;
 import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
 import com.xyz.modules.biz.service.secur.repo.SuspectinfoRepository;
@@ -18,10 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,6 +54,15 @@ public class SuspectinfoServiceImpl implements SuspectinfoService {
     @Transactional
     public Object queryAll(SuspectinfoQueryCriteria criteria, Pageable pageable){
         log.info("查询列表社会治安管理/命案犯罪嫌疑人信息--开始");
+
+        if (criteria.getResidence()!= null & criteria.getResidence() != "") {
+            String addrPrefix = ConstEnum.genAddrPrefix(criteria.getResidence());
+            if(addrPrefix.length() != 6) {
+                criteria.setResidenceWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
+            } else {
+                criteria.setResidenceWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+            }
+        }
         Page<Suspectinfo> page = SuspectinfoRepository.findAll(audit.genSpecification(criteria),pageable);
         List<SuspectinfoDTO> suspectinfoDTOList = SuspectinfoMapper.toDto(page.getContent());
         for (SuspectinfoDTO f:suspectinfoDTOList){
@@ -66,6 +74,7 @@ public class SuspectinfoServiceImpl implements SuspectinfoService {
             f.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(), f.getFaithType()));// 宗教信仰
             f.setVocationCodeStr(dictDetailService.transDict(DictEnum.ZYLB.getDictId(), f.getVocationCode())); // 职业类别
             f.setRegisteredPlaceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getRegisteredPlace()));// 户籍地
+            f.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getResidenceStr()));// 现住地
             f.setCardTypeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getCardTypeStr()));// 证件代码
             f.setCountryStr(dictDetailService.transDict(DictEnum.GJ_DQ.getDictId(), f.getCountry()));// 国籍
             f.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(), f.getEducationBg()));// 学历

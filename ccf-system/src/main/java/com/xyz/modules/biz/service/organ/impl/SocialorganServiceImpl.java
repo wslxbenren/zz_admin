@@ -64,9 +64,9 @@ public class SocialorganServiceImpl implements SocialorganService {
         for(SocialorganDTO dto:socialorganDTOList){
 
                 dto.setAttentionStr(dictDetailService.transDict(DictEnum.GZCD.getDictId(),dto.getAttention()));//关注程度
-                dto.setAttentionStr(dictDetailService.transDict(DictEnum.GZCD.getDictId(),dto.getAddrcode()));
-                dto.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),dto.getStatusCd()));
-            dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));
+                dto.setAttentionStr(dictDetailService.transDict(DictEnum.GZCD.getDictId(),dto.getAddrcode()));//市县编码
+                dto.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),dto.getStatusCd()));//数据状态
+            dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//所属单位
 
         }
         Map map=new HashMap();

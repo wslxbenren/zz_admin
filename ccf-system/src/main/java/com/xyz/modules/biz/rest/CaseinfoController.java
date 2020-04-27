@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2020-04-10
  * 功能模块：护路护线/涉线、路案事件信息管理
  */
-@Api(tags = "Caseinfo管理")
+@Api(tags = "Caseinfo管理--护路护线/涉线、路案事件信息管理")
 @RestController
 @RequestMapping("api")
 public class CaseinfoController {

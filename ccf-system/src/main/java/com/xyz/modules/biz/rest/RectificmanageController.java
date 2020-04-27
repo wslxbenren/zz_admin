@@ -17,7 +17,7 @@ import io.swagger.annotations.*;
  * @author 刘鑫
  * @date 2020-04-10
  */
-@Api(tags = "Rectificmanage管理")
+@Api(tags = "Rectificmanage管理--/护路护线/线路专项整治管理信息表")
 @RestController
 @RequestMapping("api")
 public class RectificmanageController {

@@ -105,17 +105,16 @@ public class VictiminfoDTO implements Serializable {
     // 服务处所
     private String serviceAddr;
 
-    // 户籍地
+    // 户籍地 字典翻译
     private String registeredPlace;
-
-    // 户籍地   字典翻译
     private String registeredPlaceStr;
 
     // 户籍门（楼）详址
     private String registeredAddr;
 
-    // 现住地
+    // 现住地 字典翻译
     private String residence;
+    private String residenceStr;
 
     // 现住门（楼）详址
     private String residenceAddr;
