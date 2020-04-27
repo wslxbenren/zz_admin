@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2020-04-10
  * 功能模块：社会治安管理/寄递物流安全信息
  */
-@Api(tags = "BizSecurLogistics管理")
+@Api(tags = "BizSecurLogistics管理--社会治安管理/寄递物流安全信息")
 @RestController
 @RequestMapping("api")
 public class BizSecurLogisticsController {

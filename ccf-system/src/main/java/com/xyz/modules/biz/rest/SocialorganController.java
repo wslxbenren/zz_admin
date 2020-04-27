@@ -17,7 +17,7 @@ import io.swagger.annotations.*;
  * @author 邢家华
  * @date 2020-04-10
  */
-@Api(tags = "Socialorgan管理")
+@Api(tags = "Socialorgan管理--社会组织---社会组织信息")
 @RestController
 @RequestMapping("api")
 public class SocialorganController {

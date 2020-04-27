@@ -58,15 +58,13 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
         Page<BizSecurKeyareas> page = bizSecurKeyareasRepository.findAll(audit.genSpecification(criteria),pageable);
         List<BizSecurKeyareasDTO> bizSecurKeyareasDTOList = bizSecurKeyareasMapper.toDto(page.getContent());
         for (BizSecurKeyareasDTO mid: bizSecurKeyareasDTOList) {
-            String dd = dictDetailService.transDict(DictEnum.ZATCWT.getDistName(), mid.getOutproblem());
-            mid.setOutproblemStr(dd == null ? "无数据" : dd); // 治安突出问题
-            dd = dictDetailService.transDict(DictEnum.SJQYLX.getDistName(), mid.getAreaType());
-            mid.setAreaTypeStr(dd == null ? "无数据" : dd); // 涉及区域类型
-            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd());
-            mid.setStatusCdStr(dd == null ? "无数据" : dd); // 数据状态
+
+            mid.setOutproblemStr(dictDetailService.transDict(DictEnum.ZATCWT.getDictId(), mid.getOutproblem())); // 治安突出问题
+            mid.setAreaTypeStr(dictDetailService.transDict(DictEnum.SJQYLX.getDictId(), mid.getAreaType())); // 涉及区域类型
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd())); // 数据状态
             mid.setEvaluationStr(dictDetailService.transDict(DictEnum.XGPG.getDictId(), mid.getEvaluation())); //效果评估
-            dd = deptRepository.findNameByCode(mid.getUnitCode());
-            mid.setUnitCodeStr(dd);
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
+
         }
         Map map = new HashMap();
         map.put("content", bizSecurKeyareasDTOList);

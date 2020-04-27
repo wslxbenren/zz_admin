@@ -6,6 +6,7 @@ import com.xyz.modules.biz.service.route.entity.Rectificmanage;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.route.repo.RectificmanageRepository;
 import com.xyz.modules.biz.service.route.RectificmanageService;
@@ -103,7 +104,8 @@ public class RectificmanageServiceImpl implements RectificmanageService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public RectificmanageDTO create(Rectificmanage resources) {
-        resources.setRectId(IdUtil.simpleUUID()); 
+        resources.setRectId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return RectificmanageMapper.toDto(RectificmanageRepository.save(resources));
     }
 

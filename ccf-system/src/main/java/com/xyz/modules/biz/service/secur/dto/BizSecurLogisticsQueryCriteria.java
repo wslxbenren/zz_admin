@@ -16,30 +16,40 @@ import java.util.List;
 @ApiModel("社会治安管理->寄递物流安全管理")
 public class BizSecurLogisticsQueryCriteria{
     // 时间
-    @Query(type = Query.Type.BETWEEN)
-    @ApiModelProperty(value = "创建时间: 格式[yyyy-MM-dd HH:mm:ss]")
-    private List<String> createTime;
+//    @Query(type = Query.Type.BETWEEN)
+//    @ApiModelProperty(value = "创建时间: 格式[yyyy-MM-dd HH:mm:ss]")
+//    private List<String> createTime;
+//
+//    @Query(type = Query.Type.BETWEEN)
+//    @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
+//    private List<String> operDate;
 
-    @Query(type = Query.Type.BETWEEN)
-    @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
-    private List<String> operDate;
 
-    // 精确
-    @Query
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "寄递物流企业名称")
     private String logientityName;
 
-    // 审计字段
-    @Query(type = Query.Type.IN)
+    // 工商执照注册号（统一社会信用代码）
+    @Query(type = Query.Type.INNER_LIKE)
     @JsonIgnore
-    @ApiModelProperty(value = "单位编码,所属单位")
-    private List<String> unitCode;
+    @ApiModelProperty(value = "工商执照注册号")
+    private String creditCode;
 
-    @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "创建人id")
-    private String creator;
 
-    @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "修改人id")
-    private String operName;
+    // 工商执照注册号（统一社会信用代码）
+    @Query(type = Query.Type.INNER_LIKE)
+    @JsonIgnore
+    @ApiModelProperty(value = "企业联系方式")
+    private String entityPhone;
+
+
+
+
+//    @Query(type = Query.Type.EQUAL)
+//    @ApiModelProperty(value = "创建人id")
+//    private String creator;
+//
+//    @Query(type = Query.Type.EQUAL)
+//    @ApiModelProperty(value = "修改人id")
+//    private String operName;
 }

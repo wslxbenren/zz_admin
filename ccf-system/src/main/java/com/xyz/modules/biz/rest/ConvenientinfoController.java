@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2020-04-10
  * 功能模块：护路护线/护路护线基本信息
  */
-@Api(tags = "Convenientinfo管理")
+@Api(tags = "Convenientinfo管理--护路护线/护路护线基本信息")
 @RestController
 @RequestMapping("api")
 public class ConvenientinfoController {

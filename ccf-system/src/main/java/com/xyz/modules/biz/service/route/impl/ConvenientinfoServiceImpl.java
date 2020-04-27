@@ -6,6 +6,7 @@ import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.route.repo.ConvenientinfoRepository;
@@ -95,7 +96,8 @@ public class ConvenientinfoServiceImpl implements ConvenientinfoService {
     @Transactional(rollbackFor = Exception.class)
     public ConvenientinfoDTO create(Convenientinfo resources) {
         log.info("新增护路护线/护路护线基本信息--开始");
-        resources.setConId(IdUtil.simpleUUID()); 
+        resources.setConId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return ConvenientinfoMapper.toDto(ConvenientinfoRepository.save(resources));
     }
 

@@ -7,6 +7,7 @@ import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.dto.UserDTO;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.route.repo.KeypersoninfoRepository;
 import com.xyz.modules.biz.service.route.KeypersoninfoService;
@@ -120,7 +121,8 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public KeypersoninfoDTO create(Keypersoninfo resources) {
-        resources.setKeyId(IdUtil.simpleUUID()); 
+        resources.setKeyId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return KeypersoninfoMapper.toDto(KeypersoninfoRepository.save(resources));
     }
 

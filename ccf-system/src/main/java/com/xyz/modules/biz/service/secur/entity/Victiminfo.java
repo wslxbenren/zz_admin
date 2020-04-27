@@ -168,4 +168,10 @@ public class Victiminfo implements Serializable {
     public void copy(Victiminfo source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
+
+//    @JoinColumn(name="case_code")//外键列的列名
+//    @ManyToOne(fetch=FetchType.LAZY,optional=false)
+//    private BizSecurHomicidebaseinfo bizSecurHomicidebaseinfo;
+
+
 }

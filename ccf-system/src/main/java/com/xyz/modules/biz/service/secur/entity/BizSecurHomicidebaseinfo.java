@@ -12,6 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author 邢家华
@@ -52,13 +54,15 @@ public class BizSecurHomicidebaseinfo implements Serializable {
     private String briefdescrip;
 
     // 生效时间
-    @Column(name = "eff_date",nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @Column(name = "eff_date", insertable = false ,updatable = false)
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonIgnore
     private Timestamp effDate;
 
     // 失效时间
-    @Column(name = "exp_date",nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @Column(name = "exp_date", insertable = false,updatable = false)
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonIgnore
     private Timestamp expDate;
 
     // 同步状态
@@ -96,4 +100,13 @@ public class BizSecurHomicidebaseinfo implements Serializable {
     public void copy(BizSecurHomicidebaseinfo source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
+
+
+//    //犯罪嫌疑人
+//    @OneToMany(cascade=CascadeType.REFRESH , fetch = FetchType.EAGER, mappedBy="suspectinfo")
+//    private Set<Suspectinfo> suspectinfoList;
+//    //犯罪受害人
+//    @OneToMany(cascade=CascadeType.REFRESH , fetch = FetchType.EAGER, mappedBy="victiminfo")
+//    private Set<Victiminfo> victiminfos;
+
 }

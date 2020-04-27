@@ -17,7 +17,7 @@ import io.swagger.annotations.*;
  * @author 邢家华
  * @date 2020-04-10
  */
-@Api(tags = "Nonpublic管理")
+@Api(tags = "Nonpublic管理--社会组织--非公有制经济组织信息")
 @RestController
 @RequestMapping("api")
 public class NonpublicController {

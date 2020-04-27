@@ -6,6 +6,7 @@ import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.secur.repo.BizSecurLogisticsRepository;
@@ -59,20 +60,12 @@ public class BizSecurLogisticsServiceImpl implements BizSecurLogisticsService {
         Page<BizSecurLogistics> page = bizSecurLogisticsRepository.findAll(audit.genSpecification(criteria),pageable);
         List<BizSecurLogisticsDTO> bizSecurLogisticsDTOList = bizSecurLogisticsMapper.toDto(page.getContent());
         for (BizSecurLogisticsDTO f:bizSecurLogisticsDTOList){
-            String dd = dictDetailService.transDict(DictEnum.DJZCLX.getDistName(), f.getRegisType());
-            f.setRegisTypeStr(dd == null ? "无数据" : dd);// 登记注册类型
-            dd = dictDetailService.transDict(DictEnum.KGQK.getDistName(), f.getHoldings());
-            f.setHoldingsStr(dd == null ? "无数据" : dd);//控股情况
-            dd = dictDetailService.transDict(DictEnum.JYFW.getDistName(), f.getBusinessScope());
-            f.setBusinessScopeStr(dd == null ? "无数据" : dd);//经营范围
-            dd = dictDetailService.transDict(DictEnum.QYLX.getDistName(), f.getEntityType());
-            f.setEntityTypeStr(dd == null ? "无数据" : dd);//企业类型
-            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd());
-            f.setStatusCdStr(dd == null ? "无数据" : dd);//数据状态
-
-
-            dd = deptRepository.findNameByCode(f.getUnitCode());
-            f.setUnitCodeStr(dd);//所属单位
+            f.setRegisTypeStr(dictDetailService.transDict(DictEnum.DJZCLX.getDictId(), f.getRegisType()));// 登记注册类型
+            f.setHoldingsStr(dictDetailService.transDict(DictEnum.KGQK.getDictId(), f.getHoldings()));//控股情况
+            f.setBusinessScopeStr(dictDetailService.transDict(DictEnum.JYFW.getDictId(), f.getBusinessScope()));//经营范围
+            f.setEntityTypeStr(dictDetailService.transDict(DictEnum.QYLX.getDictId(), f.getEntityType()));//企业类型
+            f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), f.getStatusCd()));//数据状态
+            f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));//所属单位
         }
         Map map = new HashMap();
         map.put("content", bizSecurLogisticsDTOList);
@@ -102,7 +95,8 @@ public class BizSecurLogisticsServiceImpl implements BizSecurLogisticsService {
     @Transactional(rollbackFor = Exception.class)
     public BizSecurLogisticsDTO create(BizSecurLogistics resources) {
         log.info("新增社会治安管理/寄递物流安全信息--开始");
-        resources.setLogisId(IdUtil.simpleUUID()); 
+        resources.setLogisId(IdUtil.simpleUUID());
+        resources.setCreator(SecurityUtils.getUsername());
         return bizSecurLogisticsMapper.toDto(bizSecurLogisticsRepository.save(resources));
     }
 
