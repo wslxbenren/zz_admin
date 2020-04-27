@@ -29,6 +29,7 @@ public class NonpublicDTO implements Serializable {
 
     // 企业地址省市县编码
     private String entityAddrcode;
+    private String entityAddrcodeStr;
 
     // 企业地址
     private String entityAddr;
@@ -41,6 +42,7 @@ public class NonpublicDTO implements Serializable {
 
     // 法定代表人证件代码
     private String legalcardType;
+    private String legalcardTypeStr;
 
     // 法定代表人证件号码
     private String legalcardCode;
@@ -59,6 +61,7 @@ public class NonpublicDTO implements Serializable {
 
     // 是否危化企业
     private Integer ifDangerous;
+    private String ifDangerousStr;
 
     // 安全隐患类型 字典
     private String safetroubleType;
@@ -72,27 +75,32 @@ public class NonpublicDTO implements Serializable {
 
     // 是否具备建立中共党组织条件:1是0否
     private Integer ifCondition;
+    private String ifConditionStr;
 
     // 是否有中共党组织:1是0否
     private Integer ifOrgan;
+    private String ifOrganStr;
 
     // 中共党员数量
     private Integer organNum;
 
     // 是否有工会:1是0否
     private Integer ifUnion;
+    private String ifUnionStr;
 
     // 工会会员数量
     private Integer unionNum;
 
     // 是否有共青团组织:1是0否
     private Integer ifYouthleague;
+    private String ifYouthleagueStr;
 
     // 共青团团员数量
     private Integer youthleagueNum;
 
     // 是否有妇联组织:1是0否
     private Integer ifWomenfeder;
+    private String ifWomenfederStr;
 
     // 妇女数量
     private Integer womenfederNum;
