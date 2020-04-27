@@ -51,6 +51,7 @@ public class MockBase {
 
     protected String getRandomDictValue(Long dictId) {
         List<DictDetail> dictDetails = dictFactory.get(dictId);
+
         return dictDetails.get(random.nextInt(dictDetails.size())).getValue();
 
     }
@@ -208,6 +209,8 @@ public class MockBase {
         dictFactory.put(JKZK.getDictId(), dictService.queryAll(param));
         param.setDictId(String.valueOf(RHYZBS.getDictId()));// "人户一致标识"
         dictFactory.put(RHYZBS.getDictId(), dictService.queryAll(param));
+        param.setDictId(String.valueOf(LSRYLX.getDictId()));
+        dictFactory.put(LSRYLX.getDictId(), dictService.queryAll(param));
         param.setDictId(String.valueOf(LHMD.getDictId()));// "来华目的"
         dictFactory.put(LHMD.getDictId(), dictService.queryAll(param));
         param.setDictId(String.valueOf(JZYT.getDictId()));// "建筑用途"

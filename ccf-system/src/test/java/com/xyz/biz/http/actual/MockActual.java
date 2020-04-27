@@ -45,8 +45,8 @@ public class MockActual extends MockBase {
 
     @Test
     public void mock() {
-//        testFloatpeople();
-//        testForeigners();
+        testFloatpeople();
+        testForeigners();
         testLeftbehind();
         testRegistpeople();
         testRentalhouse();
@@ -55,14 +55,13 @@ public class MockActual extends MockBase {
     /**
      * 流动人口
      */
-    @Test
     public void testFloatpeople() {
         Floatpeople floatpeople = new Floatpeople();
         userList.forEach(i -> {
             floatpeople.setFloatId(UUID.randomUUID().toString());
             floatpeople.setIdentityNum(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
-            floatpeople.setPersonName(mockNameCn(3));
-            floatpeople.setUsedName(mockNameCn(3));
+            floatpeople.setPersonName(mockNameCn(2));
+            floatpeople.setUsedName(mockNameCn(2));
             floatpeople.setPersonSex(getRandomDictValue(XING_BIE.getDictId()));
             floatpeople.setDateBirth(Timestamp.valueOf(LocalDateTime.now()));
             floatpeople.setNation(getRandomDictValue(MIN_ZU.getDictId()));
@@ -73,7 +72,7 @@ public class MockActual extends MockBase {
             floatpeople.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             floatpeople.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             floatpeople.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "职业");
-            floatpeople.setServiceAddr(getRandomDictValue(ADDRESS.getDictId()));
+            floatpeople.setServiceAddr(getRandomAddrDetail());
             floatpeople.setContact(mockPhone());
             floatpeople.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             floatpeople.setRegisteredAddr(getRandomAddrDetail());
@@ -82,21 +81,21 @@ public class MockActual extends MockBase {
             floatpeople.setIntoCause(getRandomDictValue(LRYY.getDictId()));
             floatpeople.setCardType(getRandomDictValue(BZLX.getDictId()));
             floatpeople.setCardNo(getIdNo(RandomUtils.nextBoolean()));
-            floatpeople.setRegisDate(Timestamp.valueOf(LocalDateTime.now()));
-            floatpeople.setExpiryDate(Timestamp.valueOf(LocalDateTime.now()));
+            floatpeople.setRegisDate(getTime());
+            floatpeople.setExpiryDate(getTime());
             floatpeople.setResidType(getRandomDictValue(XING_BIE.getDictId()));
             floatpeople.setIfImport(RandomUtils.nextInt(0, 2));
-            floatpeople.setEffDate(Timestamp.valueOf(LocalDateTime.now()));
-            floatpeople.setExpDate(Timestamp.valueOf(LocalDateTime.now()));
+            floatpeople.setEffDate(getTime());
+            floatpeople.setExpDate(getTime());
             floatpeople.setStatus("1");
             floatpeople.setStatusCd(getRandomDictValue(XING_BIE.getDictId()));
-            floatpeople.setOperName(mockNameEn(2));
+            floatpeople.setOperName(i.getId());
             floatpeople.setOperDate(getTime());
             floatpeople.setCreator(i.getId());
             floatpeople.setCreateTime(getTime());
             floatpeople.setUnitCode(i.getDept().getCode());
             floatpeople.setNativeInfoAddr(getRandomAddrDetail());
-            floatpeople.setServicePlaceCode(getRandomCode(4));
+            floatpeople.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
             floatpeopleRepository.save(floatpeople);
         });
     }
@@ -104,7 +103,6 @@ public class MockActual extends MockBase {
     /**
      * 外籍
      */
-    @Test
     public void testForeigners() {
         Foreigners foreigners = new Foreigners();
         userList.forEach(i -> {
@@ -133,12 +131,12 @@ public class MockActual extends MockBase {
             foreigners.setExpDate(getTime());
             foreigners.setStatus("1");
             foreigners.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            foreigners.setOperName(mockNameEn(2));
+            foreigners.setOperName(i.getId());
             foreigners.setOperDate(getTime());
             foreigners.setCreator(i.getId());
             foreigners.setCreateTime(getTime());
             foreigners.setUnitCode(i.getDept().getCode());
-            foreigners.setServicePlaceCode(getRandomCode(4));
+            foreigners.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
             foreignersRepository.save(foreigners);
         });
     }
@@ -163,16 +161,16 @@ public class MockActual extends MockBase {
             leftbehind.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             leftbehind.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             leftbehind.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "职业");
-            leftbehind.setServiceAddr(getRandomDictValue(ADDRESS.getDictId()));
+            leftbehind.setServiceAddr(getRandomAddrDetail());
             leftbehind.setContact(mockPhone());
             leftbehind.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             leftbehind.setRegisteredAddr(getRandomAddrDetail());
             leftbehind.setResidence(getRandomDictValue(ADDRESS.getDictId()));
             leftbehind.setResidenceAddr(getRandomAddrDetail());
-            leftbehind.setHealthy("健康");
+            leftbehind.setHealthy(getRandomDictValue(JKZK.getDictId()));
             leftbehind.setAnnualPerincome(String.valueOf(RandomUtils.nextInt(1000, 100000)));
             leftbehind.setHouseholdId(getRandomDictValue(RHYZBS.getDictId()));
-//            leftbehind.setLeftbehindType();
+            leftbehind.setLeftbehindType(getRandomDictValue(LSRYLX.getDictId()));
             leftbehind.setMainmemIdno(getIdNo(RandomUtils.nextBoolean()).substring(0, 18));
             leftbehind.setMainmemName(mockNameCn(3));
             leftbehind.setMainmemHealth(getRandomDictValue(JKZK.getDictId()));
@@ -186,13 +184,13 @@ public class MockActual extends MockBase {
             leftbehind.setExpDate(getTime());
             leftbehind.setStatus("1");
             leftbehind.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            leftbehind.setOperName(mockNameEn(2));
+            leftbehind.setOperName(i.getId());
             leftbehind.setOperDate(getTime());
             leftbehind.setCreator(i.getId());
             leftbehind.setCreateTime(getTime());
             leftbehind.setNativeInfoAddr(getRandomAddrDetail());
-            leftbehind.setServicePlaceCode(getRandomCode(4));
-            leftbehind.setMainmemAddrcode(getRandomCode(4));
+            leftbehind.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
+            leftbehind.setMainmemAddrcode(getRandomDictValue(ADDRESS.getDictId()));
             leftbehind.setUnitCode(i.getDept().getCode());
 
             leftbehindRepository.save(leftbehind);
@@ -219,7 +217,7 @@ public class MockActual extends MockBase {
             registpeople.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             registpeople.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
             registpeople.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "职业");
-            registpeople.setServiceAddr(getRandomDictValue(ADDRESS.getDictId()));
+            registpeople.setServiceAddr(getRandomAddrDetail());
             registpeople.setContact(mockPhone());
             registpeople.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             registpeople.setRegisteredAddr(getRandomAddrDetail());
@@ -235,12 +233,12 @@ public class MockActual extends MockBase {
             registpeople.setExpDate(getTime());
             registpeople.setStatus("1");
             registpeople.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            registpeople.setOperName(mockNameEn(2));
+            registpeople.setOperName(i.getId());
             registpeople.setOperDate(getTime());
             registpeople.setCreator(i.getId());
             registpeople.setCreateTime(getTime());
             registpeople.setNativeInfoAddr(getRandomAddrDetail());
-            registpeople.setServicePlaceCode(getRandomCode(4));
+            registpeople.setServicePlaceCode(getRandomDictValue(ADDRESS.getDictId()));
             registpeople.setUnitCode(i.getDept().getCode());
             registpeopleRepository.save(registpeople);
         });
@@ -273,13 +271,13 @@ public class MockActual extends MockBase {
             rentalhouse.setExpDate(getTime());
             rentalhouse.setStatus("1");
             rentalhouse.setStatusCd(getRandomDictValue(SJZT.getDictId()));
-            rentalhouse.setOperName(mockNameEn(2));
+            rentalhouse.setOperName(i.getId());
             rentalhouse.setOperDate(getTime());
             rentalhouse.setCreator(i.getId());
             rentalhouse.setCreateTime(getTime());
             rentalhouse.setUnitCode(i.getDept().getCode());
-            rentalhouse.setHouseAddrcode(getRandomCode(4));
-            rentalhouse.setHomeownerAddrcode(getRandomCode(4));
+            rentalhouse.setHouseAddrcode(getRandomDictValue(ADDRESS.getDictId()));
+            rentalhouse.setHomeownerAddrcode(getRandomDictValue(ADDRESS.getDictId()));
             rentalhouseRepository.save(rentalhouse);
         });
     }

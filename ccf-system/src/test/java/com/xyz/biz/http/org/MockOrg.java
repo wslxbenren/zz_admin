@@ -49,10 +49,18 @@ public class MockOrg extends MockBase {
     @Resource
     private ManageleadresponsInfoRepository manageleadresponsInfoRepository;
 
+    @Test
+    public void init() {
+        genBuildheadInfo();
+        genMajorcaseInfo();
+        genMajorcenterInfo();
+        ManageleadreponsInfo();
+    }
+
     /**
      * 楼栋长
      */
-    public void genBuildheadInfo(List<User> userList, Random random) {
+    public void genBuildheadInfo() {
         AtomicInteger a = new AtomicInteger(0);
         userList.forEach(i -> {
             BuildheadInfo buildheadInfo = new BuildheadInfo();
@@ -69,7 +77,7 @@ public class MockOrg extends MockBase {
             buildheadInfo.setSex(getRandomDictValue(XING_BIE.getDictId()));
             buildheadInfo.setNational(getRandomDictValue(MIN_ZU.getDictId()));
             buildheadInfo.setPoliticalStatus(getRandomDictValue(ZZMM.getDictId()));
-            buildheadInfo.setBirth(Timestamp.valueOf(LocalDateTime.now().minusYears(40)));
+            buildheadInfo.setBirth(getTime());
             buildheadInfo.setEducationBg(getRandomDictValue(XUE_LI.getDictId()));
             buildheadInfo.setMobile(MockUtil.mockPhone());
             buildheadInfo.setFixedPhone(MockUtil.mockPhone());
@@ -78,9 +86,9 @@ public class MockOrg extends MockBase {
             buildheadInfo.setLng(random.nextDouble());
             buildheadInfo.setLat(random.nextDouble());
             buildheadInfo.setCreator(i.getId());
-            buildheadInfo.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
+            buildheadInfo.setCreateTime(getTime());
             buildheadInfo.setModifier(i.getId());
-            buildheadInfo.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
+            buildheadInfo.setUpdateTime(getTime());
             buildheadInfo.setUnitCode(i.getDept().getCode());
             a.incrementAndGet();
             buildheadInfoRepository.save(buildheadInfo);
@@ -90,26 +98,25 @@ public class MockOrg extends MockBase {
     /**
      * 重大事件
      */
-    @Test
     public void genMajorcaseInfo() {
         MajorcaseInfo majorcaseInfo = new MajorcaseInfo();
         userList.forEach(i -> {
             majorcaseInfo.setId(UUID.randomUUID().toString());
             majorcaseInfo.setCaseCode(getRandomCode(4));
             majorcaseInfo.setCaseName(RandomStringUtils.random(20, 0x4e00, 0x9fa5, false,false) + "案件");
-            majorcaseInfo.setOccurDate(Timestamp.valueOf(LocalDateTime.now()));
+            majorcaseInfo.setOccurDate(getTime());
             majorcaseInfo.setOccurAddr(getRandomDictValue(ADDRESS.getDictId()));
             majorcaseInfo.setOccurAddrdetail(getRandomAddrDetail());
             majorcaseInfo.setCaseGrage(getRandomDictValue(AJFJ.getDictId()));
             majorcaseInfo.setCaseType(getRandomDictValue(AJLX.getDictId()));
             majorcaseInfo.setCaseInfo(RandomStringUtils.random(20, 0x4e00, 0x9fa5, false,false));
             majorcaseInfo.setCreator(i.getId());
-            majorcaseInfo.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
+            majorcaseInfo.setCreateTime(getTime());
             majorcaseInfo.setModifier(i.getId());
-            majorcaseInfo.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
+            majorcaseInfo.setUpdateTime(getTime());
             majorcaseInfo.setUnitCode(i.getDept().getCode());
-            // majorcaseInfo.setEffDate();
-            // majorcaseInfo.setExpDate();
+            majorcaseInfo.setEffDate(getTime());
+            majorcaseInfo.setExpDate(getTime());
             majorcaseInfo.setStatus(String.valueOf(RandomUtils.nextInt(0, 2)));
             majorcaseInfo.setStatusCd(getRandomDictValue(SJZT.getDictId()));
             majorcaseInfoRepository.save(majorcaseInfo);
@@ -120,7 +127,6 @@ public class MockOrg extends MockBase {
     /**
      * 综治中心
      */
-    @Test
     public void genMajorcenterInfo() {
         ManagecenterInfo managecenterInfo = new ManagecenterInfo();
         userList.forEach(i -> {
@@ -149,7 +155,6 @@ public class MockOrg extends MockBase {
     /**
      * 领导责任制
      */
-    @Test
     public void ManageleadreponsInfo() {
         ManageleadresponsInfo manageleadresponsInfo = new ManageleadresponsInfo();
         userList.forEach(i -> {
