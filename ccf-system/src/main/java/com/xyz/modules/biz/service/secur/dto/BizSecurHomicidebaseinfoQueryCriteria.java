@@ -32,7 +32,7 @@ public class BizSecurHomicidebaseinfoQueryCriteria{
 
 
     // 精确q
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "案件编号-----嫌疑人查询、受害人查询 需传案件编号查询对应的表")
     private String caseCode;
 
