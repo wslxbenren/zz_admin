@@ -3,8 +3,11 @@ package com.xyz.modules.biz.service.organ.impl;
 import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.biz.service.organ.entity.Nonpublic;
 import com.xyz.modules.system.domain.DictDetail;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
@@ -53,6 +56,9 @@ public class NonpublicServiceImpl implements NonpublicService {
     @Autowired
     private AuditSpecification audit;
 
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Override
     @Transactional
@@ -72,7 +78,18 @@ public class NonpublicServiceImpl implements NonpublicService {
             dto.setStatusCd(dictDetailService.transDict(DictEnum.SJZT.getDictId(), dto.getStatusCd()));//数据状态
             dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//所属单位
 
-
+            dto.setIfConditionStr(ConstEnum.getBoolean(dto.getIfCondition()));
+            dto.setIfUnionStr(ConstEnum.getBoolean(dto.getIfUnion()));
+            dto.setIfDangerousStr(ConstEnum.getBoolean(dto.getIfDangerous()));
+            dto.setIfOrganStr(ConstEnum.getBoolean(dto.getIfOrgan()));
+            dto.setIfWomenfederStr(ConstEnum.getBoolean(dto.getIfWomenfeder()));
+            dto.setIfYouthleagueStr(ConstEnum.getBoolean(dto.getIfYouthleague()));
+            dto.setEntityTypeStr(dictDetailService.transDict(DictEnum.QYLB.getDictId(), dto.getEntityType()));
+            dto.setLegalcardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(), dto.getLegalcardType()));
+            dto.setSafetroubleTypeStr(dictDetailService.transDict(DictEnum.AQYHLX.getDictId(), dto.getSafetroubleType()));
+            dto.setEntityAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), dto.getEntityAddrcode()));
+            dto.setCreator(userRepository.findById(Optional.ofNullable(dto.getCreator()).orElse("")).orElse(new User()).getUsername());
+            dto.setOperName(userRepository.findById(Optional.ofNullable(dto.getOperName()).orElse("")).orElse(new User()).getUsername());
         }
 
         Map map = new HashMap();
