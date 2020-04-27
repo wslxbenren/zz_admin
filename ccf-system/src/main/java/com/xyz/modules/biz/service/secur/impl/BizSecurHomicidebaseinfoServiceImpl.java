@@ -58,10 +58,8 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
         Page<BizSecurHomicidebaseinfo> page = bizSecurHomicidebaseinfoRepository.findAll(audit.genSpecification(criteria),pageable);
         List<BizSecurHomicidebaseinfoDTO> bizSecurHomicidebaseinfoDTOList = bizSecurHomicidebaseinfoMapper.toDto(page.getContent());
         for (BizSecurHomicidebaseinfoDTO mid: bizSecurHomicidebaseinfoDTOList) {
-            String dd = deptRepository.findNameByCode(mid.getUnitCode());
-            mid.setUnitCodeStr(dd); // 单位编码,所属单位
-            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(),mid.getStatusCd());
-            mid.setStatusCdStr(dd==null?"无数据":dd);//数据状态
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode())); // 单位编码,所属单位
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),mid.getStatusCd()));//数据状态
         }
         Map map = new HashMap();
         map.put("content", bizSecurHomicidebaseinfoDTOList);
@@ -115,6 +113,7 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
             throw new EntityExistException(BizSecurHomicidebaseinfo.class,"case_code",resources.getCaseCode());
         }
         bizSecurHomicidebaseinfo.copy(resources);
+        bizSecurHomicidebaseinfo.setOperName(resources.getOperName());
 
         bizSecurHomicidebaseinfoRepository.save(bizSecurHomicidebaseinfo);
     }

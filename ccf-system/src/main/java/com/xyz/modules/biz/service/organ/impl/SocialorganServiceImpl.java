@@ -63,17 +63,10 @@ public class SocialorganServiceImpl implements SocialorganService {
         List<SocialorganDTO> socialorganDTOList=SocialorganMapper.toDto(page.getContent());
         for(SocialorganDTO dto:socialorganDTOList){
 
-                String dd=dictDetailService.transDict(DictEnum.GZCD.getDistName(),dto.getAttention());
-                dto.setAttentionStr(dd==null?"无数据":dd);//关注程度
-
-                dd=dictDetailService.transDict(DictEnum.GZCD.getDistName(),dto.getAddrcode());
-                dto.setAttentionStr(dd==null?"无数据":dd);
-
-                dd=dictDetailService.transDict(DictEnum.SJZT.getDistName(),dto.getStatusCd());
-                dto.setStatusCdStr(dd==null?"无数据":dd);
-
-            dd = deptRepository.findNameByCode(dto.getUnitCode());
-            dto.setUnitCodeStr(dd);
+                dto.setAttentionStr(dictDetailService.transDict(DictEnum.GZCD.getDictId(),dto.getAttention()));//关注程度
+                dto.setAttentionStr(dictDetailService.transDict(DictEnum.GZCD.getDictId(),dto.getAddrcode()));
+                dto.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),dto.getStatusCd()));
+            dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));
 
         }
         Map map=new HashMap();

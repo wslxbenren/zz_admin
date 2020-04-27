@@ -60,33 +60,19 @@ public class VictiminfoServiceImpl implements VictiminfoService {
         Page<Victiminfo> page = VictiminfoRepository.findAll(audit.genSpecification(criteria),pageable);
         List<VictiminfoDTO> victiminfoDTOList = VictiminfoMapper.toDto(page.getContent());
         for (VictiminfoDTO f:victiminfoDTOList){
-            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), f.getPersonSex());
-            f.setPersonSexStr(dd == null ? "无数据" : dd);// 性别
-            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNation());
-            f.setNationStr(dd == null ? "无数据" : dd);//民族
-            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), f.getNativeInfo());
-            f.setNativeInfoStr(dd == null ? "无数据" : dd);//籍贯
-            dd = dictDetailService.transDict(DictEnum.HYZK.getDistName(), f.getMarriageFlag());
-            f.setMarriageFlagStr(dd == null ? "无数据" : dd);//婚姻状况
-            dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), f.getPartyFlag());
-            f.setPartyFlagStr(dd == null ? "无数据" : dd);// 政治面貌
-            dd = dictDetailService.transDict(DictEnum.ZJXY.getDistName(), f.getFaithType());
-            f.setFaithTypeStr(dd == null ? "无数据" : dd);// 宗教信仰
-            dd = dictDetailService.transDict(DictEnum.ZYLB.getDistName(), f.getVocationCode());
-            f.setVocationCodeStr(dd == null ? "无数据" : dd); // 职业类别
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getRegisteredPlace());
-            f.setRegisteredPlaceStr(dd == null ? "无数据" : dd);// 户籍地
-            dd = dictDetailService.transDict(DictEnum.ADDRESS.getDistName(), f.getCardTypeStr());
-            f.setCardTypeStr(dd == null ? "无数据" : dd);// 证件代码
-            dd = dictDetailService.transDict(DictEnum.GJ_DQ.getDistName(), f.getCountry());
-            f.setCountryStr(dd == null ? "无数据" : dd);// 国籍
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEducationBg());
-            f.setEducationBgStr(dd == null ? "无数据" : dd);// 学历
-            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(), f.getStatusCd());
-            f.setStatusCdStr(dd == null ? "无数据" : dd);// 数据状态
-
-            dd = deptRepository.findNameByCode(f.getUnitCode());
-            f.setUnitCodeStr(dd);
+            f.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), f.getPersonSex()));// 性别
+            f.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(), f.getNation()));//民族
+            f.setNativeInfoStr(dictDetailService.transDict(DictEnum.GJ_DQ.getDictId(), f.getNativeInfo()));//籍贯
+            f.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDictId(), f.getMarriageFlag()));//婚姻状况
+            f.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(), f.getPartyFlag()));// 政治面貌
+            f.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(), f.getFaithType()));// 宗教信仰
+            f.setVocationCodeStr(dictDetailService.transDict(DictEnum.ZYLB.getDictId(), f.getVocationCode())); // 职业类别
+            f.setRegisteredPlaceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getRegisteredPlace()));// 户籍地
+            f.setCardTypeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getCardTypeStr()));// 证件代码
+            f.setCountryStr(dictDetailService.transDict(DictEnum.GJ_DQ.getDictId(), f.getCountry()));// 国籍
+            f.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(), f.getEducationBg()));// 学历
+            f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), f.getStatusCd()));// 数据状态
+            f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", victiminfoDTOList);

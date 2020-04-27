@@ -12,6 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author 邢家华
@@ -96,4 +98,13 @@ public class BizSecurHomicidebaseinfo implements Serializable {
     public void copy(BizSecurHomicidebaseinfo source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
+
+
+//    //犯罪嫌疑人
+//    @OneToMany(cascade=CascadeType.REFRESH , fetch = FetchType.EAGER, mappedBy="suspectinfo")
+//    private Set<Suspectinfo> suspectinfoList;
+//    //犯罪受害人
+//    @OneToMany(cascade=CascadeType.REFRESH , fetch = FetchType.EAGER, mappedBy="victiminfo")
+//    private Set<Victiminfo> victiminfos;
+
 }

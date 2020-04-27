@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2020-04-10
  * 功能模块：社会治安管理/命案基本信息
  */
-@Api(tags = "BizSecurHomicidebaseinfo管理")
+@Api(tags = "BizSecurHomicidebaseinfo管理---社会治安---命案基本信息")
 @RestController
 @RequestMapping("api")
 public class BizSecurHomicidebaseinfoController {
@@ -41,7 +41,7 @@ public class BizSecurHomicidebaseinfoController {
     private DeptService deptService;
 
     @Log("查询BizSecurHomicidebaseinfo")
-    @ApiOperation(value = "查询BizSecurHomicidebaseinfo")
+    @ApiOperation(value = "查询BizSecurHomicidebaseinfo--命案基本信息")
     @GetMapping(value = "/bizSecurHomicidebaseinfo")
     @PreAuthorize("hasAnyRole('ADMIN','BIZSECURHOMICIDEBASEINFO_ALL','BIZSECURHOMICIDEBASEINFO_SELECT')")
     public ResponseEntity getBizSecurHomicidebaseinfos(BizSecurHomicidebaseinfoQueryCriteria criteria, Pageable pageable){
@@ -57,7 +57,7 @@ public class BizSecurHomicidebaseinfoController {
     }
 
     @Log("新增BizSecurHomicidebaseinfo")
-    @ApiOperation(value = "新增BizSecurHomicidebaseinfo")
+    @ApiOperation(value = "新增BizSecurHomicidebaseinfo命案基本信息")
     @PostMapping(value = "/bizSecurHomicidebaseinfo")
     @PreAuthorize("hasAnyRole('ADMIN','BIZSECURHOMICIDEBASEINFO_ALL','BIZSECURHOMICIDEBASEINFO_CREATE')")
     public ResponseEntity create(@Validated @RequestBody BizSecurHomicidebaseinfo resources){
@@ -65,7 +65,7 @@ public class BizSecurHomicidebaseinfoController {
     }
 
     @Log("修改BizSecurHomicidebaseinfo")
-    @ApiOperation(value = "修改BizSecurHomicidebaseinfo")
+    @ApiOperation(value = "修改BizSecurHomicidebaseinfo命案基本信息")
     @PutMapping(value = "/bizSecurHomicidebaseinfo")
     @PreAuthorize("hasAnyRole('ADMIN','BIZSECURHOMICIDEBASEINFO_ALL','BIZSECURHOMICIDEBASEINFO_EDIT')")
     public ResponseEntity update(@Validated @RequestBody BizSecurHomicidebaseinfo resources){
@@ -74,7 +74,7 @@ public class BizSecurHomicidebaseinfoController {
     }
 
     @Log("删除BizSecurHomicidebaseinfo")
-    @ApiOperation(value = "删除BizSecurHomicidebaseinfo")
+    @ApiOperation(value = "删除BizSecurHomicidebaseinfo命案基本信息")
     @DeleteMapping(value = "/bizSecurHomicidebaseinfo/{caseId}")
     @PreAuthorize("hasAnyRole('ADMIN','BIZSECURHOMICIDEBASEINFO_ALL','BIZSECURHOMICIDEBASEINFO_DELETE')")
     public ResponseEntity delete(@PathVariable String caseId){

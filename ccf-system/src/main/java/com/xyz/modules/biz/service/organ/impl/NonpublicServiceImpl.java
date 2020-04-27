@@ -66,20 +66,11 @@ public class NonpublicServiceImpl implements NonpublicService {
 
         for (NonpublicDTO dto : nonpublicDTOList) {
 
-            String dd = dictDetailService.transDict(DictEnum.QYLX.getDistName(), dto.getEntityType());
-            dto.setEntityTypeStr(dd == null ? "无数据" : dd);//企业类型
-
-            dd = dictDetailService.transDict(DictEnum.YHLX.getDistName(), dto.getSafetroubleType());
-            dto.setEntityTypeStr(dd == null ? "无数据" : dd);//安全隐患类型
-
-            dd = dictDetailService.transDict(DictEnum.GZCD.getDistName(), dto.getAttention());
-            dto.setAttentionStr(dd == null ? "无数据" : dd);//关注程度
-
-            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(), dto.getStatusCd());
-            dto.setStatusCd(dd == null ? "无数据" : dd);//数据状态
-
-            dd = deptRepository.findNameByCode(dto.getUnitCode());
-            dto.setUnitCodeStr(dd);//所属单位
+            dto.setEntityTypeStr(dictDetailService.transDict(DictEnum.QYLX.getDictId(), dto.getEntityType()));//企业类型
+            dto.setEntityTypeStr(dictDetailService.transDict(DictEnum.YHLX.getDictId(), dto.getSafetroubleType()));//安全隐患类型
+            dto.setAttentionStr(dictDetailService.transDict(DictEnum.GZCD.getDictId(), dto.getAttention()));//关注程度
+            dto.setStatusCd(dictDetailService.transDict(DictEnum.SJZT.getDictId(), dto.getStatusCd()));//数据状态
+            dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//所属单位
 
 
         }
