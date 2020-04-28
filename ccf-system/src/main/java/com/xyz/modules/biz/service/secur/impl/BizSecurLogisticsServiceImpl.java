@@ -3,8 +3,11 @@ package com.xyz.modules.biz.service.secur.impl;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.service.secur.entity.BizSecurLogistics;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
@@ -53,6 +56,9 @@ public class BizSecurLogisticsServiceImpl implements BizSecurLogisticsService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(BizSecurLogisticsQueryCriteria criteria, Pageable pageable){
@@ -66,6 +72,15 @@ public class BizSecurLogisticsServiceImpl implements BizSecurLogisticsService {
             f.setEntityTypeStr(dictDetailService.transDict(DictEnum.QYLX.getDictId(), f.getEntityType()));//企业类型
             f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), f.getStatusCd()));//数据状态
             f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));//所属单位
+            f.setIfPrioriStr(ConstEnum.getBoolean(f.getIfPriori()));//是否落实100%先验视后封箱
+            f.setIfRealnameStr(ConstEnum.getBoolean(f.getIfRealname()));//是否落实100%寄递实名制
+            f.setIfSecucheckStr(ConstEnum.getBoolean(f.getIfSecucheck()));//是否落实100%X光机安检
+            f.setCreator(userRepository.findById(Optional.ofNullable(f.getCreator()).orElse("")).orElse(new User()).getUsername());
+            f.setOperName(userRepository.findById(Optional.ofNullable(f.getOperName()).orElse("")).orElse(new User()).getUsername());
+
+            f.setEntityaddrCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getEntityaddrCode()));//企业所在地
+
+
         }
         Map map = new HashMap();
         map.put("content", bizSecurLogisticsDTOList);
@@ -96,7 +111,7 @@ public class BizSecurLogisticsServiceImpl implements BizSecurLogisticsService {
     public BizSecurLogisticsDTO create(BizSecurLogistics resources) {
         log.info("新增社会治安管理/寄递物流安全信息--开始");
         resources.setLogisId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+        //resources.setCreator(SecurityUtils.getUsername());
         return bizSecurLogisticsMapper.toDto(bizSecurLogisticsRepository.save(resources));
     }
 
