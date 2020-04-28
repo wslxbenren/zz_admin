@@ -25,6 +25,7 @@ public class BizSecurLogisticsDTO implements Serializable {
 
     // 企业所在地6位编码
     private String entityaddrCode;
+    private String entityaddrCodeStr;
 
     // 企业详址
     private String entityaddr;
@@ -76,12 +77,15 @@ public class BizSecurLogisticsDTO implements Serializable {
 
     // 是否落实100%先验视后封箱
     private Integer ifPriori;
+    private String ifPrioriStr;
 
     // 是否落实100%寄递实名制
     private Integer ifRealname;
+    private String ifRealnameStr;
 
     // 是否落实100%X光机安检
     private Integer ifSecucheck;
+    private String ifSecucheckStr;
 
     // 经度
     private Double lng;
