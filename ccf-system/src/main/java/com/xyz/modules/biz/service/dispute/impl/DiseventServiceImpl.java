@@ -1,6 +1,11 @@
 package com.xyz.modules.biz.service.dispute.impl;
 
+import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.biz.service.actual.dto.FloatpeopleDTO;
 import com.xyz.modules.biz.service.dispute.entity.Disevent;
+import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
 import com.xyz.modules.biz.service.dispute.repo.DiseventRepository;
 import com.xyz.modules.biz.service.dispute.DiseventService;
@@ -11,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -32,11 +41,38 @@ public class DiseventServiceImpl implements DiseventService {
     @Autowired
     private DiseventMapper DiseventMapper;
 
+    @Autowired
+    private DictDetailService dictDetailService;
+
+    @Autowired
+    private AuditSpecification audit;
+
+    @Autowired
+    private DeptRepository deptRepository;
+
     @Override
     @Transactional
     public Object queryAll(DiseventQueryCriteria criteria, Pageable pageable){
-        Page<Disevent> page = DiseventRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(DiseventMapper::toDto));
+//        Page<Disevent> page = DiseventRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+//        return PageUtil.toPage(page.map(DiseventMapper::toDto));
+    Page<Disevent> page=DiseventRepository.findAll(audit.genSpecification(criteria),pageable);
+        List<DiseventDTO> diseventDTOS = DiseventMapper.toDto(page.getContent());
+
+        for (DiseventDTO dto:diseventDTOS)
+        {
+                dto.setEventTypeStr(dictDetailService.transDict(DictEnum.SJLB.getDictId(),dto.getEventType()));//事件类型
+                dto.setEventSizeStr(dictDetailService.transDict(DictEnum.SJGM.getDictId(),dto.getEventSize()));//事件规模
+                dto.setInvolvUnitStr(deptRepository.findNameByCode(dto.getUnitCode()));//涉及单位
+            dto.setPrinSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(),dto.getPrinSex()));//性别
+            dto.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),dto.getResidence()));//现住地
+            dto.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),dto.getStatusCd()));//数据状态
+            dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//涉及单位
+        }
+        Map map = new HashMap();
+        map.put("content", diseventDTOS);
+        map.put("totalElements", page.getTotalElements());
+        return map;
+
     }
 
     @Override
