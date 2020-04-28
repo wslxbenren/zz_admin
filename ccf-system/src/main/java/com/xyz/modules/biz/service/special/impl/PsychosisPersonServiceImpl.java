@@ -85,16 +85,15 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
             if (!StringUtil.isNullOrEmpty(mid.getJoinManager())) {
-                mid.setJoinManagerArr(mid.getJoinManager().replace('"', ' ').replaceAll(" ", "").split(","));
+                mid.setJoinManagerArr(mid.getJoinManager().split(","));
                 mid.setJoinManagerStr(dictDetailService.getLabelByValues(DictEnum.CYGLRY.getDictId(), mid.getJoinManagerArr()));
             }
             if (!StringUtil.isNullOrEmpty(mid.getHelpeFlag())) {
-                mid.setHelpeFlagArr(mid.getHelpeFlag().replace('"', ' ').replaceAll(" ", "").split(","));
+                mid.setHelpeFlagArr(mid.getHelpeFlag().split(","));
                 mid.setHelpeFlagStr(dictDetailService.getLabelByValues(DictEnum.BFQK.getDictId(), mid.getHelpeFlagArr()));
             }
             if (!StringUtil.isNullOrEmpty(mid.getInhospitalReason())) {
-                mid.setInhospitalReasonArr(mid.getInhospitalReason().replace('"', ' ')
-                        .replaceAll(" ", "").split(","));
+                mid.setInhospitalReasonArr(mid.getInhospitalReason().split(","));
                 mid.setInhospitalReasonStr(dictDetailService.getLabelByValues(DictEnum.SSZYZLYY.getDictId(), mid.getInhospitalReasonArr()));
             }
 

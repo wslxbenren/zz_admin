@@ -97,14 +97,14 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
             mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
             if (!StringUtil.isNullOrEmpty(mid.getSishiFlag())) {
-                mid.setSishiFlagArr( mid.getSishiFlag().replace('"',' ').replaceAll(" ","").split(","));
+                mid.setSishiFlagArr( mid.getSishiFlag().split(","));
                 mid.setSishiFlagStr(dictDetailService.getLabelByValues(DictEnum.SSHIQK.getDictId(), mid.getSishiFlagArr()));
             }
             if (!StringUtil.isNullOrEmpty(mid.getSansheFlag())) {
-                mid.setSansheFlagArr( mid.getSansheFlag().replace('"',' ').replaceAll(" ","").split(","));
+                mid.setSansheFlagArr( mid.getSansheFlag().split(","));
                 mid.setSansheFlagStr(dictDetailService.getLabelByValues(DictEnum.SSHEQK.getDictId(), mid.getSansheFlagArr()));
             }
-            mid.setTeamGuysArr( mid.getTeamGuys().replace('"',' ').replaceAll(" ","").split(","));
+            mid.setTeamGuysArr( mid.getTeamGuys().split(","));
             mid.setTeamGuysStr(dictDetailService.getLabelByValues(DictEnum.JZXZRYZCQK.getDictId(), mid.getTeamGuysArr()));
 
 
