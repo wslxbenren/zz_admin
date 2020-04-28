@@ -72,6 +72,9 @@ public class SocialorganServiceImpl implements SocialorganService {
                 dto.setAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getAddrcode()));
                 dto.setWorkAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getWorkAddrcode()));
                 dto.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),dto.getStatusCd()));
+                dto.setSocialorganTypeStr(dictDetailService.transDict(DictEnum.SHZZLX.getDictId(),dto.getSocialorganType()));
+                dto.setLegalcardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(),dto.getLegalcardType()));
+
                 dto.setIfOverseabgStr(ConstEnum.getBoolean(dto.getIfOverseabg()));
                 dto.setIfConditionStr(ConstEnum.getBoolean(dto.getIfCondition()));
                 dto.setIfOrganStr(ConstEnum.getBoolean(dto.getIfOrgan()));
@@ -111,7 +114,7 @@ public class SocialorganServiceImpl implements SocialorganService {
     @Transactional(rollbackFor = Exception.class)
     public SocialorganDTO create(Socialorgan resources) {
         resources.setSociaId(IdUtil.simpleUUID());
-//        resources.setCreator(SecurityUtils.getUsername());
+        //resources.setCreator(SecurityUtils.getUsername());
         return SocialorganMapper.toDto(SocialorganRepository.save(resources));
     }
 

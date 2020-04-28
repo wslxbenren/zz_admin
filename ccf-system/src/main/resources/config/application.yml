@@ -15,7 +15,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        dialect:  org.hibernate.dialect.MySQLInnoDBDialect
     open-in-view: true
 
 #邮箱验证码有效时间/分钟
