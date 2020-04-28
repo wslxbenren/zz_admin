@@ -67,5 +67,12 @@ public class RegistpeopleController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @Log("查询Registpeople")
+    @ApiOperation(value = "验证身份证号码存在")
+    @GetMapping(value = "/Registpeople/validateIdentityNum/{identityNum}")
+    @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
+    public ResponseEntity verifyCreditCode(@PathVariable String identityNum){
+        return new ResponseEntity(RegistpeopleService.validateIdentityNum(identityNum),HttpStatus.OK);
+    }
 
 }

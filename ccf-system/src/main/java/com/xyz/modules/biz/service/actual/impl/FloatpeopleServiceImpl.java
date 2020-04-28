@@ -148,4 +148,11 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         log.debug("********** 删除 Floatpeople  **********");
         FloatpeopleRepository.deleteById(floatId);
     }
+
+    @Override
+    public Boolean validateIdentityNum(String identityNum) {
+        String isNull = FloatpeopleRepository.validateIdentityNum(identityNum);
+        log.info("********** 检验身份证号码是否存在  ======>"+isNull);
+        return isNull ==  null ? false :true;
+    }
 }

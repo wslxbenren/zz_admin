@@ -88,4 +88,12 @@ public class DrugPersonController {
         DrugPersonService.delete(drugId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Log("查询DrugPerson")
+    @ApiOperation(value = "验证身份证号码存在")
+    @GetMapping(value = "/DrugPerson/validateIdentityNum/{identityNum}")
+    @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
+    public ResponseEntity verifyCreditCode(@PathVariable String identityNum){
+        return new ResponseEntity(DrugPersonService.validateIdentityNum(identityNum),HttpStatus.OK);
+    }
 }

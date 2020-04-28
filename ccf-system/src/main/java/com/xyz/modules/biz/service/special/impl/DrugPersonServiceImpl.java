@@ -142,4 +142,11 @@ public class DrugPersonServiceImpl implements DrugPersonService {
         log.info(" 删除 DrugPerson ");
         DrugPersonRepository.deleteById(drugId);
     }
+
+    @Override
+    public Boolean validateIdentityNum(String identityNum) {
+        String isNull = DrugPersonRepository.validateIdentityNum(identityNum);
+        log.info("********** 检验身份证号码是否存在  ======>"+isNull);
+        return isNull ==  null ? false :true;
+    }
 }

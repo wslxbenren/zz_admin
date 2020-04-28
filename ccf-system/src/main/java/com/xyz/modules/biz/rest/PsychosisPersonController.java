@@ -82,4 +82,12 @@ public class PsychosisPersonController {
         PsychosisPersonService.delete(psychosisId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Log("查询PsychosisPerson")
+    @ApiOperation(value = "验证身份证号码存在")
+    @GetMapping(value = "/PsychosisPerson/validateIdentityNum/{identityNum}")
+    @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
+    public ResponseEntity verifyCreditCode(@PathVariable String identityNum){
+        return new ResponseEntity(PsychosisPersonService.validateIdentityNum(identityNum),HttpStatus.OK);
+    }
 }

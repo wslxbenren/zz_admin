@@ -155,4 +155,11 @@ public class PsychosisPersonServiceImpl implements PsychosisPersonService {
         log.debug("**********  删除 PsychosisPerson  **********");
         PsychosisPersonRepository.deleteById(psychosisId);
     }
+
+    @Override
+    public Boolean validateIdentityNum(String identityNum) {
+        String isNull = PsychosisPersonRepository.validateIdentityNum(identityNum);
+        log.info("********** 检验身份证号码是否存在  ======>"+isNull);
+        return isNull ==  null ? false :true;
+    }
 }

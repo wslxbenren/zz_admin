@@ -117,7 +117,7 @@ public class NonpublicServiceImpl implements NonpublicService {
     @Transactional(rollbackFor = Exception.class)
     public NonpublicDTO create(Nonpublic resources) {
         resources.setNonId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+        resources.setCreator(SecurityUtils.getUserId());
         return NonpublicMapper.toDto(NonpublicRepository.save(resources));
     }
 
@@ -135,5 +135,11 @@ public class NonpublicServiceImpl implements NonpublicService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(String nonId) {
         NonpublicRepository.deleteById(nonId);
+    }
+
+    @Override
+    public Boolean verifyCreditCode(String creditCode) {
+        String cc = NonpublicRepository.verifyCreditCode(creditCode);
+        return cc == null ? false : true;
     }
 }
