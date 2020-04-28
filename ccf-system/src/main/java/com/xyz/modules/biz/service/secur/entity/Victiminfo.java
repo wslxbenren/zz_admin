@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.service.secur.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xyz.modules.system.domain.Dept;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.io.Serializable;
 
@@ -33,7 +35,7 @@ public class Victiminfo implements Serializable {
     @Column(name = "victim_code")
     private String victimCode;
 
-    // 案件编号
+//    // 案件编号
     @Column(name = "case_code")
     private String caseCode;
 
@@ -171,9 +173,9 @@ public class Victiminfo implements Serializable {
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
 
-//    @JoinColumn(name="case_code")//外键列的列名
-//    @ManyToOne(fetch=FetchType.LAZY,optional=false)
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name = "case_code")
+//    @JsonIgnore
 //    private BizSecurHomicidebaseinfo bizSecurHomicidebaseinfo;
-
 
 }

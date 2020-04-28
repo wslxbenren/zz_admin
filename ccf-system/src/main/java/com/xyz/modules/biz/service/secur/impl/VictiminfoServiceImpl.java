@@ -111,7 +111,7 @@ public class VictiminfoServiceImpl implements VictiminfoService {
     public VictiminfoDTO create(Victiminfo resources) {
         log.info("新增社会治安管理/命案受害人信息--开始");
         resources.setVicId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+//        resources.setCreator(SecurityUtils.getUsername());
         return VictiminfoMapper.toDto(VictiminfoRepository.save(resources));
     }
 

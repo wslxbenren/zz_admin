@@ -96,7 +96,7 @@ public class BizSecurLogisticsServiceImpl implements BizSecurLogisticsService {
     public BizSecurLogisticsDTO create(BizSecurLogistics resources) {
         log.info("新增社会治安管理/寄递物流安全信息--开始");
         resources.setLogisId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+//        resources.setCreator(SecurityUtils.getUsername());
         return bizSecurLogisticsMapper.toDto(bizSecurLogisticsRepository.save(resources));
     }
 

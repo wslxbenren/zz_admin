@@ -61,44 +61,18 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
         List<KeypersoninfoDTO> KeypersoninfoDTOList = KeypersoninfoMapper.toDto(page.getContent());
         for (KeypersoninfoDTO dto:KeypersoninfoDTOList  )
         {
-            String dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), dto.getPersonSex());
-            dto.setPersonSex(dd == null ? "无数据" : dd);//性别
-
-            dd=dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(),dto.getNation());
-            dto.setNationStr(dd == null ? "无数据" : dd);//民族
-
-            dd=dictDetailService.transDict(DictEnum.ADDRESS.getDistName(),dto.getNativeInfo());
-            dto.setNativeInfoStr(dd == null ? "无数据" : dd);//籍贯
-
-            dd=dictDetailService.transDict(DictEnum.HYZK.getDistName(),dto.getMarriageFlag());
-            dto.setMarriageFlagStr(dd == null ? "无数据" : dd);//婚姻状况
-
-            dd=dictDetailService.transDict(DictEnum.ZZMM.getDistName(),dto.getPartyFlag());
-            dto.setPartyFlagStr(dd == null ? "无数据" : dd);//政治面貌
-
-            dd=dictDetailService.transDict(DictEnum.XUE_LI.getDistName(),dto.getEducationBg());
-            dto.setEducationBgStr(dd == null ? "无数据" : dd);//学历
-
-            dd=dictDetailService.transDict(DictEnum.ZJXY.getDistName(),dto.getFaithType());
-            dto.setPartyFlagStr(dd == null ? "无数据" : dd);//宗教信仰
-
-            dd=dictDetailService.transDict(DictEnum.ZYLB.getDistName(),dto.getVocationCode());
-            dto.setVocationCodeStr(dd == null ? "无数据" : dd);//职业类型
-
-
-            dd=dictDetailService.transDict(DictEnum.ADDRESS.getDistName(),dto.getRegisteredPlace());
-            dto.setRegisteredPlaceStr(dd == null ? "无数据" : dd);//户籍地
-
-
-            dd=dictDetailService.transDict(DictEnum.ADDRESS.getDistName(),dto.getResidence());
-            dto.setResidenceStr(dd == null ? "无数据" : dd);//现住地
-
-
-            dd=dictDetailService.transDict(DictEnum.WXCD.getDistName(),dto.getHazardLevel());
-            dto.setHazardLevelStr(dd == null ? "无数据" : dd);//危害程度
-
-            dd=deptRepository.findNameByCode(dto.getUnitCode());
-            dto.setUnitCodeStr(dd);//所属单位
+            dto.setPersonSex(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), dto.getPersonSex()));//性别
+            dto.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(),dto.getNation()));//民族
+            dto.setNativeInfoStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),dto.getNativeInfo()));//籍贯
+            dto.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDictId(),dto.getMarriageFlag()));//婚姻状况
+            dto.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(),dto.getPartyFlag()));//政治面貌
+            dto.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(),dto.getEducationBg()));//学历
+            dto.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(),dto.getFaithType()));//宗教信仰
+            dto.setVocationCodeStr(dictDetailService.transDict(DictEnum.ZYLB.getDictId(),dto.getVocationCode()));//职业类型
+            dto.setRegisteredPlaceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),dto.getRegisteredPlace()));//户籍地
+            dto.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),dto.getResidence()));//现住地
+            dto.setHazardLevelStr(dictDetailService.transDict(DictEnum.WXCD.getDictId(),dto.getHazardLevel()));//危害程度
+            dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//所属单位
         }
 
 
@@ -122,7 +96,7 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
     @Transactional(rollbackFor = Exception.class)
     public KeypersoninfoDTO create(Keypersoninfo resources) {
         resources.setKeyId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+//        resources.setCreator(SecurityUtils.getUsername());
         return KeypersoninfoMapper.toDto(KeypersoninfoRepository.save(resources));
     }
 
@@ -132,6 +106,7 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
         Optional<Keypersoninfo> optionalKeypersoninfo = KeypersoninfoRepository.findById(resources.getKeyId());
         ValidationUtil.isNull( optionalKeypersoninfo,"Keypersoninfo","id",resources.getKeyId());
         Keypersoninfo Keypersoninfo = optionalKeypersoninfo.get();
+        resources.setCreator(SecurityUtils.getUsername());
         Keypersoninfo.copy(resources);
         KeypersoninfoRepository.save(Keypersoninfo);
     }

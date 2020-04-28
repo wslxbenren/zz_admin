@@ -111,7 +111,7 @@ public class SocialorganServiceImpl implements SocialorganService {
     @Transactional(rollbackFor = Exception.class)
     public SocialorganDTO create(Socialorgan resources) {
         resources.setSociaId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+//        resources.setCreator(SecurityUtils.getUsername());
         return SocialorganMapper.toDto(SocialorganRepository.save(resources));
     }
 

@@ -40,6 +40,13 @@ public class VictiminfoQueryCriteria{
     @Query(type = Query.Type.IN, propName = "residence")
     private List<String> residenceWithDownGrade;
 
+
+    // 审计字段
+    @Query(type = Query.Type.IN)
+    @JsonIgnore
+    @ApiModelProperty(value = "单位编码,所属单位")
+    private List<String> unitCode;
+
 //    @Query(type = Query.Type.EQUAL)
 //    @ApiModelProperty(value = "创建人id")
 //    private String creator;

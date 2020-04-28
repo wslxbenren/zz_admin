@@ -36,8 +36,9 @@ public class CaseinfoDTO implements Serializable {
 
     private Timestamp happenTime;
 
-    // 发生地点省市县编码
+    // 发生地点省市县编码  字典
     private String happenAddrcode;
+    private String happenAddrcodeStr;
 
     // 发生地点
     private String happenAddr;
@@ -48,10 +49,9 @@ public class CaseinfoDTO implements Serializable {
     // 案（事）件情况
     private String caseInfo;
 
-    // 主犯（嫌疑人）证件代码
-    private String princcardType;
-
     // 主犯（嫌疑人）证件代码   字典翻译
+
+    private String princcardType;
     private String princcardTypeStr;
 
     // 主犯（嫌疑人）证件号码
@@ -83,10 +83,8 @@ public class CaseinfoDTO implements Serializable {
 
     private Timestamp expDate;
 
-    // 同步状态
-    private String status;
-
     // 数据状态 10是保存待提交 12是生效状态 22是失效
+    private String status;
     private String statusCd;
 
     // 操作人名称
@@ -103,9 +101,7 @@ public class CaseinfoDTO implements Serializable {
 
     private Timestamp createTime;
 
-    // 单位编码,所属单位，后续可用于权限管理
-    private String unitCode;
-
     // 单位编码,所属单位，后续可用于权限管理  字典翻译
+    private String unitCode;
     private String unitCodeStr;
 }
