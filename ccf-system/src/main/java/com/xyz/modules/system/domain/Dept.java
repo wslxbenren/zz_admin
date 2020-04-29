@@ -111,8 +111,8 @@ public class Dept implements Serializable {
     private String organType;
     @Column(name = "guide_unit")
     private String guideUnit;
-    @Column(name = "function")
-    private String function;
+    @Column(name = "functions")
+    private String functions;
 
 
 
@@ -170,7 +170,7 @@ public class Dept implements Serializable {
                 ", instiType='" + instiType + '\'' +
                 ", organType='" + organType + '\'' +
                 ", guideUnit='" + guideUnit + '\'' +
-                ", function='" + function + '\'' +
+                ", functions='" + functions + '\'' +
                 '}';
     }
 

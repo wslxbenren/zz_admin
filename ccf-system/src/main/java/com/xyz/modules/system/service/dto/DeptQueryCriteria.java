@@ -35,5 +35,5 @@ public class DeptQueryCriteria{
     private String instiType;
     private String organType;
     private String guideUnit;
-    private String function;
+    private String functions;
 }
