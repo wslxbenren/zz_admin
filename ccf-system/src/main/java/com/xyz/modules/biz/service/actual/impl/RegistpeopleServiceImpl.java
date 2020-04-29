@@ -163,4 +163,11 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         log.info("********** 删除 Registpeople  **********");
         RegistpeopleRepository.deleteById(regisId);
     }
+
+    @Override
+    public Boolean validateIdentityNum(String identityNum) {
+        String isNull = RegistpeopleRepository.validateIdentityNum(identityNum);
+        log.info("********** 检验身份证号码是否存在  ======>"+isNull);
+        return isNull ==  null ? false :true;
+    }
 }

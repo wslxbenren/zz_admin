@@ -66,4 +66,6 @@ public interface AidsPersonService {
     void delete(String aidsId);
 
     void export(HttpServletResponse response , AidsPersonQueryCriteria criteria) throws IOException;
+
+    Boolean validateIdentityNum(String identityNum);
 }

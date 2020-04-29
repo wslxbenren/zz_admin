@@ -7,6 +7,7 @@ import com.xyz.modules.biz.service.organ.qo.NonpublicQueryCriteria;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 /**
  * @author 邢家华
@@ -61,4 +62,6 @@ public interface NonpublicService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String nonId);
+
+    Boolean verifyCreditCode(String creditCode);
 }

@@ -61,4 +61,6 @@ public interface DrugPersonService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String drugId);
+
+    Boolean validateIdentityNum(String identityNum);
 }

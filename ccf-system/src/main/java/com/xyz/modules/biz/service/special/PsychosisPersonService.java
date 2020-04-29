@@ -61,4 +61,6 @@ public interface PsychosisPersonService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String psychosisId);
+
+    Boolean validateIdentityNum(String identityNum);
 }

@@ -79,4 +79,12 @@ public class FloatpeopleController {
         FloatpeopleService.delete(floatId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Log("查询Floatpeople")
+    @ApiOperation(value = "验证身份证号码存在")
+    @GetMapping(value = "/Floatpeople/validateIdentityNum/{identityNum}")
+    @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
+    public ResponseEntity verifyCreditCode(@PathVariable String identityNum){
+        return new ResponseEntity(FloatpeopleService.validateIdentityNum(identityNum),HttpStatus.OK);
+    }
 }
