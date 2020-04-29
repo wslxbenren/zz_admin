@@ -3,7 +3,9 @@ package com.xyz.modules.biz.service.secur.impl;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.service.secur.entity.Victiminfo;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
@@ -52,6 +54,9 @@ public class VictiminfoServiceImpl implements VictiminfoService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(VictiminfoQueryCriteria criteria, Pageable pageable){
@@ -69,18 +74,22 @@ public class VictiminfoServiceImpl implements VictiminfoService {
         for (VictiminfoDTO f:victiminfoDTOList){
             f.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), f.getPersonSex()));// 性别
             f.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(), f.getNation()));//民族
-            f.setNativeInfoStr(dictDetailService.transDict(DictEnum.GJ_DQ.getDictId(), f.getNativeInfo()));//籍贯
+            f.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getNativeInfo()));//籍贯
             f.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDictId(), f.getMarriageFlag()));//婚姻状况
             f.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(), f.getPartyFlag()));// 政治面貌
             f.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(), f.getFaithType()));// 宗教信仰
-            f.setVocationCodeStr(dictDetailService.transDict(DictEnum.ZYLB.getDictId(), f.getVocationCode())); // 职业类别
-            f.setRegisteredPlaceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getRegisteredPlace()));// 户籍地
-            f.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getResidence()));// 现住地
-            f.setCardTypeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), f.getCardTypeStr()));// 证件代码
+            f.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(), f.getVocationCode())); // 职业类别
+            f.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getRegisteredPlace()));// 户籍地
+            f.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getResidence()));// 现住地
+            f.setCardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(), f.getCardType()));// 证件代码
             f.setCountryStr(dictDetailService.transDict(DictEnum.GJ_DQ.getDictId(), f.getCountry()));// 国籍
             f.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(), f.getEducationBg()));// 学历
             f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), f.getStatusCd()));// 数据状态
             f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
+            f.setCreator(userRepository.findById(Optional.ofNullable(f.getCreator()).orElse("")).orElse(new User()).getUsername());
+            f.setOperName(userRepository.findById(Optional.ofNullable(f.getOperName()).orElse("")).orElse(new User()).getUsername());
+            f.setServiceAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), f.getServiceAddrcode()));// 服务处所
+
         }
         Map map = new HashMap();
         map.put("content", victiminfoDTOList);
@@ -111,7 +120,6 @@ public class VictiminfoServiceImpl implements VictiminfoService {
     public VictiminfoDTO create(Victiminfo resources) {
         log.info("新增社会治安管理/命案受害人信息--开始");
         resources.setVicId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
         return VictiminfoMapper.toDto(VictiminfoRepository.save(resources));
     }
 

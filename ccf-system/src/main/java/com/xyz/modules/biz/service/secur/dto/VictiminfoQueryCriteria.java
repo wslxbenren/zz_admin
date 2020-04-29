@@ -24,10 +24,14 @@ public class VictiminfoQueryCriteria{
 //    @ApiModelProperty(value = "更新时间: 格式[yyyy-MM-dd HH:mm:ss]")
 //    private List<String> operDate;
 
-    // 精确
-    @Query(type = Query.Type.EQUAL)
+    // 原型查询条件
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "姓名")
     private String personName;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "证件号码")
+    private String cardCode;
 
     // 精确
     @Query(type = Query.Type.INNER_LIKE)
@@ -40,6 +44,11 @@ public class VictiminfoQueryCriteria{
     @Query(type = Query.Type.IN, propName = "residence")
     private List<String> residenceWithDownGrade;
 
+    // 审计字段
+    @Query(type = Query.Type.IN)
+    @JsonIgnore
+    @ApiModelProperty(value = "单位编码,所属单位")
+    private List<String> unitCode;
 //    @Query(type = Query.Type.EQUAL)
 //    @ApiModelProperty(value = "创建人id")
 //    private String creator;
