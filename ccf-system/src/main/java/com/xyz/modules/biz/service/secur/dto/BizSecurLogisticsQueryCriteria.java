@@ -43,6 +43,12 @@ public class BizSecurLogisticsQueryCriteria{
     private String entityPhone;
 
 
+    // 审计字段
+    @Query(type = Query.Type.IN)
+    @JsonIgnore
+    @ApiModelProperty(value = "单位编码,所属单位")
+    private List<String> unitCode;
+
 
 
 //    @Query(type = Query.Type.EQUAL)

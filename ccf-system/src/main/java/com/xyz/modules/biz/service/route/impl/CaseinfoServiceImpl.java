@@ -60,13 +60,10 @@ public class CaseinfoServiceImpl implements CaseinfoService {
         Page<Caseinfo> page = CaseinfoRepository.findAll(audit.genSpecification(criteria),pageable);
         List<CaseinfoDTO> caseinfoDTOList = CaseinfoMapper.toDto(page.getContent());
         for (CaseinfoDTO f:caseinfoDTOList){
-            String dd = dictDetailService.transDict(DictEnum.AJLX.getDistName(), f.getCaseType());
-            f.setCaseTypeStr(dd == null ? "无数据" : dd);// 案（事）件类型
-            dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), f.getPrinccardType());
-            f.setPrinccardTypeStr(dd == null ? "无数据" : dd);//主犯（嫌疑人）证件代码
-
-            dd = deptRepository.findNameByCode(f.getUnitCode());
-            f.setUnitCodeStr(dd);
+            f.setCaseTypeStr(dictDetailService.transDict(DictEnum.AJLX.getDictId(), f.getCaseType()));// 案（事）件类型
+            f.setPrinccardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(), f.getPrinccardType()));//主犯（嫌疑人）证件代码
+            f.setHappenAddrcodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),f.getHappenAddr()));//发生地点省市县编码
+            f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", caseinfoDTOList);
@@ -97,7 +94,7 @@ public class CaseinfoServiceImpl implements CaseinfoService {
     public CaseinfoDTO create(Caseinfo resources) {
         log.info("新增护路护线/涉线、路案事件信息管理--开始");
         resources.setCaseId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+//        resources.setCreator(SecurityUtils.getUsername());
         return CaseinfoMapper.toDto(CaseinfoRepository.save(resources));
     }
 
@@ -111,6 +108,7 @@ public class CaseinfoServiceImpl implements CaseinfoService {
         Optional<Caseinfo> optionalCaseinfo = CaseinfoRepository.findById(resources.getCaseId());
         ValidationUtil.isNull( optionalCaseinfo,"Caseinfo","id",resources.getCaseId());
         Caseinfo Caseinfo = optionalCaseinfo.get();
+//        resources.setOperName(SecurityUtils.getUsername());
         Caseinfo.copy(resources);
         CaseinfoRepository.save(Caseinfo);
     }

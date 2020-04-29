@@ -23,17 +23,15 @@ public class ConvenientinfoDTO implements Serializable {
     // 路线编码
     private String routeCode;
 
-    // 路线类型
-    private String routeType;
-
     // 路线类型   字典翻译
+    private String routeType;
     private String routeTypeStr;
 
     // 隶属单位名称
     private String subordunit;
-
-    // 隶属单位省市县编码
+    // 隶属单位省市县编码 字典
     private String subordunitAddrcode;
+    private String subordunitAddrcodeStr;
 
     // 隶属单位详址
     private String subordunitAddr;
@@ -50,8 +48,9 @@ public class ConvenientinfoDTO implements Serializable {
     // 管辖单位名称
     private String jurisdunit;
 
-    // 管辖单位省市县编码
+    // 管辖单位省市县编码 字典
     private String jurisdunitAddrcode;
+    private String jurisdunitAddrcodeStr;
 
     // 管辖单位详址
     private String jurisdunitAddr;
@@ -68,18 +67,14 @@ public class ConvenientinfoDTO implements Serializable {
     // 治安隐患情况
     private String secuhiddenInfo;
 
-    // 治安隐患等级
-    private String secuhiddenLevel;
-
     // 治安隐患等级  字典翻译
+    private String secuhiddenLevel;
     private String secuhiddenLevelStr;
 
     // 生效时间
-
     private Timestamp effDate;
 
     // 失效时间
-
     private Timestamp expDate;
 
     // 同步状态
@@ -87,24 +82,20 @@ public class ConvenientinfoDTO implements Serializable {
 
     // 数据状态 10是保存待提交 12是生效状态 22是失效
     private String statusCd;
+    private String statusCdStr;
 
     // 操作人名称
     private String operName;
 
     // 操作时间
-
     private Timestamp operDate;
 
     // 创建人
     private String creator;
-
     // 创建时间
-
     private Timestamp createTime;
 
-    // 单位编码,所属单位，后续可用于权限管理
-    private String unitCode;
-
     // 单位编码,所属单位，后续可用于权限管理  字典翻译
+    private String unitCode;
     private String unitCodeStr;
 }

@@ -90,7 +90,7 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
     public BizSecurHomicidebaseinfoDTO create(BizSecurHomicidebaseinfo resources) {
         log.info("新增社会治安管理/命案基本信息--开始");
         resources.setCaseId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+//        resources.setCreator(SecurityUtils.getUsername());
 
         if(bizSecurHomicidebaseinfoRepository.findByCaseCode(resources.getCaseCode()) != null){
             throw new EntityExistException(BizSecurHomicidebaseinfo.class,"case_code",resources.getCaseCode());
@@ -112,8 +112,8 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
         if(bizSecurHomicidebaseinfo1 != null && !bizSecurHomicidebaseinfo1.getCaseId().equals(bizSecurHomicidebaseinfo.getCaseId())){
             throw new EntityExistException(BizSecurHomicidebaseinfo.class,"case_code",resources.getCaseCode());
         }
-        bizSecurHomicidebaseinfo.copy(resources);
-        bizSecurHomicidebaseinfo.setOperName(resources.getOperName());
+//        bizSecurHomicidebaseinfo.copy(resources);
+//        bizSecurHomicidebaseinfo.setOperName(resources.getOperName());
 
         bizSecurHomicidebaseinfoRepository.save(bizSecurHomicidebaseinfo);
     }

@@ -110,7 +110,7 @@ public class SuspectinfoServiceImpl implements SuspectinfoService {
     public SuspectinfoDTO create(Suspectinfo resources) {
         log.info("新增社会治安管理/命案犯罪嫌疑人信息--开始");
         resources.setSuspId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+//        resources.setCreator(SecurityUtils.getUsername());
         return SuspectinfoMapper.toDto(SuspectinfoRepository.save(resources));
     }
 

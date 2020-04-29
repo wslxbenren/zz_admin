@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.service.secur.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xyz.modules.system.domain.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -33,7 +34,7 @@ public class Suspectinfo implements Serializable {
     @Column(name = "suspect_code")
     private Integer suspectCode;
 
-    // 案件编号
+//    // 案件编号
     @Column(name = "case_code")
     private String caseCode;
 
@@ -188,7 +189,8 @@ public class Suspectinfo implements Serializable {
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
 
-//    @JoinColumn(name="case_code")//外键列的列名
-//    @ManyToOne(fetch=FetchType.LAZY,optional=false)//ptional=false删除案件不影响
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name = "case_code")
+//    @JsonIgnore
 //    private BizSecurHomicidebaseinfo bizSecurHomicidebaseinfo;
 }

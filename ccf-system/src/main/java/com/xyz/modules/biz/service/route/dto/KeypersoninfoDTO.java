@@ -35,13 +35,11 @@ public class KeypersoninfoDTO implements Serializable {
     // 曾用名
     private String usedName;
 
-    // 性别
+    // 性别    //字典项
     private String personSex;
-    //字典项
     private  String personSexStr;
 
     // 出生日期
-
     private Timestamp dateBirth;
 
     // 民族   字典
@@ -80,6 +78,7 @@ public class KeypersoninfoDTO implements Serializable {
 
     // 职业
     private String vocation;
+
 
     // 服务处所省市县编码
     private String serviceAddrcode;

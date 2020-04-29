@@ -117,7 +117,7 @@ public class NonpublicServiceImpl implements NonpublicService {
     @Transactional(rollbackFor = Exception.class)
     public NonpublicDTO create(Nonpublic resources) {
         resources.setNonId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUserId());
+//        resources.setCreator(SecurityUtils.getUserId());
         return NonpublicMapper.toDto(NonpublicRepository.save(resources));
     }
 

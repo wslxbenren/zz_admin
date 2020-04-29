@@ -25,7 +25,7 @@ public class DiseventController {
     @Autowired
     private DiseventService DiseventService;
 
-    @Log("查询Disevent")
+    @Log("查询Disevent/矛盾纠纷排查化解管理->矛盾纠纷排查事件")
     @ApiOperation(value = "查询Disevent")
     @GetMapping(value = "/Disevent")
     @PreAuthorize("hasAnyRole('ADMIN','DISEVENT_ALL','DISEVENT_SELECT')")

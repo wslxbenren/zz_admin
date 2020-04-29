@@ -62,20 +62,12 @@ public class RectificmanageServiceImpl implements RectificmanageService {
         List<RectificmanageDTO> RectificmanageDTOList = RectificmanageMapper.toDto(page.getContent());
         for (RectificmanageDTO dto:RectificmanageDTOList)
         {
-           String dd = deptRepository.findNameByCode(dto.getResponUnit());
-            dto.setResponUnitStr(dd);//责任单位
-
-             dd = deptRepository.findNameByCode(dto.getAssistUnit());
-            dto.setAssistUnitStr(dd);//协助单位
-
-            dd = deptRepository.findNameByCode(dto.getAssistUnit());
-            dto.setAssistUnitStr(dd);//协助单位
-
-            dd = dictDetailService.transDict(DictEnum.SJZT.getDistName(),dto.getStatusCd());
-            dto.setStatusCdStr(dd==null?"无数据":dd);//数据状态
-
-            dd = deptRepository.findNameByCode(dto.getUnitCode());
-            dto.setUnitCodeStr(dd);//所属单位
+            dto.setResponUnitStr(deptRepository.findNameByCode(dto.getResponUnit()));//责任单位
+            dto.setAssistUnitStr(deptRepository.findNameByCode(dto.getAssistUnit()));//协助单位
+            dto.setAssistUnitStr(deptRepository.findNameByCode(dto.getAssistUnit()));//协助单位
+            dto.setActionAddrStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(), dto.getActionAddr()));//行动地
+            dto.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(),dto.getStatusCd()));//数据状态
+            dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//所属单位
         }
 
 
@@ -115,6 +107,7 @@ public class RectificmanageServiceImpl implements RectificmanageService {
         Optional<Rectificmanage> optionalRectificmanage = RectificmanageRepository.findById(resources.getRectId());
         ValidationUtil.isNull( optionalRectificmanage,"Rectificmanage","id",resources.getRectId());
         Rectificmanage Rectificmanage = optionalRectificmanage.get();
+//        resources.setOperName(SecurityUtils.getUsername());
         Rectificmanage.copy(resources);
         RectificmanageRepository.save(Rectificmanage);
     }

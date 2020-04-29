@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author 邢家华
@@ -142,4 +143,7 @@ public class Convenientinfo implements Serializable {
     public void copy(Convenientinfo source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
+
+    @OneToMany(mappedBy = "convenientinfo",cascade={CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    private List<Keypersoninfo> keypersoninfoList;
 }

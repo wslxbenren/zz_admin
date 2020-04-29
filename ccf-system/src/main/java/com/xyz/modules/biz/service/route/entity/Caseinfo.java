@@ -41,6 +41,10 @@ public class Caseinfo implements Serializable {
     @Column(name = "case_code")
     private String caseCode;
 
+    // 案（事）件编号
+    @Column(name = "case_name")
+    private String caseNmae;
+
     // 案（事）件类型
     @Column(name = "case_type")
     private String caseType;

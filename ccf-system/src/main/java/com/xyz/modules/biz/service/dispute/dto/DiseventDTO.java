@@ -29,12 +29,16 @@ public class DiseventDTO implements Serializable {
 
     // 发生地点
     private String happenAddr;
+//    private String happenAddrStr;
 
-    // 事件规模
+
+    // 事件规模 字典
     private String eventSize;
+    private String eventSizeStr;
 
-    // 事件类别
+    // 事件类别 字典
     private String eventType;
+    private String eventTypeStr;
 
     // 涉及人数
     private Integer involvNum;
@@ -42,8 +46,9 @@ public class DiseventDTO implements Serializable {
     // 事件简述
     private String eventInfo;
 
-    // 涉及单位
+    // 涉及单位  字典
     private String involvUnit;
+    private String involvUnitStr;
 
     // 主要当事人证件代码
     private String princardType;
@@ -54,20 +59,26 @@ public class DiseventDTO implements Serializable {
     // 主要当事人姓名
     private String prinName;
 
-    // 主要当事人性别
+    // 主要当事人性别 字典
     private String prinSex;
+    private String prinSexStr;
 
-    // 主要当事人民族
+
+    // 主要当事人民族 字典
     private String prinNation;
+    private String prinNationStr;
 
     // 主要当事人学历
     private String prinEducation;
+    private String prinEducationStr;
 
     // 主要当事人人员类别
     private String prinPertype;
+    private String prinPertypeStr;
 
-    // 主要当事人居住地省市县编码
+    // 主要当事人居住地省市县编码  字典
     private String residence;
+    private String residenceStr;
 
     // 主要当事人居住详址
     private String residenceAddr;
@@ -83,8 +94,9 @@ public class DiseventDTO implements Serializable {
     // 同步状态
     private String status;
 
-    // 数据状态 10是保存待提交 12是生效状态 22是失效
+    // 数据状态 10是保存待提交 12是生效状态 22是失效 字典
     private String statusCd;
+    private String statusCdStr;
 
     // 操作人名称
     private String operName;
@@ -100,6 +112,7 @@ public class DiseventDTO implements Serializable {
 
     private Timestamp createTime;
 
-    // 单位编码,所属单位，后续可用于权限管理
+    // 单位编码,所属单位，后续可用于权限管理 字典
     private String unitCode;
+    private String unitCodeStr;
 }

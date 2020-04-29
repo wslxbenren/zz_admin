@@ -1,6 +1,7 @@
 package com.xyz.modules.biz.service.route.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xyz.modules.system.domain.Dict;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -27,9 +28,9 @@ public class Keypersoninfo implements Serializable {
     @Column(name = "key_id")
     private String keyId;
 
-    // 跟线路基本表主键关联
-    @Column(name = "con_id")
-    private String conId;
+//    // 跟线路基本表主键关联
+//    @Column(name = "con_id")
+//    private String conId;
 
     // 线路名称
     @Column(name = "route_name")
@@ -183,4 +184,11 @@ public class Keypersoninfo implements Serializable {
     public void copy(Keypersoninfo source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "con_id")
+    @JsonIgnore
+    private Convenientinfo convenientinfo;
+
+
 }

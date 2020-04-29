@@ -15,6 +15,7 @@ import com.xyz.modules.biz.service.route.dto.ConvenientinfoDTO;
 import com.xyz.modules.biz.service.route.qo.ConvenientinfoQueryCriteria;
 import com.xyz.modules.biz.service.route.mapper.ConvenientinfoMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -60,13 +61,12 @@ public class ConvenientinfoServiceImpl implements ConvenientinfoService {
         Page<Convenientinfo> page = ConvenientinfoRepository.findAll(audit.genSpecification(criteria),pageable);
         List<ConvenientinfoDTO> convenientinfoDTOList = ConvenientinfoMapper.toDto(page.getContent());
         for (ConvenientinfoDTO f:convenientinfoDTOList){
-            String dd = dictDetailService.transDict(DictEnum.LXLX.getDistName(), f.getRouteType());
-            f.setRouteTypeStr(dd == null ? "无数据" : dd);// 路线类型
-            dd = dictDetailService.transDict(DictEnum.ZAYHDJ.getDistName(), f.getSecuhiddenLevel());
-            f.setSecuhiddenLevelStr(dd == null ? "无数据" : dd);//治安隐患等级
-
-            dd = deptRepository.findNameByCode(f.getUnitCode());
-            f.setUnitCodeStr(dd);
+            f.setRouteTypeStr(dictDetailService.transDict(DictEnum.LXLX.getDictId(), f.getRouteType()));// 路线类型
+            f.setSubordunitAddrcode(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),f.getSubordunitAddrcodeStr()));//隶属单位省市县编码
+            f.setJurisdunitAddrcodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),f.getJurisdunitAddrcodeStr()));//管辖单位省市县编码
+            f.setSecuhiddenLevelStr(dictDetailService.transDict(DictEnum.ZAYHDJ.getDictId(), f.getSecuhiddenLevel()));//治安隐患等级
+            f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),f.getStatus()));//数据状态
+            f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
         }
         Map map = new HashMap();
         map.put("content", convenientinfoDTOList);
@@ -97,7 +97,7 @@ public class ConvenientinfoServiceImpl implements ConvenientinfoService {
     public ConvenientinfoDTO create(Convenientinfo resources) {
         log.info("新增护路护线/护路护线基本信息--开始");
         resources.setConId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+//        resources.setCreator(SecurityUtils.getUsername());
         return ConvenientinfoMapper.toDto(ConvenientinfoRepository.save(resources));
     }
 
@@ -111,7 +111,9 @@ public class ConvenientinfoServiceImpl implements ConvenientinfoService {
         Optional<Convenientinfo> optionalConvenientinfo = ConvenientinfoRepository.findById(resources.getConId());
         ValidationUtil.isNull( optionalConvenientinfo,"Convenientinfo","id",resources.getConId());
         Convenientinfo Convenientinfo = optionalConvenientinfo.get();
+//        resources.setOperName(SecurityUtils.getUsername());
         Convenientinfo.copy(resources);
+
         ConvenientinfoRepository.save(Convenientinfo);
     }
 
