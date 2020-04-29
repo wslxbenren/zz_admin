@@ -66,6 +66,6 @@ public class DeptDTO implements Serializable {
 
 
     private String guideUnit;
-    private String function;
+    private String functions;
 
 }

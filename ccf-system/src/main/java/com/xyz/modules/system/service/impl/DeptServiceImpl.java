@@ -137,7 +137,7 @@ public class DeptServiceImpl implements DeptService {
     @Transactional(rollbackFor = Exception.class)
     public DeptDTO create(Dept resources) {
         resources.setId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+//        resources.setCreator(SecurityUtils.getUsername());
 //        resources.setModifier(SecurityUtils.getUsername());
         return deptMapper.toDto(deptRepository.save(resources));
     }
