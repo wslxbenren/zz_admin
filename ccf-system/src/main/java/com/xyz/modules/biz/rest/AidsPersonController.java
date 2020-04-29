@@ -102,10 +102,10 @@ public class AidsPersonController {
 
     @Log("查询AidsPerson")
     @ApiOperation(value = "验证身份证号码存在")
-    @GetMapping(value = "/AidsPerson/validateIdentityNum/{identityNum}")
+    @GetMapping(value = "/AidsPerson/validateIdentityNum/{id}&{identityNum}")
     @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
-    public ResponseEntity verifyCreditCode(@PathVariable String identityNum) {
-        return new ResponseEntity(AidsPersonService.validateIdentityNum(identityNum), HttpStatus.OK);
+    public ResponseEntity verifyCreditCode(@PathVariable String id,@PathVariable String identityNum) {
+        return new ResponseEntity(AidsPersonService.validateIdentityNum(id,identityNum), HttpStatus.OK);
     }
 
 }

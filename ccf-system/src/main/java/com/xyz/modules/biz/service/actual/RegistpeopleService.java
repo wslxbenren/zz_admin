@@ -62,5 +62,5 @@ public interface RegistpeopleService {
     //@CacheEvict(allEntries = true)
     void delete(String regisId);
 
-    Boolean validateIdentityNum(String identityNum);
+    Boolean validateIdentityNum(String id,String identityNum);
 }

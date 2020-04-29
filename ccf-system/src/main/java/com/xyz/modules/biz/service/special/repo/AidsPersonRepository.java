@@ -18,6 +18,9 @@ public interface AidsPersonRepository extends JpaRepository<AidsPerson, String>,
      */
     AidsPerson findByIdentityNum(String identity_num);
 
-    @Query(value = "SELECT t.identity_num FROM biz_special_aids_person t WHERE t.identity_num = ?1",nativeQuery = true)
-    String validateIdentityNum(String identityNum);
+    @Query(value = "SELECT  COUNT(1) FROM biz_special_aids_person t WHERE t.identity_num = ?1",nativeQuery = true)
+    Long validateIdentityNum(String identityNum);
+
+    @Query(value = "SELECT COUNT(1) FROM biz_special_aids_person t WHERE t.aids_id = ?1 and t.identity_num = ?2  ",nativeQuery = true)
+    Long validateIdentityNumById(String id,String identityNum);
 }

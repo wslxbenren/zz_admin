@@ -62,5 +62,5 @@ public interface FloatpeopleService {
     //@CacheEvict(allEntries = true)
     void delete(String floatId);
 
-    Boolean validateIdentityNum(String identityNum);
+    Boolean validateIdentityNum(String id,String identityNum);
 }
