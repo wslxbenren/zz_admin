@@ -62,13 +62,9 @@ public class DeptServiceImpl implements DeptService {
         log.info("单位信息--开始");
         List<DeptDTO> deptDTOList = deptMapper.toDto(deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
         for (DeptDTO f : deptDTOList) {
-            String dd = dictDetailService.transDict(DictEnum.JGLX.getDistName(), f.getInstiType());
-            f.setInstiTypeStr(dd == null ? "无数据" : dd);// 机构类型
-            dd = dictDetailService.transDict(DictEnum.SHZZLX.getDistName(), f.getOrganType());
-            f.setOrganTypeStr(dd == null ? "无数据" : dd);// 组织类型
-
-            dd = deptRepository.findNameByCode(f.getGuideUnit());
-            f.setGuideUnit(dd);//所属单位
+            f.setInstiTypeStr(dictDetailService.transDict(DictEnum.JGLX.getDictId(), f.getInstiType()));// 机构类型
+            f.setOrganTypeStr(dictDetailService.transDict(DictEnum.SHZZLX.getDictId(), f.getOrganType()));// 组织类型
+            f.setGuideUnit(deptRepository.findNameByCode(f.getGuideUnit()));//所属单位
         }
         return deptDTOList;
     }
