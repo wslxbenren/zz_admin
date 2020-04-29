@@ -69,23 +69,11 @@ public class UserServiceImpl implements UserService {
         Page<User> page = userRepository.findAll(audit.genSpecification(criteria), pageable);
         List<UserDTO> userDTOList = userMapper.toDto(page.getContent());
         for (UserDTO f : userDTOList) {
-
-            String dd = dictDetailService.transDict(DictEnum.ZZMM.getDistName(), f.getPoliticalStatus());
-            f.setPoliticalStatusStr(dd == null ? "无数据" : dd);// 政治面貌
-//
-            dd = dictDetailService.transDict(DictEnum.ZJDM.getDistName(), f.getCardCode());
-            f.setCardCodeStr(dd == null ? "无数据" : dd);// 证件代码
-//
-            dd = dictDetailService.transDict(DictEnum.XUE_LI.getDistName(), f.getEducationBg());
-            f.setEducationBgStr(dd == null ? "无数据" : dd);// 学历
-
-            dd = dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), f.getNational());
-            f.setNationalStr(dd == null ? "无数据" : dd);//民族
-
-            dd = dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), f.getSex());
-            f.setSexStr(dd == null ? "无数据" : dd);//性別
-
-
+            f.setPoliticalStatusStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(), f.getPoliticalStatus()));// 政治面貌
+            f.setCardCodeStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(), f.getCardCode()));// 证件代码
+            f.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(), f.getEducationBg()));// 学历
+            f.setNationalStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(), f.getNational()));//民族
+            f.setSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), f.getSex()));//性別
         }
 
         Map map = new HashMap();
@@ -109,9 +97,9 @@ public class UserServiceImpl implements UserService {
             throw new EntityExistException(User.class, "username", resources.getUsername());
         }
 
-        if (userRepository.findByEmail(resources.getEmail()) != null) {
-            throw new EntityExistException(User.class, "email", resources.getEmail());
-        }
+//        if (userRepository.findByEmail(resources.getEmail()) != null) {
+//            throw new EntityExistException(User.class, "email", resources.getEmail());
+//        }
         if (resources.getId() == null) {
             resources.setId(UUID.randomUUID().toString());
         }
