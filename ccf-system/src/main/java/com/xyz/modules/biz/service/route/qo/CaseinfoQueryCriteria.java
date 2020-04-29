@@ -26,9 +26,9 @@ public class CaseinfoQueryCriteria{
     private String conId;
 
     //caseType案件类型
-    @Query(type = Query.Type.INNER_LIKE)
-    @ApiModelProperty(value = "案件类型")
-    private String caseType;
+    @Query(type = Query.Type.EQUAL)
+    @ApiModelProperty(value = "案件性质")
+    private String caseNature;
 
     //caseName
     @Query(type = Query.Type.INNER_LIKE)

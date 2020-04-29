@@ -48,10 +48,10 @@ public class DiseventDTO implements Serializable {
 
     // 涉及单位  字典
     private String involvUnit;
-    private String involvUnitStr;
 
     // 主要当事人证件代码
     private String princardType;
+    private String princardTypeStr;
 
     // 主要当事人证件号码
     private String princardCode;

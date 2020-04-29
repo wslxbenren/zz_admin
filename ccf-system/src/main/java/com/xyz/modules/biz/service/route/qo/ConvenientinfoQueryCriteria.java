@@ -30,6 +30,10 @@ public class ConvenientinfoQueryCriteria{
     private String routeName;
 
     @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "隶属单位负责人姓名")
+    private String subordName;
+
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "隶属单位联系方式")
     private String subordunitPhone;
 

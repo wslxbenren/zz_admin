@@ -63,18 +63,16 @@ public class ManageleadresponsInfoServiceImpl implements ManageleadresponsInfoSe
         Page<ManageleadresponsInfo> page = ManageleadresponsInfoRepository.findAll(auditSpecification.genSpecification(criteria),pageable);
         List<ManageleadresponsInfoDTO> manageleadresponsInfoList = ManageleadresponsInfoMapper.toDto(page.getContent());
         for (ManageleadresponsInfoDTO mid: manageleadresponsInfoList) {
-            String dd = dictDetailService. transDict(DictEnum.JGCJ.getDistName(), mid.getAreaGrage());
-            mid.setAreaGrageStr(dd == null ? "无数据": dd); // 被实施地区层级
-            dd = dictDetailService. transDict(DictEnum.JGCJ.getDictId(), mid.getImplementerGrage());
-            mid.setImplementerGrageStr(dd == null ? "无数据": dd); //  实施主体层级
-            dd = dictDetailService. transDict(DictEnum.ZCZL.getDistName(), mid.getPolicyType());
-            mid.setPolicyTypeStr(dd == null ? "无数据": dd);  //政策种类
+            mid.setAreaGrageStr(dictDetailService. transDict(DictEnum.JGCJ.getDictId(), mid.getAreaGrage())); // 被实施地区层级
+            mid.setImplementerGrageStr(dictDetailService. transDict(DictEnum.JGCJ.getDictId(), mid.getImplementerGrage())); //  实施主体层级
+            mid.setPolicyTypeStr(dictDetailService. transDict(DictEnum.ZCZL.getDictId(), mid.getPolicyType()));  //政策种类
             mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
             mid.setModifier(userRepository.findById(Optional.ofNullable(mid.getModifier()).orElse("")).orElse(new User()).getUsername());
-            dd = deptRepository.findNameByCode(mid.getUnitCode());
-            mid.setUnitCodeStr(dd);
+            mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
-            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
+            mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
+            mid.setImpledareaCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getImpledareaCode()));
+
         }
         Map map = new HashMap();
         map.put("content", manageleadresponsInfoList);
