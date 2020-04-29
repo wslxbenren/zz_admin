@@ -101,6 +101,7 @@ public class VictiminfoDTO implements Serializable {
 
     // 服务处所省市县编码
     private String serviceAddrcode;
+    private String serviceAddrcodeStr;
 
     // 服务处所
     private String serviceAddr;
@@ -129,6 +130,8 @@ public class VictiminfoDTO implements Serializable {
 
     // 同步状态
     private String status;
+    private String statusStr;
+
 
     // 数据状态 10是保存待提交 12是生效状态 22是失效 字典
     private String statusCd;

@@ -3,7 +3,9 @@ package com.xyz.modules.biz.service.dispute.impl;
 import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.biz.service.actual.dto.FloatpeopleDTO;
 import com.xyz.modules.biz.service.dispute.entity.Disevent;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
@@ -50,6 +52,9 @@ public class DiseventServiceImpl implements DiseventService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(DiseventQueryCriteria criteria, Pageable pageable){
@@ -60,12 +65,18 @@ public class DiseventServiceImpl implements DiseventService {
 
         for (DiseventDTO dto:diseventDTOS)
         {
-                dto.setEventTypeStr(dictDetailService.transDict(DictEnum.SJLB.getDictId(),dto.getEventType()));//事件类型
-                dto.setEventSizeStr(dictDetailService.transDict(DictEnum.SJGM.getDictId(),dto.getEventSize()));//事件规模
-                dto.setInvolvUnitStr(deptRepository.findNameByCode(dto.getUnitCode()));//涉及单位
+            dto.setEventTypeStr(dictDetailService.transDict(DictEnum.SJLB.getDictId(),dto.getEventType()));//事件类型
+            dto.setEventSizeStr(dictDetailService.transDict(DictEnum.SJGM.getDictId(),dto.getEventSize()));//事件规模
             dto.setPrinSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(),dto.getPrinSex()));//性别
-            dto.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),dto.getResidence()));//现住地
+            dto.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getResidence()));//现住地
             dto.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),dto.getStatusCd()));//数据状态
+            dto.setPrincardTypeStr(dictDetailService.transDict(DictEnum.ZJDM.getDictId(),dto.getPrincardType()));//证件类型
+            dto.setPrinNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(),dto.getPrinNation()));//民族
+            dto.setPrinEducationStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(),dto.getPrinEducation()));//证件类型
+            dto.setPrinPertypeStr(dictDetailService.transDict(DictEnum.ZYDSRRYLB.getDictId(),dto.getPrinPertype()));//主要当事人人员类别
+            dto.setCreator(userRepository.findById(Optional.ofNullable(dto.getCreator()).orElse("")).orElse(new User()).getUsername());
+            dto.setOperName(userRepository.findById(Optional.ofNullable(dto.getOperName()).orElse("")).orElse(new User()).getUsername());
+
             dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//涉及单位
         }
         Map map = new HashMap();

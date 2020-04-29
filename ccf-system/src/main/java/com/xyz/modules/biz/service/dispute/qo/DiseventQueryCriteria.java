@@ -27,7 +27,7 @@ public class DiseventQueryCriteria{
     @ApiModelProperty(value = "事件编号")
     private String identiteventCodeyNum;
 
- @Query(type = Query.Type.INNER_LIKE)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "事件名称")
     private String eventName;
 
@@ -45,14 +45,9 @@ public class DiseventQueryCriteria{
     private String eventType;
 
 
-    @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "涉及单位")
-    private String involvUnit;
-
-
-    @Query(type = Query.Type.EQUAL)
-    @ApiModelProperty(value = "主要当事人居住地省市县编码")
-    private String residence;
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "发生地点")
+    private String happenAddr;
 
     // 审计字段
     @Query(type = Query.Type.IN)

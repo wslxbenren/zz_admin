@@ -2,6 +2,8 @@ package com.xyz.modules.biz.service.route.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import javax.persistence.Column;
 import java.sql.Timestamp;
 import java.io.Serializable;
 
@@ -48,6 +50,7 @@ public class CaseinfoDTO implements Serializable {
 
     // 案（事）件性质
     private String caseNature;
+    private String caseNatureStr;
 
     // 案（事）件情况
     private String caseInfo;
@@ -65,6 +68,7 @@ public class CaseinfoDTO implements Serializable {
 
     // 是否破案
     private Integer ifSolve;
+    private String ifSolveStr;
 
     // 作案人数
     private Integer crimeNum;
