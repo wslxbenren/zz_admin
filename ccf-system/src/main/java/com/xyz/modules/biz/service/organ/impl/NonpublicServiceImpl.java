@@ -136,4 +136,10 @@ public class NonpublicServiceImpl implements NonpublicService {
     public void delete(String nonId) {
         NonpublicRepository.deleteById(nonId);
     }
+
+    @Override
+    public Boolean verifyCreditCode(String creditCode) {
+        String cc = NonpublicRepository.verifyCreditCode(creditCode);
+        return cc == null ? false : true;
+    }
 }

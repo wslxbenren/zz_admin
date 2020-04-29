@@ -26,6 +26,9 @@ public class CaseinfoDTO implements Serializable {
     // 案（事）件编号
     private String caseCode;
 
+    //案件名称
+    private String caseName;
+
     // 案（事）件类型
     private String caseType;
 

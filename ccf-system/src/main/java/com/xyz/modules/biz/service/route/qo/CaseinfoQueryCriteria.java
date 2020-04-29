@@ -30,6 +30,11 @@ public class CaseinfoQueryCriteria{
     @ApiModelProperty(value = "案件类型")
     private String caseType;
 
+    //caseName
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "案件名称")
+    private String caseName;
+
     //线路名称
     @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "线路名称")
