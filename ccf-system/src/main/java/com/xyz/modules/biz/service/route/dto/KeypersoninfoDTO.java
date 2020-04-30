@@ -107,6 +107,7 @@ public class KeypersoninfoDTO implements Serializable {
 
     // 是否关注
     private Integer ifFocus;
+    private String ifFocusStr;
 
     // 危害程度 字典
     private String hazardLevel;

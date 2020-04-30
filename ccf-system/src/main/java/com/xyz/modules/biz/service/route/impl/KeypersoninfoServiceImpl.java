@@ -7,6 +7,7 @@ import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.dto.UserDTO;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
@@ -73,7 +74,7 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
             dto.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDictId(),dto.getMarriageFlag()));//婚姻状况
             dto.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(),dto.getPartyFlag()));//政治面貌
             dto.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(),dto.getEducationBg()));//学历
-            dto.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(),dto.getFaithType()));//宗教信仰
+            dto.setFaithTypeStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(),dto.getFaithType()));//宗教信仰
             dto.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(),dto.getVocationCode()));//职业类型
             dto.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getRegisteredPlace()));//户籍地
             dto.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getResidence()));//现住地
@@ -82,7 +83,7 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
             dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//所属单位
             dto.setCreator(userRepository.findById(Optional.ofNullable(dto.getCreator()).orElse("")).orElse(new User()).getUsername());
             dto.setOperName(userRepository.findById(Optional.ofNullable(dto.getOperName()).orElse("")).orElse(new User()).getUsername());
-
+            dto.setIfFocusStr(ConstEnum.getBoolean(dto.getIfFocus()));
         }
 
 

@@ -116,11 +116,11 @@ public class Rectificmanage implements Serializable {
     private Timestamp operDate;
 
     // 创建人
-    @Column(name = "creator")
+    @Column(name = "creator",updatable = false)
     private String creator;
 
     // 创建时间
-    @Column(name = "create_time")
+    @Column(name = "create_time",updatable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore
     @CreationTimestamp

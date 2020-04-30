@@ -25,7 +25,7 @@ public class BizSecurKeyareasQueryCriteria{
 //    private List<String> operDate;
 
     // 精确
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "治安重点地区")
     private String securityKarea;
 

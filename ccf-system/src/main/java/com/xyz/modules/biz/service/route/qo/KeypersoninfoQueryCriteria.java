@@ -68,7 +68,14 @@ public class KeypersoninfoQueryCriteria {
     @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "联系方式")
     private String mobile;
-    ;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = " 公民身份号码")
+    private String identityNum;
+
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = " 重点人员类型")
+    private String keypersonType;
 
 
     // 审计字段

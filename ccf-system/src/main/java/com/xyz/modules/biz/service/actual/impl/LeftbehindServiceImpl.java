@@ -84,13 +84,13 @@ public class LeftbehindServiceImpl implements LeftbehindService {
             mid.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getRegisteredPlace())); // 户籍地
             mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence())); //  现住地
             mid.setMainmemRelaStr(dictDetailService.transDict(DictEnum.YHZGX.getDictId(), mid.getMainmemRela())); //  与留守人员关系
-            mid.setHealthyStr(dictDetailService.transDict(DictEnum.YHZGX.getDictId(), mid.getHealthy())); //  健康状况
+            mid.setHealthyStr(dictDetailService.transDict(DictEnum.JKZK.getDictId(), mid.getHealthy())); //  健康状况
             mid.setLeftbehindTypeStr(dictDetailService.transDict(DictEnum.LSRYLX.getDictId(), mid.getLeftbehindType())); //  留守人员类型
             mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(Optional.ofNullable(mid.getOperName()).orElse("")).orElse(new User()).getUsername());
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd()));
-            mid.setMainmemHealthStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getMainmemHealth()));
+            mid.setMainmemHealthStr(dictDetailService.transDict(DictEnum.JKZK.getDictId(), mid.getMainmemHealth()));
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
             mid.setHouseholdIdStr(ConstEnum.getBoolean(mid.getHouseholdId().substring(1)));
             mid.setServicePlaceCodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getServicePlaceCode()));
