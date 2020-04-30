@@ -61,4 +61,6 @@ public interface BizTeenagerBaseinfoService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String teenId);
+
+    Boolean validateIdentityNum(String id, String identityNum);
 }

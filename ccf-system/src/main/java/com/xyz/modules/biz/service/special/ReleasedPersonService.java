@@ -61,4 +61,6 @@ public interface ReleasedPersonService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String releasedId);
+
+    Boolean validateIdentityNum(String id, String identityNum);
 }

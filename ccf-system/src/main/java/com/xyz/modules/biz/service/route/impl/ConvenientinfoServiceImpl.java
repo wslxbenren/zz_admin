@@ -3,7 +3,9 @@ package com.xyz.modules.biz.service.route.impl;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.service.route.entity.Convenientinfo;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.SecurityUtils;
@@ -54,6 +56,9 @@ public class ConvenientinfoServiceImpl implements ConvenientinfoService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(ConvenientinfoQueryCriteria criteria, Pageable pageable){
@@ -62,11 +67,14 @@ public class ConvenientinfoServiceImpl implements ConvenientinfoService {
         List<ConvenientinfoDTO> convenientinfoDTOList = ConvenientinfoMapper.toDto(page.getContent());
         for (ConvenientinfoDTO f:convenientinfoDTOList){
             f.setRouteTypeStr(dictDetailService.transDict(DictEnum.LXLX.getDictId(), f.getRouteType()));// 路线类型
-            f.setSubordunitAddrcode(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),f.getSubordunitAddrcodeStr()));//隶属单位省市县编码
-            f.setJurisdunitAddrcodeStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),f.getJurisdunitAddrcodeStr()));//管辖单位省市县编码
+            f.setSubordunitAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),f.getSubordunitAddrcode()));//隶属单位省市县编码
+            f.setJurisdunitAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),f.getJurisdunitAddrcode()));//管辖单位省市县编码
             f.setSecuhiddenLevelStr(dictDetailService.transDict(DictEnum.ZAYHDJ.getDictId(), f.getSecuhiddenLevel()));//治安隐患等级
             f.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),f.getStatus()));//数据状态
             f.setUnitCodeStr(deptRepository.findNameByCode(f.getUnitCode()));
+            f.setCreator(userRepository.findById(Optional.ofNullable(f.getCreator()).orElse("")).orElse(new User()).getUsername());
+            f.setOperName(userRepository.findById(Optional.ofNullable(f.getOperName()).orElse("")).orElse(new User()).getUsername());
+
         }
         Map map = new HashMap();
         map.put("content", convenientinfoDTOList);

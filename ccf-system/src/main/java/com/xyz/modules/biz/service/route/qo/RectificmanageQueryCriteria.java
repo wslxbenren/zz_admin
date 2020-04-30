@@ -36,7 +36,7 @@ public class RectificmanageQueryCriteria{
     @ApiModelProperty(value = "行动主题")
     private String actionTheme;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "行动地")
     private String actionAddr;
 

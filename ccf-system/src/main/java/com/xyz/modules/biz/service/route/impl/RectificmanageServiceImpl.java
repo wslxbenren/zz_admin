@@ -102,7 +102,7 @@ public class RectificmanageServiceImpl implements RectificmanageService {
     @Transactional(rollbackFor = Exception.class)
     public RectificmanageDTO create(Rectificmanage resources) {
         resources.setRectId(IdUtil.simpleUUID());
-        resources.setCreator(SecurityUtils.getUsername());
+       // resources.setCreator(SecurityUtils.getUsername());
         return RectificmanageMapper.toDto(RectificmanageRepository.save(resources));
     }
 

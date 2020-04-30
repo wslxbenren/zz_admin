@@ -3,7 +3,9 @@ package com.xyz.modules.biz.service.secur.impl;
 import com.xyz.exception.BadRequestException;
 import com.xyz.modules.biz.service.secur.entity.BizSecurKeyareas;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
@@ -51,6 +53,9 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
     private DeptRepository deptRepository;
 
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(BizSecurKeyareasQueryCriteria criteria, Pageable pageable){
@@ -64,6 +69,9 @@ public class BizSecurKeyareasServiceImpl implements BizSecurKeyareasService {
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(), mid.getStatusCd())); // 数据状态
             mid.setEvaluationStr(dictDetailService.transDict(DictEnum.XGPG.getDictId(), mid.getEvaluation())); //效果评估
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
+            mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(Optional.ofNullable(mid.getOperName()).orElse("")).orElse(new User()).getUsername());
+
 
         }
         Map map = new HashMap();

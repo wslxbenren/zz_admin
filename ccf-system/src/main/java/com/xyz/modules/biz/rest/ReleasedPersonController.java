@@ -84,4 +84,12 @@ public class ReleasedPersonController {
         ReleasedPersonService.delete(releasedId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Log("查询ReleasedPerson")
+    @ApiOperation(value = "验证身份证号码存在")
+    @GetMapping(value = "/releasedPerson/validateIdentityNum/{id}&{identityNum}")
+    @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
+    public ResponseEntity verifyCreditCode(@PathVariable String id,@PathVariable String identityNum) {
+        return new ResponseEntity(ReleasedPersonService.validateIdentityNum(id,identityNum), HttpStatus.OK);
+    }
 }
