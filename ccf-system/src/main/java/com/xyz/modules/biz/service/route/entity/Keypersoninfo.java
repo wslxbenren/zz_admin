@@ -6,6 +6,7 @@ import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,6 +21,7 @@ import java.io.Serializable;
  */
 @Entity
 @Data
+@DynamicUpdate
 @Table(name="biz_route_keypersoninfo")
 public class Keypersoninfo implements Serializable {
 

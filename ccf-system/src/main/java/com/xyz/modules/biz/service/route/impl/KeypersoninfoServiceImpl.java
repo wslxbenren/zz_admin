@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import cn.hutool.core.util.IdUtil;
 import org.springframework.data.domain.Page;
@@ -65,16 +67,17 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
         List<KeypersoninfoDTO> KeypersoninfoDTOList = KeypersoninfoMapper.toDto(page.getContent());
         for (KeypersoninfoDTO dto:KeypersoninfoDTOList  )
         {
-            dto.setPersonSex(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), dto.getPersonSex()));//性别
+            dto.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), dto.getPersonSex()));//性别
             dto.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDictId(),dto.getNation()));//民族
-            dto.setNativeInfoStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),dto.getNativeInfo()));//籍贯
+            dto.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getNativeInfo()));//籍贯
             dto.setMarriageFlagStr(dictDetailService.transDict(DictEnum.HYZK.getDictId(),dto.getMarriageFlag()));//婚姻状况
             dto.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZZMM.getDictId(),dto.getPartyFlag()));//政治面貌
             dto.setEducationBgStr(dictDetailService.transDict(DictEnum.XUE_LI.getDictId(),dto.getEducationBg()));//学历
             dto.setPartyFlagStr(dictDetailService.transDict(DictEnum.ZJXY.getDictId(),dto.getFaithType()));//宗教信仰
-            dto.setVocationCodeStr(dictDetailService.transDict(DictEnum.ZYLB.getDictId(),dto.getVocationCode()));//职业类型
-            dto.setRegisteredPlaceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),dto.getRegisteredPlace()));//户籍地
-            dto.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),dto.getResidence()));//现住地
+            dto.setVocationCodeStr(dictDetailService.transMultistage(DictEnum.ZYLB.getDictId(),dto.getVocationCode()));//职业类型
+            dto.setRegisteredPlaceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getRegisteredPlace()));//户籍地
+            dto.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getResidence()));//现住地
+            dto.setServiceAddrcodeStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),dto.getServiceAddrcode()));//服务处所
             dto.setHazardLevelStr(dictDetailService.transDict(DictEnum.WXCD.getDictId(),dto.getHazardLevel()));//危害程度
             dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//所属单位
             dto.setCreator(userRepository.findById(Optional.ofNullable(dto.getCreator()).orElse("")).orElse(new User()).getUsername());
@@ -83,7 +86,11 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
         }
 
 
-        return PageUtil.toPage(page.map(KeypersoninfoMapper::toDto));
+        Map map = new HashMap();
+        map.put("content", KeypersoninfoDTOList);
+        map.put("totalElements", page.getTotalElements());
+        map.put("totalPages",page.getTotalPages());
+        return map;
     }
 
     @Override

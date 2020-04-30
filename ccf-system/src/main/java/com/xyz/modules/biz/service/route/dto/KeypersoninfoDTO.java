@@ -82,6 +82,7 @@ public class KeypersoninfoDTO implements Serializable {
 
     // 服务处所省市县编码
     private String serviceAddrcode;
+    private String serviceAddrcodeStr;
 
     // 服务处所
     private String serviceAddr;
