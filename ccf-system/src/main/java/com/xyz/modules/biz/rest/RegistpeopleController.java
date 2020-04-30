@@ -69,10 +69,10 @@ public class RegistpeopleController {
 
     @Log("查询Registpeople")
     @ApiOperation(value = "验证身份证号码存在")
-    @GetMapping(value = "/Registpeople/validateIdentityNum/{identityNum}")
+    @GetMapping(value = "/Registpeople/validateIdentityNum/{id}&{identityNum}")
     @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
-    public ResponseEntity verifyCreditCode(@PathVariable String identityNum){
-        return new ResponseEntity(RegistpeopleService.validateIdentityNum(identityNum),HttpStatus.OK);
+    public ResponseEntity verifyCreditCode(@PathVariable String id,@PathVariable String identityNum){
+        return new ResponseEntity(RegistpeopleService.validateIdentityNum(id,identityNum),HttpStatus.OK);
     }
 
 }

@@ -16,6 +16,7 @@ import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.ValidationUtil;
+import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,7 +51,7 @@ public class DrugPersonServiceImpl implements DrugPersonService {
 
     @Autowired
     private AuditSpecification audit;
-    
+
     @Autowired
     private DeptRepository deptRepository;
 
@@ -59,11 +60,11 @@ public class DrugPersonServiceImpl implements DrugPersonService {
 
     @Override
     @Transactional
-    public Object queryAll(DrugPersonQueryCriteria criteria, Pageable pageable){
+    public Object queryAll(DrugPersonQueryCriteria criteria, Pageable pageable) {
         log.info("条件查询 DrugPerson 列表-分页");
-        Page<DrugPerson> page = DrugPersonRepository.findAll(audit.genSpecification(criteria),pageable);
+        Page<DrugPerson> page = DrugPersonRepository.findAll(audit.genSpecification(criteria), pageable);
         List<DrugPersonDTO> drugPersonDTOS = DrugPersonMapper.toDto(page.getContent());
-        for (DrugPersonDTO mid:drugPersonDTOS){
+        for (DrugPersonDTO mid : drugPersonDTOS) {
             mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDistName(), mid.getPersonSex()));// 性别
             mid.setNationStr(dictDetailService.transDict(DictEnum.MIN_ZU.getDistName(), mid.getNation()));//民族
             mid.setNativeInfoStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getNativeInfo()));
@@ -78,7 +79,7 @@ public class DrugPersonServiceImpl implements DrugPersonService {
             mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
             mid.setOperName(userRepository.findById(Optional.ofNullable(mid.getOperName()).orElse("")).orElse(new User()).getUsername());
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode()));
-            mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(),mid.getResidence()));
+            mid.setResidenceStr(dictDetailService.transMultistage(DictEnum.ADDRESS.getDictId(), mid.getResidence()));
             mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDistName(), mid.getStatusCd()));
             mid.setIsPedigreeStr(ConstEnum.getBoolean(mid.getIsPedigree()));
@@ -95,7 +96,7 @@ public class DrugPersonServiceImpl implements DrugPersonService {
 
     @Override
     @Transactional
-    public Object queryAll(DrugPersonQueryCriteria criteria){
+    public Object queryAll(DrugPersonQueryCriteria criteria) {
         log.info("条件查询 DrugPerson 列表");
         return DrugPersonMapper.toDto(DrugPersonRepository.findAll(audit.genSpecification(criteria)));
     }
@@ -104,7 +105,7 @@ public class DrugPersonServiceImpl implements DrugPersonService {
     public DrugPersonDTO findById(String drugId) {
         log.info(" 查询 DrugPerson 详情");
         Optional<DrugPerson> DrugPerson = DrugPersonRepository.findById(drugId);
-        ValidationUtil.isNull(DrugPerson,"DrugPerson","drugId",drugId);
+        ValidationUtil.isNull(DrugPerson, "DrugPerson", "drugId", drugId);
         return DrugPersonMapper.toDto(DrugPerson.get());
     }
 
@@ -112,10 +113,10 @@ public class DrugPersonServiceImpl implements DrugPersonService {
     @Transactional(rollbackFor = Exception.class)
     public DrugPersonDTO create(DrugPerson resources) {
         log.info(" 新增 DrugPerson ");
-        resources.setDrugId(IdUtil.simpleUUID()); 
-        if(DrugPersonRepository.findByIdentityNum(resources.getIdentityNum()) != null){
+        resources.setDrugId(IdUtil.simpleUUID());
+        if (DrugPersonRepository.findByIdentityNum(resources.getIdentityNum()) != null) {
             log.info("  DrugPerson identityNum 重复 新增失败");
-            throw new EntityExistException(DrugPerson.class,"identity_num",resources.getIdentityNum());
+            throw new EntityExistException(DrugPerson.class, "identity_num", resources.getIdentityNum());
         }
         return DrugPersonMapper.toDto(DrugPersonRepository.save(resources));
     }
@@ -125,12 +126,12 @@ public class DrugPersonServiceImpl implements DrugPersonService {
     public void update(DrugPerson resources) {
         log.info(" 修改 DrugPerson ");
         Optional<DrugPerson> optionalDrugPerson = DrugPersonRepository.findById(resources.getDrugId());
-        ValidationUtil.isNull( optionalDrugPerson,"DrugPerson","id",resources.getDrugId());
+        ValidationUtil.isNull(optionalDrugPerson, "DrugPerson", "id", resources.getDrugId());
         DrugPerson DrugPerson = optionalDrugPerson.get();
-        DrugPerson person= DrugPersonRepository.findByIdentityNum(resources.getIdentityNum());
-        if(person != null && !person.getDrugId().equals(DrugPerson.getDrugId())){
+        DrugPerson person = DrugPersonRepository.findByIdentityNum(resources.getIdentityNum());
+        if (person != null && !person.getDrugId().equals(DrugPerson.getDrugId())) {
             log.info("  DrugPerson identityNum 重复 修改失败");
-            throw new EntityExistException(DrugPerson.class,"identity_num",resources.getIdentityNum());
+            throw new EntityExistException(DrugPerson.class, "identity_num", resources.getIdentityNum());
         }
         DrugPerson.copy(resources);
         DrugPersonRepository.save(DrugPerson);
@@ -144,9 +145,17 @@ public class DrugPersonServiceImpl implements DrugPersonService {
     }
 
     @Override
-    public Boolean validateIdentityNum(String identityNum) {
-        String isNull = DrugPersonRepository.validateIdentityNum(identityNum);
-        log.info("********** 检验身份证号码是否存在  ======>"+isNull);
-        return isNull ==  null ? false :true;
+    public Boolean validateIdentityNum(String id, String identityNum) {
+        log.info("********** 检验身份证号码是否存在  ======>");
+        Long isNull = DrugPersonRepository.validateIdentityNum(identityNum);
+        if (isNull == 0) {
+            return false;
+        } else if (isNull == 1) {
+            isNull = DrugPersonRepository.validateIdentityNumById(id, identityNum);
+            return isNull == 1 ? false : true;
+        }else {
+            return true;
+        }
+
     }
 }

@@ -67,5 +67,5 @@ public interface AidsPersonService {
 
     void export(HttpServletResponse response , AidsPersonQueryCriteria criteria) throws IOException;
 
-    Boolean validateIdentityNum(String identityNum);
+    Boolean validateIdentityNum(String id,String identityNum);
 }

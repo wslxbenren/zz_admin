@@ -104,6 +104,7 @@ public class SuspectinfoDTO implements Serializable {
 
     // 服务处所省市县编码
     private String serviceAddrcode;
+    private String serviceAddrcodeStr;
 
     // 服务处所
     private String serviceAddr;
@@ -127,12 +128,15 @@ public class SuspectinfoDTO implements Serializable {
 
     // 是否为严重精神障碍患者:1是0否
     private Integer ifPsychopath;
+    private String ifPsychopathStr;
 
     // 是否为未成年人a:1是0否，未成年人为不满18周岁
     private Integer ifMinors;
+    private String ifMinorsStr;
 
     // 是否为青少年a:1是0否，青少年为已满6周岁不满25周岁
     private Integer ifTeenagers;
+    private String ifTeenagersStr;
 
     // 生效时间
 

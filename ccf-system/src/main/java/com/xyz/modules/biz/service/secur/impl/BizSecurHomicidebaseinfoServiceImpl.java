@@ -4,8 +4,11 @@ import com.xyz.exception.BadRequestException;
 import com.xyz.exception.EntityExistException;
 import com.xyz.modules.biz.service.secur.entity.BizSecurHomicidebaseinfo;
 import com.xyz.modules.biz.audit.AuditSpecification;
+import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
+import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
 import com.xyz.utils.*;
 import com.xyz.modules.biz.service.secur.repo.BizSecurHomicidebaseinfoRepository;
@@ -51,6 +54,10 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
     @Autowired
     private DictDetailService dictDetailService;
 
+    @Autowired
+    private UserRepository userRepository;
+
+
     @Override
     @Transactional
     public Object queryAll(BizSecurHomicidebaseinfoQueryCriteria criteria, Pageable pageable){
@@ -60,6 +67,11 @@ public class BizSecurHomicidebaseinfoServiceImpl implements BizSecurHomicidebase
         for (BizSecurHomicidebaseinfoDTO mid: bizSecurHomicidebaseinfoDTOList) {
             mid.setUnitCodeStr(deptRepository.findNameByCode(mid.getUnitCode())); // 单位编码,所属单位
             mid.setStatusCdStr(dictDetailService.transDict(DictEnum.SJZT.getDictId(),mid.getStatusCd()));//数据状态
+            mid.setCreator(userRepository.findById(Optional.ofNullable(mid.getCreator()).orElse("")).orElse(new User()).getUsername());
+            mid.setOperName(userRepository.findById(Optional.ofNullable(mid.getOperName()).orElse("")).orElse(new User()).getUsername());
+            mid.setStatusStr(ConstEnum.transSync(mid.getStatus()));
+
+
         }
         Map map = new HashMap();
         map.put("content", bizSecurHomicidebaseinfoDTOList);

@@ -85,9 +85,9 @@ public class PsychosisPersonController {
 
     @Log("查询PsychosisPerson")
     @ApiOperation(value = "验证身份证号码存在")
-    @GetMapping(value = "/PsychosisPerson/validateIdentityNum/{identityNum}")
+    @GetMapping(value = "/PsychosisPerson/validateIdentityNum/{id}&{identityNum}")
     @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
-    public ResponseEntity verifyCreditCode(@PathVariable String identityNum){
-        return new ResponseEntity(PsychosisPersonService.validateIdentityNum(identityNum),HttpStatus.OK);
+    public ResponseEntity verifyCreditCode(@PathVariable String id,@PathVariable String identityNum){
+        return new ResponseEntity(PsychosisPersonService.validateIdentityNum(id,identityNum),HttpStatus.OK);
     }
 }

@@ -82,9 +82,9 @@ public class FloatpeopleController {
 
     @Log("查询Floatpeople")
     @ApiOperation(value = "验证身份证号码存在")
-    @GetMapping(value = "/Floatpeople/validateIdentityNum/{identityNum}")
+    @GetMapping(value = "/Floatpeople/validateIdentityNum/{id}&{identityNum}")
     @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
-    public ResponseEntity verifyCreditCode(@PathVariable String identityNum){
-        return new ResponseEntity(FloatpeopleService.validateIdentityNum(identityNum),HttpStatus.OK);
+    public ResponseEntity verifyCreditCode(@PathVariable String id,@PathVariable String identityNum){
+        return new ResponseEntity(FloatpeopleService.validateIdentityNum(id,identityNum),HttpStatus.OK);
     }
 }

@@ -19,6 +19,7 @@ public class ManageleadresponsInfoDTO implements Serializable {
 
     // 被实施地区编码
     private String impledareaCode;
+    private String impledareaCodeStr;
 
     // 被实施地区
     private String impledareaName;

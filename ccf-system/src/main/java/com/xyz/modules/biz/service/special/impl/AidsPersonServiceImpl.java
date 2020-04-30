@@ -213,10 +213,16 @@ public class AidsPersonServiceImpl implements AidsPersonService {
     }
 
     @Override
-    public Boolean validateIdentityNum(String identityNum) {
-        String isNull = AidsPersonRepository.validateIdentityNum(identityNum);
-        log.info("********** 检验身份证号码是否存在  ======>"+isNull);
-        return isNull ==  null ? false :true;
+    public Boolean validateIdentityNum(String id,String identityNum) {
+        Long isNull = AidsPersonRepository.validateIdentityNum(identityNum);
+        if (isNull == 0) {
+            return false;
+        } else if (isNull == 1) {
+            isNull = AidsPersonRepository.validateIdentityNumById(id, identityNum);
+            return isNull == 1 ? false : true;
+        }else {
+            return true;
+        }
     }
 
 }
