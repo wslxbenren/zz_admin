@@ -42,7 +42,7 @@ public class MockTeen extends MockBase {
             teenagerBaseinfo.setEducationBg(getRandomDictValue(XUE_LI.getDictId()));
             teenagerBaseinfo.setFaithType(getRandomDictValue(ZJXY.getDictId()));
             teenagerBaseinfo.setVocationCode(getRandomDictValue(ZYLB.getDictId()));
-            teenagerBaseinfo.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            teenagerBaseinfo.setVocation(mockRandomZh_cn());
             teenagerBaseinfo.setServiceAddr(getRandomAddrDetail());
             teenagerBaseinfo.setContact(mockPhone());
             teenagerBaseinfo.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
@@ -61,7 +61,7 @@ public class MockTeen extends MockBase {
             teenagerBaseinfo.setHelpeName(mockNameCn(3));
             teenagerBaseinfo.setHelpeMobile(mockPhone());
             teenagerBaseinfo.setHelpeMethod(getRandomDictValue(BFSD.getDictId()));
-            teenagerBaseinfo.setHelpeComment(RandomStringUtils.random(33, 0x4e00, 0x9fa5, false,false));
+            teenagerBaseinfo.setHelpeComment(mockRandomZh_cn());
             teenagerBaseinfo.setEffDate(getTime());
             teenagerBaseinfo.setExpDate(getTime());
             teenagerBaseinfo.setStatus("1");
