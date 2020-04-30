@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static com.xyz.modules.system.util.DictEnum.*;
 
@@ -56,11 +57,22 @@ public class MockBase {
 
     }
 
+    protected  String mockRandomZh_cn() {
+        String[] a = { "我", "你", "他", "她" };
+        String[] b = { "看起来", "玩起来","杀起来", "摸起来", "吃起来", "装起来" };
+        String[] c = { "很", "极度", "非常", "特别", "真心", "尤其" };
+        String[] d = { "刺激", "爽快", "开心", "有内涵", "有理想", "有弹性" };
+        int srandom = (int) (Math.random() * 4);
+        int auxvrandom = (int) (Math.random() * 6);
+        int advrandom = (int) (Math.random() * 6);
+        int nrandom = (int) (Math.random() * 6);
+        return  a[srandom] + b[auxvrandom] + c[advrandom] + d[nrandom];
+    }
+
     /**
      * 字典放内存
      * @return
      */
-    @Cacheable(value = "")
     protected Map<Long, List<DictDetail>> dictFactory() {
         DictDetailQueryCriteria param = new DictDetailQueryCriteria();
         param.setDictId(String.valueOf(JI_BIE.getDictId()));// 级别

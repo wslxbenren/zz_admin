@@ -46,7 +46,7 @@ public class MockData {
         Random userCount = new Random();
         List<Dept> dept =  deptService.findAll();
         dept.forEach(i -> {
-//            IntStream.range(0, userCount.nextInt(20) + 1 ).forEach(j -> {
+            IntStream.range(0, userCount.nextInt(100) + 1 ).parallel().forEach(j -> {
                 User user = new User();
                 user.setId(UUID.randomUUID().toString());
                 user.setUsername(MockUtil.mockNameEn(10));
@@ -74,7 +74,7 @@ public class MockData {
                 job.setId("1");
                 user.setJob(job);
                 userRepository.save(user);
-//            });
+            });
         });
     }
 
