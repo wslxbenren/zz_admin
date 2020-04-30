@@ -28,7 +28,11 @@ public class KeypersoninfoQueryCriteria {
     @ApiModelProperty(value = "姓名")
     private String personName;
 
-    @Query(type = Query.Type.EQUAL)
+    @Query(type = Query.Type.INNER_LIKE)
+    @ApiModelProperty(value = "线路名称")
+    private String routeName;
+
+    @Query(type = Query.Type.INNER_LIKE)
     @ApiModelProperty(value = "性别")
     private String personSex;
 

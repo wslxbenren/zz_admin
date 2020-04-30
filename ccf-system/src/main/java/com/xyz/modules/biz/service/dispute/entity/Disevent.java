@@ -5,6 +5,7 @@ import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,6 +19,7 @@ import java.io.Serializable;
  */
 @Entity
 @Data
+@DynamicUpdate
 @Table(name="biz_dispute_disevent")
 public class Disevent implements Serializable {
 
@@ -123,7 +125,7 @@ public class Disevent implements Serializable {
 
     // 操作时间
     @Column(name = "oper_date")
-    @CreationTimestamp
+    @UpdateTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore
     private Timestamp operDate;
@@ -134,7 +136,7 @@ public class Disevent implements Serializable {
 
     // 创建时间
     @Column(name = "create_time",nullable = false)
-    @UpdateTimestamp
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonIgnore
     private Timestamp createTime;
