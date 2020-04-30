@@ -162,4 +162,17 @@ public class LeftbehindServiceImpl implements LeftbehindService {
             LeftbehindRepository.deleteById(leftId);
 
     }
+
+    @Override
+    public Boolean validateIdentityNum(String id, String identityNum) {
+        Long isNull = LeftbehindRepository.validateIdentityNum(identityNum);
+        if (isNull == 0) {
+            return false;
+        } else if (isNull == 1) {
+            isNull = LeftbehindRepository.validateIdentityNumById(id, identityNum);
+            return isNull == 1 ? false : true;
+        }else {
+            return true;
+        }
+    }
 }

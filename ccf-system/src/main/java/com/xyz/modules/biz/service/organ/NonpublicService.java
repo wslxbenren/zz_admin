@@ -63,5 +63,5 @@ public interface NonpublicService {
     //@CacheEvict(allEntries = true)
     void delete(String nonId);
 
-    Boolean verifyCreditCode(String creditCode);
+    Boolean verifyCreditCode(String id,String creditCode);
 }

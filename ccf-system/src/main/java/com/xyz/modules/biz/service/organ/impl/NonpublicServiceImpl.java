@@ -138,8 +138,15 @@ public class NonpublicServiceImpl implements NonpublicService {
     }
 
     @Override
-    public Boolean verifyCreditCode(String creditCode) {
-        String cc = NonpublicRepository.verifyCreditCode(creditCode);
-        return cc == null ? false : true;
+    public Boolean verifyCreditCode(String id,String creditCode) {
+        Long isNull = NonpublicRepository.verifyCreditCode(creditCode);
+        if (isNull == 0) {
+            return false;
+        } else if (isNull == 1) {
+            isNull = NonpublicRepository.verifyCreditCodeById(id, creditCode);
+            return isNull == 1 ? false : true;
+        }else {
+            return true;
+        }
     }
 }

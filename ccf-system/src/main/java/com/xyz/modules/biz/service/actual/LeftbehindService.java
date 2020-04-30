@@ -61,4 +61,6 @@ public interface LeftbehindService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String leftId);
+
+    Boolean validateIdentityNum(String id, String identityNum);
 }

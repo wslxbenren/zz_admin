@@ -61,9 +61,9 @@ public class NonpublicController {
 
     @Log("查询Nonpublic")
     @ApiOperation(value = "验证企业统一社会信用代码")
-    @GetMapping(value = "/Nonpublic/verifyCreditCode/{creditCode}")
+    @GetMapping(value = "/Nonpublic/verifyCreditCode/{id}&{creditCode}")
     @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
-    public ResponseEntity verifyCreditCode(@PathVariable String creditCode){
-          return new ResponseEntity(NonpublicService.verifyCreditCode(creditCode),HttpStatus.OK);
+    public ResponseEntity verifyCreditCode(@PathVariable String id,@PathVariable String creditCode){
+          return new ResponseEntity(NonpublicService.verifyCreditCode(id,creditCode),HttpStatus.OK);
     }
 }

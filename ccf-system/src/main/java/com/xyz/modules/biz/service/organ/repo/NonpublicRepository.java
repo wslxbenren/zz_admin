@@ -10,6 +10,9 @@ import org.springframework.data.jpa.repository.Query;
  * @date 2020-04-10
  */
 public interface NonpublicRepository extends JpaRepository<Nonpublic, String>, JpaSpecificationExecutor {
-    @Query(value = "SELECT t.credit_code FROM biz_organ_nonpublic t WHERE t.credit_code = ?1",nativeQuery = true)
-    String verifyCreditCode(String creditCode);
+    @Query(value = "SELECT count(1) FROM biz_organ_nonpublic t WHERE t.credit_code = ?1",nativeQuery = true)
+    Long verifyCreditCode(String creditCode);
+
+    @Query(value = "SELECT count(1) FROM biz_organ_nonpublic t WHERE t.non_id = ?1 and t.credit_code = ?2",nativeQuery = true)
+    Long verifyCreditCodeById(String id,String creditCode);
 }
