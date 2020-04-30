@@ -62,7 +62,7 @@ public class MockRoute extends MockBase {
             caseinfo.setConId(i.getConId());
             caseinfo.setRouteName("某线路" + atomicInteger.addAndGet(1));
             caseinfo.setCaseCode(getRandomCode(4));
-            caseinfo.setCaseNmae("案件" + atomicInteger.get());
+            caseinfo.setCaseName("案件" + atomicInteger.get());
             caseinfo.setCaseType(getRandomDictValue(DictEnum.AJLX.getDictId()));
             caseinfo.setHappenTime(getTime());
             caseinfo.setHappenAddrcode(getRandomDictValue(DictEnum.ADDRESS.getDictId()));
