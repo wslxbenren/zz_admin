@@ -1,5 +1,6 @@
 package com.xyz.biz.http.special;
 
+import antlr.collections.impl.IntRange;
 import com.xyz.biz.http.MockBase;
 import com.xyz.modules.biz.service.special.entity.*;
 import com.xyz.modules.biz.service.special.repo.*;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 import static com.xyz.modules.system.util.DictEnum.*;
 
@@ -52,8 +54,8 @@ public class MockSpecial extends MockBase {
 
     @Test
     public void genAidsPerson() {
-        AidsPerson aidsPerson = new AidsPerson();
-        userList.forEach(i -> {
+        userList.parallelStream().forEach(i -> {
+            AidsPerson aidsPerson = new AidsPerson();
             aidsPerson.setAidsId(UUID.randomUUID().toString());
             aidsPerson.setPersonName(mockNameCn(3));
             aidsPerson.setUsedName(mockNameCn(3));
@@ -66,21 +68,21 @@ public class MockSpecial extends MockBase {
             aidsPerson.setPartyFlag(getRandomDictValue(ZZMM.getDictId()));
             aidsPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             aidsPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
-            aidsPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            aidsPerson.setVocation(mockRandomZh_cn());
             aidsPerson.setServicePlace(getRandomAddrDetail());
             aidsPerson.setContact(mockPhone());
             aidsPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
             aidsPerson.setRegisteredAddress(getRandomAddrDetail());
             aidsPerson.setRoutesInfection(getRandomDictValue(GRTJ.getDictId()));
             aidsPerson.setIsPedigree(String.valueOf(RandomUtils.nextInt(0, 2)));
-            aidsPerson.setPedigreeComments(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "犯罪说明");
+            aidsPerson.setPedigreeComments(mockRandomZh_cn() + "犯罪说明");
             aidsPerson.setCaseType(getRandomDictValue(AJLX.getDictId()));
             aidsPerson.setTakeType(getRandomDictValue(GZLX.getDictId()));
             aidsPerson.setHelpComments(getRandomDictValue(BFQK.getDictId()));
             aidsPerson.setHelperName(mockNameCn(3));
             aidsPerson.setHelperAddress(getRandomAddrDetail());
             aidsPerson.setDetainType(getRandomDictValue(SZQK.getDictId()));
-            aidsPerson.setDetainUnion(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false)+ " 机构");
+            aidsPerson.setDetainUnion(mockRandomZh_cn() + " 机构");
             aidsPerson.setEffDate(getTime());
             aidsPerson.setExpDate(getTime());
             aidsPerson.setStatus("1");
@@ -101,8 +103,8 @@ public class MockSpecial extends MockBase {
 
     @Test
     public void genBegPerson() {
-        BegPerson begPerson = new BegPerson();
-        userList.forEach(i -> {
+        userList.parallelStream().forEach(i -> {
+            BegPerson begPerson = new BegPerson();
             begPerson.setBegId(UUID.randomUUID().toString());
             begPerson.setPersonName(mockNameCn(3));
             begPerson.setUsedName(mockNameCn(3));
@@ -115,7 +117,7 @@ public class MockSpecial extends MockBase {
             begPerson.setPartyFlag(getRandomDictValue(ZZMM.getDictId()));
             begPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             begPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
-            begPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            begPerson.setVocation(mockRandomZh_cn());
             begPerson.setServicePlace(getRandomAddrDetail());
             begPerson.setContact(mockPhone());
             begPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
@@ -125,22 +127,22 @@ public class MockSpecial extends MockBase {
             begPerson.setBelongType("none");
             begPerson.setLeftoverChild(String.valueOf(RandomUtils.nextInt(0, 2)));
             begPerson.setStudyComment("unkonw");
-            begPerson.setUnstudyReason(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            begPerson.setUnstudyReason(mockRandomZh_cn());
             begPerson.setIsEnsure(String.valueOf(RandomUtils.nextInt(0, 2)));
-            begPerson.setStopstudyReason(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setStopstudyOther(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            begPerson.setStopstudyReason(mockRandomZh_cn());
+            begPerson.setStopstudyOther(mockRandomZh_cn());
             begPerson.setIsPedigree(String.valueOf(RandomUtils.nextInt(0, 2)));
-            begPerson.setWorkComment(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setWorkOther(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            begPerson.setWorkComment(mockRandomZh_cn());
+            begPerson.setWorkOther(mockRandomZh_cn());
             begPerson.setBadBehaviour(String.valueOf(RandomUtils.nextInt(0, 2)));
-            begPerson.setBehaviourOther(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setUnworkReason(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setUnworkOther(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setGuardFlag(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setGuardReason(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setOtherComments(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setSourceIncome(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            begPerson.setSourceOther(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            begPerson.setBehaviourOther(mockRandomZh_cn());
+            begPerson.setUnworkReason(mockRandomZh_cn());
+            begPerson.setUnworkOther(mockRandomZh_cn());
+            begPerson.setGuardFlag(mockRandomZh_cn());
+            begPerson.setGuardReason(mockRandomZh_cn());
+            begPerson.setOtherComments(mockRandomZh_cn());
+            begPerson.setSourceIncome(mockRandomZh_cn());
+            begPerson.setSourceOther(mockRandomZh_cn());
             begPerson.setEffDate(getTime());
             begPerson.setExpDate(getTime());
             begPerson.setStatus("1");
@@ -156,8 +158,8 @@ public class MockSpecial extends MockBase {
 
     @Test
     public void genCorrectPerson() {
-        CorrectPerson correctPerson = new CorrectPerson();
-        userList.forEach(i -> {
+        userList.parallelStream().forEach(i -> {
+            CorrectPerson correctPerson = new CorrectPerson();
             correctPerson.setCorrectId(UUID.randomUUID().toString());
             correctPerson.setPersonName(mockNameCn(3));
             correctPerson.setUsedName(mockNameCn(3));
@@ -170,7 +172,7 @@ public class MockSpecial extends MockBase {
             correctPerson.setPartyFlag(getRandomDictValue(ZZMM.getDictId()));
             correctPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             correctPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
-            correctPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            correctPerson.setVocation(mockRandomZh_cn());
             correctPerson.setServicePlace(getRandomCode(4));
             correctPerson.setContact(mockPhone());
             correctPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
@@ -179,10 +181,10 @@ public class MockSpecial extends MockBase {
             correctPerson.setResidenceCode(getRandomDictValue(ADDRESS.getDictId()));
             correctPerson.setResidenceAddress(getRandomAddrDetail());
             correctPerson.setCorrectCode(getRandomCode(4));
-            correctPerson.setDetainUnion(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            correctPerson.setDetainUnion(mockRandomZh_cn());
             correctPerson.setCorrectType(getRandomDictValue(JZLX.getDictId()));
             correctPerson.setCaseType(getRandomDictValue(AJLX.getDictId()));
-            correctPerson.setChargeComments(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            correctPerson.setChargeComments(mockRandomZh_cn());
             correctPerson.setPrisonTerm(RandomUtils.nextInt(1, 10) + "年");
             correctPerson.setPrisonBeagindate(getTime());
             correctPerson.setPrisonEnddate(getTime());
@@ -196,17 +198,17 @@ public class MockSpecial extends MockBase {
             correctPerson.setTeamGuys(mockNameCn(3) + "/" + mockNameCn(3));
             correctPerson.setCorrectRemove("");
             correctPerson.setIsBreakmanage(String.valueOf(RandomUtils.nextInt(0, 2)));
-            correctPerson.setBreakmanageReason(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            correctPerson.setCheckComments(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            correctPerson.setBreakmanageCorrect(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            correctPerson.setBreakmanageReason(mockRandomZh_cn());
+            correctPerson.setCheckComments(mockRandomZh_cn());
+            correctPerson.setBreakmanageCorrect(mockRandomZh_cn());
             correctPerson.setIsOmit(String.valueOf(RandomUtils.nextInt(0, 2)));
-            correctPerson.setOmitReason(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            correctPerson.setCheckOmit(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            correctPerson.setOmitCorrect(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            correctPerson.setBonusPenalty(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
-            correctPerson.setPrisonChange(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            correctPerson.setOmitReason(mockRandomZh_cn());
+            correctPerson.setCheckOmit(mockRandomZh_cn());
+            correctPerson.setOmitCorrect(mockRandomZh_cn());
+            correctPerson.setBonusPenalty(mockRandomZh_cn());
+            correctPerson.setPrisonChange(mockRandomZh_cn());
             correctPerson.setIsAgain(String.valueOf(RandomUtils.nextInt(0, 2)));
-            correctPerson.setAgainCharge(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            correctPerson.setAgainCharge(mockRandomZh_cn());
             correctPerson.setEffDate(getTime());
             correctPerson.setExpDate(getTime());
             correctPerson.setStatus("1");
@@ -225,9 +227,8 @@ public class MockSpecial extends MockBase {
 
     @Test
     public void genDrugPerson() {
-        DrugPerson drugPerson = new DrugPerson();
-
-        userList.forEach(i -> {
+        userList.parallelStream().forEach(i -> {
+            DrugPerson drugPerson = new DrugPerson();
             drugPerson.setDrugId(UUID.randomUUID().toString());
             drugPerson.setPersonName(mockNameCn(3));
             drugPerson.setUsedName(mockNameCn(3));
@@ -240,7 +241,7 @@ public class MockSpecial extends MockBase {
             drugPerson.setPartyFlag(getRandomDictValue(ZZMM.getDictId()));
             drugPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             drugPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
-            drugPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            drugPerson.setVocation(mockRandomZh_cn());
             drugPerson.setServicePlace(getRandomAddrDetail());
             drugPerson.setContact(mockPhone());
             drugPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
@@ -250,13 +251,13 @@ public class MockSpecial extends MockBase {
             drugPerson.setResidenceAddress(getRandomAddrDetail());
             drugPerson.setFindDate(getTime());
             drugPerson.setManageType(getRandomDictValue(GKQK.getDictId()));
-            drugPerson.setManagerName(RandomStringUtils.random(4, 0x4e00, 0x9fa5, false,false));
+            drugPerson.setManagerName(mockNameCn(4));
             drugPerson.setManagerAddress(mockPhone());
             drugPerson.setHelpeComment(getRandomDictValue(BFQK.getDictId()));
             drugPerson.setHelperName(mockNameCn(3));
             drugPerson.setHelperAddress(mockPhone());
             drugPerson.setIsPedigree(String.valueOf(RandomUtils.nextInt(0, 2)));
-            drugPerson.setCrimeComment(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            drugPerson.setCrimeComment(mockRandomZh_cn());
             drugPerson.setDrugReason(getRandomDictValue(XDYY.getDictId()));
             drugPerson.setDrugResult(getRandomDictValue(XDHG.getDictId()));
             drugPerson.setEffDate(getTime());
@@ -277,8 +278,8 @@ public class MockSpecial extends MockBase {
 
     @Test
     public void genPsychosisPerson() {
-        PsychosisPerson psychosisPerson = new PsychosisPerson();
-        userList.forEach(i -> {
+        userList.parallelStream().forEach(i -> {
+            PsychosisPerson psychosisPerson = new PsychosisPerson();
             psychosisPerson.setPsychosisId(UUID.randomUUID().toString());
             psychosisPerson.setPersonName(mockNameCn(3));
             psychosisPerson.setUsedName(mockNameCn(3));
@@ -291,7 +292,7 @@ public class MockSpecial extends MockBase {
             psychosisPerson.setPartyFlag(getRandomDictValue(ZZMM.getDictId()));
             psychosisPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             psychosisPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
-            psychosisPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            psychosisPerson.setVocation(mockRandomZh_cn());
             psychosisPerson.setServicePlace(getRandomAddrDetail());
             psychosisPerson.setContact(mockPhone());
             psychosisPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
@@ -311,9 +312,9 @@ public class MockSpecial extends MockBase {
             psychosisPerson.setLastTrouble(getTime().toString());
             psychosisPerson.setRiskLevel(getRandomDictValue(MQWXXPGDJ.getDictId()));
             psychosisPerson.setTreatFlag(getRandomDictValue(ZLQK.getDictId()));
-            psychosisPerson.setReatHospital(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "医院");
+            psychosisPerson.setReatHospital(mockRandomZh_cn() + "医院");
             psychosisPerson.setInhospitalReason(getRandomDictValue(SSZYZLYY.getDictId()));
-            psychosisPerson.setReviceUnion(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "康复机构");
+            psychosisPerson.setReviceUnion(mockRandomZh_cn() + "康复机构");
             psychosisPerson.setJoinManager(getRandomDictValue(CYGLRY.getDictId()));
             psychosisPerson.setHelpeFlag(getRandomDictValue(BFQK.getDictId()));
             psychosisPerson.setEffDate(getTime());
@@ -334,8 +335,8 @@ public class MockSpecial extends MockBase {
 
     @Test
     public void genReleasedPerson() {
-        ReleasedPerson releasedPerson = new ReleasedPerson();
-        userList.forEach(i -> {
+        userList.parallelStream().forEach(i -> {
+            ReleasedPerson releasedPerson = new ReleasedPerson();
             releasedPerson.setReleasedId(UUID.randomUUID().toString());
             releasedPerson.setPersonName(mockNameCn(3));
             releasedPerson.setUsedName(mockNameCn(3));
@@ -348,7 +349,7 @@ public class MockSpecial extends MockBase {
             releasedPerson.setPartyFlag(getRandomDictValue(ZZMM.getDictId()));
             releasedPerson.setEduLevel(getRandomDictValue(XUE_LI.getDictId()));
             releasedPerson.setFaithType(getRandomDictValue(ZJXY.getDictId()));
-            releasedPerson.setVocation(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "职业");
+            releasedPerson.setVocation(mockRandomZh_cn() + "职业");
             releasedPerson.setServicePlace(getRandomCode(4));
             releasedPerson.setContact(mockPhone());
             releasedPerson.setRegisteredPlace(getRandomDictValue(ADDRESS.getDictId()));
@@ -357,16 +358,16 @@ public class MockSpecial extends MockBase {
             releasedPerson.setResidenceCode(getRandomDictValue(ADDRESS.getDictId()));
             releasedPerson.setResidenceAddress(getRandomAddrDetail());
             releasedPerson.setIsPedigree(String.valueOf(RandomUtils.nextInt(0, 2)));
-            releasedPerson.setChargeComments(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            releasedPerson.setChargeComments(mockRandomZh_cn());
             releasedPerson.setPrisonTerm(RandomUtils.nextInt(1, 100) + "年");
-            releasedPerson.setDetainUnion(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false) + "刑场");
+            releasedPerson.setDetainUnion(mockRandomZh_cn() + "刑场");
             releasedPerson.setPrisonEnddate(getTime());
             releasedPerson.setRiskType(getRandomDictValue(WXXPGLX.getDictId()));
             releasedPerson.setJoinDate(getTime());
             releasedPerson.setJoinFlag(getRandomDictValue(XJQK.getDictId()));
             releasedPerson.setArrangeDate(getTime());
             releasedPerson.setArrangeFlag(getRandomDictValue(AZQK.getDictId()));
-            releasedPerson.setUnarrangeReason(RandomStringUtils.random(5, 0x4e00, 0x9fa5, false,false));
+            releasedPerson.setUnarrangeReason(mockRandomZh_cn());
             releasedPerson.setHelpeComment(getRandomDictValue(BFQK.getDictId()));
             releasedPerson.setIsAgain(String.valueOf(RandomUtils.nextInt(0, 2)));
             releasedPerson.setAgainCharge(getRandomDictValue(AJLX.getDictId()) + "案");

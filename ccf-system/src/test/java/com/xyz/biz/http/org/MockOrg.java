@@ -99,17 +99,17 @@ public class MockOrg extends MockBase {
      * 重大事件
      */
     public void genMajorcaseInfo() {
-        MajorcaseInfo majorcaseInfo = new MajorcaseInfo();
         userList.forEach(i -> {
+            MajorcaseInfo majorcaseInfo = new MajorcaseInfo();
             majorcaseInfo.setId(UUID.randomUUID().toString());
             majorcaseInfo.setCaseCode(getRandomCode(4));
-            majorcaseInfo.setCaseName(RandomStringUtils.random(20, 0x4e00, 0x9fa5, false,false) + "案件");
+            majorcaseInfo.setCaseName(mockRandomZh_cn() + "案件");
             majorcaseInfo.setOccurDate(getTime());
             majorcaseInfo.setOccurAddr(getRandomDictValue(ADDRESS.getDictId()));
             majorcaseInfo.setOccurAddrdetail(getRandomAddrDetail());
             majorcaseInfo.setCaseGrage(getRandomDictValue(AJFJ.getDictId()));
             majorcaseInfo.setCaseType(getRandomDictValue(AJLX.getDictId()));
-            majorcaseInfo.setCaseInfo(RandomStringUtils.random(20, 0x4e00, 0x9fa5, false,false));
+            majorcaseInfo.setCaseInfo(mockRandomZh_cn());
             majorcaseInfo.setCreator(i.getId());
             majorcaseInfo.setCreateTime(getTime());
             majorcaseInfo.setModifier(i.getId());
@@ -128,11 +128,11 @@ public class MockOrg extends MockBase {
      * 综治中心
      */
     public void genMajorcenterInfo() {
-        ManagecenterInfo managecenterInfo = new ManagecenterInfo();
         userList.forEach(i -> {
+            ManagecenterInfo managecenterInfo = new ManagecenterInfo();
             managecenterInfo.setId(UUID.randomUUID().toString());
             managecenterInfo.setCenterCode(getRandomCode(4));
-            managecenterInfo.setCenterName(RandomStringUtils.random(2, 0x4e00, 0x9fa5, false,false) + "中心");
+            managecenterInfo.setCenterName(mockRandomZh_cn() + "中心");
             managecenterInfo.setCenterMobile(mockPhone());
             managecenterInfo.setGrage(getRandomDictValue(JGCJ.getDictId()));
             managecenterInfo.setUsername(mockNameCn(3));
@@ -156,8 +156,8 @@ public class MockOrg extends MockBase {
      * 领导责任制
      */
     public void ManageleadreponsInfo() {
-        ManageleadresponsInfo manageleadresponsInfo = new ManageleadresponsInfo();
         userList.forEach(i -> {
+            ManageleadresponsInfo manageleadresponsInfo = new ManageleadresponsInfo();
             manageleadresponsInfo.setId(UUID.randomUUID().toString());
             manageleadresponsInfo.setImpledareaCode(getRandomCode(4));
             manageleadresponsInfo.setImpledareaName(mockNameCn(3));
