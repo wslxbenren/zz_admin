@@ -154,4 +154,17 @@ public class BizTeenagerBaseinfoServiceImpl implements BizTeenagerBaseinfoServic
         }
         bizTeenagerBaseinfoRepository.deleteById(teenId);
     }
+
+    @Override
+    public Boolean validateIdentityNum(String id,String identityNum) {
+        Long isNull = bizTeenagerBaseinfoRepository.validateIdentityNum(identityNum);
+        if (isNull == 0) {
+            return false;
+        } else if (isNull == 1) {
+            isNull = bizTeenagerBaseinfoRepository.validateIdentityNumById(id, identityNum);
+            return isNull == 1 ? false : true;
+        }else {
+            return true;
+        }
+    }
 }

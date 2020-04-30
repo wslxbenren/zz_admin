@@ -82,4 +82,12 @@ public class CorrectPersonController {
         CorrectPersonService.delete(correctId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Log("查询CorrectPerson")
+    @ApiOperation(value = "验证身份证号码存在")
+    @GetMapping(value = "/correctPerson/validateIdentityNum/{id}&{identityNum}")
+    @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
+    public ResponseEntity verifyCreditCode(@PathVariable String id,@PathVariable String identityNum) {
+        return new ResponseEntity(CorrectPersonService.validateIdentityNum(id,identityNum), HttpStatus.OK);
+    }
 }

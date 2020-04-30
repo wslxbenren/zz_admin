@@ -165,4 +165,17 @@ public class CorrectPersonServiceImpl implements CorrectPersonService {
         log.info(" 删除 CorrectPerson ");
         CorrectPersonRepository.deleteById(correctId);
     }
+
+    @Override
+    public Boolean validateIdentityNum(String id,String identityNum) {
+        Long isNull = CorrectPersonRepository.validateIdentityNum(identityNum);
+        if (isNull == 0) {
+            return false;
+        } else if (isNull == 1) {
+            isNull = CorrectPersonRepository.validateIdentityNumById(id, identityNum);
+            return isNull == 1 ? false : true;
+        }else {
+            return true;
+        }
+    }
 }

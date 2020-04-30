@@ -147,4 +147,7 @@ public class Caseinfo implements Serializable {
     public void copy(Caseinfo source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
+
+    public void setCaseNmae(String s) {
+    }
 }

@@ -81,4 +81,12 @@ public class BizTeenagerBaseinfoController {
         bizTeenagerBaseinfoService.delete(teenId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Log("查询BizTeenagerBaseinfo")
+    @ApiOperation(value = "验证身份证号码存在")
+    @GetMapping(value = "/bizTeenagerBaseinfo/validateIdentityNum/{id}&{identityNum}")
+    @PreAuthorize("hasAnyRole('ADMIN','NONPUBLIC_ALL','NONPUBLIC_SELECT')")
+    public ResponseEntity verifyCreditCode(@PathVariable String id,@PathVariable String identityNum) {
+        return new ResponseEntity(bizTeenagerBaseinfoService.validateIdentityNum(id,identityNum), HttpStatus.OK);
+    }
 }

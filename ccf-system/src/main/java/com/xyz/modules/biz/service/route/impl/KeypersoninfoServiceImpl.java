@@ -4,6 +4,7 @@ import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.biz.service.route.entity.Keypersoninfo;
 import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
+import com.xyz.modules.system.repository.UserRepository;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.service.dto.UserDTO;
 import com.xyz.modules.system.util.DictEnum;
@@ -50,6 +51,9 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public Object queryAll(KeypersoninfoQueryCriteria criteria, Pageable pageable){
@@ -73,6 +77,9 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
             dto.setResidenceStr(dictDetailService.transDict(DictEnum.ADDRESS.getDictId(),dto.getResidence()));//现住地
             dto.setHazardLevelStr(dictDetailService.transDict(DictEnum.WXCD.getDictId(),dto.getHazardLevel()));//危害程度
             dto.setUnitCodeStr(deptRepository.findNameByCode(dto.getUnitCode()));//所属单位
+            dto.setCreator(userRepository.findById(Optional.ofNullable(dto.getCreator()).orElse("")).orElse(new User()).getUsername());
+            dto.setOperName(userRepository.findById(Optional.ofNullable(dto.getOperName()).orElse("")).orElse(new User()).getUsername());
+
         }
 
 
@@ -106,7 +113,7 @@ public class KeypersoninfoServiceImpl implements KeypersoninfoService {
         Optional<Keypersoninfo> optionalKeypersoninfo = KeypersoninfoRepository.findById(resources.getKeyId());
         ValidationUtil.isNull( optionalKeypersoninfo,"Keypersoninfo","id",resources.getKeyId());
         Keypersoninfo Keypersoninfo = optionalKeypersoninfo.get();
-        resources.setCreator(SecurityUtils.getUsername());
+        //resources.setCreator(SecurityUtils.getUsername());
         Keypersoninfo.copy(resources);
         KeypersoninfoRepository.save(Keypersoninfo);
     }

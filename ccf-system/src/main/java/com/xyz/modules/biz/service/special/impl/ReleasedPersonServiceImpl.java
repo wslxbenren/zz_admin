@@ -148,4 +148,17 @@ public class ReleasedPersonServiceImpl implements ReleasedPersonService {
         log.debug("********** 删除 ReleasedPerson   **********");
         ReleasedPersonRepository.deleteById(releasedId);
     }
+
+    @Override
+    public Boolean validateIdentityNum(String id,String identityNum) {
+        Long isNull = ReleasedPersonRepository.validateIdentityNum(identityNum);
+        if (isNull == 0) {
+            return false;
+        } else if (isNull == 1) {
+            isNull = ReleasedPersonRepository.validateIdentityNumById(id, identityNum);
+            return isNull == 1 ? false : true;
+        }else {
+            return true;
+        }
+    }
 }

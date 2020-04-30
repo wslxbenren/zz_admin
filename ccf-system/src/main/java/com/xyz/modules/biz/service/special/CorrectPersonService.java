@@ -61,4 +61,6 @@ public interface CorrectPersonService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String correctId);
+
+    Boolean validateIdentityNum(String id, String identityNum);
 }
