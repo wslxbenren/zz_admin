@@ -742,7 +742,7 @@ CREATE TABLE `dept` (
                         `insti_type` varchar(2) DEFAULT NULL COMMENT '机构类型，字典',
                         `organ_type` varchar(2) DEFAULT NULL COMMENT '组织类型，字典',
                         `guide_unit` varchar(200) DEFAULT NULL COMMENT '业务指导部门',
-                        `function` varchar(1024) DEFAULT NULL COMMENT '主要职能说明',
+                        `functions` varchar(1024) DEFAULT NULL COMMENT '主要职能说明',
                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='机构单位表';
 
