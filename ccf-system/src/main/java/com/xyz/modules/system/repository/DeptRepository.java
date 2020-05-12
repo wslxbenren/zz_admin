@@ -35,4 +35,11 @@ public interface DeptRepository extends JpaRepository<Dept, String>, JpaSpecific
 
     @Query(value = "select grage from dept where code = ?1", nativeQuery = true)
     String getGradeByCode(String code);
+
+
+    @Query(value = "select code from dept where id = ?1", nativeQuery = true)
+    String findCodeById(String id);
+
+    @Query(value = "select grage from dept where id = ?1", nativeQuery = true)
+    Integer findGrageById(String id);
 }
