@@ -36,7 +36,6 @@ public class BuildheadInfoController {
     private DeptService deptService;
 
 
-
     @Log("查询列表BuildheadInfo")
     @ApiOperation(value = "查询BuildheadInfo")
     @GetMapping(value = "/BuildheadInfo")

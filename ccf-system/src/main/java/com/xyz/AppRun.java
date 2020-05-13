@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.io.File;
+
 /**
  * @author Zheng Jie
  * @date 2018/11/15 9:20:19
@@ -20,6 +22,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class AppRun {
     public static void main(String[] args) {
         SpringApplication.run(AppRun.class, args);
+
+        System.setProperty("java.io.tmpdir", System.getProperty("java.io.tmpdir") + File.separator);
     }
     @Bean
     public SpringContextHolder springContextHolder() {

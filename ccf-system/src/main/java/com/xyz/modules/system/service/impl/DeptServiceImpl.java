@@ -210,16 +210,11 @@ public class DeptServiceImpl implements DeptService {
     @Override
     @Transactional
     public List<String> getDownGradeDeptCodes(String code) {
-        String res = deptRepository.getDeptDownGradeCodes(code);
-        if(res.length() > 2) {
-            String tmp = res.substring(0, res.length() - 2);
-            return CollectionUtils.arrayToList(tmp.split(","));
-        }
-        return Collections.emptyList();
+        return Optional.ofNullable(deptRepository.getDeptDownGradeCodes(code)).orElse(new ArrayList<>());
     }
 
     @Override
     public String getGradeByCode(String code) {
-        return deptRepository.getDeptDownGradeCodes(code);
+        return deptRepository.getGradeByCode(code);
     }
 }

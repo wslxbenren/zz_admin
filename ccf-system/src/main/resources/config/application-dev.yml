@@ -3,8 +3,8 @@ spring:
   datasource:
     druid:
       type: com.alibaba.druid.pool.DruidDataSource
-      driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      url: jdbc:log4jdbc:mysql://39.104.27.65:3306/compre_control?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useOldAliasMetadataBehavior=true&useSSL=false
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://39.104.27.65:3306/test?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useOldAliasMetadataBehavior=true&useSSL=false
       username: root
       password: "l!vWT#mL93"
       # 初始化配置
@@ -44,9 +44,9 @@ spring:
   #数据库索引
   redis:
     database: 0
-    host: 127.0.0.1
+    host: 39.104.27.65
     port: 6379
-    password:
+    password: ccf@2020
     #连接超时时间
     timeout: 1000
     jedis:
