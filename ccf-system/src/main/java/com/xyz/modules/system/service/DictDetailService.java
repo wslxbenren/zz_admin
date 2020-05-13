@@ -91,6 +91,12 @@ public interface DictDetailService {
      */
     List<DictDetail> queryAll(DictDetailQueryCriteria criteria);
 
+    /**
+     * 向上递归查询父字典名称（翻译）
+     * @param dictTypeId
+     * @param dictDetailValue
+     * @return
+     */
     String transMultistage(long dictTypeId, String dictDetailValue);
 
     String getLabelByValues(long dictId,   String[]  joinManager);

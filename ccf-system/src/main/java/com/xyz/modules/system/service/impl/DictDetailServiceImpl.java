@@ -94,7 +94,7 @@ public class DictDetailServiceImpl implements DictDetailService {
 
     @Override
     public String transMultistage(long dictTypeId, String dictDetailValue) {
-        return dictDetailRepository.getAddrParentList(dictTypeId, dictDetailValue);
+        return dictDetailRepository.getAddrParentStr(dictTypeId, dictDetailValue);
     }
 
     @Override

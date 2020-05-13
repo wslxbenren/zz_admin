@@ -39,8 +39,20 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, Long>, J
             "a.id = b.dict_id and a.id = ?1 and b.value = ?2 " , nativeQuery = true)
     String transDict(long dictTypeId, String value);
 
-    @Query(value = "select getAddrParentList(?1, ?2)", nativeQuery = true)
-    String getAddrParentList(long dictTypeId, String value);
+    /**
+     * 向上递归查询
+     * @param dictTypeId 字典类型id
+     * @param value 字典值
+     * @return
+     */
+    @Query(value = "with recursive dept_cte as\n" +
+            "    (\n" +
+            "       select a.label, a.pid from dict_detail a where a.value = ?2 and a.dict_id = ?1\n" +
+            "       UNION ALL\n" +
+            "       select b.label, b.pid from dict_detail b inner join dept_cte dcte on b.id = dcte.pid\n" +
+            "    )\n" +
+            "select group_concat(label order by pid separator '/' ) from dept_cte;", nativeQuery = true)
+    String getAddrParentStr(long dictTypeId, String value);
 
     @Query(value = "SELECT GROUP_CONCAT(d.label ) AS labels  FROM dict_detail  d WHERE dict_id = ?1 AND d.value  in(?2) ", nativeQuery = true)
     String getLabelByValues(long dictId, List<String> joinManager);
