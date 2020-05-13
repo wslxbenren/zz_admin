@@ -64,6 +64,7 @@ public class DeptServiceImpl implements DeptService {
         for (DeptDTO f : deptDTOList) {
             f.setInstiTypeStr(dictDetailService.transDict(DictEnum.JGLX.getDictId(), f.getInstiType()));// 机构类型
             f.setOrganTypeStr(dictDetailService.transDict(DictEnum.SHZZLX.getDictId(), f.getOrganType()));// 组织类型
+            f.setUnitGrageStr(dictDetailService.transDict(DictEnum.JGCJ.getDictId(), f.getUnitGrage()));// 机构层级
             f.setGuideUnit(deptRepository.findNameByCode(f.getGuideUnit()));//所属单位
         }
         return deptDTOList;
@@ -149,6 +150,11 @@ public class DeptServiceImpl implements DeptService {
         Dept dept = optionalDept.get();
         resources.setId(dept.getId());
         resources.setModifier(SecurityUtils.getUsername());
+        resources.setParentId(resources.getPid());
+        resources.setDepAbb(resources.getName());
+        resources.setParentCode(deptRepository.findCodeById(resources.getPid()));
+        Integer grage=deptRepository.findGrageById(resources.getPid());
+        resources.setGrage(String.valueOf(grage+1));
         deptRepository.save(resources);
     }
 

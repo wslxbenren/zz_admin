@@ -65,7 +65,9 @@ public class DeptDTO implements Serializable {
     private String organTypeStr;
 
 
-    private String guideUnit;
-    private String functions;
+    private String guideUnit;//指导部门
+    private String functions;//职能描述
+    private String unitGrage;//机构层级/组织层级
+    private String unitGrageStr;//机构层级/组织层级
 
 }
