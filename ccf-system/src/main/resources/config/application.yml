@@ -11,6 +11,13 @@ spring:
     redis:
       repositories:
         enabled: false
+    mongodb:
+      host: 39.104.83.246
+      port: 27017
+      database: zz_history
+      username: admin
+      password: ccf@2020
+      authentication-database: admin
   #配置 Jpa
   jpa:
     properties:
