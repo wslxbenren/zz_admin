@@ -66,9 +66,9 @@ public class VerifyCodeUtils{
         Graphics2D g2 = image.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         Color[] colors = new Color[5];
-        Color[] colorSpaces = new Color[] { Color.WHITE, Color.CYAN,
-                Color.GRAY, Color.LIGHT_GRAY, Color.MAGENTA, Color.ORANGE,
-                Color.PINK, Color.YELLOW };
+        Color[] colorSpaces = new Color[] { Color.BLACK, Color.BLACK,
+                Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                Color.BLACK, Color.BLACK };
         float[] fractions = new float[colors.length];
         for(int i = 0; i < colors.length; i++){
             colors[i] = colorSpaces[rand.nextInt(colorSpaces.length)];
@@ -76,7 +76,7 @@ public class VerifyCodeUtils{
         }
         Arrays.sort(fractions);
 
-        g2.setColor(Color.GRAY);// 设置边框色
+        g2.setColor(Color.BLACK);// 设置边框色
         g2.fillRect(0, 0, w, h);
 
         Color c = getRandColor(200, 250);
@@ -106,10 +106,11 @@ public class VerifyCodeUtils{
 
         shear(g2, w, h, c);// 使图片扭曲
 
-        g2.setColor(getRandColor(100, 160));
+        g2.setColor(Color.BLACK);
         int fontSize = h-4;
         Font font = new Font("Algerian", Font.ITALIC, fontSize);
-        g2.setFont(font);
+        font.deriveFont(600);
+         g2.setFont(font);
         char[] chars = code.toCharArray();
         for(int i = 0; i < verifySize; i++){
             AffineTransform affine = new AffineTransform();
