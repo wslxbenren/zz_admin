@@ -1,11 +1,14 @@
 package com.xyz.modules.biz.service.actual.impl;
 
 import com.xyz.exception.BadRequestException;
+import com.xyz.modules.biz.audit.mongo.ModifyRecords;
+import com.xyz.modules.biz.audit.mongo.service.ModifyRecordsRepo;
 import com.xyz.modules.biz.service.actual.entity.Foreigners;
 import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
+import com.xyz.modules.system.service.CompareFieldsService;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import cn.hutool.core.util.IdUtil;
@@ -28,9 +32,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
-* @author xjh
-* @date 2020-04-08
-*/
+ * @author xjh
+ * @date 2020-04-08
+ */
 @Service
 @Slf4j
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -54,21 +58,30 @@ public class ForeignersServiceImpl implements ForeignersService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ModifyRecordsRepo recordsRepo;
+
+    @Autowired
+    private CompareFieldsService compareFieldsService;
+
+
     @Override
     @Transactional
-    public Object queryAll(ForeignersQueryCriteria criteria, Pageable pageable){
+    public Object queryAll(ForeignersQueryCriteria criteria, Pageable pageable) {
         log.info("查询列表实有人口/境外人员信息--开始");
         if (StringUtils.isNotBlank(criteria.getResidence())) {
             String addrPrefix = ConstEnum.genAddrPrefix(criteria.getResidence());
-            if(addrPrefix.length() != 6) {
+            if (addrPrefix.length() != 6) {
                 criteria.setResidenceWithDownGrade(dictDetailService.addrWithDownGrade(addrPrefix, DictEnum.ADDRESS.getDictId()));
             } else {
-                criteria.setResidenceWithDownGrade(new ArrayList<String>() {{ add(addrPrefix); }});
+                criteria.setResidenceWithDownGrade(new ArrayList<String>() {{
+                    add(addrPrefix);
+                }});
             }
         }
-        Page<Foreigners> page = ForeignersRepository.findAll(audit.genSpecification(criteria),pageable);
+        Page<Foreigners> page = ForeignersRepository.findAll(audit.genSpecification(criteria), pageable);
         List<ForeignersDTO> foreignersList = ForeignersMapper.toDto(page.getContent());
-        for (ForeignersDTO mid: foreignersList) {
+        for (ForeignersDTO mid : foreignersList) {
             mid.setLastnameStr(dictDetailService.transDict(DictEnum.JGCJ.getDictId(), mid.getLastname())); // 外文姓
             mid.setPersonSexStr(dictDetailService.transDict(DictEnum.XING_BIE.getDictId(), mid.getPersonSex())); //性别
             mid.setCountryStr(dictDetailService.transDict(DictEnum.GJ_DQ.getDictId(), mid.getCountry())); // 国籍
@@ -88,25 +101,25 @@ public class ForeignersServiceImpl implements ForeignersService {
         Map map = new HashMap();
         map.put("content", foreignersList);
         map.put("totalElements", page.getTotalElements());
-        map.put("totalPages",page.getTotalPages());
+        map.put("totalPages", page.getTotalPages());
         return map;
     }
 
     @Override
     @Transactional
-    public Object queryAll(ForeignersQueryCriteria criteria){
+    public Object queryAll(ForeignersQueryCriteria criteria) {
         return ForeignersMapper.toDto(ForeignersRepository.findAll(audit.genSpecification(criteria)));
     }
 
     @Override
     public ForeignersDTO findById(String foreId) {
-            log.info("查询详情实有人口/境外人员信息--开始");
-            if (StringUtils.isBlank(foreId)){
-                throw new BadRequestException("主键ID不能为空");
-            }
-            Optional<Foreigners> Foreigners = ForeignersRepository.findById(foreId);
-            ValidationUtil.isNull(Foreigners, "Foreigners", "foreId", foreId);
-            return ForeignersMapper.toDto(Foreigners.get());
+        log.info("查询详情实有人口/境外人员信息--开始");
+        if (StringUtils.isBlank(foreId)) {
+            throw new BadRequestException("主键ID不能为空");
+        }
+        Optional<Foreigners> Foreigners = ForeignersRepository.findById(foreId);
+        ValidationUtil.isNull(Foreigners, "Foreigners", "foreId", foreId);
+        return ForeignersMapper.toDto(Foreigners.get());
 
     }
 
@@ -121,26 +134,46 @@ public class ForeignersServiceImpl implements ForeignersService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Foreigners resources) {
-            log.info("修改实有人口/境外人员信息--开始");
-            if (StringUtils.isBlank(resources.getForeId())){
-                throw new BadRequestException("主键ID不能为空");
-            }
-            Optional<Foreigners> optionalForeigners = ForeignersRepository.findById(resources.getForeId());
-            ValidationUtil.isNull(optionalForeigners, "Foreigners", "id", resources.getForeId());
-            Foreigners Foreigners = optionalForeigners.get();
-            Foreigners.copy(resources);
-            ForeignersRepository.save(Foreigners);
+        log.info("修改实有人口/境外人员信息--开始");
+        if (StringUtils.isBlank(resources.getForeId())) {
+            throw new BadRequestException("主键ID不能为空");
+        }
+        Optional<Foreigners> optionalForeigners = ForeignersRepository.findById(resources.getForeId());
+        ValidationUtil.isNull(optionalForeigners, "Foreigners", "id", resources.getForeId());
+        Foreigners Foreigners = optionalForeigners.get();
+
+        ModifyRecords modifyRecords = new ModifyRecords();
+        modifyRecords.setModifyContent(compareFieldsService.
+                compareModifyRecords(Foreigners, resources, new String[]{"foreId", "effDate", "expDate", "operDate", "createTime"}));
+        modifyRecords.setEntityId(Foreigners.getForeId());
+        modifyRecords.setId(IdUtil.simpleUUID());
+        modifyRecords.setOperName(resources.getOperName());
+        modifyRecords.setOperTime(LocalDateTime.now());
+        modifyRecords.setDeptName(deptRepository.findNameByCode(resources.getUnitCode()));
+        modifyRecords.setCreateTime(Foreigners.getCreateTime().toLocalDateTime());
+        modifyRecords.setCreator(Foreigners.getCreator());
+        recordsRepo.save(modifyRecords);
+
+        Foreigners.copy(resources);
+        ForeignersRepository.save(Foreigners);
+
 
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String foreId) {
-            log.info("删除实有人口/境外人员信息--开始");
-            if (StringUtils.isBlank(foreId)){
-                throw new BadRequestException("主键ID不能为空");
-            }
-            ForeignersRepository.deleteById(foreId);
+        log.info("删除实有人口/境外人员信息--开始");
+        if (StringUtils.isBlank(foreId)) {
+            throw new BadRequestException("主键ID不能为空");
+        }
+        ForeignersRepository.deleteById(foreId);
 
+    }
+
+    @Override
+    public List<ModifyRecords> findModifyRecordsById(String floatId) {
+        List<ModifyRecords> records = recordsRepo.findAllByEntityId(floatId);
+        return records;
     }
 }

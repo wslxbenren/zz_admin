@@ -1,5 +1,6 @@
 package com.xyz.modules.biz.service.actual;
 
+import com.xyz.modules.biz.audit.mongo.ModifyRecords;
 import com.xyz.modules.biz.service.actual.entity.Foreigners;
 import com.xyz.modules.biz.service.actual.dto.ForeignersDTO;
 import com.xyz.modules.biz.service.actual.qo.ForeignersQueryCriteria;
@@ -7,6 +8,8 @@ import com.xyz.modules.biz.service.actual.qo.ForeignersQueryCriteria;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
 * @author dadovicn
@@ -61,4 +64,6 @@ public interface ForeignersService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String foreId);
+
+     List<ModifyRecords> findModifyRecordsById(String foreId)  ;
 }

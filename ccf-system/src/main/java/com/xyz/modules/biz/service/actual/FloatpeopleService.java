@@ -1,5 +1,6 @@
 package com.xyz.modules.biz.service.actual;
 
+import com.xyz.modules.biz.audit.mongo.ModifyRecords;
 import com.xyz.modules.biz.service.actual.entity.Floatpeople;
 import com.xyz.modules.biz.service.actual.dto.FloatpeopleDTO;
 import com.xyz.modules.biz.service.actual.qo.FloatpeopleQueryCriteria;
@@ -7,6 +8,9 @@ import com.xyz.modules.biz.service.actual.qo.FloatpeopleQueryCriteria;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
 * @author lx
@@ -39,6 +43,9 @@ public interface FloatpeopleService {
      */
     //@Cacheable(key = "#p0")
     FloatpeopleDTO findById(String floatId);
+
+
+    List<ModifyRecords> findModifyRecordsById(String floatId);
 
     /**
      * create

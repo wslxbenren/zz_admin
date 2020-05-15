@@ -59,4 +59,7 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, Long>, J
 
     @Query(value = "select value from dict_detail where dict_id = ?2 and value like CONCAT(?1,'%') ", nativeQuery = true)
     List<String> addrWithDownGrade(String prefix, long dictTypeId);
+
+    @Query(value = "select label from dict_detail where dict_id = ?1 and value =?2 ", nativeQuery = true)
+    String findByDictIdAndValue(long dictId, Object values);
 }

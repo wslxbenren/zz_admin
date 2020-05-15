@@ -4,6 +4,8 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
+import com.xyz.modules.biz.audit.mongo.ModifyRecords;
+import com.xyz.modules.biz.audit.mongo.service.ModifyRecordsRepo;
 import com.xyz.modules.biz.service.actual.entity.Rentalhouse;
 import com.xyz.modules.biz.service.actual.repo.RentalhouseRepository;
 import com.xyz.modules.biz.service.actual.RentalhouseService;
@@ -14,6 +16,7 @@ import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
+import com.xyz.modules.system.service.CompareFieldsService;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -54,6 +58,13 @@ public class RentalhouseServiceImpl implements RentalhouseService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ModifyRecordsRepo recordsRepo;
+
+    @Autowired
+    private CompareFieldsService compareFieldsService;
+
 
     @Override
     @Transactional
@@ -125,6 +136,19 @@ public class RentalhouseServiceImpl implements RentalhouseService {
         Optional<Rentalhouse> optionalRentalhouse = RentalhouseRepository.findById(resources.getRentId());
         ValidationUtil.isNull( optionalRentalhouse,"Rentalhouse","id",resources.getRentId());
         Rentalhouse Rentalhouse = optionalRentalhouse.get();
+
+        ModifyRecords modifyRecords = new ModifyRecords();
+        modifyRecords.setModifyContent(compareFieldsService.
+                compareModifyRecords(Rentalhouse, resources, new String[]{"rentId","effDate","expDate","operDate","createTime"}));
+        modifyRecords.setEntityId(Rentalhouse.getRentId());
+        modifyRecords.setId(IdUtil.simpleUUID());
+        modifyRecords.setOperName(resources.getOperName());
+        modifyRecords.setOperTime(LocalDateTime.now());
+        modifyRecords.setDeptName(deptRepository.findNameByCode(resources.getUnitCode()));
+        modifyRecords.setCreateTime(resources.getCreateTime().toLocalDateTime());
+        modifyRecords.setCreator(resources.getCreator());
+        recordsRepo.save(modifyRecords);
+
         Rentalhouse.copy(resources);
         RentalhouseRepository.save(Rentalhouse);
     }
@@ -134,5 +158,11 @@ public class RentalhouseServiceImpl implements RentalhouseService {
     public void delete(String rentId) {
         log.info("**********  删除 Rentalhouse  **********");
         RentalhouseRepository.deleteById(rentId);
+    }
+
+    @Override
+    public List<ModifyRecords> findModifyRecordsById(String rentId) {
+        List<ModifyRecords> records = recordsRepo.findAllByEntityId(rentId);
+        return records;
     }
 }

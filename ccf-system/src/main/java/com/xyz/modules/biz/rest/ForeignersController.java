@@ -82,4 +82,12 @@ public class ForeignersController {
         ForeignersService.delete(foreId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @Log("查询变更记录Foreigners列表")
+    @ApiOperation(value = "查询变更记录")
+    @GetMapping(value = "/Foreigners/ModifyRecords/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_SELECT')")
+    public ResponseEntity findModifyRecordsById(@PathVariable String id){
+        return new ResponseEntity(ForeignersService.findModifyRecordsById(id),HttpStatus.OK);
+    }
 }

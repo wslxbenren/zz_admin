@@ -4,6 +4,8 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
+import com.xyz.modules.biz.audit.mongo.ModifyRecords;
+import com.xyz.modules.biz.audit.mongo.service.ModifyRecordsRepo;
 import com.xyz.modules.biz.service.actual.entity.Floatpeople;
 import com.xyz.modules.biz.service.actual.repo.FloatpeopleRepository;
 import com.xyz.modules.biz.service.actual.FloatpeopleService;
@@ -14,6 +16,7 @@ import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
+import com.xyz.modules.system.service.CompareFieldsService;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
@@ -26,6 +29,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -54,6 +59,12 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ModifyRecordsRepo recordsRepo;
+
+    @Autowired
+    private CompareFieldsService  compareFieldsService;
 
     @Override
     @Transactional
@@ -138,6 +149,19 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
             log.debug("**********   Floatpeople identity_num 重复 修改失败 **********");
             throw new EntityExistException(Floatpeople.class,"identity_num",resources.getIdentityNum());
         }
+
+        ModifyRecords modifyRecords = new ModifyRecords();
+        modifyRecords.setModifyContent(compareFieldsService.
+                compareModifyRecords(Floatpeople, resources, new String[]{"floatId","effDate","expDate","operDate","createTime"}));
+        modifyRecords.setEntityId(Floatpeople.getFloatId());
+        modifyRecords.setId(IdUtil.simpleUUID());
+        modifyRecords.setOperName(resources.getOperName());
+        modifyRecords.setOperTime(LocalDateTime.now());
+        modifyRecords.setDeptName(deptRepository.findNameByCode(resources.getUnitCode()));
+        modifyRecords.setCreateTime(Floatpeople.getCreateTime().toLocalDateTime());
+        modifyRecords.setCreator(Floatpeople.getCreator());
+        recordsRepo.save(modifyRecords);
+
         Floatpeople.copy(resources);
         FloatpeopleRepository.save(Floatpeople);
     }
@@ -160,5 +184,11 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         }else {
             return true;
         }
+    }
+
+    @Override
+    public List<ModifyRecords> findModifyRecordsById(String floatId) {
+        List<ModifyRecords> records = recordsRepo.findAllByEntityId(floatId);
+        return records;
     }
 }

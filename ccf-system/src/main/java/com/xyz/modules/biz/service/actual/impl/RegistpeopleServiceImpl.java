@@ -4,6 +4,8 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.xyz.exception.EntityExistException;
+import com.xyz.modules.biz.audit.mongo.ModifyRecords;
+import com.xyz.modules.biz.audit.mongo.service.ModifyRecordsRepo;
 import com.xyz.modules.biz.service.actual.entity.Registpeople;
 import com.xyz.modules.biz.service.actual.repo.RegistpeopleRepository;
 import com.xyz.modules.biz.service.actual.RegistpeopleService;
@@ -14,6 +16,7 @@ import com.xyz.modules.biz.audit.AuditSpecification;
 import com.xyz.modules.system.domain.User;
 import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.UserRepository;
+import com.xyz.modules.system.service.CompareFieldsService;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
@@ -27,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -56,6 +60,12 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ModifyRecordsRepo recordsRepo;
+
+    @Autowired
+    private CompareFieldsService compareFieldsService;
 
     @Override
     @Transactional
@@ -153,6 +163,18 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
             log.info("**********   Registpeople identity_num 重复 修改失败  **********");
             throw new EntityExistException(Registpeople.class,"identity_num",resources.getIdentityNum());
         }
+        ModifyRecords modifyRecords = new ModifyRecords();
+        modifyRecords.setModifyContent(compareFieldsService.
+                compareModifyRecords(Registpeople, resources, new String[]{"regisId","effDate","expDate","operDate","createTime"}));
+        modifyRecords.setEntityId(Registpeople.getRegisId());
+        modifyRecords.setId(IdUtil.simpleUUID());
+        modifyRecords.setOperName(resources.getOperName());
+        modifyRecords.setOperTime(LocalDateTime.now());
+        modifyRecords.setDeptName(deptRepository.findNameByCode(resources.getUnitCode()));
+        modifyRecords.setCreateTime(Registpeople.getCreateTime().toLocalDateTime());
+        modifyRecords.setCreator(Registpeople.getCreator());
+        recordsRepo.save(modifyRecords);
+
         Registpeople.copy(resources);
         RegistpeopleRepository.save(Registpeople);
     }
@@ -175,5 +197,11 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         }else {
             return true;
         }
+    }
+
+    @Override
+    public List<ModifyRecords> findModifyRecordsById(String foreId) {
+        List<ModifyRecords> records = recordsRepo.findAllByEntityId(foreId);
+        return records;
     }
 }

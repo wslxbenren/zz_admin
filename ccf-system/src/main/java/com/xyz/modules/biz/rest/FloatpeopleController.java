@@ -53,6 +53,13 @@ public class FloatpeopleController {
     public ResponseEntity getById(@PathVariable String id){
         return new ResponseEntity(FloatpeopleService.findById(id),HttpStatus.OK);
     }
+    @Log("查询变更记录列表")
+    @ApiOperation(value = "查询变更记录")
+    @GetMapping(value = "/Floatpeople/ModifyRecords/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_SELECT')")
+    public ResponseEntity findModifyRecordsById(@PathVariable String id){
+        return new ResponseEntity(FloatpeopleService.findModifyRecordsById(id),HttpStatus.OK);
+    }
 
     @Log("新增Floatpeople")
     @ApiOperation(value = "新增Floatpeople")

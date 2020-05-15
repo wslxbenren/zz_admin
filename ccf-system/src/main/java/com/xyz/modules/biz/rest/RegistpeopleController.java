@@ -75,4 +75,12 @@ public class RegistpeopleController {
         return new ResponseEntity(RegistpeopleService.validateIdentityNum(id,identityNum),HttpStatus.OK);
     }
 
+    @Log("查询变更记录列表")
+    @ApiOperation(value = "查询变更记录")
+    @GetMapping(value = "/Registpeople/ModifyRecords/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_SELECT')")
+    public ResponseEntity findModifyRecordsById(@PathVariable String id){
+        return new ResponseEntity(RegistpeopleService.findModifyRecordsById(id),HttpStatus.OK);
+    }
+
 }

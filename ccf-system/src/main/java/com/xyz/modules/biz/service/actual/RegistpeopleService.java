@@ -1,5 +1,6 @@
 package com.xyz.modules.biz.service.actual;
 
+import com.xyz.modules.biz.audit.mongo.ModifyRecords;
 import com.xyz.modules.biz.service.actual.entity.Registpeople;
 import com.xyz.modules.biz.service.actual.dto.RegistpeopleDTO;
 import com.xyz.modules.biz.service.actual.qo.RegistpeopleQueryCriteria;
@@ -7,6 +8,8 @@ import com.xyz.modules.biz.service.actual.qo.RegistpeopleQueryCriteria;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
 * @author lx
@@ -63,4 +66,6 @@ public interface RegistpeopleService {
     void delete(String regisId);
 
     Boolean validateIdentityNum(String id,String identityNum);
+
+    List<ModifyRecords> findModifyRecordsById(String foreId)  ;
 }
