@@ -1,5 +1,6 @@
 package com.xyz.modules.biz.service.actual;
 
+import com.xyz.modules.biz.audit.mongo.ModifyRecords;
 import com.xyz.modules.biz.service.actual.entity.Rentalhouse;
 import com.xyz.modules.biz.service.actual.dto.RentalhouseDTO;
 import com.xyz.modules.biz.service.actual.qo.RentalhouseQueryCriteria;
@@ -7,6 +8,8 @@ import com.xyz.modules.biz.service.actual.qo.RentalhouseQueryCriteria;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
 * @author lx
@@ -61,4 +64,6 @@ public interface RentalhouseService {
      */
     //@CacheEvict(allEntries = true)
     void delete(String rentId);
+
+    List<ModifyRecords> findModifyRecordsById(String foreId)  ;
 }

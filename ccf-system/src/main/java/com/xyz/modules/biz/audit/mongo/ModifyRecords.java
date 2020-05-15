@@ -24,7 +24,12 @@ public class ModifyRecords implements java.io.Serializable {
     private String entityId;
     private String modifyUserid;
     private LocalDateTime modifyTime;
+    private String creator;
+    private LocalDateTime createTime;
+    private String operName;
+    private LocalDateTime operTime;
     private String modifyContent;
+    private String deptName;
     private String before;
     private String after;
 }

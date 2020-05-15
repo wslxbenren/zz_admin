@@ -1,5 +1,6 @@
 package com.xyz.modules.biz.service.actual;
 
+import com.xyz.modules.biz.audit.mongo.ModifyRecords;
 import com.xyz.modules.biz.service.actual.entity.Leftbehind;
 import com.xyz.modules.biz.service.actual.dto.LeftbehindDTO;
 import com.xyz.modules.biz.service.actual.qo.LeftbehindQueryCriteria;
@@ -7,6 +8,8 @@ import com.xyz.modules.biz.service.actual.qo.LeftbehindQueryCriteria;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
 * @author dadovicn
@@ -63,4 +66,6 @@ public interface LeftbehindService {
     void delete(String leftId);
 
     Boolean validateIdentityNum(String id, String identityNum);
+
+    List<ModifyRecords> findModifyRecordsById(String foreId)  ;
 }

@@ -90,4 +90,12 @@ public class LeftbehindController {
     public ResponseEntity verifyCreditCode(@PathVariable String id,@PathVariable String identityNum){
         return new ResponseEntity(LeftbehindService.validateIdentityNum(id,identityNum),HttpStatus.OK);
     }
+
+    @Log("查询变更记录Leftbehind列表")
+    @ApiOperation(value = "查询变更记录")
+    @GetMapping(value = "/Leftbehind/ModifyRecords/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','FLOATPEOPLE_ALL','FLOATPEOPLE_SELECT')")
+    public ResponseEntity findModifyRecordsById(@PathVariable String id){
+        return new ResponseEntity(LeftbehindService.findModifyRecordsById(id),HttpStatus.OK);
+    }
 }
