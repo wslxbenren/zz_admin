@@ -141,6 +141,7 @@ public class Leftbehind implements Serializable {
     // 健康状况
     @Column(name = "healthy")
     @FieldAlias("健康状况")
+    @Dict(DictEnum.JKZK)
     private String healthy;
 
     // 个人年收入
@@ -173,6 +174,7 @@ public class Leftbehind implements Serializable {
     // 家庭主要成员健康状况
     @Column(name = "mainmem_health")
     @FieldAlias("家庭主要成员健康状况")
+    @Dict(DictEnum.JKZK)
     private String mainmemHealth;
 
     // 与留守人员关系:编码应符合GB/T4761
@@ -203,7 +205,6 @@ public class Leftbehind implements Serializable {
 
     // 帮扶情况
     @Column(name = "helpe_comment")
-    @Dict(DictEnum.BFQK)
     @FieldAlias("帮扶情况")
     private String helpeComment;
 
