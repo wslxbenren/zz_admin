@@ -68,7 +68,7 @@ public class Leftbehind implements Serializable {
     // 籍贯:编码应符合GB/T2260
     @Column(name = "native_info")
     @FieldAlias("籍贯")
-    @Dict(DictEnum.GJ_DQ)
+    @Dict(DictEnum.ADDRESS)
     private String nativeInfo;
 
     // 婚姻状况:编码应符合GB/T2261.2

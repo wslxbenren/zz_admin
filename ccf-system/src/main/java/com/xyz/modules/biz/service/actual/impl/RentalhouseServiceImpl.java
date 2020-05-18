@@ -20,6 +20,7 @@ import com.xyz.modules.system.service.CompareFieldsService;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,7 +143,7 @@ public class RentalhouseServiceImpl implements RentalhouseService {
                 compareModifyRecords(Rentalhouse, resources, new String[]{"rentId","effDate","expDate","operDate","operName","createTime","creator"}));
         modifyRecords.setEntityId(Rentalhouse.getRentId());
         modifyRecords.setId(IdUtil.simpleUUID());
-        modifyRecords.setOperName(resources.getOperName());
+        modifyRecords.setOperName(SecurityUtils.getUsername());
         modifyRecords.setOperTime(LocalDateTime.now());
         modifyRecords.setDeptName(deptRepository.findNameByCode(Rentalhouse.getUnitCode()));
         modifyRecords.setCreateTime(Rentalhouse.getCreateTime().toLocalDateTime());

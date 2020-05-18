@@ -147,7 +147,7 @@ public class ForeignersServiceImpl implements ForeignersService {
                 compareModifyRecords(Foreigners, resources, new String[]{"foreId", "effDate", "expDate","operDate","operName","creator", "createTime"}));
         modifyRecords.setEntityId(Foreigners.getForeId());
         modifyRecords.setId(IdUtil.simpleUUID());
-        modifyRecords.setOperName(resources.getOperName());
+        modifyRecords.setOperName(SecurityUtils.getUsername());
         modifyRecords.setOperTime(LocalDateTime.now());
         modifyRecords.setDeptName(deptRepository.findNameByCode(Foreigners.getUnitCode()));
         modifyRecords.setCreateTime(Foreigners.getCreateTime().toLocalDateTime());

@@ -69,12 +69,12 @@ public class CompareFieldsServiceImpl implements CompareFieldsService  {
                         Object o2 = field.get(obj2);
 
 
-                        if (o1 instanceof Timestamp) {
+                       /* if (o1 instanceof Timestamp) {
                             o1 = new Date(((Timestamp) o1).getTime());
                         }
                         if (o2 instanceof Timestamp) {
                             o2 = new Date(((Timestamp) o2).getTime());
-                        }
+                        }*/
 
                         if (o1 == null && o2 == null) {
                             continue;
@@ -127,7 +127,9 @@ public class CompareFieldsServiceImpl implements CompareFieldsService  {
         if (values == null){
             return null;
         }
-        if (dict.multiple() == true){//多选
+        if (dict.value().getDictId() == 0){
+           return values.toString().equals("0") ? "否" : "是";
+        }else if (dict.multiple() == true){//多选
             String[] valueArr = values.toString().split(",");
             String labelByValues = dictDetailRepository.getLabelByValues(dict.value().getDictId(), Arrays.asList(valueArr));
             return labelByValues;

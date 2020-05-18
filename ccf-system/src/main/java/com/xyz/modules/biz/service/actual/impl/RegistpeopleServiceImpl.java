@@ -20,6 +20,7 @@ import com.xyz.modules.system.service.CompareFieldsService;
 import com.xyz.modules.system.service.DictDetailService;
 import com.xyz.modules.system.util.ConstEnum;
 import com.xyz.modules.system.util.DictEnum;
+import com.xyz.utils.SecurityUtils;
 import com.xyz.utils.StringUtils;
 import com.xyz.utils.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -168,7 +169,7 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
                 compareModifyRecords(Registpeople, resources, new String[]{"regisId","effDate","expDate","operDate","operName","creator","createTime"}));
         modifyRecords.setEntityId(Registpeople.getRegisId());
         modifyRecords.setId(IdUtil.simpleUUID());
-        modifyRecords.setOperName(resources.getOperName());
+        modifyRecords.setOperName(SecurityUtils.getUsername());
         modifyRecords.setOperTime(LocalDateTime.now());
         modifyRecords.setDeptName(deptRepository.findNameByCode(Registpeople.getUnitCode()));
         modifyRecords.setCreateTime(Registpeople.getCreateTime().toLocalDateTime());

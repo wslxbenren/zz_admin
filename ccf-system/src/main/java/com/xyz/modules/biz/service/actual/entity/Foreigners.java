@@ -142,6 +142,7 @@ public class Foreigners implements Serializable {
     // 是否重点关注人员
     @Column(name = "if_import")
     @FieldAlias("是否重点关注人员")
+    @Dict(DictEnum.EMPTY)
     private Integer ifImport;
 
     // 生效时间
