@@ -165,12 +165,12 @@ public class RegistpeopleServiceImpl implements RegistpeopleService {
         }
         ModifyRecords modifyRecords = new ModifyRecords();
         modifyRecords.setModifyContent(compareFieldsService.
-                compareModifyRecords(Registpeople, resources, new String[]{"regisId","effDate","expDate","operDate","createTime"}));
+                compareModifyRecords(Registpeople, resources, new String[]{"regisId","effDate","expDate","operDate","operName","creator","createTime"}));
         modifyRecords.setEntityId(Registpeople.getRegisId());
         modifyRecords.setId(IdUtil.simpleUUID());
         modifyRecords.setOperName(resources.getOperName());
         modifyRecords.setOperTime(LocalDateTime.now());
-        modifyRecords.setDeptName(deptRepository.findNameByCode(resources.getUnitCode()));
+        modifyRecords.setDeptName(deptRepository.findNameByCode(Registpeople.getUnitCode()));
         modifyRecords.setCreateTime(Registpeople.getCreateTime().toLocalDateTime());
         modifyRecords.setCreator(Registpeople.getCreator());
         recordsRepo.save(modifyRecords);

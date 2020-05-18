@@ -163,12 +163,12 @@ public class LeftbehindServiceImpl implements LeftbehindService {
 
         ModifyRecords modifyRecords = new ModifyRecords();
         modifyRecords.setModifyContent(compareFieldsService.
-                compareModifyRecords(Leftbehind, resources, new String[]{"leftId", "effDate", "expDate", "operDate", "createTime"}));
+                compareModifyRecords(Leftbehind, resources, new String[]{"leftId", "effDate", "expDate","operDate","operName","creator", "createTime"}));
         modifyRecords.setEntityId(Leftbehind.getLeftId());
         modifyRecords.setId(IdUtil.simpleUUID());
         modifyRecords.setOperName(resources.getOperName());
         modifyRecords.setOperTime(LocalDateTime.now());
-        modifyRecords.setDeptName(deptRepository.findNameByCode(resources.getUnitCode()));
+        modifyRecords.setDeptName(deptRepository.findNameByCode(Leftbehind.getUnitCode()));
         modifyRecords.setCreateTime(Leftbehind.getCreateTime().toLocalDateTime());
         modifyRecords.setCreator(Leftbehind.getCreator());
         recordsRepo.save(modifyRecords);

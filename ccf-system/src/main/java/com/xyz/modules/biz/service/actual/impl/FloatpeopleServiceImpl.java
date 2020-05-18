@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -151,12 +152,14 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         }
 
         ModifyRecords modifyRecords = new ModifyRecords();
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+        resources.setOperDate(timestamp);
         modifyRecords.setModifyContent(compareFieldsService.
-                compareModifyRecords(Floatpeople, resources, new String[]{"floatId","effDate","expDate","operDate","createTime"}));
+                compareModifyRecords(Floatpeople, resources, new String[]{"floatId","effDate","expDate","creator","createTime"}));
         modifyRecords.setEntityId(Floatpeople.getFloatId());
         modifyRecords.setId(IdUtil.simpleUUID());
         modifyRecords.setOperName(resources.getOperName());
-        modifyRecords.setOperTime(LocalDateTime.now());
+        modifyRecords.setOperTime(timestamp.toLocalDateTime());
         modifyRecords.setDeptName(deptRepository.findNameByCode(resources.getUnitCode()));
         modifyRecords.setCreateTime(Floatpeople.getCreateTime().toLocalDateTime());
         modifyRecords.setCreator(Floatpeople.getCreator());

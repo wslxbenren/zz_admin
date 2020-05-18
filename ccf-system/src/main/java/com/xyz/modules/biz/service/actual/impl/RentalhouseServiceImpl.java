@@ -139,14 +139,14 @@ public class RentalhouseServiceImpl implements RentalhouseService {
 
         ModifyRecords modifyRecords = new ModifyRecords();
         modifyRecords.setModifyContent(compareFieldsService.
-                compareModifyRecords(Rentalhouse, resources, new String[]{"rentId","effDate","expDate","operDate","createTime"}));
+                compareModifyRecords(Rentalhouse, resources, new String[]{"rentId","effDate","expDate","operDate","operName","createTime","creator"}));
         modifyRecords.setEntityId(Rentalhouse.getRentId());
         modifyRecords.setId(IdUtil.simpleUUID());
         modifyRecords.setOperName(resources.getOperName());
         modifyRecords.setOperTime(LocalDateTime.now());
-        modifyRecords.setDeptName(deptRepository.findNameByCode(resources.getUnitCode()));
-        modifyRecords.setCreateTime(resources.getCreateTime().toLocalDateTime());
-        modifyRecords.setCreator(resources.getCreator());
+        modifyRecords.setDeptName(deptRepository.findNameByCode(Rentalhouse.getUnitCode()));
+        modifyRecords.setCreateTime(Rentalhouse.getCreateTime().toLocalDateTime());
+        modifyRecords.setCreator(Rentalhouse.getCreator());
         recordsRepo.save(modifyRecords);
 
         Rentalhouse.copy(resources);
