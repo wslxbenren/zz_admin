@@ -155,7 +155,8 @@ public class FloatpeopleServiceImpl implements FloatpeopleService {
         Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
         resources.setOperDate(timestamp);
         modifyRecords.setModifyContent(compareFieldsService.
-                compareModifyRecords(Floatpeople, resources, new String[]{"floatId","effDate","expDate","operDate","operName","creator","createTime"}));
+                compareModifyRecords(Floatpeople, resources, new String[]
+                        {"floatId","effDate","expDate","operDate","operName","creator","createTime"}));
         modifyRecords.setEntityId(Floatpeople.getFloatId());
         modifyRecords.setId(IdUtil.simpleUUID());
         modifyRecords.setOperName(SecurityUtils.getUsername());

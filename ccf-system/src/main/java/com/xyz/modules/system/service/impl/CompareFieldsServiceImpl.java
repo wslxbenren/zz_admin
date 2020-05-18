@@ -1,5 +1,6 @@
 package com.xyz.modules.system.service.impl;
 
+import com.xyz.modules.system.repository.DeptRepository;
 import com.xyz.modules.system.repository.DictDetailRepository;
 import com.xyz.modules.system.service.CompareFieldsService;
 import com.xyz.modules.system.util.annotation.Dict;
@@ -22,6 +23,9 @@ import java.util.*;
 public class CompareFieldsServiceImpl implements CompareFieldsService  {
     @Autowired
     private  DictDetailRepository dictDetailRepository;
+
+    @Autowired
+    private DeptRepository deptRepository;
 
     @Override
     public  String compareModifyRecords(Object obj1, Object obj2, String[] ignoreArr) {
@@ -92,8 +96,15 @@ public class CompareFieldsServiceImpl implements CompareFieldsService  {
                                 list.add(getDictLabels(dict, o2));
                                 map.put(anno.value(), list);
                             }else {
-                                list.add(o1);
-                                list.add(o2);
+                                if (anno.value().equals("所属单位")){
+                                    String nameByCode = deptRepository.findNameByCode(o1.toString());
+                                    list.add(nameByCode);
+                                    nameByCode = deptRepository.findNameByCode(o2.toString());
+                                    list.add(nameByCode);
+                                }else {
+                                    list.add(o1);
+                                    list.add(o2);
+                                }
                                 map.put(anno.value(), list);
                             }
 
@@ -107,8 +118,15 @@ public class CompareFieldsServiceImpl implements CompareFieldsService  {
                                 list.add(getDictLabels(dict, o2));
                                 map.put(anno.value(), list);
                             }else {
-                                list.add(o1);
-                                list.add(o2);
+                                if (anno.value().equals("所属单位")){
+                                    String nameByCode = deptRepository.findNameByCode(o1.toString());
+                                    list.add(nameByCode);
+                                    nameByCode = deptRepository.findNameByCode(o2.toString());
+                                    list.add(nameByCode);
+                                }else {
+                                    list.add(o1);
+                                    list.add(o2);
+                                }
                                 map.put(anno.value(), list);
                             }
                         }
